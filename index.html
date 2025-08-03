@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D粒子动画与个人主页</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+        }
+        .alist-widget-wrapper {
+            padding: 20px;
+            z-index: 1;
+        }
+        .my-widget {
+            font-family: 'Inter', sans-serif;
+            max-width: 360px; /* 电脑端最大宽度 */
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7); /* 电脑端默认透明度 */
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .my-widget * {
+            box-sizing: border-box;
+        }
+        .profile-header {
+            padding: 20px 16px 12px;
+        }
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto;
+            display: block;
+        }
+        .link-section {
+            padding: 0 16px 20px;
+        }
+        .link-card {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            background: rgba(249, 249, 249, 0.8);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: background 0.3s;
+            font-size: 16px;
+        }
+        .link-card:hover {
+            background: rgba(224, 224, 224, 0.8);
+        }
+        .link-icon {
+            width: 36px;
+            height: 36px;
+            margin-left: 16px;
+            margin-right: 18px;
+        }
+        .link-title {
+            text-align: center;
+            width: 100%;
+            font-size: 18px;
+        }
+        .spotify-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(237, 252, 243, 0.8);
+            border-radius: 16px;
+            padding: 16px;
+            max-width: 100%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            position: relative;
+            margin-bottom: 12px;
+            flex-wrap: nowrap;
+        }
+        .spotify-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100px;
+            flex: 1;
+            min-width: 0;
+        }
+        .spotify-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .spotify-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background-color: #1ed760;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .spotify-icon img {
+            width: 24px;
+            height: 24px;
+        }
+        .track-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        .track-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+            color: #000;
+        }
+        .track-artist {
+            font-size: 13px;
+            color: #555;
+        }
+        .play-btn {
+            background-color: #3fd97a;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 6px 36px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: fit-content;
+        }
+        .play-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+        .spotify-cover {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            overflow: hidden;
+            flex-shrink: 0;
+            margin-left: 2px;
+        }
+        .spotify-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* 手机端适配 (≤ 480px) */
+        @media (max-width: 480px) {
+            .my-widget {
+                max-width: 100%; /* 占满屏幕宽度 */
+                background: rgba(255, 255, 255, 0.9); /* 更高透明度以提升可读性 */
+                border-radius: 0; /* 移除圆角，贴合屏幕边缘 */
+            }
+            .spotify-card {
+                flex-wrap: nowrap;
+                padding: 12px; /* 减少内边距 */
+            }
+            .spotify-left {
+                flex: 1 1 auto;
+                min-width: 0;
+                height: 80px; /* 减小高度 */
+            }
+            .spotify-cover {
+                width: 80px; /* 缩小封面 */
+                height: 80px;
+                margin-left: 8px;
+            }
+            .track-title {
+                font-size: 14px; /* 减小字体 */
+            }
+            .track-artist {
+                font-size: 12px;
+            }
+            .play-btn {
+                padding: 5px 24px; /* 缩小按钮 */
+                font-size: 12px;
+            }
+            .link-card {
+                font-size: 14px; /* 减小字体 */
+            }
+            .link-icon {
+                width: 30px; /* 缩小图标 */
+                height: 30px;
+                margin-left: 12px;
+                margin-right: 12px;
+            }
+            .link-title {
+                font-size: 16px;
+            }
+        }
+        /* 电脑端适配 (> 480px) */
+        @media (min-width: 481px) {
+            .my-widget {
+                max-width: 360px; /* 固定宽度 */
+                background: rgba(255, 255, 255, 0.7); /* 稍低透明度，增强背景融合 */
+                border-radius: 12px;
+            }
+            .spotify-card {
+                padding: 16px;
+            }
+            .spotify-left {
+                height: 100px;
+            }
+            .spotify-cover {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script>
+        const count = window.innerWidth <= 480 ? 2000 : 5000; /* 手机端减少粒子数量 */
+        let scene, camera, renderer;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        let geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6 * count), 3));
+        geometry.setAttribute('velocity', new THREE.BufferAttribute(new Float32Array(2 * count), 1));
+
+        let position = geometry.getAttribute('position');
+        let positionArray = position.array;
+        let velocity = geometry.getAttribute('velocity');
+        let velocityArray = velocity.array;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 500);
+            camera.position.z = 200;
+            
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+            
+            for (let index = 0; index < count; index++) {
+                const x = Math.random() * 800 - 400;
+                const y = Math.random() * 800 - 400;
+                const z = Math.random() * 400 - 200;
+                const x2 = x;
+                const y2 = y;
+                const z2 = z;
+
+                positionArray[6 * index] = x;
+                positionArray[6 * index + 1] = y;
+                positionArray[6 * index + 2] = z;
+
+                positionArray[6 * index + 3] = x2;
+                positionArray[6 * index + 4] = y2;
+                positionArray[6 * index + 5] = z2;
+
+                velocityArray[2 * index] = 0;
+                velocityArray[2 * index + 1] = 0;
+            }
+            
+            let material = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true });
+            let lines = new THREE.LineSegments(geometry, material);
+            scene.add(lines);
+
+            window.addEventListener('resize', resize, false);
+            document.body.addEventListener('pointermove', onPointerMove);
+            
+            anime();
+        }
+        
+        function resize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+        }
+
+        function anime() {
+            for (let index = 0; index < count; index++) {
+                velocityArray[2 * index] += 0.015;
+                velocityArray[2 * index + 1] += 0.015;
+                positionArray[6 * index + 2] += velocityArray[2 * index] + 0.03;
+                positionArray[6 * index + 5] += velocityArray[2 * index + 1];
+
+                if(positionArray[6 * index + 2] > 200) {
+                    let z = Math.random() * 200 - 200;
+                    positionArray[6 * index + 2] = z;
+                    positionArray[6 * index + 5] = z;
+                    velocityArray[2 * index] = 0;
+                    velocityArray[2 * index + 1] = 0;
+                }
+            }
+
+            position.needsUpdate = true;
+            renderer.render(scene, camera);
+            requestAnimationFrame(anime);
+            render();
+        }
+
+        function onPointerMove(event) {
+            mouseX = event.clientX - windowHalfX;
+            mouseY = event.clientY - windowHalfY;
+        }
+
+        function render() {
+            camera.position.x += (-mouseX * 0.1 - camera.position.x) * 0.02;
+            camera.position.y += (-mouseY * 0.1 - camera.position.y) * 0.02;
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+        }
+
+        window.onload = init;
+    </script>
+
+    <!-- 个人主页导航 -->
+    <div class="alist-widget-wrapper">
+        <div class="my-widget">
+            <!-- 头像 -->
+            <div class="profile-header">
+                <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
+            </div>
+
+            <!-- Spotify 卡片 -->
+            <div class="link-section">
+                <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
+                    <div class="spotify-left">
+                        <div class="spotify-meta">
+                            <div class="spotify-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" />
+                            </div>
+                            <div class="track-text">
+                                <div class="track-title">Astral Chill</div>
+                                <div class="track-artist">Virtual Mage</div>
+                            </div>
+                        </div>
+                        <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
+                            <svg viewBox="0 0 16 16" fill="white">
+                                <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                            </svg> Play
+                        </button>
+                    </div>
+                    <div class="spotify-cover">
+                        <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
+                    </div>
+                    <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
+                </div>
+
+                <!-- 链接区 -->
+                <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
+                    <span class="link-title">Instagram</span>
+                </a>
+
+                <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
+                    <span class="link-title">Telegram</span>
+                </a>
+
+                <a href="https://github.com/00000OO" class="link-card" target="_blank">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="link-icon" />
+                    <span class="link-title">GitHub</span>
+                </a>
+
+                <a href="https://ooooooooc.blogspot.com/2025/07/blog-post_1.html?m=1" class="link-card" target="_blank">
+                    <span class="link-title">🩵🩵🩵 - ooooooooc.blogspot.com</span>
+                </a>
+            </div>
+
+            <!-- 播放逻辑 -->
+            <script>
+                let isPlaying = false;
+                const audio = document.getElementById('audioPlayer');
+
+                function togglePlay(button) {
+                    if (isPlaying) {
+                        audio.pause();
+                        button.classList.remove('playing');
+                        button.innerHTML = `
+                            <svg viewBox="0 0 16 16" fill="white">
+                                <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                            </svg> Play`;
+                    } else {
+                        audio.play();
+                        button.classList.add('playing');
+                        button.innerHTML = `
+                            <svg viewBox="0 0 16 16" fill="white">
+                                <path d="M4 2H6V14H4V2ZM10 2H12V14H10V2Z"/>
+                            </svg> Pause`;
+                    }
+                    isPlaying = !isPlaying;
+                }
+
+                audio.addEventListener('ended', () => {
+                    isPlaying = false;
+                    const btn = document.querySelector('.play-btn');
+                    if (btn) {
+                        btn.classList.remove('playing');
+                        btn.innerHTML = `
+                            <svg viewBox="0 0 16 16" fill="white">
+                                <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                            </svg> Play`;
+                    }
+                });
+            </script>
+        </div>
+    </div>
+</body>
+</html>
