@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D粒子动画与个人主页</title>
+    <title>✨进入猫次元🐈</title>
     <style>
         body {
             margin: 0;
@@ -32,15 +32,24 @@
         }
         .my-widget {
             font-family: 'Inter', sans-serif;
-            max-width: 360px; /* 电脑端最大宽度 */
+            max-width: 360px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.7); /* 电脑端默认透明度 */
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 12px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
             overflow: hidden;
             text-align: center;
             box-sizing: border-box;
         }
+        /* 新增鼠标特效画布样式 */
+        #shuicheCanvas {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 2147483647;
+            pointer-events: none;
+        }
+        /* 原有其他CSS保持不变 */
         .my-widget * {
             box-sizing: border-box;
         }
@@ -62,7 +71,7 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            background: rgba(249, 249, 249, 0.8);
+            background: #f9f9f9;
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 8px;
@@ -72,7 +81,7 @@
             font-size: 16px;
         }
         .link-card:hover {
-            background: rgba(224, 224, 224, 0.8);
+            background: #e0e0e0;
         }
         .link-icon {
             width: 36px;
@@ -89,7 +98,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgba(237, 252, 243, 0.8);
+            background-color: #edfcf3;
             border-radius: 16px;
             padding: 16px;
             max-width: 100%;
@@ -173,74 +182,33 @@
             height: 100%;
             object-fit: cover;
         }
-        /* 手机端适配 (≤ 480px) */
         @media (max-width: 480px) {
-            .my-widget {
-                max-width: 100%; /* 占满屏幕宽度 */
-                background: rgba(255, 255, 255, 0.9); /* 更高透明度以提升可读性 */
-                border-radius: 0; /* 移除圆角，贴合屏幕边缘 */
-            }
             .spotify-card {
                 flex-wrap: nowrap;
-                padding: 12px; /* 减少内边距 */
             }
             .spotify-left {
                 flex: 1 1 auto;
                 min-width: 0;
-                height: 80px; /* 减小高度 */
             }
             .spotify-cover {
-                width: 80px; /* 缩小封面 */
-                height: 80px;
-                margin-left: 8px;
-            }
-            .track-title {
-                font-size: 14px; /* 减小字体 */
-            }
-            .track-artist {
-                font-size: 12px;
+                margin-left: 12px;
+                margin-top: 0;
             }
             .play-btn {
-                padding: 5px 24px; /* 缩小按钮 */
-                font-size: 12px;
-            }
-            .link-card {
-                font-size: 14px; /* 减小字体 */
-            }
-            .link-icon {
-                width: 30px; /* 缩小图标 */
-                height: 30px;
-                margin-left: 12px;
-                margin-right: 12px;
-            }
-            .link-title {
-                font-size: 16px;
-            }
-        }
-        /* 电脑端适配 (> 480px) */
-        @media (min-width: 481px) {
-            .my-widget {
-                max-width: 360px; /* 固定宽度 */
-                background: rgba(255, 255, 255, 0.7); /* 稍低透明度，增强背景融合 */
-                border-radius: 12px;
-            }
-            .spotify-card {
-                padding: 16px;
-            }
-            .spotify-left {
-                height: 100px;
-            }
-            .spotify-cover {
-                width: 100px;
-                height: 100px;
+                width: fit-content;
+                justify-content: flex-start;
             }
         }
     </style>
 </head>
 <body>
+    <!-- 新增鼠标特效画布 -->
+    <canvas id="shuicheCanvas"></canvas>
+
+    <!-- 原有3D粒子动画脚本 -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script>
-        const count = window.innerWidth <= 480 ? 2000 : 5000; /* 手机端减少粒子数量 */
+        const count = 5000;
         let scene, camera, renderer;
         let mouseX = 0, mouseY = 0;
         let windowHalfX = window.innerWidth / 2;
@@ -284,7 +252,7 @@
                 velocityArray[2 * index + 1] = 0;
             }
             
-            let material = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true });
+            let material = new THREE.LineBasicMaterial({ color: 0xffffff });
             let lines = new THREE.LineSegments(geometry, material);
             scene.add(lines);
 
@@ -339,15 +307,128 @@
         window.onload = init;
     </script>
 
-    <!-- 个人主页导航 -->
+    <!-- 新增鼠标特效脚本 -->
+    <script>
+    //<![CDATA[
+    (function () {
+      // 获取 Canvas 元素和上下文
+      const canvas = document.getElementById("shuicheCanvas");
+      const ctx = canvas.getContext("2d");
+
+      // 初始化画布大小为窗口大小
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+
+      // 粒子围绕的中心点，默认为屏幕中心（后面会跟随鼠标）
+      let centerX = width / 2;
+      let centerY = height / 2;
+
+      // 粒子数组
+      let particles = [];
+
+      // === 可调参数区 ===
+      const particleCount = 70;         // 粒子数量（越多越密集）
+      const baseOrbitRadius = 70;       // 粒子绕鼠标旋转的基础半径
+      // ==================
+
+      // 鼠标移动时更新中心点
+      function onMouseMove(e) {
+        centerX = e.clientX;
+        centerY = e.clientY;
+      }
+
+      // 移动端触摸支持
+      function onTouchMove(e) {
+        if (e.touches.length === 1) {
+          centerX = e.touches[0].pageX;
+          centerY = e.touches[0].pageY;
+        }
+      }
+
+      // 窗口大小改变时更新画布大小
+      function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      // 初始化粒子数组
+      function createParticles() {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+          particles.push({
+            size: 1,  // 当前大小
+            position: { x: centerX, y: centerY }, // 粒子当前位置
+            offset: { x: 0, y: 0 },               // 偏移角度（决定旋转角度）
+            shift: { x: centerX, y: centerY },    // 粒子中心（将慢慢跟随鼠标）
+            speed: 0.01 + Math.random() * 0.04,   // 粒子速度（越大越快）
+            targetSize: 1,                        // 动态变换目标大小
+            fillColor: "#" + ((Math.random() * 0xffffff) | 0).toString(16).padStart(6, "0"), // 粒子颜色（随机）
+            orbit: baseOrbitRadius * (0.5 + Math.random()) // 每个粒子绕中心的旋转半径
+          });
+        }
+      }
+
+      // 动画循环函数（核心逻辑）
+      function animate() {
+        // 清空整个画布
+        ctx.clearRect(0, 0, width, height);
+
+        // 遍历每个粒子并绘制
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          const prevPos = { x: p.position.x, y: p.position.y };
+
+          p.offset.x += p.speed;
+          p.offset.y += p.speed;
+
+          p.shift.x += (centerX - p.shift.x) * p.speed;
+          p.shift.y += (centerY - p.shift.y) * p.speed;
+
+          p.position.x = p.shift.x + Math.cos(i + p.offset.x) * p.orbit;
+          p.position.y = p.shift.y + Math.sin(i + p.offset.y) * p.orbit;
+
+          p.size += 0.01 * (p.targetSize - p.size);
+          if (Math.round(p.size) === Math.round(p.targetSize)) {
+            p.targetSize = 1 + Math.random() * 2;
+          }
+
+          ctx.beginPath();
+          ctx.strokeStyle = p.fillColor;
+          ctx.fillStyle = p.fillColor;
+          ctx.lineWidth = p.size;
+          ctx.moveTo(prevPos.x, prevPos.y);
+          ctx.lineTo(p.position.x, p.position.y);
+          ctx.stroke();
+          ctx.arc(p.position.x, p.position.y, p.size / 2, 0, Math.PI * 2, true);
+          ctx.fill();
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      // 初始化粒子 & 启动动画
+      createParticles();
+      animate();
+
+      // 注册事件监听
+      window.addEventListener("mousemove", onMouseMove, false);
+      window.addEventListener("touchmove", onTouchMove, { passive: false });
+      window.addEventListener("resize", resizeCanvas, false);
+    })();
+    //]]>
+    </script>
+
+    <!-- 原有个人主页导航 -->
     <div class="alist-widget-wrapper">
         <div class="my-widget">
-            <!-- 头像 -->
             <div class="profile-header">
                 <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
             </div>
 
-            <!-- Spotify 卡片 -->
             <div class="link-section">
                 <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
                     <div class="spotify-left">
@@ -372,7 +453,6 @@
                     <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
                 </div>
 
-                <!-- 链接区 -->
                 <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
                     <span class="link-title">Instagram</span>
@@ -393,7 +473,6 @@
                 </a>
             </div>
 
-            <!-- 播放逻辑 -->
             <script>
                 let isPlaying = false;
                 const audio = document.getElementById('audioPlayer');
