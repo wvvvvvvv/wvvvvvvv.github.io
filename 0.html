@@ -1,207 +1,336 @@
 <!DOCTYPE html>
-<html lang="zh">
-<!-- Author : 转接 -->
-
+<html lang="en">
 <head>
-    <!-- 规定编码，方式乱码 -->
     <meta charset="UTF-8">
-    <!-- 导入css -->
-    <link rel="stylesheet" href="./css/cardStyle.css">
-    <title>转接Home</title>
-    <!-- 51la统计 -->
-    <script>
-        !function (p) { "use strict"; !function (t) { var s = window, e = document, i = p, c = "".concat("https:" === e.location.protocol ? "https://" : "http://", "sdk.51.la/js-sdk-pro.min.js"), n = e.createElement("script"), r = e.getElementsByTagName("script")[0]; n.type = "text/javascript", n.setAttribute("charset", "UTF-8"), n.async = !0, n.src = c, n.id = "LA_COLLECT", i.d = n; var o = function () { s.LA.ids.push(i) }; s.LA ? s.LA.ids && o() : (s.LA = p, s.LA.ids = [], o()), r.parentNode.insertBefore(n, r) }() }({ id: "K0v8ea14fqQQSKI8", ck: "K0v8ea14fqQQSKI8", autoTrack: true, hashMode: true });
-    </script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile with Star Background</title>
     <style>
         * {
             padding: 0;
             margin: 0;
+            box-sizing: border-box;
         }
 
         body {
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
             /* 背景渐变 */
             background-image: linear-gradient(-225deg, #231557 0%,
                     #43107a 29%, #FF1361 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
         }
 
         canvas {
             position: fixed;
             width: 100%;
             height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
-        .img{
-            width: 50px;
-            height: 50px;
-            position: absolute;
-            background-image: url('./img/1393817219.gif');
-            background-size: cover;
+        .widget-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
         }
 
-        .hidden {
-            display: none;
+        .widget {
+            font-family: 'Inter', sans-serif;
+            width: 100%;
+            max-width: 320px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            text-align: center;
+            margin: 0 auto;
+            backdrop-filter: blur(5px);
         }
-    </style>
 
-    <!-- 弹窗动画 -->
-    <!-- <script>
-        function showWebNotice() {
-            var webNotice = document.querySelector('.web_notice');
-            webNotice.classList.remove('hidden');
-            setTimeout(function() {
-                webNotice.style.transition = 'opacity 1s';
-                webNotice.style.opacity = 1;
-            }, 50);
+        .profile-header {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        function hideWebNotice() {
-            var webNotice = document.querySelector('.web_notice');
-            webNotice.style.transition = 'opacity 1s';
-            webNotice.style.opacity = 0;
-            setTimeout(function() {
-                webNotice.style.display = 'none';
-            }, 1000);
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 8px;
+            border: 3px solid white;
         }
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(showWebNotice, 10); // 延迟0.01秒显示弹窗，可根据需要调整
-        });
-    </script>     -->
-</head>
 
-<body>
-    <canvas></canvas>
-    <article class="avgrund-contents" style="pointer-events: none;">
-        <div id="contains">
-            <div class="card" style="pointer-events: auto;">
-                <div class="imgBx">
-                    <img src="./img/headimg.png">
-                </div>
-                <div class="content">
-                    <div class="details">
-                        <h2>Randall<br><span>言多必失，谨言慎行</span></h2>
-                        <div class="linkBtn">
-                            <button onclick="window.location.href = 'https://pan.zhuanjie.ltd/'">网盘</button>
-                            <button onclick="window.location.href = 'https://airport.randallanjie.com/'">机场</button>
-                            <button onclick="window.location.href = 'https://shop.randallanjie.com/'">商铺</button>
-                            <button onclick="window.location.href = 'https://dash.randallanjie.uk/'">监控</button>
-                        </div>
-                        <div class="actionBtn">
-                            <!-- 实现button点击跳转的方式有两种，可以在button标签外套上a标签或者给button绑定onclick事件 -->
-                            <button onclick="window.location.href = 'https://blog.zhuanjie.ltd/'">个人博客</button>
-                            <button id="magnifier">更多链接～</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        .link-section {
+            padding: 0 22px 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-            <!-- 页脚 -->
-            <div class="footer">
-                <!-- 之前服务器在雨云计算中心 -->
-                <!--<p><a href="https://www.rainyun.com?ref=MjU2NjA=">本站由雨云提供计算服务</a></p>-->
-                <p>本站由 <a href="https://github.com/Zhuanjier" style="pointer-events: auto;">Github</a> 和 Cloud flare 提供计算服务</p>
-                <p>© 2023 <a href="http://startpage.zhuanjie.ltd/" style="pointer-events: auto;">转接</a> | <a
-                        href="https://beian.miit.gov.cn/" style="pointer-events: auto;">京ICP备2021028872号-1</a></p>
-                <!-- 51la统计 -->
-                <script id="LA-DATA-WIDGET" crossorigin="anonymous" charset="UTF-8"
-                    src="https://v6-widget.51.la/v6/K0v8ea14fqQQSKI8/quote.js?theme=#FFFFFF,#FFFFFF,#FFFFFF,#FFFFFF,#FFFFFF,#FFFFFF,12&f=12"></script>
-            </div>
-        </div>
-    </article>
-    <div class="avgrund-cover"></div>
-    <aside class="avgrund-popup" style="pointer-events: auto;">
-        请等待更多链接更新～
-    </aside>
-    <div class="img"></div>
+        .link-card {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            background: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s;
+            font-size: 16px;
+            width: 100%;
+            max-width: 275px;
+        }
 
-    <!-- 弹窗代码开始 -->
-    <!-- <div class="web_notice hidden"
-         style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.3);z-index: 99999; opacity: 0;">
-        <div style="position: fixed;top: 50%;left: 50%;width: 550px;background: #FFF;transform: translate(-50%, -50%);border-radius: 40px;padding: 50px 40px;">
-            <h3 style="font-weight: bold;text-align: center;font-size: 30px;">
-                网站公告
-            </h3>
-            <div style="font-size: 16px;margin-top: 26px;line-height: 30px;color: #999;">
-                ChatGPT站点由于官方原因，暂时无法使用！
-            </div>
-            <a style="display: block;background: #98a3ff;color: #FFF;text-align: center;font-weight: bold;font-size: 19px;line-height: 60px;margin: 0 auto;margin-top: 45px;border-radius: 32px;width: 80%;" onclick="hideWebNotice()">
-                我知道了
-            </a>            
-        </div>
-    </div> -->
-    <!-- 弹窗代码结束 -->
-    <script src="js/popup.js"></script>
-    <script src="https://notification.randallanjie.com/r_notification.js"></script>
+        .link-card:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
 
-    <script>
+        .link-icon {
+            width: 35px;
+            height: 35px;
+            margin-left: 20px; 
+            margin-right: 28px;
+        }
 
-        rShowMessage('本弹窗来自本人开源项目：<a href="https://notification.randallanjie.com/" class="rnotificationLink">RNotification</a>，<a href="https://github.com/RandallAnjie/RNotification" class="rnotificationLink">点我去往仓库页面</a>', 0, 'up', 0)
-        rShowMessage('感谢您的访问～<br />本站点目前只支持电脑端访问，手机端可能还有bug，感谢谅解<br />目前服务器监控下线，图像处理服务器前端js文件异常，请等待修复', 0, 'up', 0)
+        .link-title {
+            text-align: center;
+            width: 100%;
+            font-size: 18px;
+        }
 
+        .spotify-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #edfcf3;
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 275px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            position: relative;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
 
-        // 获取https://randallanjie.com/json/personal_info.json文件中的数据
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'json/personal_info.json', true);
-        xhr.send();
-        // 控制台输出json文件中的数据
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                var data = JSON.parse(xhr.responseText);
-                var webLink = data.webLink;
-                var webLinkHtml = '';
-                for (var i = 0; i < webLink.length; i++) {
-                    webLinkHtml += '<a href="' + webLink[i].url + '">' + webLink[i].name + '</a><br />';
-                }
-                document.querySelector('.avgrund-popup').innerHTML = webLinkHtml;
+        .spotify-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .spotify-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100px;
+            flex: 5;
+        }
+
+        .spotify-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .spotify-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background-color: #1ed760;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .spotify-icon img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .track-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .track-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+            color: #000;
+        }
+
+        .track-artist {
+            font-size: 13px;
+            color: #555;
+        }
+
+        .play-btn {
+            background-color: #3fd97a; 
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 6px 36px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            width: fit-content;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .play-btn.playing {
+            background-color: #3fd97a; 
+        }
+
+        .play-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .spotify-cover {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        .spotify-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        @media (max-width: 480px) {
+            .widget {
+                max-width: 100%;
+            }
+            
+            .link-card,
+            .spotify-card {
+                max-width: 100%;
             }
         }
+    </style>
+</head>
+<body>
+    <canvas></canvas>
 
-        // 定义星星的颜色
+    <div class="widget-container">
+        <div class="widget">
+            <div class="profile-header">
+                <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&amp;h=300" alt="头像" class="profile-pic" />
+            </div>
+
+            <div class="link-section">
+                <!-- Spotify 播放卡片 -->
+                <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
+                    <!-- 左侧内容 -->
+                    <div class="spotify-left">
+                        <div class="spotify-meta">
+                            <div class="spotify-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" />
+                            </div>
+                            <div class="track-text">
+                                <div class="track-title">Astral Chill</div>
+                                <div class="track-artist">Virtual Mage</div>
+                            </div>
+                        </div>
+                        <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
+                            <svg viewbox="0 0 16 16" fill="white"><path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/></path></svg>
+                            Play
+                        </button>
+                    </div>
+
+                    <!-- 封面图 -->
+                    <div class="spotify-cover">
+                        <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
+                    </div>
+
+                    <!-- 音频播放资源 -->
+                    <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
+                </div>
+
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
+                    <span class="link-title">Instagram</span>
+                </a>
+
+                <!-- Telegram -->
+                <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
+                    <span class="link-title">Telegram</span>
+                </a>
+
+                <!-- GitHub -->
+                <a href="https://github.com/00000OO" class="link-card" target="_blank">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="link-icon" />
+                    <span class="link-title">GitHub</span>
+                </a>
+
+                <!-- 博客链接 -->
+                <a href="https://ooooooooc.blogspot.com/2025/07/blog-post_1.html?m=1" class="link-card" target="_blank">
+                    <span class="link-title">🩵🩵🩵 - ooooooooc.blogspot.com</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Star background animation
         const STAR_COLOR = '#fff';
-        // 定义星星的大小
         const STAR_SIZE = 3;
-        // 定义星星的最小缩放比例
         const STAR_MIN_SCALE = 0.2;
-        // 定义溢出阈值
         const OVERFLOW_THRESHOLD = 50;
-        // 定义星星的数量
         const STAR_COUNT = (window.innerWidth + window.innerHeight) / 8;
-        // 获取canvas元素
         const canvas = document.querySelector('canvas');
-        // 获取canvas的绘图上下文
         const context = canvas.getContext('2d');
-        // 定义缩放比例
-        let scale = 1; // device pixel ratio
-        // 定义宽度和高度
+        let scale = 1;
         let width;
         let height;
-        // 定义星星数组
         let stars = [];
-        // 定义鼠标指针的位置
         let pointerX;
         let pointerY;
-        // 定义速度对象
         let velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0009 };
-        // 定义触摸输入标志
         let touchInput = false;
-        // 生成星星
+
         generate();
-        // 调整大小
         resize();
-        // 运行动画
         step();
-        // 当窗口大小改变时，重新调整大小
+
         window.onresize = resize;
-        // 当鼠标在canvas上移动时，更新鼠标指针位置
         canvas.onmousemove = onMouseMove;
-        // 当触摸屏在canvas上移动时，更新鼠标指针位置
         canvas.ontouchmove = onTouchMove;
-        // 当触摸屏离开canvas时，更新鼠标指针位置
         canvas.ontouchend = onMouseLeave;
-        // 当鼠标离开文档时，更新鼠标指针位置
         document.onmouseleave = onMouseLeave;
-        // 生成星星
+
         function generate() {
             for (let i = 0; i < STAR_COUNT; i++) {
                 stars.push({
@@ -211,102 +340,82 @@
                 });
             }
         }
-        // 将星星放置到随机位置
+
         function placeStar(star) {
             star.x = Math.random() * width;
             star.y = Math.random() * height;
         }
-        // 回收星星并重新放置到新的位置
+
         function recycleStar(star) {
-            // 初始化方向为 'z'
             let direction = 'z';
-            // 获取速度的绝对值
             let vx = Math.abs(velocity.x);
             let vy = Math.abs(velocity.y);
-            // 如果速度的绝对值大于1，则根据速度的大小随机确定方向
+            
             if (vx > 1 || vy > 1) {
                 let axis;
-                // 如果水平速度大于垂直速度，则根据水平速度的比例随机确定水平或垂直方向
                 if (vx > vy) {
                     axis = Math.random() < vx / (vx + vy) ? 'h' : 'v';
                 } else {
                     axis = Math.random() < vy / (vx + vy) ? 'v' : 'h';
                 }
-                // 根据方向确定具体的移动方向
+                
                 if (axis === 'h') {
                     direction = velocity.x > 0 ? 'l' : 'r';
                 } else {
                     direction = velocity.y > 0 ? 't' : 'b';
                 }
             }
-            // 随机设置星星的缩放比例
+            
             star.z = STAR_MIN_SCALE + Math.random() * (1 - STAR_MIN_SCALE);
-            // 根据方向设置星星的位置
+            
             if (direction === 'z') {
-                // 如果方向为 'z'，则将星星放置在屏幕中心
                 star.z = 0.1;
                 star.x = Math.random() * width;
                 star.y = Math.random() * height;
             } else if (direction === 'l') {
-                // 如果方向为 'l'，则将星星放置在屏幕左侧
                 star.x = -OVERFLOW_THRESHOLD;
                 star.y = height * Math.random();
             } else if (direction === 'r') {
-                // 如果方向为 'r'，则将星星放置在屏幕右侧
                 star.x = width + OVERFLOW_THRESHOLD;
                 star.y = height * Math.random();
             } else if (direction === 't') {
-                // 如果方向为 't'，则将星星放置在屏幕顶部
                 star.x = width * Math.random();
                 star.y = -OVERFLOW_THRESHOLD;
             } else if (direction === 'b') {
-                // 如果方向为 'b'，则将星星放置在屏幕底部
                 star.x = width * Math.random();
                 star.y = height + OVERFLOW_THRESHOLD;
             }
         }
-        // 调整大小
+
         function resize() {
-            // 获取设备像素比例
             scale = window.devicePixelRatio || 1;
-            // 设置画布的宽度和高度
             width = window.innerWidth * scale;
             height = window.innerHeight * scale;
             canvas.width = width;
             canvas.height = height;
-            // 将所有星星重新放置到屏幕上
             stars.forEach(placeStar);
         }
-        // 动画的每一帧
+
         function step() {
-            // 清空画布
             context.clearRect(0, 0, width, height);
-            // 更新星星的位置和速度
             update();
-            // 绘制星星
             render();
-            // 请求下一帧动画
             requestAnimationFrame(step);
         }
-        // 更新星星的位置和速度
+
         function update() {
-            // 缓动速度
             velocity.tx *= 0.96;
             velocity.ty *= 0.96;
-            // 更新速度
             velocity.x += (velocity.tx - velocity.x) * 0.8;
             velocity.y += (velocity.ty - velocity.y) * 0.8;
-            // 遍历所有星星
+
             stars.forEach((star) => {
-                // 根据速度和缩放比例更新星星的位置
                 star.x += velocity.x * star.z;
                 star.y += velocity.y * star.z;
-                // 根据速度和缩放比例更新星星的位置（使星星围绕屏幕中心旋转）
                 star.x += (star.x - width / 2) * velocity.z * star.z;
                 star.y += (star.y - height / 2) * velocity.z * star.z;
-                // 更新星星的缩放比例
                 star.z += velocity.z;
-                // 如果星星超出屏幕范围，则重新放置到屏幕上
+
                 if (
                     star.x < -OVERFLOW_THRESHOLD ||
                     star.x > width + OVERFLOW_THRESHOLD ||
@@ -317,108 +426,89 @@
                 }
             });
         }
-        // 绘制星星
+
         function render() {
-            // 遍历所有星星
             stars.forEach((star) => {
-                // 设置绘制星星的样式
                 context.beginPath();
                 context.lineCap = 'round';
                 context.lineWidth = STAR_SIZE * star.z * scale;
                 context.globalAlpha = 0.5 + 0.5 * Math.random();
                 context.strokeStyle = STAR_COLOR;
-                // 绘制星星的路径
                 context.beginPath();
                 context.moveTo(star.x, star.y);
-                // 计算星星的尾巴坐标
+                
                 let tailX = velocity.x * 2;
                 let tailY = velocity.y * 2;
-                // 如果尾巴坐标的绝对值小于0.1，则设置为0.5
+                
                 if (Math.abs(tailX) < 0.1) tailX = 0.5;
                 if (Math.abs(tailY) < 0.1) tailY = 0.5;
-                // 绘制星星的尾巴
+                
                 context.lineTo(star.x + tailX, star.y + tailY);
                 context.stroke();
             });
         }
-        // 移动鼠标指针
+
         function movePointer(x, y) {
-            // 如果之前有记录鼠标指针的位置，则计算鼠标指针的移动距离，并更新速度
             if (typeof pointerX === 'number' && typeof pointerY === 'number') {
                 let ox = x - pointerX;
                 let oy = y - pointerY;
                 velocity.tx = velocity.tx + (ox / 8) * scale * (touchInput ? 1 : -1);
                 velocity.ty = velocity.ty + (oy / 8) * scale * (touchInput ? 1 : -1);
             }
-            // 更新鼠标指针的位置
             pointerX = x;
             pointerY = y;
         }
-        // 当鼠标在canvas上移动时的事件处理函数
+
         function onMouseMove(event) {
             touchInput = false;
             movePointer(event.clientX, event.clientY);
         }
-        // 当触摸屏在canvas上移动时的事件处理函数
+
         function onTouchMove(event) {
             touchInput = true;
             movePointer(event.touches[0].clientX, event.touches[0].clientY, true);
             event.preventDefault();
         }
-        // 当鼠标离开canvas时的事件处理函数
+
         function onMouseLeave() {
             pointerX = null;
             pointerY = null;
         }
 
-        let img = document.querySelector('.img')
-        // 定义小图片的旋转角度
-        let deg = 0
-        // 定义小图片位于网页左侧的位置
-        let imgx = 0
-        // 定义小图片位于网页顶部的位置
-        let imgy = 0
-        // 定义小图片x轴的位置
-        let imgl = 0
-        // 定义小图片y轴的位置
-        let imgt = 0
-        // 定义小图片翻转的角度
-        let y = 0
-        // 定义一个计数器
-        let index = 0
+        // Audio player functionality
+        let isPlaying = false;
+        const audio = document.getElementById('audioPlayer');
 
-        window.addEventListener('mousemove',function(xyz){
-            // 获取网页左侧距离的图片位置
-            imgx = xyz.x - img.offsetLeft - img.clientWidth /2
-            // 多去网页顶部距离图片的位置
-            imgy = xyz.y - img.offsetTop - img.clientHeight /2
-            // 套入公式，定义图片的旋转角度
-            deg = 360*Math.atan(imgy/imgx)/(2*Math.PI)
-            // 每当鼠标移动的时候重置index
-            index= 0
-            // 定义当前鼠标的位置
-            let x = event.clientX
-            // 当鼠标的x轴大于图片的时候，提普安就要对着鼠标，所以需要将图片翻转过来
-            // 否则就不用翻转
-            if(img.offsetLeft<x){
-                y=-180
-            }else{
-                y=0
+        function togglePlay(button) {
+            if (isPlaying) {
+                audio.pause();
+                button.classList.remove('playing');
+                button.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="white">
+                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                    </svg> Play`;
+            } else {
+                audio.play();
+                button.classList.add('playing');
+                button.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="white">
+                        <path d="M4 2H6V14H4V2ZM10 2H12V14H10V2Z"/>
+                    </svg> Pause`;
             }
-        })
-        setInterval(()=>{
-            // 设置小图片的旋转和翻转
-            img.style.transform = "rotateZ("+deg+"deg) rotateY("+y+"deg)"
-            index++
-            // 在这里设置小图片的位置和速度，并判断小图片到达鼠标位置时停止移动
-            if(index<50){
-                imgl+=imgx/50
-                imgt+=imgy/50
+            isPlaying = !isPlaying;
+        }
+
+        audio.addEventListener('ended', () => {
+            isPlaying = false;
+            const btn = document.querySelector('.play-btn');
+            if (btn) {
+                btn.classList.remove('playing');
+                btn.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="white">
+                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                    </svg> Play`;
             }
-            img.style.left = imgl+"px"
-            img.style.top = imgt+"px"
-        },10)
+        });
     </script>
 </body>
-
 </html>
