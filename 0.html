@@ -8,6 +8,11 @@
     <!-- 导入css -->
     <link rel="stylesheet" href="./css/cardStyle.css">
     <title>转接Home</title>
+    <!-- 51la统计 -->
+    <script>
+        !function (p) { "use strict"; !function (t) { var s = window, e = document, i = p, c = "".concat("https:" === e.location.protocol ? "https://" : "http://", "sdk.51.la/js-sdk-pro.min.js"), n = e.createElement("script"), r = e.getElementsByTagName("script")[0]; n.type = "text/javascript", n.setAttribute("charset", "UTF-8"), n.async = !0, n.src = c, n.id = "LA_COLLECT", i.d = n; var o = function () { s.LA.ids.push(i) }; s.LA ? s.LA.ids && o() : (s.LA = p, s.LA.ids = [], o()), r.parentNode.insertBefore(n, r) }() }({ id: "K0v8ea14fqQQSKI8", ck: "K0v8ea14fqQQSKI8", autoTrack: true, hashMode: true });
+    </script>
+
     <style>
         * {
             padding: 0;
@@ -42,7 +47,7 @@
     </style>
 
     <!-- 弹窗动画 -->
-        <script>
+    <!-- <script>
         function showWebNotice() {
             var webNotice = document.querySelector('.web_notice');
             webNotice.classList.remove('hidden');
@@ -62,8 +67,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(showWebNotice, 10); // 延迟0.01秒显示弹窗，可根据需要调整
         });
-    </script>
-    
+    </script>     -->
 </head>
 
 <body>
@@ -78,16 +82,30 @@
                     <div class="details">
                         <h2>Randall<br><span>言多必失，谨言慎行</span></h2>
                         <div class="linkBtn">
-                            <button onclick="window.location.href = 'https://www.tiktok.com/@ooocccooo'">TikTok</button>
-                            <button onclick="window.location.href = 'https://t.me/vvvvvwwv'">Telegram</button>
-                            <button onclick="window.location.href = 'https://www.instagram.com/ol234566'">Instagram</button>
-                            <button onclick="window.location.href = 'https://wvvvvvvv.github.io'">Github</button>
+                            <button onclick="window.location.href = 'https://pan.zhuanjie.ltd/'">网盘</button>
+                            <button onclick="window.location.href = 'https://airport.randallanjie.com/'">机场</button>
+                            <button onclick="window.location.href = 'https://shop.randallanjie.com/'">商铺</button>
+                            <button onclick="window.location.href = 'https://dash.randallanjie.uk/'">监控</button>
                         </div>
                         <div class="actionBtn">
                             <!-- 实现button点击跳转的方式有两种，可以在button标签外套上a标签或者给button绑定onclick事件 -->
+                            <button onclick="window.location.href = 'https://blog.zhuanjie.ltd/'">个人博客</button>
+                            <button id="magnifier">更多链接～</button>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- 页脚 -->
+            <div class="footer">
+                <!-- 之前服务器在雨云计算中心 -->
+                <!--<p><a href="https://www.rainyun.com?ref=MjU2NjA=">本站由雨云提供计算服务</a></p>-->
+                <p>本站由 <a href="https://github.com/Zhuanjier" style="pointer-events: auto;">Github</a> 和 Cloud flare 提供计算服务</p>
+                <p>© 2023 <a href="http://startpage.zhuanjie.ltd/" style="pointer-events: auto;">转接</a> | <a
+                        href="https://beian.miit.gov.cn/" style="pointer-events: auto;">京ICP备2021028872号-1</a></p>
+                <!-- 51la统计 -->
+                <script id="LA-DATA-WIDGET" crossorigin="anonymous" charset="UTF-8"
+                    src="https://v6-widget.51.la/v6/K0v8ea14fqQQSKI8/quote.js?theme=#FFFFFF,#FFFFFF,#FFFFFF,#FFFFFF,#FFFFFF,#FFFFFF,12&f=12"></script>
             </div>
         </div>
     </article>
@@ -96,10 +114,32 @@
         请等待更多链接更新～
     </aside>
     <div class="img"></div>
+
+    <!-- 弹窗代码开始 -->
+    <!-- <div class="web_notice hidden"
+         style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.3);z-index: 99999; opacity: 0;">
+        <div style="position: fixed;top: 50%;left: 50%;width: 550px;background: #FFF;transform: translate(-50%, -50%);border-radius: 40px;padding: 50px 40px;">
+            <h3 style="font-weight: bold;text-align: center;font-size: 30px;">
+                网站公告
+            </h3>
+            <div style="font-size: 16px;margin-top: 26px;line-height: 30px;color: #999;">
+                ChatGPT站点由于官方原因，暂时无法使用！
+            </div>
+            <a style="display: block;background: #98a3ff;color: #FFF;text-align: center;font-weight: bold;font-size: 19px;line-height: 60px;margin: 0 auto;margin-top: 45px;border-radius: 32px;width: 80%;" onclick="hideWebNotice()">
+                我知道了
+            </a>            
+        </div>
+    </div> -->
+    <!-- 弹窗代码结束 -->
     <script src="js/popup.js"></script>
     <script src="https://notification.randallanjie.com/r_notification.js"></script>
 
     <script>
+
+        rShowMessage('本弹窗来自本人开源项目：<a href="https://notification.randallanjie.com/" class="rnotificationLink">RNotification</a>，<a href="https://github.com/RandallAnjie/RNotification" class="rnotificationLink">点我去往仓库页面</a>', 0, 'up', 0)
+        rShowMessage('感谢您的访问～<br />本站点目前只支持电脑端访问，手机端可能还有bug，感谢谅解<br />目前服务器监控下线，图像处理服务器前端js文件异常，请等待修复', 0, 'up', 0)
+
+
         // 获取https://randallanjie.com/json/personal_info.json文件中的数据
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'json/personal_info.json', true);
