@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Profile with Star Background</title>
     <style>
         * {
@@ -14,9 +14,7 @@
         body {
             width: 100%;
             min-height: 100vh;
-            /* 背景渐变 */
-            background-image: linear-gradient(-225deg, #231557 0%,
-                    #43107a 29%, #FF1361 100%);
+            background-image: linear-gradient(-225deg, #231557 0%, #43107a 29%, #FF1361 100%);
             font-family: 'Inter', sans-serif;
             display: flex;
             justify-content: center;
@@ -32,6 +30,7 @@
             top: 0;
             left: 0;
             z-index: 1;
+            pointer-events: none; /* 确保不会阻止点击/触控穿透 */
         }
 
         .widget-container {
@@ -103,7 +102,7 @@
         .link-icon {
             width: 35px;
             height: 35px;
-            margin-left: 20px; 
+            margin-left: 20px;
             margin-right: 28px;
         }
 
@@ -183,7 +182,7 @@
         }
 
         .play-btn {
-            background-color: #3fd97a; 
+            background-color: #3fd97a;
             color: white;
             border: none;
             border-radius: 24px;
@@ -204,7 +203,7 @@
         }
 
         .play-btn.playing {
-            background-color: #3fd97a; 
+            background-color: #3fd97a;
         }
 
         .play-btn svg {
@@ -226,12 +225,12 @@
             height: 100%;
             object-fit: cover;
         }
-        
+
         @media (max-width: 480px) {
             .widget {
                 max-width: 100%;
             }
-            
+
             .link-card,
             .spotify-card {
                 max-width: 100%;
@@ -249,9 +248,7 @@
             </div>
 
             <div class="link-section">
-                <!-- Spotify 播放卡片 -->
                 <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
-                    <!-- 左侧内容 -->
                     <div class="spotify-left">
                         <div class="spotify-meta">
                             <div class="spotify-icon">
@@ -267,35 +264,27 @@
                             Play
                         </button>
                     </div>
-
-                    <!-- 封面图 -->
                     <div class="spotify-cover">
                         <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
                     </div>
-
-                    <!-- 音频播放资源 -->
                     <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
                 </div>
 
-                <!-- Instagram -->
                 <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
                     <span class="link-title">Instagram</span>
                 </a>
 
-                <!-- Telegram -->
                 <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
                     <span class="link-title">Telegram</span>
                 </a>
 
-                <!-- GitHub -->
                 <a href="https://github.com/00000OO" class="link-card" target="_blank">
                     <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="link-icon" />
                     <span class="link-title">GitHub</span>
                 </a>
 
-                <!-- 博客链接 -->
                 <a href="https://ooooooooc.blogspot.com/2025/07/blog-post_1.html?m=1" class="link-card" target="_blank">
                     <span class="link-title">🩵🩵🩵 - ooooooooc.blogspot.com</span>
                 </a>
@@ -304,7 +293,6 @@
     </div>
 
     <script>
-        // Star background animation
         const STAR_COLOR = '#fff';
         const STAR_SIZE = 3;
         const STAR_MIN_SCALE = 0.2;
@@ -326,10 +314,10 @@
         step();
 
         window.onresize = resize;
-        canvas.onmousemove = onMouseMove;
-        canvas.ontouchmove = onTouchMove;
-        canvas.ontouchend = onMouseLeave;
-        document.onmouseleave = onMouseLeave;
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', onMouseLeave);
+        document.addEventListener('mouseleave', onMouseLeave);
 
         function generate() {
             for (let i = 0; i < STAR_COUNT; i++) {
@@ -350,24 +338,15 @@
             let direction = 'z';
             let vx = Math.abs(velocity.x);
             let vy = Math.abs(velocity.y);
-            
+
             if (vx > 1 || vy > 1) {
-                let axis;
-                if (vx > vy) {
-                    axis = Math.random() < vx / (vx + vy) ? 'h' : 'v';
-                } else {
-                    axis = Math.random() < vy / (vx + vy) ? 'v' : 'h';
-                }
-                
-                if (axis === 'h') {
-                    direction = velocity.x > 0 ? 'l' : 'r';
-                } else {
-                    direction = velocity.y > 0 ? 't' : 'b';
-                }
+                let axis = vx > vy ? 'h' : 'v';
+                if (axis === 'h') direction = velocity.x > 0 ? 'l' : 'r';
+                else direction = velocity.y > 0 ? 't' : 'b';
             }
-            
+
             star.z = STAR_MIN_SCALE + Math.random() * (1 - STAR_MIN_SCALE);
-            
+
             if (direction === 'z') {
                 star.z = 0.1;
                 star.x = Math.random() * width;
@@ -434,15 +413,11 @@
                 context.lineWidth = STAR_SIZE * star.z * scale;
                 context.globalAlpha = 0.5 + 0.5 * Math.random();
                 context.strokeStyle = STAR_COLOR;
-                context.beginPath();
-                context.moveTo(star.x, star.y);
-                
                 let tailX = velocity.x * 2;
                 let tailY = velocity.y * 2;
-                
                 if (Math.abs(tailX) < 0.1) tailX = 0.5;
                 if (Math.abs(tailY) < 0.1) tailY = 0.5;
-                
+                context.moveTo(star.x, star.y);
                 context.lineTo(star.x + tailX, star.y + tailY);
                 context.stroke();
             });
@@ -452,8 +427,8 @@
             if (typeof pointerX === 'number' && typeof pointerY === 'number') {
                 let ox = x - pointerX;
                 let oy = y - pointerY;
-                velocity.tx = velocity.tx + (ox / 8) * scale * (touchInput ? 1 : -1);
-                velocity.ty = velocity.ty + (oy / 8) * scale * (touchInput ? 1 : -1);
+                velocity.tx += (ox / 8) * scale * (touchInput ? 1 : -1);
+                velocity.ty += (oy / 8) * scale * (touchInput ? 1 : -1);
             }
             pointerX = x;
             pointerY = y;
@@ -466,7 +441,7 @@
 
         function onTouchMove(event) {
             touchInput = true;
-            movePointer(event.touches[0].clientX, event.touches[0].clientY, true);
+            movePointer(event.touches[0].clientX, event.touches[0].clientY);
             event.preventDefault();
         }
 
@@ -475,7 +450,7 @@
             pointerY = null;
         }
 
-        // Audio player functionality
+        // Audio player
         let isPlaying = false;
         const audio = document.getElementById('audioPlayer');
 
@@ -483,17 +458,11 @@
             if (isPlaying) {
                 audio.pause();
                 button.classList.remove('playing');
-                button.innerHTML = `
-                    <svg viewBox="0 0 16 16" fill="white">
-                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                    </svg> Play`;
+                button.innerHTML = `<svg viewBox="0 0 16 16" fill="white"><path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/></svg> Play`;
             } else {
                 audio.play();
                 button.classList.add('playing');
-                button.innerHTML = `
-                    <svg viewBox="0 0 16 16" fill="white">
-                        <path d="M4 2H6V14H4V2ZM10 2H12V14H10V2Z"/>
-                    </svg> Pause`;
+                button.innerHTML = `<svg viewBox="0 0 16 16" fill="white"><path d="M4 2H6V14H4V2ZM10 2H12V14H10V2Z"/></svg> Pause`;
             }
             isPlaying = !isPlaying;
         }
@@ -503,10 +472,7 @@
             const btn = document.querySelector('.play-btn');
             if (btn) {
                 btn.classList.remove('playing');
-                btn.innerHTML = `
-                    <svg viewBox="0 0 16 16" fill="white">
-                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                    </svg> Play`;
+                btn.innerHTML = `<svg viewBox="0 0 16 16" fill="white"><path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/></svg> Play`;
             }
         });
     </script>
