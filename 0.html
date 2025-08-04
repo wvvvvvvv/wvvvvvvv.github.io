@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>星星背景 + Widget</title>
+  <title>✨进入猫次元🐈</title>
   <style>
     * {
       margin: 0;
@@ -14,15 +14,15 @@
       width: 100%;
       height: 100vh;
       margin: 0;
-      overflow: hidden; /* Prevent scrolling */
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       background-image: linear-gradient(-225deg, #231557 0%, #43107a 29%, #FF1361 100%);
       position: relative;
-      touch-action: none; /* Disable touch scrolling/panning */
-      -webkit-user-select: none; /* Prevent text selection on drag */
-      user-select: none; /* Prevent text selection on drag */
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     canvas {
@@ -34,103 +34,88 @@
       height: 100%;
     }
 
-.my-widget {
-  position: relative;
-  z-index: 10;
-  font-family: 'Inter', sans-serif;
-  max-width: 1500px;
-  height: 600px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  text-align: center;
-  margin: 40px auto;
-  transform: scale(1);
-  box-shadow: none;
-  transform-origin: center;
-}
-
-    .my-widget * {
+    .alist-widget-wrapper {
+      padding: 20px;
+      z-index: 1;
+    }
+    .my-widget {
+      font-family: 'Inter', sans-serif;
+      max-width: 360px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      text-align: center;
       box-sizing: border-box;
     }
-
+    .my-widget * { box-sizing: border-box; }
     .profile-header {
-      padding: 16px;
+      padding: 20px 16px 12px;
     }
-
     .profile-pic {
       width: 120px;
       height: 120px;
       border-radius: 50%;
       object-fit: cover;
-      margin-bottom: 8px;
+      margin: 0 auto;
+      display: block;
     }
-
     .link-section {
-      padding: 0 22px 22px;
+      padding: 0 16px 20px;
     }
-
     .link-card {
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      background-color: rgba(249, 249, 249, 0.3); /* 淡灰色 + 半透明 */
+      background: #f9f9f9;
       padding: 10px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       border-radius: 8px;
       text-decoration: none;
       color: #333;
       transition: background 0.3s;
       font-size: 16px;
     }
-
-    .link-card:hover {
-      background: #e0e0e0;
-    }
-
+    .link-card:hover { background: #e0e0e0; }
     .link-icon {
-      width: 35px;
-      height: 35px;
-      margin-left: 20px;
-      margin-right: 28px;
+      width: 36px;
+      height: 36px;
+      margin-left: 16px;
+      margin-right: 18px;
     }
-
     .link-title {
       text-align: center;
       width: 100%;
       font-size: 18px;
     }
-
     .spotify-card {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: rgba(237, 252, 243, 0.2); /* 0.8 可调节透明度 */
-      border-radius: 20px;
-      padding: 20px;
-      max-width: 275px;
+      background-color: #edfcf3;
+      border-radius: 16px;
+      padding: 16px;
+      max-width: 100%;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       cursor: pointer;
       position: relative;
-      font-family: 'Inter', sans-serif;
       margin-bottom: 12px;
+      flex-wrap: nowrap;
     }
-
     .spotify-left {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       height: 100px;
-      flex: 5;
+      flex: 1;
+      min-width: 0;
     }
-
     .spotify-meta {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
     .spotify-icon {
       width: 40px;
       height: 40px;
@@ -141,30 +126,25 @@
       justify-content: center;
       flex-shrink: 0;
     }
-
     .spotify-icon img {
       width: 24px;
       height: 24px;
     }
-
     .track-text {
       display: flex;
       flex-direction: column;
       text-align: left;
     }
-
     .track-title {
       font-size: 16px;
       font-weight: bold;
       margin: 0;
       color: #000;
     }
-
     .track-artist {
       font-size: 13px;
       color: #555;
     }
-
     .play-btn {
       background-color: #3fd97a;
       color: white;
@@ -177,119 +157,139 @@
       align-items: center;
       gap: 6px;
       cursor: pointer;
-      width: fit-content;
       margin-top: 10px;
+      width: fit-content;
     }
-
     .play-btn svg {
       width: 14px;
       height: 14px;
     }
-
     .spotify-cover {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       border-radius: 12px;
       overflow: hidden;
       flex-shrink: 0;
-      margin-left: 10px;
+      margin-left: 2px;
     }
-
     .spotify-cover img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    @media (max-width: 480px) {
+      .spotify-card {
+        flex-wrap: nowrap;
+      }
+      .spotify-left {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .spotify-cover {
+        margin-left: 12px;
+        margin-top: 0;
+      }
+      .play-btn {
+        width: fit-content;
+        justify-content: flex-start;
+      }
     }
   </style>
 </head>
 <body>
   <canvas></canvas>
 
-  <div class="my-widget">
-    <div class="profile-header">
-      <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg" alt="头像" class="profile-pic" />
-    </div>
-
-    <div class="link-section">
-      <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
-        <div class="spotify-left">
-          <div class="spotify-meta">
-            <div class="spotify-icon">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" />
-            </div>
-            <div class="track-text">
-              <div class="track-title">Astral Chill</div>
-              <div class="track-artist">Virtual Mage</div>
-            </div>
-          </div>
-          <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
-            <svg viewbox="0 0 16 16" fill="white"><path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/></path></svg>
-            Play
-          </button>
-        </div>
-        <div class="spotify-cover">
-          <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
-        </div>
-        <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
+  <div class="alist-widget-wrapper">
+    <div class="my-widget">
+      <div class="profile-header">
+        <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
       </div>
 
-      <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
-        <span class="link-title">Instagram</span>
-      </a>
+      <div class="link-section">
+        <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
+          <div class="spotify-left">
+            <div class="spotify-meta">
+              <div class="spotify-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" />
+              </div>
+              <div class="track-text">
+                <div class="track-title">Astral Chill</div>
+                <div class="track-artist">Virtual Mage</div>
+              </div>
+            </div>
+            <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
+              <svg viewBox="0 0 16 16" fill="white">
+                <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+              </svg> Play
+            </button>
+          </div>
+          <div class="spotify-cover">
+            <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
+          </div>
+          <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
+        </div>
 
-      <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
-        <span class="link-title">Telegram</span>
-      </a>
+        <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
+          <span class="link-title">Instagram</span>
+        </a>
 
-      <a href="https://github.com/00000OO" class="link-card" target="_blank">
-        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="link-icon" />
-        <span class="link-title">GitHub</span>
-      </a>
+        <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
+          <span class="link-title">Telegram</span>
+        </a>
 
-      <a href="https://ooooooooc.blogspot.com/2025/07/blog-post_1.html?m=1" class="link-card" target="_blank">
-        <span class="link-title">🩵🩵🩵 - ooooooooc.blogspot.com</span>
-      </a>
+        <a href="https://github.com/00000OO" class="link-card" target="_blank">
+          <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="link-icon" />
+          <span class="link-title">GitHub</span>
+        </a>
+
+        <a href="https://ooooooooc.blogspot.com/2025/07/blog-post_1.html?m=1" class="link-card" target="_blank">
+          <span class="link-title">🩵🩵🩵 - ooooooooc.blogspot.com</span>
+        </a>
+      </div>
+
+      <script>
+        let isPlaying = false;
+        const audio = document.getElementById('audioPlayer');
+
+        function togglePlay(button) {
+          if (isPlaying) {
+            audio.pause();
+            button.classList.remove('playing');
+            button.innerHTML = `
+              <svg viewBox="0 0 16 16" fill="white">
+                <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+              </svg> Play`;
+          } else {
+            audio.play();
+            button.classList.add('playing');
+            button.innerHTML = `
+              <svg viewBox="0 0 16 16" fill="white">
+                <path d="M4 2H6V14H4V2ZM10 2H12V14H10V2Z"/>
+              </svg> Pause`;
+          }
+          isPlaying = !isPlaying;
+        }
+
+        audio.addEventListener('ended', () => {
+          isPlaying = false;
+          const btn = document.querySelector('.play-btn');
+          if (btn) {
+            btn.classList.remove('playing');
+            btn.innerHTML = `
+              <svg viewBox="0 0 16 16" fill="white">
+                <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+              </svg> Play`;
+          }
+        });
+      </script>
     </div>
   </div>
 
-  <!-- 播放按钮逻辑 -->
-  <script>
-    let isPlaying = false;
-    const audio = document.getElementById('audioPlayer');
+  <!-- 星星背景动画脚本保留不变 -->
 
-    function togglePlay(button) {
-      if (isPlaying) {
-        audio.pause();
-        button.classList.remove('playing');
-        button.innerHTML = `<svg viewBox="0 0 16 16" fill="white">
-            <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-          </svg> Play`;
-      } else {
-        audio.play();
-        button.classList.add('playing');
-        button.innerHTML = `<svg viewBox="0 0 16 16" fill="white">
-          <path d="M4 2H6V14H4V2ZM10 2H12V14H10V2Z"/>
-        </svg> Pause`;
-      }
-      isPlaying = !isPlaying;
-    }
-
-    audio.addEventListener('ended', () => {
-      isPlaying = false;
-      const btn = document.querySelector('.play-btn');
-      if (btn) {
-        btn.classList.remove('playing');
-        btn.innerHTML = `<svg viewBox="0 0 16 16" fill="white">
-            <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-          </svg> Play`;
-      }
-    });
-  </script>
-
-  <!-- 星星效果脚本：保持不变 -->
-  <script>
+     <script>
     const STAR_COLOR = '#fff';
     const STAR_SIZE = 3;
     const STAR_MIN_SCALE = 0.2;
@@ -434,6 +434,9 @@
       pointerX = null;
       pointerY = null;
     }
+  </script>
+</body>
+</html>
   </script>
 </body>
 </html>
