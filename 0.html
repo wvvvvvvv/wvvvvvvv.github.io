@@ -38,19 +38,17 @@
   position: relative;
   z-index: 10;
   font-family: 'Inter', sans-serif;
-  width: 95vw;              /* 几乎占满整个屏幕宽度 */
-  max-width: 480px;         /* 限制在中高端手机上的最大宽度 */
-  margin: 60px auto;        /* 上下留出间距，水平居中 */
-  background: rgba(255, 255, 255, 0.18); /* 半透明白背景 */
-  border-radius: 24px;      /* 更圆润的外观 */
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2); /* 更深的阴影增强立体感 */
+  width: 94vw;                /* 几乎撑满手机宽度 */
+  max-width: 600px;           /* 控制桌面显示时不要太宽 */
+  margin: 60px auto;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 28px;        /* 更大圆角 */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
   overflow: hidden;
   text-align: center;
-  padding: 24px 16px;       /* 内边距让内容更呼吸 */
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transform: scale(1);      /* 原始缩放 */
-  transform-origin: center;
+  padding: 32px 24px;         /* 增大内容填充感 */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
     .my-widget * {
