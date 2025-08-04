@@ -1,6 +1,34 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+<style>
+  html, body {
+    overscroll-behavior: none; /* 禁止下拉/滑动刷新 */
+    touch-action: none;        /* 禁止手势拖动 */
+    position: fixed;           /* 固定页面不随滑动动 */
+    width: 100%;
+    height: 100%;
+    overflow: hidden;          /* 移除滚动条 */
+  }
+</style>
+
+<script>
+  // 防止拖动手势或滚轮滑动
+  window.addEventListener('scroll', function (e) {
+    window.scrollTo(0, 0);
+  });
+
+  // 禁止触摸滑动
+  document.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+  }, { passive: false });
+
+  // 禁止鼠标滚轮滚动
+  document.addEventListener('wheel', function (e) {
+    e.preventDefault();
+  }, { passive: false });
+</script>
+</script>
   <meta charset="UTF-8">
   <title>✨进入猫次元🐈</title>
   <style>
@@ -10,6 +38,8 @@
       box-sizing: border-box;
     }
 
+    
+    
    body {
   width: 100%;
   height: 100vh;
