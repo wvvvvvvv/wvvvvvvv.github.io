@@ -38,17 +38,17 @@
   position: relative;
   z-index: 10;
   font-family: 'Inter', sans-serif;
-  width: 94vw;                /* 几乎撑满手机宽度 */
-  max-width: 600px;           /* 控制桌面显示时不要太宽 */
-  margin: 60px auto;
+  max-width: 1500px;
+  height: 600px;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 28px;        /* 更大圆角 */
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   text-align: center;
-  padding: 32px 24px;         /* 增大内容填充感 */
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  margin: 40px auto;
+  transform: scale(1);
+  box-shadow: none;
+  transform-origin: center;
 }
 
     .my-widget * {
@@ -109,7 +109,7 @@
       background-color: rgba(237, 252, 243, 0.2); /* 0.8 可调节透明度 */
       border-radius: 20px;
       padding: 20px;
-      max-width: 500px;
+      max-width: 275px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       cursor: pointer;
       position: relative;
