@@ -5,6 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✨进入猫次元🐈</title>
     <style>
+        :root {
+            /* 发光卡片变量 */
+            --glow-sens: 30;
+            --dark: hsl(260, 25%, 10%);
+            --fg: white;
+            --h: 260;
+            --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
+            --blend: soft-light;
+            --glow-blend: plus-lighter;
+            --glow-color: 40deg 80% 80%;
+        }
+
+        .light {
+            /* 日间模式变量 */
+            --card-bg: linear-gradient(8deg, color-mix(in hsl, hsl(260, 25%, 95%), var(--dark) 2.5%) 75%, hsl(260, 25%, 95%) 75.5%);
+            --blend: darken;
+            --glow-blend: luminosity;
+            --glow-color: 280deg 90% 95%;
+            --fg: black;
+            color: var(--fg);
+        }
+
+        body.light {
+            background-image: 
+                linear-gradient( 
+                    180deg, 
+                    hsl(var(--h), 8%, 58%), 
+                    hsl(var(--h), 15%, 42%) 
+                );
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -17,7 +48,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: 'Inter', sans-serif;
         }
+        
         canvas {
             position: fixed;
             top: 0;
@@ -26,36 +59,165 @@
             height: 100vh;
             z-index: -1;
         }
-        .alist-widget-wrapper {
-            padding: 20px;
-            z-index: 1;
-        }
-        .my-widget {
-            font-family: 'Inter', sans-serif;
+        
+        /* 发光卡片样式 */
+        .glowing-card {
+            --pads: 20px;
+            --color-sens: calc(var(--glow-sens) + 20);
+            
+            position: relative;
             max-width: 360px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.2);
             border-radius: 12px;
+            isolation: isolate;
+            transform: translate3d(0, 0, 0.01px);
+            background: rgba(255, 255, 255, 0.2);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
             overflow: hidden;
             text-align: center;
             box-sizing: border-box;
+            border: 1px solid rgb(255 255 255 / 25%);
         }
-        /* 新增鼠标特效画布样式 */
-        #shuicheCanvas {
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 2147483647;
+
+        .glowing-card::before,
+        .glowing-card::after,
+        .glowing-card > .glow {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            transition: opacity 0.25s ease-out;
+            z-index: -1;
+        }
+         
+        .glowing-card:not(:hover):not(.animating)::before,
+        .glowing-card:not(:hover):not(.animating)::after,
+        .glowing-card:not(:hover):not(.animating) > .glow {
+            opacity: 0;
+            transition: opacity 0.75s ease-in-out;
+        }
+        
+        .glowing-card::before {
+            border: 1px solid transparent;
+            background:
+                linear-gradient(var(--card-bg) 0 100%) padding-box,
+                linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
+                radial-gradient(at 80% 55%, hsla(268,100%,76%,1) 0px, transparent 50%) border-box,
+                radial-gradient(at 69% 34%, hsla(349,100%,74%,1) 0px, transparent 50%) border-box,
+                radial-gradient(at 8% 6%, hsla(136,100%,78%,1) 0px, transparent 50%) border-box,
+                radial-gradient(at 41% 38%, hsla(192,100%,64%,1) 0px, transparent 50%) border-box,
+                radial-gradient(at 86% 85%, hsla(186,100%,74%,1) 0px, transparent 50%) border-box,
+                radial-gradient(at 82% 18%, hsla(52,100%,65%,1) 0px, transparent 50%) border-box,
+                radial-gradient(at 51% 4%, hsla(12,100%,72%,1) 0px, transparent 50%) border-box,
+                linear-gradient(#c299ff 0 100%) border-box;
+            
+            opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
+            
+            mask-image: 
+                conic-gradient( 
+                    from var(--pointer-°) at center, black 25%, transparent 40%, transparent 60%, black 75%
+                );
+        }
+        
+        .glowing-card::after {
+            border: 1px solid transparent;
+            background:
+                radial-gradient(at 80% 55%, hsla(268,100%,76%,1) 0px, transparent 50%) padding-box,
+                radial-gradient(at 69% 34%, hsla(349,100%,74%,1) 0px, transparent 50%) padding-box,
+                radial-gradient(at 8% 6%, hsla(136,100%,78%,1) 0px, transparent 50%) padding-box,
+                radial-gradient(at 41% 38%, hsla(192,100%,64%,1) 0px, transparent 50%) padding-box,
+                radial-gradient(at 86% 85%, hsla(186,100%,74%,1) 0px, transparent 50%) padding-box,
+                radial-gradient(at 82% 18%, hsla(52,100%,65%,1) 0px, transparent 50%) padding-box,
+                radial-gradient(at 51% 4%, hsla(12,100%,72%,1) 0px, transparent 50%) padding-box,
+                linear-gradient(#c299ff 0 100%) padding-box;
+            
+            mask-image:
+                linear-gradient( to bottom, black, black ),
+                radial-gradient( ellipse at 50% 50%, black 40%, transparent 65% ),
+                radial-gradient( ellipse at 66% 66%, black 5%, transparent 40% ),
+                radial-gradient( ellipse at 33% 33%, black 5%, transparent 40% ),
+                radial-gradient( ellipse at 66% 33%, black 5%, transparent 40% ),
+                radial-gradient( ellipse at 33% 66%, black 5%, transparent 40% ),
+                conic-gradient( from var(--pointer-°) at center, transparent 5%, black 15%, black 85%, transparent 95% );
+
+            mask-composite: subtract,add,add,add,add,add;
+            
+            opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
+            mix-blend-mode: var(--blend);
+        }
+        
+        .glowing-card > .glow {
+            --outset: var(--pads);
+            
+            inset: calc(var(--outset) * -1);
             pointer-events: none;
+            z-index: 1;
+            
+            mask-image: 
+                conic-gradient( 
+                    from var(--pointer-°) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%
+                );
+            
+            opacity: calc((var(--pointer-d) - var(--glow-sens)) / (100 - var(--glow-sens)));
+            mix-blend-mode: var(--glow-blend);
         }
-        /* 原有其他CSS保持不变 */
-        .my-widget * {
-            box-sizing: border-box;
+
+        .glowing-card > .glow::before {
+            content: "";
+            position: absolute;
+            inset: var(--outset);
+            border-radius: inherit;
+            box-shadow: 
+                inset 0 0 0 1px hsl( var(--glow-color) / 100%),
+                inset 0 0 2px 2px hsl( var(--glow-color) / 90%),
+                inset 0 0 5px 1px hsl( var(--glow-color) / 75%),
+                inset 0 0 8px 1px hsl( var(--glow-color) / 66%),
+                inset 0 0 15px 0 hsl( var(--glow-color) / 50%),
+                inset 0 0 25px 2px hsl( var(--glow-color) / 30%),
+                inset 0 0 50px 2px hsl( var(--glow-color) / 10%),
+                0 0 2px 2px hsl( var(--glow-color) / 90%),
+                0 0 5px 1px hsl( var(--glow-color) / 75%),
+                0 0 8px 1px hsl( var(--glow-color) / 66%),
+                0 0 15px 0 hsl( var(--glow-color) / 50%),
+                0 0 25px 2px hsl( var(--glow-color) / 30%),
+                0 0 50px 2px hsl( var(--glow-color) / 10%);
         }
+
+        /* 主题切换按钮样式 */
+        .theme-toggle {
+            position: absolute;
+            top: 12px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .theme-toggle:hover {
+            opacity: 1;
+        }
+
+        .sun-toggle {
+            left: 12px;
+        }
+
+        .moon-toggle {
+            right: 12px;
+        }
+
+        /* 原有个人主页样式 */
+        .alist-widget-wrapper {
+            padding: 20px;
+            z-index: 1;
+        }
+
         .profile-header {
-            padding: 20px 16px 12px;
+            padding: 40px 16px 12px; /* 增加顶部内边距为按钮留空间 */
+            position: relative;
         }
+        
         .profile-pic {
             width: 120px;
             height: 120px;
@@ -64,9 +226,11 @@
             margin: 0 auto;
             display: block;
         }
+        
         .link-section {
             padding: 0 16px 20px;
         }
+        
         .link-card {
             display: flex;
             align-items: center;
@@ -80,20 +244,25 @@
             transition: background 0.3s;
             font-size: 16px;
         }
+        
         .link-card:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
         }
+        
         .link-icon {
             width: 36px;
             height: 36px;
             margin-left: 16px;
             margin-right: 18px;
         }
+        
         .link-title {
             text-align: center;
             width: 100%;
             font-size: 18px;
+            color: var(--fg);
         }
+        
         .spotify-card {
             display: flex;
             justify-content: space-between;
@@ -108,6 +277,7 @@
             margin-bottom: 12px;
             flex-wrap: nowrap;
         }
+        
         .spotify-left {
             display: flex;
             flex-direction: column;
@@ -116,11 +286,13 @@
             flex: 1;
             min-width: 0;
         }
+        
         .spotify-meta {
             display: flex;
             align-items: center;
             gap: 10px;
         }
+        
         .spotify-icon {
             width: 40px;
             height: 40px;
@@ -131,25 +303,30 @@
             justify-content: center;
             flex-shrink: 0;
         }
+        
         .spotify-icon img {
             width: 24px;
             height: 24px;
         }
+        
         .track-text {
             display: flex;
             flex-direction: column;
             text-align: left;
         }
+        
         .track-title {
             font-size: 16px;
             font-weight: bold;
             margin: 0;
-            color: #000;
+            color: var(--fg);
         }
+        
         .track-artist {
             font-size: 13px;
-            color: #555;
+            color: color-mix(in srgb, var(--fg), transparent 40%);
         }
+        
         .play-btn {
             background-color: #3fd97a;
             color: white;
@@ -165,10 +342,12 @@
             margin-top: 10px;
             width: fit-content;
         }
+        
         .play-btn svg {
             width: 14px;
             height: 14px;
         }
+        
         .spotify-cover {
             width: 100px;
             height: 100px;
@@ -177,27 +356,41 @@
             flex-shrink: 0;
             margin-left: 2px;
         }
+        
         .spotify-cover img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+        
         @media (max-width: 480px) {
             .spotify-card {
                 flex-wrap: nowrap;
             }
+            
             .spotify-left {
                 flex: 1 1 auto;
                 min-width: 0;
             }
+            
             .spotify-cover {
                 margin-left: 12px;
                 margin-top: 0;
             }
+            
             .play-btn {
                 width: fit-content;
                 justify-content: flex-start;
             }
+        }
+
+        /* 新增鼠标特效画布样式 */
+        #shuicheCanvas {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 2147483647;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -311,35 +504,27 @@
     <script>
     //<![CDATA[
     (function () {
-      // 获取 Canvas 元素和上下文
       const canvas = document.getElementById("shuicheCanvas");
       const ctx = canvas.getContext("2d");
 
-      // 初始化画布大小为窗口大小
       let width = window.innerWidth;
       let height = window.innerHeight;
       canvas.width = width;
       canvas.height = height;
 
-      // 粒子围绕的中心点，默认为屏幕中心（后面会跟随鼠标）
       let centerX = width / 2;
       let centerY = height / 2;
 
-      // 粒子数组
       let particles = [];
 
-      // === 可调参数区 ===
-      const particleCount = 70;         // 粒子数量（越多越密集）
-      const baseOrbitRadius = 70;       // 粒子绕鼠标旋转的基础半径
-      // ==================
+      const particleCount = 70;
+      const baseOrbitRadius = 70;
 
-      // 鼠标移动时更新中心点
       function onMouseMove(e) {
         centerX = e.clientX;
         centerY = e.clientY;
       }
 
-      // 移动端触摸支持
       function onTouchMove(e) {
         if (e.touches.length === 1) {
           centerX = e.touches[0].pageX;
@@ -347,7 +532,6 @@
         }
       }
 
-      // 窗口大小改变时更新画布大小
       function resizeCanvas() {
         width = window.innerWidth;
         height = window.innerHeight;
@@ -355,29 +539,25 @@
         canvas.height = height;
       }
 
-      // 初始化粒子数组
       function createParticles() {
         particles = [];
         for (let i = 0; i < particleCount; i++) {
           particles.push({
-            size: 1,  // 当前大小
-            position: { x: centerX, y: centerY }, // 粒子当前位置
-            offset: { x: 0, y: 0 },               // 偏移角度（决定旋转角度）
-            shift: { x: centerX, y: centerY },    // 粒子中心（将慢慢跟随鼠标）
-            speed: 0.01 + Math.random() * 0.04,   // 粒子速度（越大越快）
-            targetSize: 1,                        // 动态变换目标大小
-            fillColor: "#" + ((Math.random() * 0xffffff) | 0).toString(16).padStart(6, "0"), // 粒子颜色（随机）
-            orbit: baseOrbitRadius * (0.5 + Math.random()) // 每个粒子绕中心的旋转半径
+            size: 1,
+            position: { x: centerX, y: centerY },
+            offset: { x: 0, y: 0 },
+            shift: { x: centerX, y: centerY },
+            speed: 0.01 + Math.random() * 0.04,
+            targetSize: 1,
+            fillColor: "#" + ((Math.random() * 0xffffff) | 0).toString(16).padStart(6, "0"),
+            orbit: baseOrbitRadius * (0.5 + Math.random())
           });
         }
       }
 
-      // 动画循环函数（核心逻辑）
       function animate() {
-        // 清空整个画布
         ctx.clearRect(0, 0, width, height);
 
-        // 遍历每个粒子并绘制
         for (let i = 0; i < particles.length; i++) {
           const p = particles[i];
           const prevPos = { x: p.position.x, y: p.position.y };
@@ -410,11 +590,9 @@
         requestAnimationFrame(animate);
       }
 
-      // 初始化粒子 & 启动动画
       createParticles();
       animate();
 
-      // 注册事件监听
       window.addEventListener("mousemove", onMouseMove, false);
       window.addEventListener("touchmove", onTouchMove, { passive: false });
       window.addEventListener("resize", resizeCanvas, false);
@@ -422,93 +600,275 @@
     //]]>
     </script>
 
-    <!-- 原有个人主页导航 -->
+    <!-- 发光卡片个人主页导航 -->
     <div class="alist-widget-wrapper">
-        <div class="my-widget">
-            <div class="profile-header">
-                <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
-            </div>
-
-            <div class="link-section">
-                <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
-                    <div class="spotify-left">
-                        <div class="spotify-meta">
-                            <div class="spotify-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" />
-                            </div>
-                            <div class="track-text">
-                                <div class="track-title">Astral Chill</div>
-                                <div class="track-artist">Virtual Mage</div>
-                            </div>
-                        </div>
-                        <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
-                            <svg viewBox="0 0 16 16" fill="white">
-                                <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                            </svg> Play
-                        </button>
-                    </div>
-                    <div class="spotify-cover">
-                        <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
-                    </div>
-                    <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
+        <div class="glowing-card">
+            <span class="glow"></span>
+            <div class="inner">
+                <!-- 主题切换按钮 -->
+                <svg class="theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light')">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </g>
+                </svg>
+                
+                <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleTheme('dark')">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
+                </svg>
+                
+                <div class="profile-header">
+                    <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
                 </div>
 
-                <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
-                    <span class="link-title">Instagram</span>
-                </a>
+                <div class="link-section">
+                    <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
+                        <div class="spotify-left">
+                            <div class="spotify-meta">
+                                <div class="spotify-icon">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" />
+                                </div>
+                                <div class="track-text">
+                                    <div class="track-title">Astral Chill</div>
+                                    <div class="track-artist">Virtual Mage</div>
+                                </div>
+                            </div>
+                            <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
+                                <svg viewBox="0 0 16 16" fill="white">
+                                    <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                                </svg> Play
+                            </button>
+                        </div>
+                        <div class="spotify-cover">
+                            <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
+                        </div>
+                        <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
+                    </div>
 
-                <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
-                    <span class="link-title">Telegram</span>
-                </a>
+                    <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
+                        <span class="link-title">Instagram</span>
+                    </a>
 
-                <a href="https://github.com/00000OO" class="link-card" target="_blank">
-                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="link-icon" />
-                    <span class="link-title">GitHub</span>
-                </a>
+                    <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
+                        <span class="link-title">Telegram</span>
+                    </a>
 
-                <a href="https://ooooooooc.blogspot.com/2025/07/blog-post_1.html?m=1" class="link-card" target="_blank">
-                    <span class="link-title">🩵🩵🩵 - ooooooooc.blogspot.com</span>
-                </a>
+                    <a href="https://github.com/00000OO" class="link-card" target="_blank">
+                        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="link-icon" />
+                        <span class="link-title">GitHub</span>
+                    </a>
+
+                    <a href="https://ooooooooc.blogspot.com/2025/07/blog-post_1.html?m=1" class="link-card" target="_blank">
+                        <span class="link-title">🩵🩵🩵 - ooooooooc.blogspot.com</span>
+                    </a>
+                </div>
             </div>
-
-            <script>
-                let isPlaying = false;
-                const audio = document.getElementById('audioPlayer');
-
-                function togglePlay(button) {
-                    if (isPlaying) {
-                        audio.pause();
-                        button.classList.remove('playing');
-                        button.innerHTML = `
-                            <svg viewBox="0 0 16 16" fill="white">
-                                <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                            </svg> Play`;
-                    } else {
-                        audio.play();
-                        button.classList.add('playing');
-                        button.innerHTML = `
-                            <svg viewBox="0 0 16 16" fill="white">
-                                <path d="M4 2H6V14H4V2ZM10 2H12V14H10V2Z"/>
-                            </svg> Pause`;
-                    }
-                    isPlaying = !isPlaying;
-                }
-
-                audio.addEventListener('ended', () => {
-                    isPlaying = false;
-                    const btn = document.querySelector('.play-btn');
-                    if (btn) {
-                        btn.classList.remove('playing');
-                        btn.innerHTML = `
-                            <svg viewBox="0 0 16 16" fill="white">
-                                <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                            </svg> Play`;
-                    }
-                });
-            </script>
         </div>
     </div>
+
+    <script>
+        // 音频播放控制
+        let isPlaying = false;
+        const audio = document.getElementById('audioPlayer');
+
+        function togglePlay(button) {
+            if (isPlaying) {
+                audio.pause();
+                button.classList.remove('playing');
+                button.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="white">
+                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                    </svg> Play`;
+            } else {
+                audio.play();
+                button.classList.add('playing');
+                button.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="white">
+                        <path d="M4 2H6V14H4V2ZM10 2H12V14H10V2Z"/>
+                    </svg> Pause`;
+            }
+            isPlaying = !isPlaying;
+        }
+
+        audio.addEventListener('ended', () => {
+            isPlaying = false;
+            const btn = document.querySelector('.play-btn');
+            if (btn) {
+                btn.classList.remove('playing');
+                btn.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="white">
+                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                    </svg> Play`;
+            }
+        });
+
+        // 主题切换功能
+        function toggleTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light');
+            } else {
+                document.body.classList.remove('light');
+            }
+        }
+
+        // 发光卡片交互效果
+        const $card = document.querySelector(".glowing-card");
+
+        const cardUpdate = (e) => {
+            const position = pointerPositionRelativeToElement($card, e);
+            const [px,py] = position.pixels;
+            const [perx, pery] = position.percent;
+            const [dx,dy] = distanceFromCenter($card, px, py);
+            const edge = closenessToEdge($card, px, py);
+            const angle = angleFromPointerEvent($card, dx, dy);
+
+            $card.style.setProperty('--pointer-x', `${round(perx)}%`);
+            $card.style.setProperty('--pointer-y', `${round(pery)}%`);
+            $card.style.setProperty('--pointer-°', `${round(angle)}deg`);
+            $card.style.setProperty('--pointer-d', `${round(edge * 100)}`);
+            
+            $card.classList.remove('animating');
+        };
+
+        $card.addEventListener("pointermove", cardUpdate);
+
+        // 辅助函数
+        const centerOfElement = ($el) => {
+            const { left, top, width, height } = $el.getBoundingClientRect();
+            return [ width/2, height/2 ];
+        }
+
+        const pointerPositionRelativeToElement = ($el, e) => {
+            const pos = [e.clientX, e.clientY];
+            const { left, top, width, height } = $el.getBoundingClientRect();
+            const x = pos[0] - left;
+            const y = pos[1] - top;
+            const px = clamp((100 / width) * x);
+            const py = clamp((100 / height) * y);
+            return { pixels: [x,y], percent: [px,py] }
+        }
+
+        const angleFromPointerEvent = ($el, dx, dy ) => {
+            let angleRadians = Math.atan2(dy, dx);
+            let angleDegrees = angleRadians * (180 / Math.PI) + 90;
+            if (angleDegrees < 0) angleDegrees += 360;
+            return angleDegrees;
+        }
+
+        const distanceFromCenter = ($card, x, y) => {
+            const [cx,cy] = centerOfElement($card);
+            return [ x - cx, y - cy ];
+        }
+
+        const closenessToEdge = ($card, x, y) => {
+            const [cx,cy] = centerOfElement($card);
+            const [dx,dy] = distanceFromCenter($card, x, y);
+            let k_x = dx !== 0 ? cx / Math.abs(dx) : Infinity;
+            let k_y = dy !== 0 ? cy / Math.abs(dy) : Infinity;
+            return clamp((1 / Math.min(k_x, k_y)), 0, 1);
+        }
+
+        const round = (value, precision = 3) => parseFloat(value.toFixed(precision));
+        const clamp = (value, min = 0, max = 100) => Math.min(Math.max(value, min), max);
+
+        // 开场动画
+        const playAnimation = () => {
+            const angleStart = 310;
+            const angleEnd = 525;
+
+            $card.style.setProperty('--pointer-°', `${angleStart}deg`);
+            $card.classList.add('animating');
+
+            animateNumber({
+                ease: easeOutCubic,
+                duration: 500,
+                onUpdate: (v) => {
+                    $card.style.setProperty('--pointer-d', v);
+                }
+            });
+
+            animateNumber({
+                ease: easeInCubic,
+                duration: 1500,
+                endValue: 50,
+                onUpdate: (v) => {
+                    const d = (angleEnd - angleStart) * (v / 100) + angleStart;
+                    $card.style.setProperty('--pointer-°', `${d}deg`);
+                }
+            }); 
+
+            animateNumber({
+                ease: easeOutCubic,
+                delay: 1500,
+                duration: 2250,
+                startValue: 50,
+                endValue: 100,
+                onUpdate: (v) => {
+                    const d = (angleEnd - angleStart) * (v / 100) + angleStart;
+                    $card.style.setProperty('--pointer-°', `${d}deg`);
+                }
+            });
+
+            animateNumber({
+                ease: easeInCubic,
+                duration: 1500,
+                delay: 2500,
+                startValue: 100,
+                endValue: 0,
+                onUpdate: (v) => {
+                    $card.style.setProperty('--pointer-d', v);
+                },
+                onEnd: () => {
+                    $card.classList.remove('animating');
+                }
+            });
+        }
+
+        // 动画辅助函数
+        function easeOutCubic(x) { return 1 - Math.pow(1 - x, 3); }
+        function easeInCubic(x) { return x * x * x; } 
+
+        function animateNumber(options) {
+            const {
+                startValue = 0,
+                endValue = 100,
+                duration = 1000,
+                delay = 0,
+                onUpdate = () => {},
+                ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+                onStart = () => {},
+                onEnd = () => {},
+            } = options;
+
+            const startTime = performance.now() + delay;
+
+            function update() {
+                const currentTime = performance.now();
+                const elapsed = currentTime - startTime;
+                const t = Math.min(elapsed / duration, 1);
+                const easedValue = startValue + (endValue - startValue) * ease(t);
+
+                onUpdate(easedValue);
+
+                if (t < 1) {
+                    requestAnimationFrame(update);
+                } else if (t >= 1) {
+                    onEnd();
+                }
+            }
+            
+            setTimeout(() => {
+                onStart();
+                requestAnimationFrame(update);
+            }, delay);
+        }
+
+        // 启动开场动画
+        setTimeout(() => {
+            playAnimation();
+        }, 500);
+    </script>
 </body>
 </html>
