@@ -2,7 +2,6 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> <!-- 防止手机缩放 -->
   <title>星星背景 + Widget</title>
   <style>
     * {
@@ -15,15 +14,15 @@
       width: 100%;
       height: 100vh;
       margin: 0;
-      overflow: hidden; /* 防止滚动 */
+      overflow: hidden; /* Prevent scrolling */
       display: flex;
       justify-content: center;
       align-items: center;
       background-image: linear-gradient(-225deg, #231557 0%, #43107a 29%, #FF1361 100%);
       position: relative;
-      touch-action: none; /* 禁用触控拖动 */
-      -webkit-user-select: none; /* 防止文本选择 */
-      user-select: none; /* 防止文本选择 */
+      touch-action: none; /* Disable touch scrolling/panning */
+      -webkit-user-select: none; /* Prevent text selection on drag */
+      user-select: none; /* Prevent text selection on drag */
     }
 
     canvas {
@@ -31,8 +30,8 @@
       top: 0;
       left: 0;
       z-index: 0;
-      width: 100vw; /* 使用视口宽度 */
-      height: 100vh; /* 使用视口高度 */
+      width: 100%;
+      height: 100%;
     }
 
     .my-widget {
@@ -285,17 +284,16 @@
     });
   </script>
 
-  <!-- 星星效果脚本：优化手机端显示 -->
+  <!-- 星星效果脚本：保持不变 -->
   <script>
     const STAR_COLOR = '#fff';
     const STAR_SIZE = 3;
     const STAR_MIN_SCALE = 0.2;
     const OVERFLOW_THRESHOLD = 50;
-    const STAR_COUNT = Math.floor((window.innerWidth + window.innerHeight) / 8); // 动态调整星星数量
+    const STAR_COUNT = (window.innerWidth + window.innerHeight) / 8;
     const canvas = document.querySelector('canvas');
     const context = canvas.getContext('2d');
-    let scale = window.devicePixelRatio || 1; // 支持高分辨率屏幕
-    let width, height, stars = [];
+    let scale = 1, width, height, stars = [];
     let pointerX, pointerY;
     let velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0009 };
     let touchInput = false;
@@ -355,10 +353,8 @@
       scale = window.devicePixelRatio || 1;
       width = window.innerWidth * scale;
       height = window.innerHeight * scale;
-      canvas.width = window.innerWidth; // 直接使用视口尺寸
-      canvas.height = window.innerHeight; // 直接使用视口尺寸
-      canvas.style.width = window.innerWidth + 'px'; // 确保画布覆盖全屏
-      canvas.style.height = window.innerHeight + 'px'; // 确保画布覆盖全屏
+      canvas.width = width;
+      canvas.height = height;
       stars.forEach(placeStar);
     }
 
