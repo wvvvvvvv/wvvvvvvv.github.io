@@ -9,7 +9,7 @@
             /* 发光卡片变量 */
             --glow-sens: 30;
             --dark: hsl(260, 25%, 10%);
-            --fg: white;
+            --fg: black;
             --h: 260;
             --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
             --blend: soft-light;
@@ -631,10 +631,12 @@ document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: fal
                 document.body.classList.add('light');
                 renderer.setClearColor(0x000000, 0); // 日间模式：透明背景，显示壁纸
                 document.body.style.background = ''; // 恢复 CSS 定义的壁纸背景
+              document.documentElement.style.setProperty('--fg', 'black');
             } else {
                 document.body.classList.remove('light');
                 renderer.setClearColor(0x000000, 1); // 夜间模式：暗黑色背景
                 document.body.style.background = '#000000'; // 设置 <body> 背景为暗黑色
+              document.documentElement.style.setProperty('--fg', 'white');
             }
         }
 
