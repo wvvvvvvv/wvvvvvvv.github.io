@@ -1,0 +1,35 @@
+<?php
+// 注册和加载样式与脚本
+function cat_dimension_enqueue_assets() {
+    // 加载 Google Fonts
+    wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Ubuntu:wght@400;500;700&display=swap', [], null);
+    
+    // 加载主题样式
+    wp_enqueue_style('cat-dimension-main', get_template_directory_uri() . '/assets/css/main.css', [], '1.0');
+    
+    // 加载 Three.js 和自定义脚本
+    wp_enqueue_script('three-js', 'https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js', [], null, true);
+    wp_enqueue_script('cat-dimension-main', get_template_directory_uri() . '/assets/js/main.js', ['three-js'], '1.0', true);
+}
+add_action('wp_enqueue_scripts', 'cat_dimension_enqueue_assets');
+
+// 注册侧边栏
+function cat_dimension_register_sidebars() {
+    register_sidebar([
+        'name' => __('Sidebar Feed', 'cat-dimension'),
+        'id' => 'sidebar-feed',
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h2 class="title">',
+        'after_title' => '</h2>',
+    ]);
+}
+add_action('widgets_init', 'cat_dimension_register_sidebars');
+
+// 添加主题支持
+function cat_dimension_setup() {
+    add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    load_theme_textdomain('cat-dimension', get_template_directory() . '/languages');
+}
+add_action('after_setup_theme', 'cat_dimension_setup');
