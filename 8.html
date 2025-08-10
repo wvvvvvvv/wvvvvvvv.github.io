@@ -9,7 +9,7 @@
             /* 发光卡片变量 */
             --glow-sens: 30;
             --dark: hsl(260, 25%, 10%);
-            --fg: black;
+            --fg: white;
             --h: 260;
             --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
             --blend: soft-light;
@@ -31,7 +31,7 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg'); /* 默认日间模式：自定义壁纸 */
+            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -40,17 +40,16 @@
             justify-content: center;
             align-items: center;
             font-family: 'Inter', sans-serif;
+            overflow: hidden;
         }
 
-
-
         body.light {
-            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg'); /* 日间模式保持壁纸 */
+            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            color: var(--fg); /* 确保 body 的文本颜色使用 --fg */
+            color: var(--fg);
         }
         
         canvas {
@@ -79,6 +78,7 @@
             text-align: center;
             box-sizing: border-box;
             border: 1px solid rgb(255 255 255 / 25%);
+            touch-action: pan-y;
         }
 
         .glowing-card::before,
@@ -260,6 +260,11 @@
             object-fit: cover;
             margin: 0 auto;
             display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.05);
         }
 
         .link-section {
@@ -270,12 +275,14 @@
         .swiper-container {
             width: 100%;
             height: 100%;
+            touch-action: pan-y;
         }
 
         .swiper-slide {
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100%;
         }
 
         .link-card {
@@ -288,14 +295,18 @@
             border-radius: 10px;
             text-decoration: none;
             color: var(--fg);
-            transition: background 0.3s;
+            transition: all 0.3s ease;
             font-size: 16px;
             font-style: italic;
             width: 100%;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .link-card:hover {
             background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .link-icon {
@@ -303,6 +314,11 @@
             height: 36px;
             margin-left: 16px;
             margin-right: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .link-card:hover .link-icon {
+            transform: scale(1.1);
         }
 
         .link-title {
@@ -310,6 +326,7 @@
             width: 100%;
             font-size: 16px;
             color: var(--fg);
+            font-weight: 500;
         }
 
         /* 修改后的 Spotify 卡片样式 */
@@ -327,6 +344,15 @@
             margin-bottom: 12px;
             flex-wrap: nowrap;
             gap: 16px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .spotify-card:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
         .spotify-left {
@@ -355,6 +381,11 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .spotify-card:hover .spotify-icon {
+            transform: scale(1.1);
         }
 
         .spotify-icon img {
@@ -381,6 +412,7 @@
             font-size: 16px;
             color: var(--fg);
             font-style: italic;
+            opacity: 0.9;
         }
 
         .play-btn {
@@ -397,6 +429,17 @@
             cursor: pointer;
             margin-top: 4px;
             width: fit-content;
+            transition: all 0.3s ease;
+        }
+
+        .play-btn:hover {
+            background-color: #2ecb69;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .play-btn.playing {
+            background-color: #fd3838;
         }
 
         .play-btn svg {
@@ -411,12 +454,21 @@
             overflow: hidden;
             flex-shrink: 0;
             margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .spotify-card:hover .spotify-cover {
+            transform: scale(1.05);
         }
 
         .spotify-cover img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .swiper-wrapper {
+            transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
         @media (max-width: 480px) {
@@ -432,6 +484,8 @@
             .spotify-cover {
                 margin-left: 12px;
                 margin-top: 0;
+                width: 70px;
+                height: 70px;
             }
             
             .play-btn {
@@ -448,6 +502,10 @@
                 width: 10px;
                 height: 10px;
             }
+            
+            .profile-header {
+                padding: 40px 16px 8px;
+            }
         }
 
         /* 新增鼠标特效画布样式 */
@@ -458,6 +516,54 @@
             z-index: 2147483647;
             pointer-events: none;
         }
+        
+        .swipe-hint {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        
+        .swipe-hint svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0 15px;
+            color: var(--fg);
+            text-align: center;
+            opacity: 0.9;
+            position: relative;
+            display: inline-block;
+            padding: 0 15px;
+        }
+        
+        .page-title::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--fg), transparent);
+        }
     </style>
     <!-- 添加 Swiper JS 库 -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
@@ -466,11 +572,132 @@
     <!-- 新增鼠标特效画布 -->
     <canvas id="shuicheCanvas"></canvas>
 
-    <!-- 原有3D粒子动画脚本 -->
+    <!-- 发光卡片个人主页导航 -->
+    <div class="alist-widget-wrapper">
+        <div class="glowing-card">
+            <span class="glow"></span>
+            <div class="inner">
+                <!-- 主题切换按钮 -->
+                <svg class="theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light')">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </g>
+                </svg>
+                
+                <!-- 分页器 -->
+                <div class="swiper-pagination"></div>
+                
+                <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleTheme('dark')">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
+                </svg>
+                
+                <!-- Swiper 滑动容器 -->
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <!-- 第一页 -->
+                        <div class="swiper-slide">
+                            <div class="profile-header">
+                                <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
+                            </div>
+
+                            <div class="link-section">
+                                <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
+                                    <div class="spotify-left">
+                                        <div class="spotify-meta">
+                                            <div class="spotify-icon">
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" />
+                                            </div>
+                                            <div class="track-text">
+                                                <div class="track-title">Astral Chill</div>
+                                                <div class="track-artist">Virtual Mage</div>
+                                            </div>
+                                        </div>
+                                        <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
+                                            <svg viewBox="0 0 16 16" fill="white">
+                                                <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                                            </svg> Play
+                                        </button>
+                                    </div>
+                                    <div class="spotify-cover">
+                                        <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
+                                    </div>
+                                    <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
+                                </div>
+
+                                <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
+                                    <span class="link-title">Instagram</span>
+                                </a>
+
+                                <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
+                                    <span class="link-title">Telegram</span>
+                                </a>
+
+                                <a href="https://github.com/00000OO" class="link-card" target="_blank">
+                                    <img src="https://dogpan.com/f/Aj6SE/IMG_5829.png" alt="GitHub" class="link-icon" />
+                                    <span class="link-title">GitHub</span>
+                                </a>
+                            </div>
+                            
+                            <div class="swipe-hint">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 12H3M10 5l-7 7 7 7"/>
+                                </svg>
+
+                            </div>
+                        </div>
+                        
+                        <!-- 第二页（不包含头像） -->
+                        <div class="swiper-slide">
+                            <div class="link-section">
+
+                                <a href="https://🦋.blogspot.com" class="link-card" target="_blank">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Blogger_icon.svg" alt="Blog" class="link-icon" />
+                                    <span class="link-title">Blog</span>
+                                </a>
+                                
+                                <a href="https://www.vvv.github.io" class="link-card" target="_blank">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="Website" class="link-icon" />
+                                    <span class="link-title">Website</span>
+                                </a>
+                                
+                                <a href="https://vj.blogspot.com" class="link-card" target="_blank">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Blogger_icon.svg" alt="Blog" class="link-icon" />
+                                    <span class="link-title">VJ Blog</span>
+                                </a>
+                                
+                                <a href="https://dribbble.com/" class="link-card" target="_blank">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/Dribbble_icon.svg" alt="Dribbble" class="link-icon" />
+                                    <span class="link-title">Dribbble</span>
+                                </a>
+                                
+                                <a href="https://www.behance.net/" class="link-card" target="_blank">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Behance_logo.svg" alt="Behance" class="link-icon" />
+                                    <span class="link-title">Behance</span>
+                                </a>
+                            </div>
+                            
+                            <div class="swipe-hint">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 12h18M14 5l7 7-7 7"/>
+                                </svg>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加 Three.js 和 Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <!-- 添加 Swiper JS -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    
     <script>
+        // 初始化3D粒子背景
         const count = 5000;
         let scene, camera, renderer;
         let mouseX = 0, mouseY = 0;
@@ -567,109 +794,15 @@
             renderer.render(scene, camera);
         }
 
-        window.onload = init;
-    </script>
-
-    <!-- 发光卡片个人主页导航 -->
-    <div class="alist-widget-wrapper">
-        <div class="glowing-card">
-            <span class="glow"></span>
-            <div class="inner">
-                <!-- 主题切换按钮 -->
-                <svg class="theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light')">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                        <circle cx="12" cy="12" r="4"/>
-                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                    </g>
-                </svg>
-                
-                <!-- 分页器 -->
-                <div class="swiper-pagination"></div>
-                
-                <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleTheme('dark')">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
-                </svg>
-                
-                <div class="profile-header">
-                    <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
-                </div>
-
-                <!-- 修改为 Swiper 滑动容器 -->
-                <div class="link-section">
-                    <div class="swiper-container">
-                        <div class="swiper-wrapper">
-                            <!-- 第一页 -->
-                            <div class="swiper-slide">
-                                <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
-                                    <div class="spotify-left">
-                                        <div class="spotify-meta">
-                                            <div class="spotify-icon">
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" />
-                                            </div>
-                                            <div class="track-text">
-                                                <div class="track-title">Astral Chill</div>
-                                                <div class="track-artist">Virtual Mage</div>
-                                            </div>
-                                        </div>
-                                        <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
-                                            <svg viewBox="0 0 16 16" fill="white">
-                                                <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                                            </svg> Play
-                                        </button>
-                                    </div>
-                                    <div class="spotify-cover">
-                                        <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
-                                    </div>
-                                    <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
-                                </div>
-
-                                <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
-                                    <span class="link-title">Instagram</span>
-                                </a>
-
-                                <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
-                                    <span class="link-title">Telegram</span>
-                                </a>
-
-                                <a href="https://github.com/00000OO" class="link-card" target="_blank">
-                                    <img src="https://dogpan.com/f/Aj6SE/IMG_5829.png" alt="GitHub" class="link-icon" />
-                                    <span class="link-title">GitHub</span>
-                                </a>
-                            </div>
-                            
-                            <!-- 第二页 -->
-                            <div class="swiper-slide">
-                                <a href="https://🦋.blogspot.com" class="link-card" target="_blank">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Blogger_icon.svg" alt="Blog" class="link-icon" />
-                                    <span class="link-title">Blog</span>
-                                </a>
-                                
-                                <a href="https://www.vvv.github.io" class="link-card" target="_blank">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="Website" class="link-icon" />
-                                    <span class="link-title">Website</span>
-                                </a>
-                                
-                                <a href="https://vj.blogspot.com" class="link-card" target="_blank">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Blogger_icon.svg" alt="Blog" class="link-icon" />
-                                    <span class="link-title">VJ Blog</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-
-
-        // 初始化 Swiper
+        // 初始化Swiper
         var swiper = new Swiper('.swiper-container', {
             direction: 'horizontal',
             loop: false,
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            speed: 600,
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
@@ -677,6 +810,16 @@
                     return '<span class="' + className + '"></span>';
                 },
             },
+            on: {
+                slideChange: function () {
+                    const hints = document.querySelectorAll('.swipe-hint');
+                    hints.forEach(hint => hint.style.opacity = '0');
+                    
+                    setTimeout(() => {
+                        hints.forEach(hint => hint.style.opacity = '1');
+                    }, 1000);
+                }
+            }
         });
 
         // 音频播放控制
@@ -718,14 +861,14 @@
         function toggleTheme(theme) {
             if (theme === 'light') {
                 document.body.classList.add('light');
-                renderer.setClearColor(0x000000, 0); // 日间模式：透明背景，显示壁纸
-                document.body.style.background = ''; // 恢复 CSS 定义的壁纸背景
-              document.documentElement.style.setProperty('--fg', 'black');
+                renderer.setClearColor(0x000000, 0);
+                document.body.style.background = '';
+                document.documentElement.style.setProperty('--fg', 'black');
             } else {
                 document.body.classList.remove('light');
-                renderer.setClearColor(0x000000, 1); // 夜间模式：暗黑色背景
-                document.body.style.background = '#000000'; // 设置 <body> 背景为暗黑色
-              document.documentElement.style.setProperty('--fg', 'white');
+                renderer.setClearColor(0x000000, 1);
+                document.body.style.background = '#000000';
+                document.documentElement.style.setProperty('--fg', 'white');
             }
         }
 
@@ -842,7 +985,6 @@
             });
         }
 
-    
         // 动画辅助函数
         function easeOutCubic(x) { return 1 - Math.pow(1 - x, 3); }
         function easeInCubic(x) { return x * x * x; } 
@@ -887,8 +1029,20 @@
             playAnimation();
         }, 500);
 
-        // 初始化时默认设置为日间模式（壁纸背景）
-        toggleTheme('dark'); //light
+        // 初始化3D背景和页面
+        window.onload = function() {
+            init();
+            // 默认设置为日间模式
+            toggleTheme('dark');
+            
+            // 添加触摸滑动提示
+            setTimeout(() => {
+                const hint = document.querySelector('.swipe-hint');
+                if (hint) {
+                    hint.style.opacity = '1';
+                }
+            }, 3000);
+        };
     </script>
 </body>
 </html>
