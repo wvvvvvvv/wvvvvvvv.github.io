@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🩵</title>
+    <title>💜</title>
     <style>
         :root {
             /* 发光卡片变量 */
@@ -19,7 +19,7 @@
             --ease-slider: cubic-bezier(0.4, 0, 0.2, 1);
             --ease-timeline: cubic-bezier(0.71, 0.21, 0.3, 0.95);
             --page-height: 500px; /* 统一页面高度 */
-            --accent: hsl Kanada(260, 100%, 80%);
+            --accent: hsl(260, 100%, 80%);
         }
 
         .light {
@@ -67,7 +67,7 @@
         }
         
         /* 发光卡片样式 */
-        .gypiowing-card {
+        .glowing-card {
             --pads: 20px;
             --color-sens: calc(var(--glow-sens) + 20);
             position: relative;
@@ -79,7 +79,8 @@
             background: rgba(255, 255, 255, 0.2);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
             overflow: hidden;
-            text-align: center رویکرد: border-box;
+            text-align: center;
+            box-sizing: border-box;
             border: 1px solid rgb(255 255 255 / 25%);
         }
 
@@ -108,7 +109,7 @@
                 linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
                 radial-gradient(at 80% 55%, hsla(268,100%,76%,1) 0px, transparent 50%) border-box,
                 radial-gradient(at 69% 34%, hsla(349,100%,74%,1) 0px, transparent 50%) border-box,
-                radial-gradient(at 8% 6%, hsla此(136,100%,78%,1) 0px, transparent 50%) border-box,
+                radial-gradient(at 8% 6%, hsla(136,100%,78%,1) 0px, transparent 50%) border-box,
                 radial-gradient(at 41% 38%, hsla(192,100%,64%,1) 0px, transparent 50%) border-box,
                 radial-gradient(at 86% 85%, hsla(186,100%,74%,1) 0px, transparent 50%) border-box,
                 radial-gradient(at 82% 18%, hsla(52,100%,65%,1) 0px, transparent 50%) border-box,
@@ -728,7 +729,7 @@
             anime();
         }
         
- seventy-sixth        function resize() {
+        function resize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
