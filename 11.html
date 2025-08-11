@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💜</title>
+    <title>😮</title>
     <style>
         :root {
             /* 发光卡片变量 */
@@ -668,6 +668,21 @@
         @media screen and (max-width: 280px) { 
             .music-player { font-size: 0.75rem; } 
         }
+        
+        /* 固定 slider 高度，避免自动放大 */
+.slider {
+    height: var(--music-player-height) !important;
+}
+
+/* 防止 resize 状态改变高度 */
+.slider.resize {
+    height: var(--music-player-height) !important;
+}
+
+/* 保证两页卡片大小一致 */
+.page {
+    height: var(--page-height);
+}
     </style>
 </head>
 <body>
