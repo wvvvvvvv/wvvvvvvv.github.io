@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -245,6 +243,11 @@
             flex-direction: column;
             justify-content: space-between;
             padding: 0 16px 20px;
+        }
+
+        #page2 {
+            justify-content: center; /* 垂直居中 */
+            align-items: center; /* 水平居中 */
         }
 
         .link-card {
@@ -593,9 +596,6 @@
         .music-player__info {
             width: 56.3%; cursor: pointer; line-height: 1.6; overflow: hidden; font-weight: bold; padding: 0 0.0625em; white-space: nowrap;
         }
-        .slider.resize .music-player__info {
-            display: none;
-        }
         .music-player__info > * { margin: 0 auto; pointer-events: none; }
         .music-player__singer-name { font-size: 1.1em; width: max-content; }
         .music-player__subtitle { font-size: 0.8em; font-weight: bold; color: var(--color-text-2); }
@@ -626,9 +626,6 @@
         }
         .music-player__song {
             --gap: 0.6em; cursor: pointer; margin-bottom: var(--gap); padding-bottom: var(--gap); border-bottom: 1.5px solid #d8d8d859;
-        }
-        .music-player__song.active {
-            background: rgba(255, 255, 255, 0.2);
         }
         .music-player__song audio { display: none; }
         .music-player__song-img {
@@ -855,6 +852,7 @@
     <script>
         // 分页逻辑
         let currentPage = 1;
+        let musicPlayerLoaded = false; // Track if music player is loaded
 
         function switchPageTo(page) {
             if (page < 1 || page > 2) return;
@@ -865,8 +863,9 @@
 
             document.querySelectorAll('.bullet').forEach(b => b.classList.toggle('active', parseInt(b.dataset.page) === page));
 
-            if (page === 2 && !document.querySelector('.music-player')) {
+            if (page === 2 && !musicPlayerLoaded) {
                 loadMusicPlayer();
+                musicPlayerLoaded = true; // Mark as loaded
             }
         }
 
@@ -1099,6 +1098,11 @@
             let broadcastGuarantor_elmnt = null;
             const root = document.querySelector("#root");
 
+            // Clear existing content in #root to prevent duplicates
+            while (root.firstChild) {
+                root.removeChild(root.firstChild);
+            }
+
             function App({ songs }) {
                 function handleChangeMusic({ isPrev = false, playListIndex = null }) {
                     if (isLocked || indexSong === playListIndex) return;
@@ -1118,7 +1122,6 @@
                     setProperty(sliderImgs_elmnt, "--index", -indexSong);
                     updateInfo(singerName_elmnt, songs[indexSong].artist);
                     updateInfo(songName_elmnt, songs[indexSong].songName);
-                    document.querySelectorAll('.music-player__song').forEach((song, i) => song.classList.toggle('active', i === indexSong));
                 }
                 return (
                     dom("div", { class: "music-player flex-column" },
@@ -1305,8 +1308,6 @@
                             broadcastGuarantor_elmnt = document.querySelector(".music-player__broadcast-guarantor");
                             controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
                             controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
-                            // Highlight initial song
-                            document.querySelectorAll('.music-player__song')[0].classList.add('active');
                         });
                     });
                 });
