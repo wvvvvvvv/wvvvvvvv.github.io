@@ -69,7 +69,7 @@
         /* 发光卡片样式 */
         .glowing-card {
             width: 360px; /* 固定宽度 */
-            height: 550px; /* 固定高度 */
+            height: 540px; /* 固定高度 */
             border-radius: 20px;
             isolation: isolate;
             transform: translate3d(0, 0, 0.01px);
@@ -258,7 +258,7 @@
         }
 
         .link-card {
-            width: 320px;
+            width: 100%;
             height: 52px;
             display: flex;
             align-items: center;
@@ -299,7 +299,8 @@
         .link-scroll-container {
             max-height: 300px; /* 540px - 137px - 105px - 余量 */
             overflow-y: auto;
-            scrollbar-gutter: stable; /* 预留滚动条空间，保持布局对称 */
+            scrollbar-gutter: stable both-edges; /* 预留滚动条空间于两侧，实现对称 */
+            scrollbar-width: thin; /* Firefox 等非 WebKit 浏览器设置细滚动条 */
         }
 
         .link-scroll-container::-webkit-scrollbar {
