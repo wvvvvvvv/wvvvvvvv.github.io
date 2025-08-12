@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍋</title>
+    <title>🍉</title>
     <style>
         :root {
             /* 发光卡片变量 */
@@ -238,6 +238,7 @@
             display: flex;
             transition: transform 0.5s ease-in-out;
             height: 100%; /* 确保滑动容器填充 */
+            transform: translateX(-100%); /* 默认直接显示第二页 */
         }
 
         .page {
@@ -262,7 +263,7 @@
             align-items: center;
             justify-content: flex-start;
             background: rgba(255, 255, 255, 0.1);
-            padding: 8px 16px;
+            padding: 8px;
             margin-bottom: 8px;
             border-radius: 15px;
             text-decoration: none;
@@ -279,23 +280,38 @@
         .link-icon {
             width: 36px;
             height: 36px;
+            margin-left: 16px;
             margin-right: 18px;
         }
 
         .link-title {
-            text-align: left;
+            text-align: center;
+            width: 100%;
             font-size: 18px;
             color: var(--fg);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        .link-title.full {
-            white-space: normal;
-            overflow: visible;
-            text-overflow: clip;
-            word-break: break-word;
+        /* 新增滚动容器样式，类似于歌单列表 */
+        .link-scroll-container {
+            max-height: calc(var(--page-height) - 200px); /* 调整高度，确保有滚动空间（减去头像、Spotify等高度） */
+            overflow-y: auto;
+            scrollbar-gutter: stable; /* 预留滚动条空间，保持布局对称 */
+        }
+
+        .link-scroll-container::-webkit-scrollbar {
+            width: 6px;
+            background: transparent;
+        }
+
+        .link-scroll-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            opacity: 0; /* 默认隐藏 */
+            transition: opacity 0.3s ease;
+        }
+
+        .link-scroll-container.scrolling::-webkit-scrollbar-thumb {
+            opacity: 1; /* 滚动时显示 */
         }
 
         /* 修改后的 Spotify 卡片样式 */
@@ -440,8 +456,8 @@
             display: flex;
             justify-content: center;
             gap: 5px;
-            margin-top: 0px; /* 上间距 */
-            margin-bottom: 1px; /* 下间距 */
+            margin-top: 6px; /* 上间距 */
+            margin-bottom: 10px; /* 下间距 */
 
         }
 
@@ -685,34 +701,6 @@
         @media screen and (max-width: 2800px) { 
             .music-player { font-size: 0.70rem; } 
         }
-
-        /* 新增链接列表容器样式 */
-        .links-container {
-            overflow-y: scroll;
-            height: calc(var(--page-height) - 150px - 100px - 20px); /* 根据头像、Spotify卡片和padding调整高度，确保可滚动 */
-            box-sizing: border-box;
-        }
-
-        /* 自定义滚动条样式 */
-        .links-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .links-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .links-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .links-container.scrolling::-webkit-scrollbar-thumb {
-            opacity: 1;
-        }
-
     </style>
 </head>
 <body>
@@ -875,7 +863,8 @@
                                 <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
                             </div>
 
-                            <div class="links-container">
+                            <!-- 新增滚动容器，从Instagram开始 -->
+                            <div class="link-scroll-container">
                                 <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
                                     <span class="link-title">Instagram</span>
@@ -891,11 +880,12 @@
                                     <span class="link-title">GitHub</span>
                                 </a>
 
-                                <a href="https://🦋.blogspot.com" class="link-card" target="_blank">
+                                <a href="https://🩵.blogspot.com" class="link-card" target="_blank">
                                     <img src="https://dogpan.com/f/Blps8/TikTok.PNG" alt="GitHub" class="link-icon" />
-                                    <span class="link-title full">https://🦋.blogspot.com</span>
+                                    <span class="link-title">https://🦋.blogspot.com</span>
                                 </a>
 
+                                <!-- 新添加的社交链接，需要向下滚动显示 -->
                                 <a href="https://wa.me/message/SYDPTLQEHYE3P1?src=qr" class="link-card" target="_blank">
                                     <img src="https://dogpan.com/f/Dp7C3/WhatsApp.png" alt="WhatsApp" class="link-icon" />
                                     <span class="link-title">WhatsApp</span>
@@ -1463,16 +1453,18 @@
         // 初始化默认页面
         switchPageTo(2);
 
-        // 新增滚动条显示/隐藏逻辑
-        const linksContainer = document.querySelector('.links-container');
+        // 新增：动态控制链接滚动容器的滚动条显示/隐藏
+        const scrollContainer = document.querySelector('.link-scroll-container');
         let scrollTimeout;
-        linksContainer.addEventListener('scroll', () => {
-            linksContainer.classList.add('scrolling');
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                linksContainer.classList.remove('scrolling');
-            }, 1000); // 停止滚动后1秒隐藏
-        });
+        if (scrollContainer) {
+            scrollContainer.addEventListener('scroll', () => {
+                scrollContainer.classList.add('scrolling');
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    scrollContainer.classList.remove('scrolling');
+                }, 1500); // 停止滚动1秒后隐藏
+            });
+        }
     </script>
 </body>
 </html>
