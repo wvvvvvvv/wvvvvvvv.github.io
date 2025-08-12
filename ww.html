@@ -260,9 +260,9 @@
         .link-card {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             background: rgba(255, 255, 255, 0.1);
-            padding: 8px 8px;
+            padding: 8px 16px;
             margin-bottom: 8px;
             border-radius: 15px;
             text-decoration: none;
@@ -279,14 +279,22 @@
         .link-icon {
             width: 36px;
             height: 36px;
-            margin: 0 18px 0 0;
+            margin-right: 18px;
         }
 
         .link-title {
-            flex: 1;
             text-align: left;
             font-size: 18px;
             color: var(--fg);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .link-title.full {
+            white-space: normal;
+            overflow: visible;
+            text-overflow: clip;
         }
 
         /* 修改后的 Spotify 卡片样式 */
@@ -885,7 +893,7 @@
 
                                 <a href="https://🩵.blogspot.com" class="link-card" target="_blank">
                                     <img src="https://dogpan.com/f/Blps8/TikTok.PNG" alt="GitHub" class="link-icon" />
-                                    <span class="link-title">https://🦋.blogspot.com</span>
+                                    <span class="link-title full">https://🦋.blogspot.com</span>
                                 </a>
 
                                 <a href="https://wa.me/message/SYDPTLQEHYE3P1?src=qr" class="link-card" target="_blank">
