@@ -18,7 +18,7 @@
             --duration: 1s;
             --ease-slider: cubic-bezier(0.4, 0, 0.2, 1);
             --ease-timeline: cubic-bezier(0.71, 0.21, 0.3, 0.95);
-            --page-height: 500px; /* 统一页面高度 */
+            --page-height: 505px; /* 统一页面高度 */
             --accent: hsl(260, 100%, 80%);
         }
 
@@ -71,8 +71,7 @@
             --pads: 20px;
             --color-sens: calc(var(--glow-sens) + 20);
             position: relative;
-            max-width: 360px;
-            width: 100%;
+            width: 360px;
             height: calc(var(--page-height) + 40px); /* 固定高度：500px + 20px上下padding（从.alist-widget-wrapper） */
             border-radius: 20px;
             isolation: isolate;
@@ -421,7 +420,7 @@
             object-fit: cover;
         }
 
-        @media (max-width: 480px) {
+        max-width: 316px; {
             .spotify-card {
                 flex-wrap: nowrap;
             }
@@ -547,12 +546,12 @@
             --box-shadow: 0 2px 6px 1px #0000001f;
             --color-text-1: var(--fg);
             --color-text-2: #ffffff6b;
-            --cover-size: 5.5em;
+            --cover-size: 4.5em;
             --border-radius: 1.2em;
-            --music-player-height: calc(var(--page-height) - 55px); /* 已适配，保持 */
-            --offset-cover: 1.2em;
+            --music-player-height: calc(var(--page-height) - 50px); /* 已适配，保持 */
+            --offset-cover: 0.8em;
             width: 100%;
-            max-width: 128px;
+            max-width: 330px;
             
             user-select: none;
             color: var(--color-text-1);
@@ -590,7 +589,7 @@
             transform: translate3d(var(--offset-cover), var(--offset-cover), 0);
         }
         .slider.resize .slider__content {
-            width: 100%; height: 14em;
+            width: 100%; height: 22em;
             transform: translate3d(0, 0, 0);
         }
         .slider__content .button { --size: 2.5em; z-index: 1; position: absolute; width: var(--size); height: var(--size); }
@@ -600,7 +599,7 @@
         }
         .slider.resize .music-player__playlist-button {
             transform: scale(1);
-            transition: 0.35s var(--duration) transform cubic-bezier(0, 0.85, 0.11, 1.64);
+            transition: 0.30s var(--duration) transform cubic-bezier(0, 0.85, 0.11, 1.64);
         }
         .music-player__broadcast-guarantor .icon-pause,
         .music-player__broadcast-guarantor.click .icon-play { opacity: 0; }
@@ -612,7 +611,7 @@
         }
         .slider__imgs > img { pointer-events: none; }
         .slider__controls {
-            --controls-y: 145%; --controls-x: 17.3%; --controls-width: 68.4%; --controls-resize-width: 88%;
+            --controls-y: 225%; --controls-x: 17.3%; --controls-width: 68.4%; --controls-resize-width: 88%;
             gap: 0.375em 0; flex-wrap: wrap; position: absolute; align-items: center; padding-top: 0.375em;
             width: var(--controls-width); transform: translate3d(var(--controls-x), 0, 0);
             animation: var(--controls-animate, "down paused") var(--duration) var(--ease-timeline) forwards;
