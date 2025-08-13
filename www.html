@@ -18,7 +18,7 @@
             --duration: 1s;
             --ease-slider: cubic-bezier(0.4, 0, 0.2, 1);
             --ease-timeline: cubic-bezier(0.71, 0.21, 0.3, 0.95);
-            --page-height: 510px; /* 统一页面高度 */
+            --page-height: 505px; /* 统一页面高度 */
             --accent: hsl(260, 100%, 80%);
         }
 
@@ -535,6 +535,7 @@
             white-space: nowrap;
             display: inline-block;
             text-overflow: ellipsis;
+            margin-right: 60px;
         }
 
         /* 音乐播放器 */
@@ -546,10 +547,10 @@
             --box-shadow: 0 2px 6px 1px #0000001f;
             --color-text-1: var(--fg);
             --color-text-2: #ffffff6b;
-            --cover-size: 4.5em;
+            --cover-size: 4.2em;
             --border-radius: 1.2em;
             --music-player-height: calc(var(--page-height) - 50px); /* 已适配，保持 */
-            --offset-cover: 0.8em;
+            --offset-cover: 1.2em;
             width: 100%;
             max-width: 330px;
             
@@ -568,7 +569,7 @@
             --shadow-opacity: 1;
             z-index: 0;
             flex-shrink: 0;
-            height: 7.8em;
+            height: 6.8em;
             position: relative;
             border-radius: inherit;
             transition: var(--duration) height var(--ease-timeline);
@@ -659,17 +660,58 @@
             box-sizing: border-box;
         }
         .music-player__song {
-            --gap: 1em; cursor: pointer; margin-bottom: var(--gap); padding-bottom: var(--gap); border-bottom: 1px solid #d8d8d859;
+            --gap: 0.5em; cursor: pointer; margin-bottom: var(--gap); padding-bottom: var(--gap); border-bottom: 0.8px solid #d8d8d859;
         }
         .music-player__song audio { display: none; }
         .music-player__song-img {
             width: var(--cover-size); height: var(--cover-size); border-radius: var(--border-radius);
         }
-        .music-player__playlist-info {
-            width: 100%; overflow: hidden; line-height: 1.2; font-size: 1em; margin-left: 0.6em;
-        }
+.music-player__playlist-info {
+    width: 100%;
+    overflow: hidden;
+    line-height: 1.2;
+    font-size: 1em;
+    margin-left: 1.2em;
+}
+
+.music-player__playlist-info {
+    width: 100%;
+    overflow: hidden;
+    line-height: 1.2;
+    font-size: 1em;
+    margin-left: 1em;
+}
+
+/* 修改以下样式 */
+.music-player__playlist-info b {
+    display: block;
+    margin-left: 0;
+    padding-left: 0;
+    text-align: left;
+    width: calc(100% - 50px); /* 为时长留出空间 */
+}
+
+.flex-row._justify_space-btwn {
+    display: flex;
+    justify-content: space-between; /* 保持时长在右侧 */
+    align-items: center;
+    width: 100%;
+}
+
+.music-player__playlist-info .music-player__subtitle {
+    display: block;
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+    flex-grow: 1; /* 占据剩余空间 */
+}
+
+.music-player__song-duration {
+    flex-shrink: 0; /* 防止时长被压缩 */
+    margin-left: 10px; /* 与左侧内容保持间距 */
+}
         .music-player__song-duration {
-            font-weight: bold; font-size: 1.2em; color: var(--color-text-2);
+            font-weight: bold; font-size: 0.8em; color: var(--color-text-2);
         }
     </style>
 </head>
