@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🦀</title>
+    <title>🍉</title>
     <style>
         :root {
             /* 发光卡片变量 */
@@ -68,14 +68,18 @@
         
         /* 发光卡片样式 */
         .glowing-card {
-            width: 360px; /* 固定宽度 */
-            height: 540px; /* 固定高度 */
+            --pads: 20px;
+            --color-sens: calc(var(--glow-sens) + 20);
+            position: relative;
+            max-width: 360px;
+            width: 100%;
+            height: calc(var(--page-height) + 40px); /* 固定高度：500px + 20px上下padding（从.alist-widget-wrapper） */
             border-radius: 20px;
             isolation: isolate;
             transform: translate3d(0, 0, 0.01px);
             background: rgba(255, 255, 255, 0.2);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
+            overflow: hidden; /* 防止溢出扩展卡片 */
             text-align: center;
             box-sizing: border-box;
             border: 1px solid rgb(255 255 255 / 25%);
@@ -210,11 +214,8 @@
         }
 
         .profile-header {
-            width: 326px;
-            height: 137px;
-            padding: 15px 2px 12px; /* 保留现有内边距 */
+            padding: 15px 2px 12px; /* 增加顶部内边距为按钮留空间 */
             position: relative;
-            box-sizing: border-box;
         }
 
         .profile-pic {
@@ -258,8 +259,6 @@
         }
 
         .link-card {
-            width: 100%;
-            height: 52px;
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -272,7 +271,6 @@
             transition: background 0.3s;
             font-size: 16px;
             font-style: italic;
-            box-sizing: border-box;
         }
 
         .link-card:hover {
@@ -282,25 +280,22 @@
         .link-icon {
             width: 36px;
             height: 36px;
-            margin-left: 8px;
-            margin-right: 10px;
+            margin-left: 16px;
+            margin-right: 18px;
         }
 
         .link-title {
-            font-size: 16px;
-            text-align: left;
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            text-align: center;
+            width: 100%;
+            font-size: 18px;
+            color: var(--fg);
         }
 
         /* 新增滚动容器样式，类似于歌单列表 */
         .link-scroll-container {
-            max-height: 300px; /* 540px - 137px - 105px - 余量 */
+
             overflow-y: auto;
-            scrollbar-gutter: stable both-edges; /* 预留滚动条空间于两侧，实现对称 */
-            scrollbar-width: thin; /* Firefox 等非 WebKit 浏览器设置细滚动条 */
+            scrollbar-gutter: stable; /* 预留滚动条空间，保持布局对称 */
         }
 
         .link-scroll-container::-webkit-scrollbar {
@@ -321,21 +316,19 @@
 
         /* 修改后的 Spotify 卡片样式 */
         .spotify-card {
-            width: 326px;
-            height: 105px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 10px 22px;
+            max-width: 100%;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             cursor: pointer;
             position: relative;
             margin-bottom: 10px;
             flex-wrap: nowrap;
             gap: 16px;
-            box-sizing: border-box;
         }
 
         .spotify-left {
@@ -426,6 +419,27 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        @media (max-width: 480px) {
+            .spotify-card {
+                flex-wrap: nowrap;
+            }
+            
+            .spotify-left {
+                flex: 1 1 auto;
+                min-width: 0;
+            }
+            
+            .spotify-cover {
+                margin-left: 12px;
+                margin-top: 0;
+            }
+            
+            .play-btn {
+                width: fit-content;
+                justify-content: flex-start;
+            }
         }
 
         /* 新增鼠标特效画布样式 */
@@ -537,14 +551,16 @@
             --border-radius: 1.2em;
             --music-player-height: calc(var(--page-height) - 55px); /* 已适配，保持 */
             --offset-cover: 1.2em;
-            width: 345px;
-            height: 485px;
+            width: 100%;
+            max-width: 128px;
+            
+            user-select: none;
+            color: var(--color-text-1);
+            height: var(--music-player-height);
             border-radius: var(--border-radius);
             background-color: rgba(255, 255, 255, 0.1);
             margin: 20px auto;
             box-sizing: border-box;
-            color: var(--color-text-1);
-            user-select: none;
         }
         .light .music-player {
             --color-text-2: #0000006b;
@@ -638,7 +654,7 @@
             border-radius: 100%; background-color: var(--color-blue-dark);
         }
         .music-player__playlist {
-            height: 285px; /* 485px - 200px */
+            height: 100%; /* 填充剩余高度 */
             overflow-y: auto; /* 如果播放列表过长，内部滚动而不扩展 */
             padding: 1em 0.9em 0 var(--offset-cover);
             box-sizing: border-box;
