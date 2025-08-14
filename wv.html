@@ -671,6 +671,30 @@
         .music-player__song-img {
             width: var(--cover-size); height: var(--cover-size); border-radius: var(--border-radius);
         }
+.music-player__playlist-info {
+    width: 100%;
+    overflow: hidden;
+    line-height: 1.2;
+    font-size: 1em;
+    margin-left: 0.6em;
+}
+
+/* 修改以下样式 */
+.music-player__playlist-info b {
+    display: block;
+    margin-left: 0;
+    padding-left: 0;
+    text-align: left;
+    width: calc(100% - 50px); /* 为时长留出空间 */
+}
+
+.flex-row._justify_space-btwn {
+    display: flex;
+    justify-content: space-between; /* 保持时长在右侧 */
+    align-items: center;
+    width: 100%;
+}
+
 .music-player__playlist-info .music-player__subtitle {
     display: block;
     text-align: left;
