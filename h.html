@@ -299,11 +299,10 @@
         }
 
         /* 新增滚动容器样式，类似于歌单列表 */
-        .link-scroll-container {
-
-            overflow-y: auto;
-            scrollbar-gutter: stable; /* 预留滚动条空间，保持布局对称 */
-        }
+.link-scroll-container {
+    overflow-y: auto;
+    scrollbar-gutter: stable both-edges; /* 左右都预留滚动条宽度 */
+}
 
         .link-scroll-container::-webkit-scrollbar {
             width: -2px;
