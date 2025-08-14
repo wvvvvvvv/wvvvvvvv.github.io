@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>h</title>
+    <title>𓃰</title>
     <style>
         :root {
             /* 发光卡片变量 */
@@ -251,6 +251,7 @@
             justify-content: space-between;
             padding: 0 16px 20px;
             overflow: hidden; /* 隐藏溢出内容，防止扩展 */
+            min-width: calc(100% - var(--scrollbar-width)); /* 预留滚动条空间，确保对称 */
         }
 
         #page3 {
@@ -263,8 +264,8 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;              
-          width: 280px;
-          height: 35px;
+            width: 280px;
+            height: 35px;
             background: rgba(255, 255, 255, 0.1);
             padding: 8px;
             margin-bottom: 6px;
@@ -297,8 +298,10 @@
         /* 新增滚动容器样式，类似于歌单列表 */
         .link-scroll-container {
             overflow-y: auto;
-            scrollbar-gutter: stable; /* 预留滚动条空间，保持布局对称 */
+            scrollbar-gutter: stable both-edges; /* 预留滚动条空间，左右对称 */
             scrollbar-width: thin; /* 新增：Firefox 支持窄滚动条 */
+            max-width: 100%; /* 限制最大宽度 */
+            box-sizing: border-box;
         }
 
         .link-scroll-container::-webkit-scrollbar {
@@ -321,8 +324,8 @@
         .spotify-card {
             display: flex;
             justify-content: space-between;
-              width: 260px;
-    height: 100px;
+            width: 260px;
+            height: 100px;
             align-items: center;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
@@ -665,42 +668,42 @@
         .music-player__song-img {
             width: var(--cover-size); height: var(--cover-size); border-radius: var(--border-radius);
         }
-.music-player__playlist-info {
-    width: 100%;
-    overflow: hidden;
-    line-height: 1.2;
-    font-size: 1em;
-    margin-left: 0.6em;
-}
+        .music-player__playlist-info {
+            width: 100%;
+            overflow: hidden;
+            line-height: 1.2;
+            font-size: 1em;
+            margin-left: 0.6em;
+        }
 
-/* 修改以下样式 */
-.music-player__playlist-info b {
-    display: block;
-    margin-left: 0;
-    padding-left: 0;
-    text-align: left;
-    width: calc(100% - 50px); /* 为时长留出空间 */
-}
+        /* 修改以下样式 */
+        .music-player__playlist-info b {
+            display: block;
+            margin-left: 0;
+            padding-left: 0;
+            text-align: left;
+            width: calc(100% - 50px); /* 为时长留出空间 */
+        }
 
-.flex-row._justify_space-btwn {
-    display: flex;
-    justify-content: space-between; /* 保持时长在右侧 */
-    align-items: center;
-    width: 100%;
-}
+        .flex-row._justify_space-btwn {
+            display: flex;
+            justify-content: space-between; /* 保持时长在右侧 */
+            align-items: center;
+            width: 100%;
+        }
 
-.music-player__playlist-info .music-player__subtitle {
-    display: block;
-    text-align: left;
-    margin-left: 0;
-    padding-left: 0;
-    flex-grow: 1; /* 占据剩余空间 */
-}
+        .music-player__playlist-info .music-player__subtitle {
+            display: block;
+            text-align: left;
+            margin-left: 0;
+            padding-left: 0;
+            flex-grow: 1; /* 占据剩余空间 */
+        }
 
-.music-player__song-duration {
-    flex-shrink: 0; /* 防止时长被压缩 */
-    margin-left: 10px; /* 与左侧内容保持间距 */
-}
+        .music-player__song-duration {
+            flex-shrink: 0; /* 防止时长被压缩 */
+            margin-left: 10px; /* 与左侧内容保持间距 */
+        }
         .music-player__song-duration {
             font-weight: bold; font-size: 0.8em; color: var(--color-text-2);
         }
