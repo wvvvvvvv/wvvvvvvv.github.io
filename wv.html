@@ -671,9 +671,18 @@
         .music-player__song-img {
             width: var(--cover-size); height: var(--cover-size); border-radius: var(--border-radius);
         }
-        .music-player__playlist-info {
-            width: 100%; overflow: hidden; line-height: 1.2; font-size: 1em; margin-left: 1.2em;
-        }
+.music-player__playlist-info .music-player__subtitle {
+    display: block;
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+    flex-grow: 1; /* 占据剩余空间 */
+}
+
+.music-player__song-duration {
+    flex-shrink: 0; /* 防止时长被压缩 */
+    margin-left: 10px; /* 与左侧内容保持间距 */
+}
         .music-player__song-duration {
             font-weight: bold; font-size: 0.8em; color: var(--color-text-2);
         }
