@@ -20,6 +20,8 @@
             --ease-timeline: cubic-bezier(0.71, 0.21, 0.3, 0.95);
             --page-height: 498px; /* 统一页面高度 */
             --accent: hsl(260, 100%, 80%);
+            --overlay-bg: rgba(255, 255, 255, 0.1);
+            --overlay-hover-bg: rgba(255, 255, 255, 0.2);
         }
 
         .light {
@@ -29,6 +31,8 @@
             --glow-blend: luminosity;
             --glow-color: 280deg 90% 95%;
             --fg: black;
+            --overlay-bg: rgba(0, 0, 0, 0.1);
+            --overlay-hover-bg: rgba(0, 0, 0, 0.2);
             color: var(--fg);
         }
 
@@ -269,7 +273,7 @@
             min-width: 275px;
             max-width: 275px;
             height: 35px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--overlay-bg);
             padding: 8px;
             margin-bottom: 6px;
             border-radius: 15px;
@@ -282,7 +286,7 @@
         }
 
         .link-card:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--overlay-hover-bg);
         }
 
         .link-card:active, .link-card:focus {
@@ -336,7 +340,7 @@
             max-width: 250px;
             height: 100px;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: var(--overlay-bg);
             border-radius: 20px;
             padding: 8px 20px;
             max-width: 100%;
@@ -346,6 +350,16 @@
             margin-bottom: 10px;
             flex-wrap: nowrap;
             gap: 13px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .spotify-card:hover {
+            background-color: var(--overlay-hover-bg);
+        }
+
+        .spotify-card:active, .spotify-card:focus {
+            background-color: transparent;
+            outline: none;
         }
 
         .spotify-left {
@@ -561,7 +575,7 @@
             color: var(--color-text-1);
             height: var(--music-player-height);
             border-radius: var(--border-radius);
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: var(--overlay-bg);
             margin: 20px auto;
             box-sizing: border-box;
         }
