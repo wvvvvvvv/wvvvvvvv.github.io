@@ -9,7 +9,7 @@
             /* 发光卡片变量 */
             --glow-sens: 30;
             --dark: hsl(260, 25%, 10%);
-            --fg: white;
+            --fg: black;
             --h: 260;
             --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
             --blend: soft-light;
@@ -18,7 +18,7 @@
             --duration: 1s;
             --ease-slider: cubic-bezier(0.4, 0, 0.2, 1);
             --ease-timeline: cubic-bezier(0.71, 0.21, 0.3, 0.95);
-            --page-height: 500px; /* 统一页面高度 */
+            --page-height: 498px; /* 统一页面高度 */
             --accent: hsl(260, 100%, 80%);
         }
 
@@ -71,14 +71,18 @@
             --pads: 20px;
             --color-sens: calc(var(--glow-sens) + 20);
             position: relative;
-            max-width: 360px;
-            width: 100%;
-            border-radius: 12px;
+            width: 345px !important;
+            height: 510px !important;
+            min-width: 345px;
+            min-height: 510px;
+            max-width: 345px;
+            max-height: 510px;
+            border-radius: 20px;
             isolation: isolate;
             transform: translate3d(0, 0, 0.01px);
             background: rgba(255, 255, 255, 0.2);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
+            overflow: hidden; /* 防止溢出扩展卡片 */
             text-align: center;
             box-sizing: border-box;
             border: 1px solid rgb(255 255 255 / 25%);
@@ -208,10 +212,12 @@
         .alist-widget-wrapper {
             padding: 20px;
             z-index: 1;
+            height: 100%; /* 填充卡片高度 */
+            box-sizing: border-box;
         }
 
         .profile-header {
-            padding: 30px 16px 12px; /* 增加顶部内边距为按钮留空间 */
+            padding: 15px 2px 12px; /* 增加顶部内边距为按钮留空间 */
             position: relative;
         }
 
@@ -226,6 +232,7 @@
 
         .link-section {
             width: 100%;
+            height: 100%; /* 填充卡片高度 */
             overflow: hidden;
             padding: 0;
         }
@@ -233,40 +240,55 @@
         .pages {
             display: flex;
             transition: transform 0.5s ease-in-out;
+            height: 100%; /* 确保滑动容器填充 */
+            transform: translateX(-100%); /* 默认直接显示第二页 */
         }
 
         .page {
             flex: 0 0 100%;
-            min-height: var(--page-height); /* 统一页面高度 */
+            height: var(--page-height); /* 从 min-height 改为 height，锁定500px */
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 0 16px 20px;
+            padding: 0 26px 20px;
+            overflow: hidden; /* 隐藏溢出内容，防止扩展 */
         }
 
-        #page2 {
+        #page3 {
             justify-content: center; /* 垂直居中 */
             align-items: center; /* 水平居中 */
+            padding: 0; /* 移除padding，让音乐播放器margin控制间距 */
         }
 
         .link-card {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: flex-start;              
+            width: 275px !important;
+            min-width: 275px;
+            max-width: 275px;
+            height: 35px;
             background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            margin-bottom: 8px;
-            border-radius: 10px;
+            padding: 8px;
+            margin-bottom: 6px;
+            border-radius: 15px;
             text-decoration: none;
             color: var(--fg);
             transition: background 0.3s;
             font-size: 16px;
             font-style: italic;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .link-card:hover {
             background: rgba(255, 255, 255, 0.2);
+        }
+
+        .link-card:active, .link-card:focus {
+            background: transparent;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
         }
 
         .link-icon {
@@ -283,21 +305,47 @@
             color: var(--fg);
         }
 
+        /* 新增滚动容器样式，类似于歌单列表 */
+.link-scroll-container {
+    overflow-y: auto;
+
+}
+
+        .link-scroll-container::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .link-scroll-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 100px;
+            opacity: 0; /* 默认隐藏 */
+            transition: opacity 0.3s ease;
+        }
+
+        .link-scroll-container.scrolling::-webkit-scrollbar-thumb {
+            opacity: 1; /* 滚动时显示 */
+        }
+
         /* 修改后的 Spotify 卡片样式 */
         .spotify-card {
             display: flex;
             justify-content: space-between;
+            width: 250px !important;
+            min-width: 250px;
+            max-width: 250px;
+            height: 100px;
             align-items: center;
             background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 12px 24px;
+            border-radius: 20px;
+            padding: 8px 20px;
             max-width: 100%;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             cursor: pointer;
             position: relative;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             flex-wrap: nowrap;
-            gap: 16px;
+            gap: 13px;
         }
 
         .spotify-left {
@@ -389,21 +437,6 @@
             height: 100%;
             object-fit: cover;
         }
-
-        @media (max-width: 480px) {
-            .spotify-card {
-                flex-wrap: nowrap;
-            }
-            
-            .spotify-left {
-                flex: 1 1 auto;
-                min-width: 0;
-            }
-            
-            .spotify-cover {
-                margin-left: 12px;
-                margin-top: 0;
-            }
             
             .play-btn {
                 width: fit-content;
@@ -424,26 +457,27 @@
         .pagination {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 5px;
+            margin-top: -5px; /* 上间距 */
+            margin-bottom: 10px; /* 下间距 */
+
         }
 
         .bullet {
-            width: 11px;
-            height: 11px;
+            width: 85px;
+            height: 6px;
             background: var(--fg);
             opacity: 0.2;
-            border-radius: 50%;
+            border-radius:10%;
             cursor: pointer;
             transition: all 0.3s;
         }
 
         .bullet.active {
-            width: 30px;
-            border-radius: 15px;
+            border-radius:10%;
             opacity: 1;
             background: #c299ff;
-            box-shadow: 0px 0px 20px rgba(194, 153, 255, 0.3);
+            box-shadow: 0px 0px 20px rgba(194, 153, 255, 0);
         }
 
         /* 音乐播放器 CSS */
@@ -504,6 +538,7 @@
             white-space: nowrap;
             display: inline-block;
             text-overflow: ellipsis;
+            margin-right: 60px;
         }
 
         /* 音乐播放器 */
@@ -515,19 +550,19 @@
             --box-shadow: 0 2px 6px 1px #0000001f;
             --color-text-1: var(--fg);
             --color-text-2: #ffffff6b;
-            --cover-size: 3.5em;
+            --cover-size: 4.2em;
             --border-radius: 1.2em;
-            --music-player-height: calc(var(--page-height) - 40px); /* 留出间距 */
-            --offset-cover: 1.2em;
+            --music-player-height: calc(var(--page-height) - 50px); /* 已适配，保持 */
+            --offset-cover: 1em;
             width: 100%;
-            max-width: 328px; /* 适配 glowing-card 的内宽（360px - 2*16px padding） */
-            overflow: hidden;
+            max-width: 330px;
+            
             user-select: none;
             color: var(--color-text-1);
             height: var(--music-player-height);
             border-radius: var(--border-radius);
             background-color: rgba(255, 255, 255, 0.1);
-            margin: 20px auto; /* 上下留出间距 */
+            margin: 20px auto;
             box-sizing: border-box;
         }
         .light .music-player {
@@ -537,7 +572,7 @@
             --shadow-opacity: 1;
             z-index: 0;
             flex-shrink: 0;
-            height: 6em;
+            height: 6.8em;
             position: relative;
             border-radius: inherit;
             transition: var(--duration) height var(--ease-timeline);
@@ -558,7 +593,7 @@
             transform: translate3d(var(--offset-cover), var(--offset-cover), 0);
         }
         .slider.resize .slider__content {
-            width: 100%; height: 14em;
+            width: 100%; height: 22em;
             transform: translate3d(0, 0, 0);
         }
         .slider__content .button { --size: 2.5em; z-index: 1; position: absolute; width: var(--size); height: var(--size); }
@@ -568,7 +603,7 @@
         }
         .slider.resize .music-player__playlist-button {
             transform: scale(1);
-            transition: 0.35s var(--duration) transform cubic-bezier(0, 0.85, 0.11, 1.64);
+            transition: 0.30s var(--duration) transform cubic-bezier(0, 0.85, 0.11, 1.64);
         }
         .music-player__broadcast-guarantor .icon-pause,
         .music-player__broadcast-guarantor.click .icon-play { opacity: 0; }
@@ -580,7 +615,7 @@
         }
         .slider__imgs > img { pointer-events: none; }
         .slider__controls {
-            --controls-y: 145%; --controls-x: 17.3%; --controls-width: 68.4%; --controls-resize-width: 88%;
+            --controls-y: 225%; --controls-x: 17.3%; --controls-width: 68.4%; --controls-resize-width: 88%;
             gap: 0.375em 0; flex-wrap: wrap; position: absolute; align-items: center; padding-top: 0.375em;
             width: var(--controls-width); transform: translate3d(var(--controls-x), 0, 0);
             animation: var(--controls-animate, "down paused") var(--duration) var(--ease-timeline) forwards;
@@ -612,7 +647,7 @@
         }
         .slider.resize .progress { width: 100%; }
         .progress__wrapper {
-            width: 100%; height: 0.25em; position: relative; border-radius: 1em; background-color: var(--color-gray);
+            width: 100%; height: 0.3em; position: relative; border-radius: 1em; background-color: var(--color-gray);
         }
         .progress__bar {
             top: 0; left: 0; bottom: 0; position: absolute; width: var(--width); border-radius: inherit; background-color: var(--color-blue);
@@ -622,43 +657,56 @@
             border-radius: 100%; background-color: var(--color-blue-dark);
         }
         .music-player__playlist {
-            height: 100%; overflow: hidden auto; padding: 1em 0.9em 0 var(--offset-cover);
+            height: 100%; /* 填充剩余高度 */
+            overflow-y: auto; /* 如果播放列表过长，内部滚动而不扩展 */
+            padding: 1em 0.9em 0 var(--offset-cover);
+            box-sizing: border-box;
         }
         .music-player__song {
-            --gap: 0.6em; cursor: pointer; margin-bottom: var(--gap); padding-bottom: var(--gap); border-bottom: 1.5px solid #d8d8d859;
+            --gap: 0.5em; cursor: pointer; margin-bottom: var(--gap); padding-bottom: var(--gap); border-bottom: 0.8px solid #d8d8d859;
         }
         .music-player__song audio { display: none; }
         .music-player__song-img {
             width: var(--cover-size); height: var(--cover-size); border-radius: var(--border-radius);
         }
-        .music-player__playlist-info {
-            width: 100%; overflow: hidden; line-height: 1.2; font-size: 0.9em; margin-left: 0.6em;
-        }
-        .music-player__song-duration {
-            font-weight: bold; font-size: 0.7em; color: var(--color-text-2);
-        }
+.music-player__playlist-info {
+    width: 100%;
+    overflow: hidden;
+    line-height: 1.2;
+    font-size: 1em;
+    margin-left: 1.2em;
+}
 
-        @media screen and (min-width: 1366px) { 
-            .music-player { font-size: 1vw; } 
-        }
-        @media screen and (max-width: 480px) { 
-            .music-player { 
-                font-size: 0.75rem; 
-                max-width: 100%;
-                padding: 0 8px;
-            }
-            .music-player__info {
-                width: 50%;
-            }
-            .slider__content .button {
-                --size: 2em;
-            }
-            .slider__switch-button {
-                font-size: 2em;
-            }
-        }
-        @media screen and (max-width: 280px) { 
-            .music-player { font-size: 0.6rem; } 
+/* 修改以下样式 */
+.music-player__playlist-info b {
+    display: block;
+    margin-left: 0;
+    padding-left: 0;
+    text-align: left;
+    width: calc(100% - 50px); /* 为时长留出空间 */
+}
+
+.flex-row._justify_space-btwn {
+    display: flex;
+    justify-content: space-between; /* 保持时长在右侧 */
+    align-items: center;
+    width: 100%;
+}
+
+.music-player__playlist-info .music-player__subtitle {
+    display: block;
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+    flex-grow: 1; /* 占据剩余空间 */
+}
+
+.music-player__song-duration {
+    flex-shrink: 0; /* 防止时长被压缩 */
+    margin-left: 10px; /* 与左侧内容保持间距 */
+}
+        .music-player__song-duration {
+            font-weight: bold; font-size: 0.8em; color: var(--color-text-2);
         }
     </style>
 </head>
@@ -788,6 +836,14 @@
                 <div class="link-section">
                     <div class="pages">
                         <div id="page1" class="page">
+                            <!-- 左边空白页 -->
+                            <div class="profile-header"></div>
+                            <div style="height: 100%; display: flex; justify-content: center; align-items: center; color: var(--fg); font-style: italic;">
+                                <!-- 可以添加占位文本或留空 -->
+                            </div>
+                        </div>
+
+                        <div id="page2" class="page">
                             <div class="profile-header">
                                 <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
                             </div>
@@ -814,35 +870,62 @@
                                 <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
                             </div>
 
-                            <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
-                                <span class="link-title">Instagram</span>
-                            </a>
+                            <!-- 新增滚动容器，从Instagram开始 -->
+                            <div class="link-scroll-container">
+                                <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
+                                    <img src="https://dogpan.com/f/OVjUv/Instagram.png" alt="Instagram" class="link-icon" />
+                                    <span class="link-title">Instagram</span>
+                                </a>
 
-                            <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
-                                <span class="link-title">Telegram</span>
-                            </a>
+                                <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
+                                    <span class="link-title">Telegram</span>
+                                </a>
 
-                            <a href="https://github.com/00000OO" class="link-card" target="_blank">
-                                <img src="https://dogpan.com/f/Aj6SE/IMG_5829.png" alt="GitHub" class="link-icon" />
-                                <span class="link-title">GitHub</span>
-                            </a>
+                                <a href="https://github.com/00000OO" class="link-card" target="_blank">
+                                    <img src="https://dogpan.com/f/Aj6SE/IMG_5829.png" alt="GitHub" class="link-icon" />
+                                    <span class="link-title">GitHub</span>
+                                </a>
 
-                            <a href="https://🦋.blogspot.com" class="link-card" target="_blank">
-                                <span class="link-title">🩵🩵🩵 - https://🦋.blogspot.com</span>
-                            </a>
+                                <a href="https://🩵.blogspot.com" class="link-card" target="_blank">
+                                    <img src="https://dogpan.com/f/Blps8/TikTok.PNG" alt="GitHub" class="link-icon" />
+                                    <span class="link-title">https://🦋.blogspot.com</span>
+                                </a>
+
+                                <!-- 新添加的社交链接，需要向下滚动显示 -->
+                                <a href="https://wa.me/message/SYDPTLQEHYE3P1?src=qr" class="link-card" target="_blank">
+                                    <img src="https://dogpan.com/f/Dp7C3/WhatsApp.png" alt="WhatsApp" class="link-icon" />
+                                    <span class="link-title">WhatsApp</span>
+                                </a>
+
+                                <a href="https://x.com/vwwvvvvvvv" class="link-card" target="_blank">
+                                    <img src="https://dogpan.com/f/Er2sp/X-.png" alt="X" class="link-icon" />
+                                    <span class="link-title">X</span>
+                                </a>
+
+                                <a href="https://pin.it/5TgH8TZkp" class="link-card" target="_blank">
+                                    <img src="https://dogpan.com/f/GyEcA/Pinterest.png" alt="Pinterest" class="link-icon" />
+                                    <span class="link-title">Pinterest</span>
+                                </a>
+
+<a href="javascript:void(0);" class="link-card" id="wechatBtn">
+    <img src="https://dogpan.com/f/JGrTK/WeChat%E2%80%93.png" alt="WeChat" class="link-icon" />
+    <span class="link-title">WeChat</span>
+</a>
+
+                            </div>
                         </div>
 
-                        <div id="page2" class="page">
+                        <div id="page3" class="page">
                             <div class="profile-header"></div>
                             <div id="root"></div>
                         </div>
                     </div>
 
                     <div class="pagination">
-                        <div class="bullet active" data-page="1" onclick="switchPageTo(1)"></div>
-                        <div class="bullet" data-page="2" onclick="switchPageTo(2)"></div>
+                        <div class="bullet" data-page="1" onclick="switchPageTo(1)"></div>
+                        <div class="bullet active" data-page="2" onclick="switchPageTo(2)"></div>
+                        <div class="bullet" data-page="3" onclick="switchPageTo(3)"></div>
                     </div>
                 </div>
             </div>
@@ -851,11 +934,11 @@
 
     <script>
         // 分页逻辑
-        let currentPage = 1;
+        let currentPage = 2; // 默认显示中间页面
         let musicPlayerLoaded = false; // Track if music player is loaded
 
         function switchPageTo(page) {
-            if (page < 1 || page > 2) return;
+            if (page < 1 || page > 3) return;
             currentPage = page;
 
             const pages = document.querySelector('.pages');
@@ -863,7 +946,7 @@
 
             document.querySelectorAll('.bullet').forEach(b => b.classList.toggle('active', parseInt(b.dataset.page) === page));
 
-            if (page === 2 && !musicPlayerLoaded) {
+            if (page === 3 && !musicPlayerLoaded) {
                 loadMusicPlayer();
                 musicPlayerLoaded = true; // Mark as loaded
             }
@@ -1374,6 +1457,46 @@
                 }
             });
         }
+
+        // 初始化默认页面
+        switchPageTo(2);
+
+        // 新增：动态控制链接滚动容器的滚动条显示/隐藏
+        const scrollContainer = document.querySelector('.link-scroll-container');
+        let scrollTimeout;
+        if (scrollContainer) {
+            scrollContainer.addEventListener('scroll', () => {
+                scrollContainer.classList.add('scrolling');
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    scrollContainer.classList.remove('scrolling');
+                }, 1500); // 停止滚动1秒后隐藏
+            });
+        }
     </script>
+<!-- 引入 clipboard.js -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    // 设置微信号
+    const wechatID = "lllIIllIIlIII"; 
+
+    // 创建 Clipboard 实例
+    var clipboard = new ClipboardJS('#wechatBtn', {
+        text: function() {
+            return wechatID;
+        }
+    });
+
+    clipboard.on('success', function(e) {
+        alert('👉微信号复制成功,即将前往微信！');
+        window.location.href = 'weixin://';
+    });
+
+    clipboard.on('error', function(e) {
+        alert('复制失败,请手动输入 ' + wechatID);
+        window.location.href = 'weixin://dl/scan';
+    });
+</script>
+
 </body>
 </html>
