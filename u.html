@@ -906,7 +906,7 @@
                                     <span class="link-title">Pinterest</span>
                                 </a>
 
-<a class="link-card" style="cursor: pointer;" onclick="copyWeChat()">
+<a href="javascript:void(0);" class="link-card" id="wechatBtn">
     <img src="https://dogpan.com/f/JGrTK/WeChat%E2%80%93.png" alt="WeChat" class="link-icon" />
     <span class="link-title">WeChat</span>
 </a>
@@ -1472,32 +1472,28 @@
             });
         }
     </script>
-  <script>
-    function copyWeChat() {
-        var weChatAccount = "lllIIllIIlIII"; // 微信号
-        navigator.clipboard.writeText(weChatAccount).then(function() {
-            var alertDiv = document.createElement('div');
-            alertDiv.textContent = "复制成功,即将前往微信！";
-            alertDiv.style.position = 'fixed';
-            alertDiv.style.top = '50%';
-            alertDiv.style.left = '50%';
-            alertDiv.style.transform = 'translate(-50%, -50%)';
-            alertDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
-            alertDiv.style.color = 'white';
-            alertDiv.style.padding = '20px';
-            alertDiv.style.borderRadius = '10px';
-            alertDiv.style.fontSize = '16px';
-            alertDiv.style.textAlign = 'center';
-            document.body.appendChild(alertDiv);
-            
-            setTimeout(function() {
-                alertDiv.remove();
-                window.location.href = 'weixin://'; // 跳转到微信
-            }, 2000); // 提示显示 2 秒后跳转
-        }).catch(function(err) {
-            alert("复制失败,请手动输入lllIIllIIlIII");
-        });
-    }
+<!-- 引入 clipboard.js -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    // 设置微信号
+    const wechatID = "lllIIllIIlIII"; 
+
+    // 创建 Clipboard 实例
+    var clipboard = new ClipboardJS('#wechatBtn', {
+        text: function() {
+            return wechatID;
+        }
+    });
+
+    clipboard.on('success', function(e) {
+        alert('复制成功,即将前往微信！关闭');
+        window.location.href = 'weixin://';
+    });
+
+    clipboard.on('error', function(e) {
+        alert('复制失败,请手动输入 ' + wechatID);
+        window.location.href = 'weixin://dl/scan';
+    });
 </script>
 
 </body>
