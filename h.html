@@ -71,9 +71,12 @@
             --pads: 20px;
             --color-sens: calc(var(--glow-sens) + 20);
             position: relative;
-            width: 345px;
-            height: 510px;
-          
+            width: 345px !important;
+            height: 510px !important;
+            min-width: 345px;
+            min-height: 510px;
+            max-width: 345px;
+            max-height: 510px;
             border-radius: 20px;
             isolation: isolate;
             transform: translate3d(0, 0, 0.01px);
@@ -262,7 +265,9 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;              
-            width: 280px;
+            width: 280px !important;
+            min-width: 280px;
+            max-width: 280px;
             height: 35px;
             background: rgba(255, 255, 255, 0.1);
             padding: 8px;
@@ -283,22 +288,21 @@
             width: 36px;
             height: 36px;
             margin-left: 16px;
-            margin-right: 16px; /* 统一左右边距，使对称 */
+            margin-right: 18px;
         }
 
         .link-title {
-            text-align: left; /* 修改为左对齐，使与图标对称 */
+            text-align: center;
+            width: 100%;
             font-size: 18px;
             color: var(--fg);
         }
 
         /* 新增滚动容器样式，类似于歌单列表 */
         .link-scroll-container {
+
             overflow-y: auto;
             scrollbar-gutter: stable; /* 预留滚动条空间，保持布局对称 */
-            display: flex; /* 添加flex布局 */
-            flex-direction: column; /* 垂直排列 */
-            align-items: center; /* 水平居中，使左右对称 */
         }
 
         .link-scroll-container::-webkit-scrollbar {
@@ -321,7 +325,9 @@
         .spotify-card {
             display: flex;
             justify-content: space-between;
-            width: 260px;
+            width: 260px !important;
+            min-width: 260px;
+            max-width: 260px;
             height: 100px;
             align-items: center;
             background-color: rgba(255, 255, 255, 0.1);
@@ -426,7 +432,7 @@
             object-fit: cover;
         }
 
-        max-width: 316px; {
+        @media (max-width: 316px) {
             .spotify-card {
                 flex-wrap: nowrap;
             }
