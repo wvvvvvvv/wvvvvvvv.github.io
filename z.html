@@ -32,23 +32,30 @@
             color: var(--fg);
         }
 
-/* 替换原有的 body 和 body.light 样式 */
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    background: url('https://dogpan.com/f/qPPFX/000.jpeg') center / cover no-repeat fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Inter', sans-serif;
-    color: var(--fg);
-}
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg'); /* 默认日间模式：自定义壁纸 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            color: var(--fg);
+        }
 
-body.light {
-    background: url('https://dogpan.com/f/qPPFX/000.jpeg') center / cover no-repeat fixed;
-    color: var(--fg);
-}
+        body.light {
+            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg'); /* 日间模式保持壁纸 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--fg);
+        }
         
         canvas {
             position: fixed;
@@ -57,7 +64,16 @@ body.light {
             width: 100%;
             height: 100vh;
             z-index: -1;
+            pointer-events: none; 
         }
+        
+        /* 新增：内容容器样式 */
+.alist-widget-wrapper {
+    position: relative; /* 确保内容在粒子层上方 */
+    z-index: 1;        /* 高于canvas的z-index */
+    height: 100vh;     /* 限制高度 */
+    overflow-y: auto;  /* 允许垂直滚动 */
+}
         
         /* 发光卡片样式 */
         .glowing-card {
@@ -721,7 +737,6 @@ body.light {
     </style>
 </head>
 <body>
-
 
     <!-- 原有3D粒子动画脚本 -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
