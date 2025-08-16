@@ -46,6 +46,7 @@
             align-items: center;
             font-family: 'Inter', sans-serif;
             color: var(--fg);
+            overflow: hidden; /* 防止页面上下滚动 */
         }
 
         body.light {
@@ -64,16 +65,7 @@
             width: 100%;
             height: 100vh;
             z-index: -1;
-            pointer-events: none; 
         }
-        
-        /* 新增：内容容器样式 */
-.alist-widget-wrapper {
-    position: relative; /* 确保内容在粒子层上方 */
-    z-index: 1;        /* 高于canvas的z-index */
-    height: 100vh;     /* 限制高度 */
-    overflow-y: auto;  /* 允许垂直滚动 */
-}
         
         /* 发光卡片样式 */
         .glowing-card {
@@ -288,8 +280,6 @@
             font-size: 16px;
             font-style: italic;
             -webkit-tap-highlight-color: transparent;
-}
-}
         }
 
         .link-card:hover {
@@ -311,10 +301,9 @@
         }
 
         /* 新增滚动容器样式，类似于歌单列表 */
-.link-scroll-container {
-    overflow-y: auto;
-
-}
+        .link-scroll-container {
+            overflow-y: auto;
+        }
 
         .link-scroll-container::-webkit-scrollbar {
             width: 0px;
@@ -443,10 +432,9 @@
             object-fit: cover;
         }
             
-            .play-btn {
-                width: fit-content;
-                justify-content: flex-start;
-            }
+        .play-btn {
+            width: fit-content;
+            justify-content: flex-start;
         }
 
         /* 新增鼠标特效画布样式 */
@@ -674,42 +662,42 @@
         .music-player__song-img {
             width: var(--cover-size); height: var(--cover-size); border-radius: var(--border-radius);
         }
-.music-player__playlist-info {
-    width: 100%;
-    overflow: hidden;
-    line-height: 1.2;
-    font-size: 1em;
-    margin-left: 1.2em;
-}
+        .music-player__playlist-info {
+            width: 100%;
+            overflow: hidden;
+            line-height: 1.2;
+            font-size: 1em;
+            margin-left: 1.2em;
+        }
 
-/* 修改以下样式 */
-.music-player__playlist-info b {
-    display: block;
-    margin-left: 0;
-    padding-left: 0;
-    text-align: left;
-    width: calc(100% - 50px); /* 为时长留出空间 */
-}
+        /* 修改以下样式 */
+        .music-player__playlist-info b {
+            display: block;
+            margin-left: 0;
+            padding-left: 0;
+            text-align: left;
+            width: calc(100% - 50px); /* 为时长留出空间 */
+        }
 
-.flex-row._justify_space-btwn {
-    display: flex;
-    justify-content: space-between; /* 保持时长在右侧 */
-    align-items: center;
-    width: 100%;
-}
+        .flex-row._justify_space-btwn {
+            display: flex;
+            justify-content: space-between; /* 保持时长在右侧 */
+            align-items: center;
+            width: 100%;
+        }
 
-.music-player__playlist-info .music-player__subtitle {
-    display: block;
-    text-align: left;
-    margin-left: 0;
-    padding-left: 0;
-    flex-grow: 1; /* 占据剩余空间 */
-}
+        .music-player__playlist-info .music-player__subtitle {
+            display: block;
+            text-align: left;
+            margin-left: 0;
+            padding-left: 0;
+            flex-grow: 1; /* 占据剩余空间 */
+        }
 
-.music-player__song-duration {
-    flex-shrink: 0; /* 防止时长被压缩 */
-    margin-left: 10px; /* 与左侧内容保持间距 */
-}
+        .music-player__song-duration {
+            flex-shrink: 0; /* 防止时长被压缩 */
+            margin-left: 10px; /* 与左侧内容保持间距 */
+        }
         .music-player__song-duration {
             font-weight: bold; font-size: 0.8em; color: var(--color-text-2);
         }
@@ -737,6 +725,8 @@
     </style>
 </head>
 <body>
+    <!-- 新增鼠标特效画布 -->
+    <canvas id="shuicheCanvas"></canvas>
 
     <!-- 原有3D粒子动画脚本 -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
@@ -851,7 +841,7 @@
                     </g>
                 </svg>
                 
-                <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleTheme('dark')">
+               <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleTheme('dark')">
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
                 </svg>
                 
