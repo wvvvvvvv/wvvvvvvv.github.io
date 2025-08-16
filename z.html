@@ -704,6 +704,27 @@
         .music-player__song-duration {
             font-weight: bold; font-size: 0.8em; color: var(--color-text-2);
         }
+
+        /* 加载动画 */
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--fg);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 10px;
+            font-size: 16px;
+            color: var(--fg);
+        }
     </style>
 </head>
 <body>
@@ -808,8 +829,6 @@
             camera.lookAt(scene.position);
             renderer.render(scene, camera);
         }
-
-        window.onload = init;
     </script>
 
     <!-- 发光卡片个人主页导航 -->
@@ -914,7 +933,12 @@
 
                         <div id="page3" class="page">
                             <div class="profile-header"></div>
-                            <div id="root"></div>
+                            <div id="root">
+                                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                                    <div class="loading-spinner"></div>
+                                    <div class="loading-text">加载音乐播放器...</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -930,8 +954,17 @@
 
     <script>
         // 分页逻辑
-        let currentPage = 2; // 默认显示中间页面
-        let musicPlayerLoaded = false; // Track if music player is loaded
+        let currentPage = 2;
+        let musicPlayerLoaded = false;
+
+        // 页面加载时立即加载音乐播放器
+        window.onload = function() {
+            init(); // 原有的3D粒子动画初始化
+            loadMusicPlayer(); // 预加载音乐播放器
+            switchPageTo(2); // 默认显示第二页
+            setTimeout(playAnimation, 500); // 开场动画
+            toggleTheme('dark'); // 默认暗色模式
+        };
 
         function switchPageTo(page) {
             if (page < 1 || page > 3) return;
@@ -1145,16 +1178,10 @@
             }, delay);
         }
 
-        // 启动开场动画
-        setTimeout(() => {
-            playAnimation();
-        }, 500);
-
-        // 初始化时默认设置为暗色模式
-        toggleTheme('dark');
-
         // 动态加载音乐播放器
         function loadMusicPlayer() {
+            if (musicPlayerLoaded) return;
+            
             /** @jsx dom */
             let indexSong = 0;
             let isLocked = false;
@@ -1171,11 +1198,6 @@
             let progressBarIsUpdating = false;
             let broadcastGuarantor_elmnt = null;
             const root = document.querySelector("#root");
-
-            // Clear existing content in #root to prevent duplicates
-            while (root.firstChild) {
-                root.removeChild(root.firstChild);
-            }
 
             function App({ songs }) {
                 function handleChangeMusic({ isPrev = false, playListIndex = null }) {
@@ -1369,6 +1391,9 @@
                     }
                     downloadTheFiles("cover", songs).then((response) => {
                         downloadTheFiles("song", response).then((data) => {
+                            // 清空加载动画
+                            root.innerHTML = '';
+                            // 渲染音乐播放器
                             root.appendChild(App({ songs: data }));
                             songsLength = data.length - 1;
                             progress_elmnt = document.querySelector(".progress");
@@ -1382,8 +1407,18 @@
                             broadcastGuarantor_elmnt = document.querySelector(".music-player__broadcast-guarantor");
                             controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
                             controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
+                            musicPlayerLoaded = true;
+                        }).catch(error => {
+                            root.innerHTML = '<div style="color: var(--fg); font-style: italic;">音乐加载失败，请刷新重试</div>';
+                            console.error('音乐加载失败:', error);
                         });
+                    }).catch(error => {
+                        root.innerHTML = '<div style="color: var(--fg); font-style: italic;">封面加载失败，请刷新重试</div>';
+                        console.error('封面加载失败:', error);
                     });
+                }).catch(error => {
+                    root.innerHTML = '<div style="color: var(--fg); font-style: italic;">播放列表加载失败，请刷新重试</div>';
+                    console.error('播放列表加载失败:', error);
                 });
 
             function controlSubtitleAnimation(parent, child) {
@@ -1449,9 +1484,6 @@
             });
         }
 
-        // 初始化默认页面
-        switchPageTo(2);
-
         // 新增：动态控制链接滚动容器的滚动条显示/隐藏
         const scrollContainer = document.querySelector('.link-scroll-container');
         let scrollTimeout;
@@ -1464,10 +1496,6 @@
                 }, 1500); // 停止滚动1秒后隐藏
             });
         }
-
-        // 在页面初始加载时预加载音乐播放器
-        loadMusicPlayer();
-        musicPlayerLoaded = true;
     </script>
 <!-- 引入 clipboard.js -->
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
