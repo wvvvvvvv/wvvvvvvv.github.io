@@ -111,8 +111,9 @@
 
         .liquidGlass-text {
             z-index: 3;
-            font-size: 2rem;
-            color: black;
+            color: var(--fg);
+            width: 100%;
+            height: 100%;
         }
 
         /* 应用液体玻璃效果到卡片，覆盖原有发光卡片部分样式 */
@@ -126,18 +127,15 @@
             min-height: 510px;
             max-width: 345px;
             max-height: 510px;
-            border-radius: 20px;
+            border-radius: 30px;
             isolation: isolate;
             transform: translate3d(0, 0, 0.01px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
             overflow: hidden; /* 防止溢出扩展卡片 */
             text-align: center;
             box-sizing: border-box;
             border: 1px solid rgb(255 255 255 / 25%);
-        }
-
-        .glowing-card:hover {
-            padding: 0.6rem; /* 整合hover效果 */
-            border-radius: 1.8rem;
         }
 
         /* 主题切换按钮样式 */
@@ -173,7 +171,7 @@
         }
 
         .profile-header {
-            padding: 15px 2px 12px; /* 增加顶部内边距为按钮留空间 */
+            padding: 40px 2px 12px; /* 增加顶部内边距为按钮留空间 */
             position: relative;
         }
 
@@ -408,7 +406,8 @@
             gap: 5px;
             margin-top: -5px; /* 上间距 */
             margin-bottom: 10px; /* 下间距 */
-
+            position: relative;
+            z-index: 3; /* 确保在内容上方 */
         }
 
         .bullet {
@@ -803,6 +802,7 @@
             <div class="liquidGlass-effect"></div>
             <div class="liquidGlass-tint"></div>
             <div class="liquidGlass-shine"></div>
+            <span class="glow"></span>
             <div class="liquidGlass-text">
                 <!-- 主题切换按钮 -->
                 <svg class="theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light')">
@@ -979,7 +979,6 @@
             init(); // 原有的3D粒子动画初始化
             loadMusicPlayer(); // 预加载音乐播放器
             switchPageTo(2); // 默认显示第二页
-            setTimeout(playAnimation, 500); // 开场动画
             toggleTheme('dark'); // 默认暗色模式
         };
 
@@ -1041,158 +1040,6 @@
                 document.body.style.background = '#000000';
                 document.documentElement.style.setProperty('--fg', 'white');
             }
-        }
-
-        // 发光卡片交互效果
-        const $card = document.querySelector(".glowing-card");
-
-        const cardUpdate = (e) => {
-            const position = pointerPositionRelativeToElement($card, e);
-            const [px,py] = position.pixels;
-            const [perx, pery] = position.percent;
-            const [dx,dy] = distanceFromCenter($card, px, py);
-            const edge = closenessToEdge($card, px, py);
-            const angle = angleFromPointerEvent($card, dx, dy);
-
-            $card.style.setProperty('--pointer-x', `${round(perx)}%`);
-            $card.style.setProperty('--pointer-y', `${round(pery)}%`);
-            $card.style.setProperty('--pointer-°', `${round(angle)}deg`);
-            $card.style.setProperty('--pointer-d', `${round(edge * 100)}`);
-            
-            $card.classList.remove('animating');
-        };
-
-        $card.addEventListener("pointermove", cardUpdate);
-
-        // 辅助函数
-        const centerOfElement = ($el) => {
-            const { left, top, width, height } = $el.getBoundingClientRect();
-            return [ width/2, height/2 ];
-        }
-
-        const pointerPositionRelativeToElement = ($el, e) => {
-            const pos = [e.clientX, e.clientY];
-            const { left, top, width, height } = $el.getBoundingClientRect();
-            const x = pos[0] - left;
-            const y = pos[1] - top;
-            const px = clamp((100 / width) * x);
-            const py = clamp((100 / height) * y);
-            return { pixels: [x,y], percent: [px,py] }
-        }
-
-        const angleFromPointerEvent = ($el, dx, dy ) => {
-            let angleRadians = Math.atan2(dy, dx);
-            let angleDegrees = angleRadians * (180 / Math.PI) + 90;
-            if (angleDegrees < 0) angleDegrees += 360;
-            return angleDegrees;
-        }
-
-        const distanceFromCenter = ($card, x, y) => {
-            const [cx,cy] = centerOfElement($card);
-            return [ x - cx, y - cy ];
-        }
-
-        const closenessToEdge = ($card, x, y) => {
-            const [cx,cy] = centerOfElement($card);
-            const [dx,dy] = distanceFromCenter($card, x, y);
-            let k_x = dx !== 0 ? cx / Math.abs(dx) : Infinity;
-            let k_y = dy !== 0 ? cy / Math.abs(dy) : Infinity;
-            return clamp((1 / Math.min(k_x, k_y)), 0, 1);
-        }
-
-        const round = (value, precision = 3) => parseFloat(value.toFixed(precision));
-        const clamp = (value, min = 0, max = 100) => Math.min(Math.max(value, min), max);
-
-        // 开场动画
-        const playAnimation = () => {
-            const angleStart = 310;
-            const angleEnd = 525;
-
-            $card.style.setProperty('--pointer-°', `${angleStart}deg`);
-            $card.classList.add('animating');
-
-            animateNumber({
-                ease: easeOutCubic,
-                duration: 500,
-                onUpdate: (v) => {
-                    $card.style.setProperty('--pointer-d', v);
-                }
-            });
-
-            animateNumber({
-                ease: easeInCubic,
-                duration: 1500,
-                endValue: 50,
-                onUpdate: (v) => {
-                    const d = (angleEnd - angleStart) * (v / 100) + angleStart;
-                    $card.style.setProperty('--pointer-°', `${d}deg`);
-                }
-            }); 
-
-            animateNumber({
-                ease: easeOutCubic,
-                duration: 2250,
-                delay: 1500,
-                startValue: 50,
-                endValue: 100,
-                onUpdate: (v) => {
-                    const d = (angleEnd - angleStart) * (v / 100) + angleStart;
-                    $card.style.setProperty('--pointer-°', `${d}deg`);
-                }
-            });
-
-            animateNumber({
-                ease: easeInCubic,
-                duration: 1500,
-                delay: 2500,
-                startValue: 100,
-                endValue: 0,
-                onUpdate: (v) => {
-                    $card.style.setProperty('--pointer-d', v);
-                },
-                onEnd: () => {
-                    $card.classList.remove('animating');
-                }
-            });
-        }
-
-        // 动画辅助函数
-        function easeOutCubic(x) { return 1 - Math.pow(1 - x, 3); }
-        function easeInCubic(x) { return x * x * x; } 
-
-        function animateNumber(options) {
-            const {
-                startValue = 0,
-                endValue = 100,
-                duration = 1000,
-                delay = 0,
-                onUpdate = () => {},
-                ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
-                onStart = () => {},
-                onEnd = () => {},
-            } = options;
-
-            const startTime = performance.now() + delay;
-
-            function update() {
-                const currentTime = performance.now();
-                const elapsed = currentTime - startTime;
-                const t = Math.min(elapsed / duration, 1);
-                const easedValue = startValue + (endValue - startValue) * ease(t);
-
-                onUpdate(easedValue);
-
-                if (t < 1) {
-                    requestAnimationFrame(update);
-                } else if (t >= 1) {
-                    onEnd();
-                }
-            }
-            
-            setTimeout(() => {
-                onStart();
-                requestAnimationFrame(update);
-            }, delay);
         }
 
         // 动态加载音乐播放器
@@ -1369,11 +1216,11 @@
                 children.forEach((child) => {
                     if (Array.isArray(child)) {
                         child.forEach((nestedChild) => element.appendChild(
-                            nestedChild.nodeType ? nestedChild : document.createTextNode(nestedChild)
+                            nestedChild.nodeType ? nestedChild : document.createTextNode(nestedChild.toString())
                         ));
                     } else {
                         element.appendChild(
-                            child.nodeType ? child : document.createTextNode(child)
+                            child.nodeType ? child : document.createTextNode(child.toString())
                         );
                     }
                 });
