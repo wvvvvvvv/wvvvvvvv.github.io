@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍋🐈🩷</title>
+    <title>🍋🐈💜</title>
     <style>
         :root {
             /* 发光卡片变量 */
@@ -47,7 +47,6 @@
             font-family: 'Inter', sans-serif;
             color: var(--fg);
             overflow: hidden; /* 禁止页面滚动 */
-            animation: moveBackground 60s linear infinite; /* 添加背景移动动画以增强液体玻璃动态效果 */
         }
 
         body.light {
@@ -58,7 +57,6 @@
             background-attachment: fixed;
             color: var(--fg);
             overflow: hidden; /* 禁止页面滚动 */
-            animation: moveBackground 60s linear infinite; /* 同样添加动画 */
         }
         
         canvas {
@@ -776,15 +774,6 @@
             color: var(--fg);
         }
 
-        /* 背景移动动画（从液体玻璃代码整合） */
-        @keyframes moveBackground {
-            from {
-                background-position: 0% 0%;
-            }
-            to {
-                background-position: 0% -500%;
-            }
-        }
     </style>
 </head>
 <body>
