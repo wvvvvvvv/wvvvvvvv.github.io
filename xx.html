@@ -443,7 +443,7 @@
             align-items: center;
             gap: 5px;
             margin-top: -5px;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
             padding: 0 12px;
         }
 
@@ -912,7 +912,7 @@
                     </div>
 
                     <div class="pagination">
-                        <svg class="bottom-theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light', true)">
+                        <svg class="bottom-theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light', true, 'https://dogpan.com/f/8PPfY/xxx.PNG')">
                             <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                 <circle cx="12" cy="12" r="4"/>
                                 <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
@@ -921,7 +921,7 @@
                         <div class="bullet" data-page="1" onclick="switchPageTo(1)"></div>
                         <div class="bullet active" data-page="2" onclick="switchPageTo(2)"></div>
                         <div class="bullet" data-page="3" onclick="switchPageTo(3)"></div>
-                        <svg class="bottom-theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light', true)">
+                        <svg class="bottom-theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light', true, 'https://dogpan.com/f/7NvuZ/lll.PNG')">
                             <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                 <circle cx="12" cy="12" r="4"/>
                                 <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
@@ -989,7 +989,7 @@
             }
         });
 
-        function toggleTheme(theme, changeWallpaper) {
+        function toggleTheme(theme, changeWallpaper, wallpaperUrl) {
             if (theme === 'light') {
                 document.body.classList.add('light');
                 document.documentElement.style.setProperty('--fg', 'black');
@@ -1000,11 +1000,7 @@
                 renderer.setClearColor(0x000000, 1);
             }
             if (changeWallpaper) {
-                if (theme === 'light') {
-                    document.body.style.background = "url('https://dogpan.com/f/7NvuZ/lll.PNG') center/cover fixed";
-                } else {
-                    document.body.style.background = "url('https://dogpan.com/f/8PPfY/xxx.PNG') center/cover fixed";
-                }
+                document.body.style.background = `url('${wallpaperUrl}') center/cover fixed`;
             } else {
                 document.body.style.background = "url('https://dogpan.com/f/qPPFX/000.jpeg') center/cover fixed";
             }
