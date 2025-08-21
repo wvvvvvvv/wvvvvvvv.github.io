@@ -76,7 +76,7 @@
             text-align: center;
             box-sizing: border-box;
             border: 1px solid rgb(255 255 255 / 25%);
-            
+            backdrop-filter: blur(0.5px);
         }
 
         .glowing-card::before,
@@ -177,6 +177,7 @@
 
         .theme-toggle {
             position: absolute;
+            top: 12px;
             width: 24px;
             height: 24px;
             cursor: pointer;
@@ -190,23 +191,34 @@
         }
 
         .sun-toggle {
-            top: 12px;
             left: 12px;
         }
 
         .moon-toggle {
-            top: 12px;
             right: 12px;
         }
 
-        /* 新增左下角和右下角按钮样式 */
-        .bottom-left-toggle {
+        /* 新添加的日间模式按钮样式 */
+        .day-toggle {
+            position: absolute;
             bottom: 12px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .day-toggle:hover {
+            opacity: 0.7;
+        }
+
+        .day-toggle-left {
             left: 12px;
         }
 
-        .bottom-right-toggle {
-            bottom: 12px;
+        .day-toggle-right {
             right: 12px;
         }
 
@@ -609,8 +621,8 @@
         .slider__switch-button { font-size: 2.5em; height: max-content; }
         .music-player__info {
             width: 56.3%; cursor: pointer; line-height: 1.6; overflow: hidden; font-weight: bold; padding: 0 0.0625em; white-space: nowrap;
-            margin: 0 auto; pointer-events: none;
         }
+        .music-player__info > * { margin: 0 auto; pointer-events: none; }
         .music-player__singer-name { font-size: 1.1em; width: max-content; }
         .music-player__subtitle { font-size: 0.8em; font-weight: bold; color: var(--color-text-2); }
         .slider__controls .music-player__subtitle { width: max-content; }
@@ -825,15 +837,16 @@
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
                 </svg>
                 
-                <!-- 新增左下角和右下角按钮 -->
-                <svg class="theme-toggle bottom-left-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light');changeBackground('https://dogpan.com/f/8PPfY/xxx.PNG')">
+                <!-- 新添加的左下角日间模式按钮 -->
+                <svg class="day-toggle day-toggle-left" viewBox="0 0 24 24" onclick="switchBackground('https://dogpan.com/f/8PPfY/xxx.PNG')">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                         <circle cx="12" cy="12" r="4"/>
                         <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
                     </g>
                 </svg>
-                
-                <svg class="theme-toggle bottom-right-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light');changeBackground('https://dogpan.com/f/7NvuZ/lll.PNG')">
+
+                <!-- 新添加的右下角日间模式按钮 -->
+                <svg class="day-toggle day-toggle-right" viewBox="0 0 24 24" onclick="switchBackground('https://dogpan.com/f/7NvuZ/lll.PNG')">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                         <circle cx="12" cy="12" r="4"/>
                         <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
@@ -1010,12 +1023,12 @@
             }
         }
 
-        // 新增函数：切换背景壁纸
-        function changeBackground(url) {
+        /* 新添加的背景切换函数，已修复初始点击问题 */
+        function switchBackground(url) {
             document.body.style.background = `url('${url}') center/cover fixed`;
-            if (document.body.classList.contains('light')) {
-                document.body.style.background = `url('${url}') center/cover fixed`;
-            }
+            document.body.classList.add('light');
+            renderer.setClearColor(0x000000, 0);
+            document.documentElement.style.setProperty('--fg', 'black');
         }
 
         const $card = document.querySelector(".glowing-card");
