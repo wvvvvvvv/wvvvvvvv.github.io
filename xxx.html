@@ -959,11 +959,24 @@
 
         window.onload = function() {
             init();
+            preloadImages([
+                'https://dogpan.com/f/qPPFX/000.jpeg',
+                'https://dogpan.com/f/8PPfY/xxx.PNG',
+                'https://dogpan.com/f/7NvuZ/lll.PNG'
+            ]);
             loadMusicPlayer();
             switchPageTo(2);
             setTimeout(playAnimation, 500);
             toggleTheme('dark');
         };
+
+        /* 新添加的预加载函数 */
+        function preloadImages(urls) {
+            urls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+        }
 
         function switchPageTo(page) {
             if (page < 1 || page > 3) return;
