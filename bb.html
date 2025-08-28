@@ -545,16 +545,16 @@
             --border-radius: 1.2em;
             --music-player-height: calc(var(--page-height) - 50px);
             --offset-cover: 1em;
-            width: 100%;
-            max-width: 330px;
+            width: 335px !important;
+            height: 510px !important;
             user-select: none;
             color: var(--color-text-1);
             height: var(--music-player-height);
             border-radius: var(--border-radius);
             background-color: rgba(255, 255, 255, 0.1);
-            margin-top: 11px;
+            margin-top: 45px;
             margin-right: auto;
-            margin-bottom: 29px;
+            margin-bottom: -0px;
             margin-left: auto;
             box-sizing: border-box;
         }
@@ -1214,6 +1214,27 @@
             let broadcastGuarantor_elmnt = null;
             const root = document.querySelector("#root");
 
+            // 硬编码歌单列表
+            const hardcodedSongs = [
+                {
+                    songName: "Signals",
+                    artist: "Lazer Boomerang",
+                    files: {
+                        cover: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.jpg",
+                        song: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.mp3"
+                    }
+                },
+                {
+                    songName: "On The Run",
+                    artist: "Timecop1983",
+                    files: {
+                        cover: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/1983.PNG",
+                        song: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/1984.mp3"
+                    }
+                    }
+                
+            ];
+
             function App({ songs }) {
                 function handleChangeMusic({ isPrev = false, playListIndex = null }) {
                     if (isLocked || indexSong === playListIndex) return;
@@ -1378,61 +1399,32 @@
                 return element;
             }
 
-            fetch("https://raw.githubusercontent.com/0OOOOOOOO/OOO/refs/heads/main/music-info.json")
-                .then((response) => response.json())
-                .then((result) => {
-                    const songs = result.songs;
-                    function downloadTheFiles(media, input) {
-                        return Promise.all(
-                            input.map((song) => {
-                                const promise = new Promise((resolve) => {
-                                    const url = song.files[media];
-                                    const req = new XMLHttpRequest();
-                                    req.open("GET", url, true);
-                                    req.responseType = "blob";
-                                    req.send();
-                                    req.onreadystatechange = () => {
-                                        if (req.readyState === 4 && req.status === 200) {
-                                            const blob = req.response;
-                                            const file = URL.createObjectURL(blob);
-                                            song.files[media] = file;
-                                            resolve(song);
-                                        }
-                                    };
-                                });
-                                return promise;
-                            })
-                        );
-                    }
-                    downloadTheFiles("cover", songs).then((response) => {
-                        downloadTheFiles("song", response).then((data) => {
-                            root.innerHTML = '';
-                            root.appendChild(App({ songs: data }));
-                            songsLength = data.length - 1;
-                            progress_elmnt = document.querySelector(".progress");
-                            playlistSongs_elmnt = root.querySelectorAll("audio");
-                            sliderImgs_elmnt = document.querySelector(".slider__imgs");
-                            songName_elmnt = document.querySelector(".music-player__subtitle");
-                            musicPlayerInfo_elmnt = document.querySelector(".music-player__info");
-                            singerName_elmnt = document.querySelector(".music-player__singer-name");
-                            selectedSong = playlistSongs_elmnt[indexSong];
-                            progressBar_elmnt = document.querySelector(".progress__bar");
-                            broadcastGuarantor_elmnt = document.querySelector(".music-player__broadcast-guarantor");
-                            controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
-                            controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
-                            musicPlayerLoaded = true;
-                        }).catch(error => {
-                            root.innerHTML = '<div style="color: var(--fg); font-style: italic;">音乐加载失败，请刷新重试</div>';
-                            console.error('音乐加载失败:', error);
-                        });
-                    }).catch(error => {
-                        root.innerHTML = '<div style="color: var(--fg); font-style: italic;">封面加载失败，请刷新重试</div>';
-                        console.error('封面加载失败:', error);
-                    });
-                }).catch(error => {
-                    root.innerHTML = '<div style="color: var(--fg); font-style: italic;">播放列表加载失败，请刷新重试</div>';
-                    console.error('播放列表加载失败:', error);
-                });
+            // 使用硬编码的歌单数据
+            const songs = hardcodedSongs;
+            songsLength = songs.length - 1;
+            
+            // 清空加载提示
+            root.innerHTML = '';
+            
+            // 创建音乐播放器
+            root.appendChild(App({ songs: songs }));
+            
+            // 初始化播放器元素
+            progress_elmnt = document.querySelector(".progress");
+            playlistSongs_elmnt = root.querySelectorAll("audio");
+            sliderImgs_elmnt = document.querySelector(".slider__imgs");
+            songName_elmnt = document.querySelector(".music-player__subtitle");
+            musicPlayerInfo_elmnt = document.querySelector(".music-player__info");
+            singerName_elmnt = document.querySelector(".music-player__singer-name");
+            selectedSong = playlistSongs_elmnt[indexSong];
+            progressBar_elmnt = document.querySelector(".progress__bar");
+            broadcastGuarantor_elmnt = document.querySelector(".music-player__broadcast-guarantor");
+            
+            // 控制字幕动画
+            controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
+            controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
+            
+            musicPlayerLoaded = true;
 
             function controlSubtitleAnimation(parent, child) {
                 if (child.classList.contains("animate")) return;
