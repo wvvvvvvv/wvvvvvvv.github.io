@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍉</title>
+    <title>🌎</title>
     <style>
         :root {
-            /* 发光卡片变量 */
             --glow-sens: 30;
             --dark: hsl(260, 25%, 10%);
-            --fg: white;
+            --fg: black;
             --h: 260;
             --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
             --blend: soft-light;
@@ -18,12 +17,11 @@
             --duration: 1s;
             --ease-slider: cubic-bezier(0.4, 0, 0.2, 1);
             --ease-timeline: cubic-bezier(0.71, 0.21, 0.3, 0.95);
-            --page-height: 510px; /* 统一页面高度 */
+            --page-height: 498px;
             --accent: hsl(260, 100%, 80%);
         }
 
         .light {
-            /* 日间模式变量 */
             --card-bg: linear-gradient(8deg, color-mix(in hsl, hsl(260, 25%, 95%), var(--dark) 2.5%) 75%, hsl(260, 25%, 95%) 75.5%);
             --blend: darken;
             --glow-blend: luminosity;
@@ -36,24 +34,17 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg'); /* 默认日间模式：自定义壁纸 */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            background: url('https://dogpan.com/f/qPPFX/000.jpeg') center/cover fixed;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Inter', sans-serif;
             color: var(--fg);
+            overflow: hidden;
         }
 
         body.light {
-            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg'); /* 日间模式保持壁纸 */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            background: url('https://dogpan.com/f/qPPFX/000.jpeg') center/cover fixed;
             color: var(--fg);
         }
         
@@ -66,19 +57,22 @@
             z-index: -1;
         }
         
-        /* 发光卡片样式 */
         .glowing-card {
             --pads: 20px;
             --color-sens: calc(var(--glow-sens) + 20);
             position: relative;
-            width: 360px;
-            height: calc(var(--page-height) + 40px); /* 固定高度：500px + 20px上下padding（从.alist-widget-wrapper） */
+            width: 345px !important;
+            height: 510px !important;
+            min-width: 345px;
+            min-height: 510px;
+            max-width: 345px;
+            max-height: 510px;
             border-radius: 20px;
             isolation: isolate;
             transform: translate3d(0, 0, 0.01px);
             background: rgba(255, 255, 255, 0.2);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-            overflow: hidden; /* 防止溢出扩展卡片 */
+            overflow: hidden;
             text-align: center;
             box-sizing: border-box;
             border: 1px solid rgb(255 255 255 / 25%);
@@ -180,10 +174,9 @@
                 0 0 50px 2px hsl( var(--glow-color) / 10%);
         }
 
-        /* 主题切换按钮样式 */
         .theme-toggle {
             position: absolute;
-            top: 12px;
+            top: 6px;
             width: 24px;
             height: 24px;
             cursor: pointer;
@@ -197,23 +190,46 @@
         }
 
         .sun-toggle {
-            left: 12px;
+            left: 6px;
         }
 
         .moon-toggle {
-            right: 12px;
+            right: 6px;
         }
 
-        /* 原有个人主页样式 */
+        /* 新添加的日间模式按钮样式 */
+        .day-toggle {
+            position: absolute;
+            bottom: 5px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .day-toggle:hover {
+            opacity: 0.7;
+        }
+
+        .day-toggle-left {
+            left: 6px;
+        }
+
+        .day-toggle-right {
+            right: 6px;
+        }
+
         .alist-widget-wrapper {
             padding: 20px;
             z-index: 1;
-            height: 100%; /* 填充卡片高度 */
+            height: 100%;
             box-sizing: border-box;
         }
 
         .profile-header {
-            padding: 15px 2px 12px; /* 增加顶部内边距为按钮留空间 */
+            padding: 15px 2px 12px;
             position: relative;
         }
 
@@ -228,7 +244,7 @@
 
         .link-section {
             width: 100%;
-            height: 100%; /* 填充卡片高度 */
+            height: 100%;
             overflow: hidden;
             padding: 0;
         }
@@ -236,40 +252,45 @@
         .pages {
             display: flex;
             transition: transform 0.5s ease-in-out;
-            height: 100%; /* 确保滑动容器填充 */
-            transform: translateX(-100%); /* 默认直接显示第二页 */
+            height: 100%;
+            transform: translateX(-100%);
         }
 
         .page {
             flex: 0 0 100%;
-            height: var(--page-height); /* 从 min-height 改为 height，锁定500px */
+            height: var(--page-height);
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 0 16px 20px;
-            overflow: hidden; /* 隐藏溢出内容，防止扩展 */
+            padding: 0 26px 23px;
+            overflow: hidden;
         }
 
         #page3 {
-            justify-content: center; /* 垂直居中 */
-            align-items: center; /* 水平居中 */
-            padding: 0; /* 移除padding，让音乐播放器margin控制间距 */
+            justify-content: center;
+            align-items: center;
+            padding: 0;
         }
 
         .link-card {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: flex-start;              
+            width: 275px !important;
+            min-width: 275px;
+            max-width: 275px;
+            height: 35px;
             background: rgba(255, 255, 255, 0.1);
             padding: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             border-radius: 15px;
             text-decoration: none;
             color: var(--fg);
             transition: background 0.3s;
             font-size: 16px;
             font-style: italic;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .link-card:hover {
@@ -290,37 +311,37 @@
             color: var(--fg);
         }
 
-        /* 新增滚动容器样式，类似于歌单列表 */
         .link-scroll-container {
-
             overflow-y: auto;
-            scrollbar-gutter: stable; /* 预留滚动条空间，保持布局对称 */
         }
 
         .link-scroll-container::-webkit-scrollbar {
-            width: 6px;
+            width: 0px;
             background: transparent;
         }
 
         .link-scroll-container::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            opacity: 0; /* 默认隐藏 */
+            border-radius: 100px;
+            opacity: 0;
             transition: opacity 0.3s ease;
         }
 
         .link-scroll-container.scrolling::-webkit-scrollbar-thumb {
-            opacity: 1; /* 滚动时显示 */
+            opacity: 1;
         }
 
-        /* 修改后的 Spotify 卡片样式 */
         .spotify-card {
             display: flex;
             justify-content: space-between;
+            width: 250px !important;
+            min-width: 250px;
+            max-width: 250px;
+            height: 100px;
             align-items: center;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            padding: 10px 22px;
+            padding: 9.8px 20px;
             max-width: 100%;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             cursor: pointer;
@@ -344,7 +365,7 @@
         .spotify-meta {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .spotify-icon {
@@ -367,7 +388,7 @@
             display: flex;
             flex-direction: column;
             text-align: left;
-            gap: 2px;
+            gap: 3px;
         }
 
         .track-title {
@@ -379,7 +400,7 @@
         }
 
         .track-artist {
-            font-size: 16px;
+            font-size: 11.7870px;
             color: var(--fg);
             font-style: italic;
         }
@@ -406,8 +427,8 @@
         }
 
         .spotify-cover {
-            width: 80px;
-            height: 80px;
+            width: 75px;
+            height: 75px;
             border-radius: 12px;
             overflow: hidden;
             flex-shrink: 0;
@@ -419,29 +440,12 @@
             height: 100%;
             object-fit: cover;
         }
-
-        max-width: 316px; {
-            .spotify-card {
-                flex-wrap: nowrap;
-            }
             
-            .spotify-left {
-                flex: 1 1 auto;
-                min-width: 0;
-            }
-            
-            .spotify-cover {
-                margin-left: 12px;
-                margin-top: 0;
-            }
-            
-            .play-btn {
-                width: fit-content;
-                justify-content: flex-start;
-            }
+        .play-btn {
+            width: fit-content;
+            justify-content: flex-start;
         }
 
-        /* 新增鼠标特效画布样式 */
         #shuicheCanvas {
             position: fixed;
             left: 0;
@@ -450,14 +454,12 @@
             pointer-events: none;
         }
 
-        /* 分页器样式 */
         .pagination {
             display: flex;
             justify-content: center;
             gap: 5px;
-            margin-top: 6px; /* 上间距 */
-            margin-bottom: 10px; /* 下间距 */
-
+            margin-top: -8px;
+            margin-bottom: 10px;
         }
 
         .bullet {
@@ -477,7 +479,6 @@
             box-shadow: 0px 0px 20px rgba(194, 153, 255, 0);
         }
 
-        /* 音乐播放器 CSS */
         @font-face {
             font-family: "icomoon";
             src: url("https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/icomoon/fonts/icomoon.eot?u8ckod");
@@ -509,13 +510,7 @@
         .icon-play:before { content: "\e903"; color: #fff; }
         .icon-playlist:before { content: "\e904"; color: #fff; }
 
-        /* 公共类 */
-        .img {
-            width: 100%;
-            flex-shrink: 0;
-            display: block;
-            object-fit: cover;
-        }
+        .img { width: 100%; flex-shrink: 0; display: block; object-fit: cover; }
         .list { margin: 0; padding: 0; list-style-type: none; }
         .text_trsf-cap { text-transform: capitalize; }
         .button { all: unset; cursor: pointer; }
@@ -538,7 +533,6 @@
             margin-right: 60px;
         }
 
-        /* 音乐播放器 */
         .music-player {
             --color-white: #fff;
             --color-gray: #e5e7ea;
@@ -547,19 +541,21 @@
             --box-shadow: 0 2px 6px 1px #0000001f;
             --color-text-1: var(--fg);
             --color-text-2: #ffffff6b;
-            --cover-size: 4.3em;
+            --cover-size: 4.2em;
             --border-radius: 1.2em;
-            --music-player-height: calc(var(--page-height) - 50px); /* 已适配，保持 */
-            --offset-cover: 1.2em;
-            width: 100%;
-            max-width: 330px;
-            
+            --music-player-height: calc(var(--page-height) - 0px);
+            --offset-cover: 1em;
+            width: 335px !important;
+            height: 500px !important;
             user-select: none;
             color: var(--color-text-1);
             height: var(--music-player-height);
             border-radius: var(--border-radius);
             background-color: rgba(255, 255, 255, 0.1);
-            margin: 20px auto;
+            margin-top: 45px;
+            margin-right: auto;
+            margin-bottom: -0px;
+            margin-left: auto;
             box-sizing: border-box;
         }
         .light .music-player {
@@ -626,7 +622,7 @@
         }
         .slider__switch-button { font-size: 2.5em; height: max-content; }
         .music-player__info {
-            width: 56.3%; cursor: pointer; line-height: 1.6; overflow: hidden; font-weight: bold; padding: 0 0.0625em; white-space: nowrap;
+            width: 56.3%; cursor: pointer; line-height: 1.45; overflow: hidden; font-weight: bold; padding: 0 0.0625em; white-space: nowrap;
         }
         .music-player__info > * { margin: 0 auto; pointer-events: none; }
         .music-player__singer-name { font-size: 1.1em; width: max-content; }
@@ -640,11 +636,11 @@
             80%, 100% { transform: translate3d(calc((100% + var(--subtitle-gap)) / -2), 0, 0); }
         }
         .progress {
-            width: 90%; height: 1em; cursor: pointer; transition: var(--duration) width var(--ease-timeline);
+            width: 90%; height: 0.6em; cursor: pointer; transition: var(--duration) width var(--ease-timeline);
         }
         .slider.resize .progress { width: 100%; }
         .progress__wrapper {
-            width: 100%; height: 0.3em; position: relative; border-radius: 1em; background-color: var(--color-gray);
+            width: 100%; height: 0.33em; position: relative; border-radius: 1em; background-color: var(--color-gray);
         }
         .progress__bar {
             top: 0; left: 0; bottom: 0; position: absolute; width: var(--width); border-radius: inherit; background-color: var(--color-blue);
@@ -654,8 +650,8 @@
             border-radius: 100%; background-color: var(--color-blue-dark);
         }
         .music-player__playlist {
-            height: 100%; /* 填充剩余高度 */
-            overflow-y: auto; /* 如果播放列表过长，内部滚动而不扩展 */
+            height: 100%;
+            overflow-y: auto;
             padding: 1em 0.9em 0 var(--offset-cover);
             box-sizing: border-box;
         }
@@ -666,60 +662,69 @@
         .music-player__song-img {
             width: var(--cover-size); height: var(--cover-size); border-radius: var(--border-radius);
         }
-.music-player__playlist-info {
-    width: 100%;
-    overflow: hidden;
-    line-height: 1.2;
-    font-size: 1em;
-    margin-left: 1.2em;
-}
+        .music-player__playlist-info {
+            width: 100%;
+            overflow: hidden;
+            line-height: 1.2;
+            font-size: 1em;
+            margin-left: 1.2em;
+        }
 
-.music-player__playlist-info {
-    width: 100%;
-    overflow: hidden;
-    line-height: 1.2;
-    font-size: 1em;
-    margin-left: 1em;
-}
+        .music-player__playlist-info b {
+            display: block;
+            margin-left: 0;
+            padding-left: 0;
+            text-align: left;
+            width: calc(100% - 50px);
+        }
 
-/* 修改以下样式 */
-.music-player__playlist-info b {
-    display: block;
-    margin-left: 0;
-    padding-left: 0;
-    text-align: left;
-    width: calc(100% - 50px); /* 为时长留出空间 */
-}
+        .flex-row._justify_space-btwn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
 
-.flex-row._justify_space-btwn {
-    display: flex;
-    justify-content: space-between; /* 保持时长在右侧 */
-    align-items: center;
-    width: 100%;
-}
+        .music-player__playlist-info .music-player__subtitle {
+            display: block;
+            text-align: left;
+            margin-left: 0;
+            padding-left: 0;
+            flex-grow: 1;
+        }
 
-.music-player__playlist-info .music-player__subtitle {
-    display: block;
-    text-align: left;
-    margin-left: 0;
-    padding-left: 0;
-    flex-grow: 1; /* 占据剩余空间 */
-}
-
-.music-player__song-duration {
-    flex-shrink: 0; /* 防止时长被压缩 */
-    margin-left: 10px; /* 与左侧内容保持间距 */
-}
+        .music-player__song-duration {
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
         .music-player__song-duration {
             font-weight: bold; font-size: 0.8em; color: var(--color-text-2);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--fg);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 10px;
+            font-size: 16px;
+            color: var(--fg);
         }
     </style>
 </head>
 <body>
-    <!-- 新增鼠标特效画布 -->
     <canvas id="shuicheCanvas"></canvas>
 
-    <!-- 原有3D粒子动画脚本 -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script>
         const count = 5000;
@@ -817,16 +822,12 @@
             camera.lookAt(scene.position);
             renderer.render(scene, camera);
         }
-
-        window.onload = init;
     </script>
 
-    <!-- 发光卡片个人主页导航 -->
     <div class="alist-widget-wrapper">
         <div class="glowing-card">
             <span class="glow"></span>
             <div class="inner">
-                <!-- 主题切换按钮 -->
                 <svg class="theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light')">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                         <circle cx="12" cy="12" r="4"/>
@@ -834,17 +835,31 @@
                     </g>
                 </svg>
                 
-                <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleTheme('dark')">
+               <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleTheme('dark')">
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
+                </svg>
+                
+                <!-- 新添加的左下角日间模式按钮 -->
+                <svg class="day-toggle day-toggle-left" viewBox="0 0 24 24" onclick="switchBackground('https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/bizhi.JPG')">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </g>
+                </svg>
+
+                <!-- 新添加的右下角日间模式按钮 -->
+                <svg class="day-toggle day-toggle-right" viewBox="0 0 24 24" onclick="switchBackground('https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/%E9%97%AA%E5%85%89.JPG')">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </g>
                 </svg>
                 
                 <div class="link-section">
                     <div class="pages">
                         <div id="page1" class="page">
-                            <!-- 左边空白页 -->
                             <div class="profile-header"></div>
                             <div style="height: 100%; display: flex; justify-content: center; align-items: center; color: var(--fg); font-style: italic;">
-                                <!-- 可以添加占位文本或留空 -->
                             </div>
                         </div>
 
@@ -852,15 +867,15 @@
                             <div class="profile-header">
                                 <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
                             </div>
-                            <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
+                            <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3UkRfA9F62DYYDzqOskoov?si=MXIJN0wrQx24IS-qmyCUjg', '_blank')">
                                 <div class="spotify-left">
                                     <div class="spotify-meta">
                                         <div class="spotify-icon">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" />
+                                            <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Spotify.svg" alt="Spotify" />
                                         </div>
                                         <div class="track-text">
-                                            <div class="track-title">Astral Chill</div>
-                                            <div class="track-artist">Virtual Mage</div>
+                                            <div class="track-title">Signals</div>
+                                            <div class="track-artist">Lazer Boomerang</div>
                                         </div>
                                     </div>
                                     <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
@@ -870,15 +885,14 @@
                                     </button>
                                 </div>
                                 <div class="spotify-cover">
-                                    <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
+                                    <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.jpg" alt="封面" />
                                 </div>
-                                <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
+                                <audio id="audioPlayer" src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.mp3"></audio>
                             </div>
 
-                            <!-- 新增滚动容器，从Instagram开始 -->
                             <div class="link-scroll-container">
                                 <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
+                                    <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Instagram.png" alt="Instagram" class="link-icon" />
                                     <span class="link-title">Instagram</span>
                                 </a>
 
@@ -897,7 +911,6 @@
                                     <span class="link-title">https://🦋.blogspot.com</span>
                                 </a>
 
-                                <!-- 新添加的社交链接，需要向下滚动显示 -->
                                 <a href="https://wa.me/message/SYDPTLQEHYE3P1?src=qr" class="link-card" target="_blank">
                                     <img src="https://dogpan.com/f/Dp7C3/WhatsApp.png" alt="WhatsApp" class="link-icon" />
                                     <span class="link-title">WhatsApp</span>
@@ -913,16 +926,22 @@
                                     <span class="link-title">Pinterest</span>
                                 </a>
 
-                                <a href="https://www.xiaohongshu.com/user/profile/67286cfc000000001d02d387" class="link-card" target="_blank">
-                                    <img src="https://dogpan.com/f/JGrTK/WeChat%E2%80%93.png" alt="WeChat" class="link-icon" />
-                                    <span class="link-title">WeChat</span>
-                                </a>
+<a href="javascript:void(0);" class="link-card" id="wechatBtn">
+    <img src="https://dogpan.com/f/JGrTK/WeChat%E2%80%93.png" alt="WeChat" class="link-icon" />
+    <span class="link-title">WeChat</span>
+</a>
+
                             </div>
                         </div>
 
                         <div id="page3" class="page">
                             <div class="profile-header"></div>
-                            <div id="root"></div>
+                            <div id="root">
+                                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                                    <div class="loading-spinner"></div>
+                                    <div class="loading-text">加载音乐播放器...</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -937,9 +956,29 @@
     </div>
 
     <script>
-        // 分页逻辑
-        let currentPage = 2; // 默认显示中间页面
-        let musicPlayerLoaded = false; // Track if music player is loaded
+        let currentPage = 2;
+        let musicPlayerLoaded = false;
+
+        window.onload = function() {
+            init();
+            preloadImages([
+                'https://dogpan.com/f/qPPFX/000.jpeg',
+                'https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/bizhi.JPG',
+                'https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/%E9%97%AA%E5%85%89.JPG'
+            ]);
+            loadMusicPlayer();
+            switchPageTo(2);
+            setTimeout(playAnimation, 500);
+            toggleTheme('light');
+        };
+
+        /* 新添加的预加载函数 */
+        function preloadImages(urls) {
+            urls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+        }
 
         function switchPageTo(page) {
             if (page < 1 || page > 3) return;
@@ -949,14 +988,8 @@
             pages.style.transform = `translateX(-${(page - 1) * 100}%)`;
 
             document.querySelectorAll('.bullet').forEach(b => b.classList.toggle('active', parseInt(b.dataset.page) === page));
-
-            if (page === 3 && !musicPlayerLoaded) {
-                loadMusicPlayer();
-                musicPlayerLoaded = true; // Mark as loaded
-            }
         }
 
-        // 音频播放控制
         let isPlaying = false;
         const audio = document.getElementById('audioPlayer');
 
@@ -991,7 +1024,6 @@
             }
         });
 
-        // 主题切换功能
         function toggleTheme(theme) {
             if (theme === 'light') {
                 document.body.classList.add('light');
@@ -1006,7 +1038,14 @@
             }
         }
 
-        // 发光卡片交互效果
+        /* 新添加的背景切换函数，已修复初始点击问题 */
+        function switchBackground(url) {
+            document.body.style.background = `url('${url}') center/cover fixed`;
+            document.body.classList.add('light');
+            renderer.setClearColor(0x000000, 0);
+            document.documentElement.style.setProperty('--fg', 'black');
+        }
+
         const $card = document.querySelector(".glowing-card");
 
         const cardUpdate = (e) => {
@@ -1027,7 +1066,6 @@
 
         $card.addEventListener("pointermove", cardUpdate);
 
-        // 辅助函数
         const centerOfElement = ($el) => {
             const { left, top, width, height } = $el.getBoundingClientRect();
             return [ width/2, height/2 ];
@@ -1066,7 +1104,6 @@
         const round = (value, precision = 3) => parseFloat(value.toFixed(precision));
         const clamp = (value, min = 0, max = 100) => Math.min(Math.max(value, min), max);
 
-        // 开场动画
         const playAnimation = () => {
             const angleStart = 310;
             const angleEnd = 525;
@@ -1119,7 +1156,6 @@
             });
         }
 
-        // 动画辅助函数
         function easeOutCubic(x) { return 1 - Math.pow(1 - x, 3); }
         function easeInCubic(x) { return x * x * x; } 
 
@@ -1158,16 +1194,9 @@
             }, delay);
         }
 
-        // 启动开场动画
-        setTimeout(() => {
-            playAnimation();
-        }, 500);
-
-        // 初始化时默认设置为暗色模式
-        toggleTheme('dark');
-
-        // 动态加载音乐播放器
         function loadMusicPlayer() {
+            if (musicPlayerLoaded) return;
+            
             /** @jsx dom */
             let indexSong = 0;
             let isLocked = false;
@@ -1185,10 +1214,26 @@
             let broadcastGuarantor_elmnt = null;
             const root = document.querySelector("#root");
 
-            // Clear existing content in #root to prevent duplicates
-            while (root.firstChild) {
-                root.removeChild(root.firstChild);
-            }
+            // 硬编码歌单列表
+            const hardcodedSongs = [
+                {
+                    songName: "Signals",
+                    artist: "Lazer Boomerang",
+                    files: {
+                        cover: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.jpg",
+                        song: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.mp3"
+                    }
+                },
+                {
+                    songName: "On The Run",
+                    artist: "Timecop1983",
+                    files: {
+                        cover: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/1983.PNG",
+                        song: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/1984.mp3"
+                    }
+                    }
+                
+            ];
 
             function App({ songs }) {
                 function handleChangeMusic({ isPrev = false, playListIndex = null }) {
@@ -1297,10 +1342,10 @@
                     const currentTime = this.currentTime;
                     const progressBarWidth = (currentTime / duration) * 100;
                     setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
-                    if (songIsPlayed && currentTime === duration) {
+                    if (songIsPlayed && currentTime >= duration) {
                         handleChangeMusic({});
                     }
-                    if (indexSong === songsLength && this === selectedSong && currentTime === duration) {
+                    if (indexSong === songsLength && this === selectedSong && currentTime >= duration) {
                         songIsPlayed = false;
                         broadcastGuarantor_elmnt.classList.remove("click");
                     }
@@ -1319,7 +1364,7 @@
                                         )
                                     )
                                 ),
-                                dom("audio", { src: song, onloadeddata: loadedAudio, ontimeupdate: updateTheProgressBar })
+                                dom("audio", { src: song, onloadeddata: loadedAudio, ontimeupdate: updateTheProgressBar, onended: () => { if (songIsPlayed) handleChangeMusic({}); } })
                             )
                         )
                     )
@@ -1354,50 +1399,32 @@
                 return element;
             }
 
-            fetch("https://gist.githubusercontent.com/abxlfazl/37404417d17230a629683eb3f2f0a88a/raw/366ad64df645e94592847283a306fe2276de458e/music-info.json")
-                .then((response) => response.json())
-                .then((result) => {
-                    const songs = result.songs;
-                    function downloadTheFiles(media, input) {
-                        return Promise.all(
-                            input.map((song) => {
-                                const promise = new Promise((resolve) => {
-                                    const url = song.files[media];
-                                    const req = new XMLHttpRequest();
-                                    req.open("GET", url, true);
-                                    req.responseType = "blob";
-                                    req.send();
-                                    req.onreadystatechange = () => {
-                                        if (req.readyState === 4 && req.status === 200) {
-                                            const blob = req.response;
-                                            const file = URL.createObjectURL(blob);
-                                            song.files[media] = file;
-                                            resolve(song);
-                                        }
-                                    };
-                                });
-                                return promise;
-                            })
-                        );
-                    }
-                    downloadTheFiles("cover", songs).then((response) => {
-                        downloadTheFiles("song", response).then((data) => {
-                            root.appendChild(App({ songs: data }));
-                            songsLength = data.length - 1;
-                            progress_elmnt = document.querySelector(".progress");
-                            playlistSongs_elmnt = document.querySelectorAll("audio");
-                            sliderImgs_elmnt = document.querySelector(".slider__imgs");
-                            songName_elmnt = document.querySelector(".music-player__subtitle");
-                            musicPlayerInfo_elmnt = document.querySelector(".music-player__info");
-                            singerName_elmnt = document.querySelector(".music-player__singer-name");
-                            selectedSong = playlistSongs_elmnt[indexSong];
-                            progressBar_elmnt = document.querySelector(".progress__bar");
-                            broadcastGuarantor_elmnt = document.querySelector(".music-player__broadcast-guarantor");
-                            controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
-                            controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
-                        });
-                    });
-                });
+            // 使用硬编码的歌单数据
+            const songs = hardcodedSongs;
+            songsLength = songs.length - 1;
+            
+            // 清空加载提示
+            root.innerHTML = '';
+            
+            // 创建音乐播放器
+            root.appendChild(App({ songs: songs }));
+            
+            // 初始化播放器元素
+            progress_elmnt = document.querySelector(".progress");
+            playlistSongs_elmnt = root.querySelectorAll("audio");
+            sliderImgs_elmnt = document.querySelector(".slider__imgs");
+            songName_elmnt = document.querySelector(".music-player__subtitle");
+            musicPlayerInfo_elmnt = document.querySelector(".music-player__info");
+            singerName_elmnt = document.querySelector(".music-player__singer-name");
+            selectedSong = playlistSongs_elmnt[indexSong];
+            progressBar_elmnt = document.querySelector(".progress__bar");
+            broadcastGuarantor_elmnt = document.querySelector(".music-player__broadcast-guarantor");
+            
+            // 控制字幕动画
+            controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
+            controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
+            
+            musicPlayerLoaded = true;
 
             function controlSubtitleAnimation(parent, child) {
                 if (child.classList.contains("animate")) return;
@@ -1427,6 +1454,9 @@
                 const duration = selectedSong.duration;
                 const currentTime = (e.clientX - progressOffsetLeft) / progressWidth;
                 selectedSong.currentTime = currentTime * duration;
+                // 立即更新进度条，即使歌曲暂停
+                const progressBarWidth = (selectedSong.currentTime / selectedSong.duration) * 100;
+                setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
             }
 
             handleResize();
@@ -1462,10 +1492,6 @@
             });
         }
 
-        // 初始化默认页面
-        switchPageTo(2);
-
-        // 新增：动态控制链接滚动容器的滚动条显示/隐藏
         const scrollContainer = document.querySelector('.link-scroll-container');
         let scrollTimeout;
         if (scrollContainer) {
@@ -1474,9 +1500,30 @@
                 clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(() => {
                     scrollContainer.classList.remove('scrolling');
-                }, 1500); // 停止滚动1秒后隐藏
+                }, 1500);
             });
         }
     </script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    const wechatID = "lllIIllIIlIII"; 
+
+    var clipboard = new ClipboardJS('#wechatBtn', {
+        text: function() {
+            return wechatID;
+        }
+    });
+
+    clipboard.on('success', function(e) {
+        alert('👉微信号复制成功,即将前往微信！');
+        window.location.href = 'weixin://';
+    });
+
+    clipboard.on('error', function(e) {
+        alert('复制失败,请手动输入 ' + wechatID);
+        window.location.href = 'weixin://dl/scan';
+    });
+</script>
+
 </body>
 </html>
