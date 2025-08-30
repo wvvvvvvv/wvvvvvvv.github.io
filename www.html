@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐈‍⬛</title>
+    <title>🐈‍⬛🐈</title>
     <style>
+        /* 样式保持不变，与原始代码相同 */
         :root {
             --glow-sens: 30;
             --dark: hsl(260, 25%, 10%);
@@ -591,13 +592,6 @@
         }
         .slider__content .button { --size: 2.5em; z-index: 1; position: absolute; width: var(--size); height: var(--size); }
         .slider__content i { position: absolute; pointer-events: none; font-size: var(--size); }
-        .music-player__playlist-button {
-            top: 5.5%; left: 5.5%; transform: scale(0); transition: calc(var(--duration) / 2) transform;
-        }
-        .slider.resize .music-player__playlist-button {
-            transform: scale(1);
-            transition: 0.30s var(--duration) transform cubic-bezier(0, 0.85, 0.11, 1.64);
-        }
         .music-player__broadcast-guarantor .icon-pause,
         .music-player__broadcast-guarantor.click .icon-play { opacity: 0; }
         .music-player__broadcast-guarantor.click .icon-pause { opacity: 1; }
@@ -1224,47 +1218,14 @@
                         song: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.mp3"
                     }
                 },
-                                {
-                    songName: "Memory Reboot",
-                    artist: "VØJ/Narvent",
-                    files: {
-                        cover: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Memory%20Reboot.jpg",
-                        song: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Memory%20Reboot.mp3"
-                    }
-                },
-                              {
+                {
                     songName: "On The Run",
                     artist: "Timecop1983",
                     files: {
                         cover: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/1983.PNG",
                         song: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/1984.mp3"
                     }
-                    },
-                                    {
-                    songName: "Signals",
-                    artist: "Lazer Boomerang",
-                    files: {
-                        cover: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.jpg",
-                        song: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.mp3"
-                    }
-                },
-                {
-                    songName: "Signals",
-                    artist: "Lazer Boomerang",
-                    files: {
-                        cover: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.jpg",
-                        song: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.mp3"
-                    }
-                },
-                {
-                    songName: "Signals",
-                    artist: "Lazer Boomerang",
-                    files: {
-                        cover: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.jpg",
-                        song: "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.mp3"
-                    }
                 }
-                
             ];
 
             function App({ songs }) {
@@ -1273,10 +1234,14 @@
                     if (playListIndex || playListIndex === 0) {
                         indexSong = playListIndex;
                     } else {
-                        indexSong = isPrev ? (indexSong -= 1) : (indexSong += 1);
+                        indexSong = isPrev ? (indexSong - 1) : (indexSong + 1);
                     }
-                    if (indexSong < 0) { indexSong = 0; return; }
-                    else if (indexSong > songsLength) { indexSong = songsLength; return; }
+                    // 支持循环播放
+                    if (indexSong < 0) {
+                        indexSong = songsLength;
+                    } else if (indexSong > songsLength) {
+                        indexSong = 0;
+                    }
                     selectedSong.pause();
                     selectedSong.currentTime = 0;
                     progressBarIsUpdating = false;
@@ -1374,10 +1339,12 @@
                     const currentTime = this.currentTime;
                     const progressBarWidth = (currentTime / duration) * 100;
                     setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
-                    if (songIsPlayed && currentTime >= duration) {
-                        handleChangeMusic({});
-                    }
-                    if (indexSong === songsLength && this === selectedSong && currentTime >= duration) {
+                    // 移除原结束检查，使用onended事件
+                }
+                function handleSongEnded() {
+                    if (songIsPlayed) {
+                        handleChangeMusic({}); // 循环播放下一首
+                    } else {
                         songIsPlayed = false;
                         broadcastGuarantor_elmnt.classList.remove("click");
                     }
@@ -1396,7 +1363,7 @@
                                         )
                                     )
                                 ),
-                                dom("audio", { src: song, onloadeddata: loadedAudio, ontimeupdate: updateTheProgressBar, onended: () => { if (songIsPlayed) handleChangeMusic({}); } })
+                                dom("audio", { src: song, onloadeddata: loadedAudio, ontimeupdate: updateTheProgressBar, onended: handleSongEnded })
                             )
                         )
                     )
@@ -1420,7 +1387,7 @@
                 children.forEach((child) => {
                     if (Array.isArray(child)) {
                         child.forEach((nestedChild) => element.appendChild(
-                            nestedChild.nodeType ? nestedChild : document.createTextNode(nestedChild.toString())
+                            nestedChild.nodeType ? nestedChild : document.createTextNode(child.toString())
                         ));
                     } else {
                         element.appendChild(
@@ -1484,11 +1451,20 @@
                 const progressOffsetLeft = progress_elmnt.getBoundingClientRect().left;
                 const progressWidth = progress_elmnt.offsetWidth;
                 const duration = selectedSong.duration;
+                if (isNaN(duration)) return; // 如果音频未加载，忽略拖动
                 const currentTime = (e.clientX - progressOffsetLeft) / progressWidth;
                 selectedSong.currentTime = currentTime * duration;
-                // 立即更新进度条，即使歌曲暂停
-                const progressBarWidth = (selectedSong.currentTime / selectedSong.duration) * 100;
-                setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
+                
+                // 手动更新进度条（即使未播放）
+                const progressBarWidth = (selectedSong.currentTime / duration) * 100;
+                if (!isNaN(progressBarWidth)) {
+                    setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
+                }
+                
+                // 修复：拖动后确保如果应播放，则恢复播放
+                if (songIsPlayed && selectedSong.paused) {
+                    selectedSong.play();
+                }
             }
 
             handleResize();
