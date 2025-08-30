@@ -461,6 +461,8 @@
             gap: 5px;
             margin-top: -8px;
             margin-bottom: 10px;
+            position: relative;
+            z-index: 10;
         }
 
         .bullet {
@@ -989,6 +991,11 @@
             pages.style.transform = `translateX(-${(page - 1) * 100}%)`;
 
             document.querySelectorAll('.bullet').forEach(b => b.classList.toggle('active', parseInt(b.dataset.page) === page));
+            
+            // 切换到第三页时加载音乐播放器
+            if (page === 3 && !musicPlayerLoaded) {
+                loadMusicPlayer();
+            }
         }
 
         let isPlaying = false;
@@ -1243,14 +1250,31 @@
                     } else {
                         indexSong = isPrev ? (indexSong -= 1) : (indexSong += 1);
                     }
-                    if (indexSong < 0) { indexSong = 0; return; }
-                    else if (indexSong > songsLength) { indexSong = songsLength; return; }
-                    selectedSong.pause();
-                    selectedSong.currentTime = 0;
+                    if (indexSong < 0) { 
+                        indexSong = songsLength; // 循环到最后一首
+                    } else if (indexSong > songsLength) { 
+                        indexSong = 0; // 循环到第一首
+                    }
+                    
+                    // 暂停当前歌曲
+                    if (selectedSong) {
+                        selectedSong.pause();
+                        selectedSong.currentTime = 0;
+                    }
+                    
                     progressBarIsUpdating = false;
                     selectedSong = playlistSongs_elmnt[indexSong];
-                    if (selectedSong.paused && songIsPlayed) selectedSong.play();
-                    else selectedSong.pause();
+                    
+                    // 设置进度条为0
+                    setProperty(progressBar_elmnt, "--width", "0%");
+                    
+                    if (songIsPlayed) {
+                        selectedSong.play();
+                        broadcastGuarantor_elmnt.classList.add("click");
+                    } else {
+                        broadcastGuarantor_elmnt.classList.remove("click");
+                    }
+                    
                     setProperty(sliderImgs_elmnt, "--index", -indexSong);
                     updateInfo(singerName_elmnt, songs[indexSong].artist);
                     updateInfo(songName_elmnt, songs[indexSong].songName);
@@ -1278,6 +1302,7 @@
                 }
                 function handlePlayMusic() {
                     if (selectedSong.currentTime === selectedSong.duration) {
+                        selectedSong.currentTime = 0;
                         handleChangeMusic({});
                     }
                     this.classList.toggle("click");
@@ -1319,7 +1344,14 @@
                             dom("button", { class: "slider__switch-button flex-row button", onclick: () => handleChangeMusic({ isPrev: false }) },
                                 dom("i", { class: "icon-next" })
                             ),
-                            dom("div", { class: "progress center", onpointerdown: (e) => { handleScrub(e); progressBarIsUpdating = true; } },
+                            dom("div", { class: "progress center", 
+                                onpointerdown: (e) => { 
+                                    // 修复：允许在播放前拖动进度条
+                                    if (!selectedSong || !selectedSong.src) return;
+                                    handleScrub(e); 
+                                    progressBarIsUpdating = true; 
+                                } 
+                            },
                                 dom("div", { class: "progress__wrapper" },
                                     dom("div", { class: "progress__bar center" })
                                 )
@@ -1344,12 +1376,14 @@
                     setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
                     
                     // 修复：歌曲结束时自动播放下一首
-                    if (songIsPlayed && currentTime === duration) {
-                        // 如果不是最后一首，播放下一首
+                    if (songIsPlayed && currentTime >= duration - 0.5) {
+                        // 自动播放下一首
                         if (indexSong < songsLength) {
-                            handleChangeMusic({});
+                            handleChangeMusic({ isPrev: false });
                         } else {
-                            // 如果是最后一首，重置播放状态
+                            // 如果是最后一首，回到第一首并停止播放
+                            indexSong = -1; // 设置为-1，这样handleChangeMusic会将其增加到0
+                            handleChangeMusic({ isPrev: false });
                             songIsPlayed = false;
                             broadcastGuarantor_elmnt.classList.remove("click");
                         }
@@ -1369,7 +1403,23 @@
                                         )
                                     )
                                 ),
-                                dom("audio", { src: song, onloadeddata: loadedAudio, ontimeupdate: updateTheProgressBar })
+                                dom("audio", { 
+                                    src: song, 
+                                    onloadeddata: loadedAudio, 
+                                    ontimeupdate: updateTheProgressBar,
+                                    onended: function() {
+                                        // 确保歌曲结束时触发下一首播放
+                                        if (index === indexSong && songIsPlayed) {
+                                            if (index < songsLength) {
+                                                handleChangeMusic({ isPrev: false });
+                                            } else {
+                                                // 最后一首歌曲播放完毕
+                                                songIsPlayed = false;
+                                                broadcastGuarantor_elmnt.classList.remove("click");
+                                            }
+                                        }
+                                    }
+                                })
                             )
                         )
                     )
@@ -1454,11 +1504,14 @@
                 controlSubtitleAnimation(musicPlayerInfo_elmnt, target);
             }
             function handleScrub(e) {
+                // 修复：确保歌曲已加载
+                if (!selectedSong || !selectedSong.src || selectedSong.readyState < 2) return;
+                
                 const progressOffsetLeft = progress_elmnt.getBoundingClientRect().left;
                 const progressWidth = progress_elmnt.offsetWidth;
                 const duration = selectedSong.duration;
-                const currentTime = (e.clientX - progressOffsetLeft) / progressWidth;
-                selectedSong.currentTime = currentTime * duration;
+                const clickPosition = Math.max(0, Math.min(1, (e.clientX - progressOffsetLeft) / progressWidth));
+                selectedSong.currentTime = clickPosition * duration;
                 
                 // 修复：拖动后确保进度条继续更新
                 if (songIsPlayed && selectedSong.paused) {
@@ -1487,14 +1540,14 @@
             });
             window.addEventListener("pointerup", () => {
                 if (progressBarIsUpdating) {
-                    selectedSong.muted = false;
+                    if (selectedSong) selectedSong.muted = false;
                     progressBarIsUpdating = false;
                 }
             });
             window.addEventListener("pointermove", (e) => {
                 if (progressBarIsUpdating) {
                     handleScrub(e);
-                    selectedSong.muted = true;
+                    if (selectedSong) selectedSong.muted = true;
                 }
             });
         }
