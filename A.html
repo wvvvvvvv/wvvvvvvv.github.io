@@ -1502,6 +1502,13 @@
                 navigator.mediaSession.setActionHandler('pause', () => {
                     if (!selectedSong.paused) selectedSong.pause();
                 });
+                // 添加快进和后退支持（适配iPhone媒体控制，如AirPods双击等）
+                navigator.mediaSession.setActionHandler('seekforward', () => {
+                    selectedSong.currentTime = Math.min(selectedSong.currentTime + 10, selectedSong.duration);
+                });
+                navigator.mediaSession.setActionHandler('seekbackward', () => {
+                    selectedSong.currentTime = Math.max(selectedSong.currentTime - 10, 0);
+                });
             }
 
             function controlSubtitleAnimation(parent, child) {
