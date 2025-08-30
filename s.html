@@ -533,6 +533,7 @@
             margin-right: 60px;
         }
 
+
         .music-player {
             --color-white: #fff;
             --color-gray: #e5e7ea;
@@ -543,18 +544,18 @@
             --color-text-2: #ffffff6b;
             --cover-size: 4.2em;
             --border-radius: 1.2em;
-            --music-player-height: calc(var(--page-height) - 50px);
+            --music-player-height: calc(var(--page-height) - 0px);
             --offset-cover: 1em;
-            width: 100%;
-            max-width: 330px;
+            width: 335px !important;
+            height: 445px !important;
             user-select: none;
             color: var(--color-text-1);
             height: var(--music-player-height);
             border-radius: var(--border-radius);
             background-color: rgba(255, 255, 255, 0.1);
-            margin-top: 11px;
+            margin-top: -15px;
             margin-right: auto;
-            margin-bottom: 29px;
+            margin-bottom: -0px;
             margin-left: auto;
             box-sizing: border-box;
         }
@@ -622,7 +623,7 @@
         }
         .slider__switch-button { font-size: 2.5em; height: max-content; }
         .music-player__info {
-            width: 56.3%; cursor: pointer; line-height: 1.6; overflow: hidden; font-weight: bold; padding: 0 0.0625em; white-space: nowrap;
+            width: 56.3%; cursor: pointer; line-height: 1.45; overflow: hidden; font-weight: bold; padding: 0 0.0625em; white-space: nowrap;
         }
         .music-player__info > * { margin: 0 auto; pointer-events: none; }
         .music-player__singer-name { font-size: 1.1em; width: max-content; }
@@ -636,7 +637,7 @@
             80%, 100% { transform: translate3d(calc((100% + var(--subtitle-gap)) / -2), 0, 0); }
         }
         .progress {
-            width: 90%; height: 1em; cursor: pointer; transition: var(--duration) width var(--ease-timeline);
+            width: 90%; height: 0.6em; cursor: pointer; transition: var(--duration) width var(--ease-timeline);
         }
         .slider.resize .progress { width: 100%; }
         .progress__wrapper {
