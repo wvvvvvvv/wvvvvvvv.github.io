@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>👀🐈🍉</title>
+    <title>🦋🐈🐈‍⬛</title>
     <style>
         :root {
             --glow-sens: 30;
@@ -1323,7 +1323,7 @@
                             dom("button", { class: "slider__switch-button flex-row button", onclick: () => handleChangeMusic({ isPrev: false }) },
                                 dom("i", { class: "icon-next" })
                             ),
-                            dom("div", { class: "progress center", onpointerdown: (e) => { e.preventDefault(); handleScrub(e); progressBarIsUpdating = true; } },
+                            dom("div", { class: "progress center", onpointerdown: (e) => { e.preventDefault(); progressBarIsUpdating = true; handleScrub(e); }, onclick: (e) => { e.preventDefault(); handleScrub(e); } },
                                 dom("div", { class: "progress__wrapper" },
                                     dom("div", { class: "progress__bar center" })
                                 )
