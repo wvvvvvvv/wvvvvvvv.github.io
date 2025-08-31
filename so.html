@@ -1353,9 +1353,8 @@
                     const currentTime = this.currentTime;
                     const progressBarWidth = (currentTime / duration) * 100;
                     setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
-                    if (songIsPlayed && currentTime === duration) {
-                        handleChangeMusic({});
-                    }
+                    // 移除此行以避免双重调用 handleChangeMusic
+                    // if (songIsPlayed && currentTime === duration) { handleChangeMusic({}); }
                     if ('mediaSession' in navigator) {
                         navigator.mediaSession.setPositionState({
                             duration: this.duration,
