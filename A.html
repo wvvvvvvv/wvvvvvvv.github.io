@@ -1250,6 +1250,13 @@
                             artist: songs[indexSong].artist,
                             artwork: [{ src: songs[indexSong].files.cover, sizes: '512x512', type: 'image/jpeg' }]
                         });
+                        if (selectedSong.readyState >= 2) { // HAVE_CURRENT_DATA or more
+                            navigator.mediaSession.setPositionState({
+                                duration: selectedSong.duration,
+                                playbackRate: selectedSong.playbackRate,
+                                position: selectedSong.currentTime
+                            });
+                        }
                     }
                 }
                 return (
@@ -1316,7 +1323,7 @@
                             dom("button", { class: "slider__switch-button flex-row button", onclick: () => handleChangeMusic({ isPrev: false }) },
                                 dom("i", { class: "icon-next" })
                             ),
-                            dom("div", { class: "progress center", onpointerdown: (e) => { handleScrub(e); progressBarIsUpdating = true; } },
+                            dom("div", { class: "progress center", onpointerdown: (e) => { e.preventDefault(); handleScrub(e); progressBarIsUpdating = true; } },
                                 dom("div", { class: "progress__wrapper" },
                                     dom("div", { class: "progress__bar center" })
                                 )
@@ -1333,13 +1340,29 @@
                     let min = parseInt(duration / 60); if (min < 10) min = "0" + min;
                     let sec = parseInt(duration % 60); if (sec < 10) sec = "0" + sec;
                     target.appendChild(document.createTextNode(`${min}:${sec}`));
+                    if ('mediaSession' in navigator) {
+                        navigator.mediaSession.setPositionState({
+                            duration: this.duration,
+                            playbackRate: this.playbackRate,
+                            position: this.currentTime
+                        });
+                    }
                 }
                 function updateTheProgressBar() {
                     const duration = this.duration;
                     const currentTime = this.currentTime;
                     const progressBarWidth = (currentTime / duration) * 100;
                     setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
-                    if (songIsPlayed && currentTime === duration) {
+                    if ('mediaSession' in navigator) {
+                        navigator.mediaSession.setPositionState({
+                            duration: this.duration,
+                            playbackRate: this.playbackRate,
+                            position: this.currentTime
+                        });
+                    }
+                }
+                function handleSongEnded() {
+                    if (songIsPlayed) {
                         handleChangeMusic({});
                     }
                 }
@@ -1357,7 +1380,7 @@
                                         )
                                     )
                                 ),
-                                dom("audio", { src: song, onloadedmetadata: loadedMetadata, ontimeupdate: updateTheProgressBar })
+                                dom("audio", { src: song, preload: "auto", onloadedmetadata: loadedMetadata, ontimeupdate: updateTheProgressBar, onended: handleSongEnded })
                             )
                         )
                     )
@@ -1486,12 +1509,28 @@
             controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
             musicPlayerLoaded = true;
 
+            // 恢复保存的状态（如果有）
+            const savedIndex = localStorage.getItem('currentIndex');
+            if (savedIndex !== null) {
+                indexSong = parseInt(savedIndex);
+                selectedSong = playlistSongs_elmnt[indexSong];
+                selectedSong.currentTime = parseFloat(localStorage.getItem('currentTime')) || 0;
+                setProperty(sliderImgs_elmnt, "--index", -indexSong);
+                updateInfo(singerName_elmnt, songs[indexSong].artist);
+                updateInfo(songName_elmnt, songs[indexSong].songName);
+                if (localStorage.getItem('isPlaying') === 'true') {
+                    selectedSong.play();
+                    songIsPlayed = true;
+                    broadcastGuarantor_elmnt.classList.add('click');
+                }
+            }
+
             // 添加MediaSession API支持（适配媒体键和AirPods）
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: songs[0].songName,
-                    artist: songs[0].artist,
-                    artwork: [{ src: songs[0].files.cover, sizes: '512x512', type: 'image/jpeg' }]
+                    title: songs[indexSong].songName,
+                    artist: songs[indexSong].artist,
+                    artwork: [{ src: songs[indexSong].files.cover, sizes: '512x512', type: 'image/jpeg' }]
                 });
 
                 navigator.mediaSession.setActionHandler('previoustrack', () => handleChangeMusic({ isPrev: true }));
@@ -1502,7 +1541,53 @@
                 navigator.mediaSession.setActionHandler('pause', () => {
                     if (!selectedSong.paused) selectedSong.pause();
                 });
+                navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+                    selectedSong.currentTime = Math.max(0, selectedSong.currentTime - (details.seekOffset || 10));
+                });
+                navigator.mediaSession.setActionHandler('seekforward', (details) => {
+                    selectedSong.currentTime = Math.min(selectedSong.duration, selectedSong.currentTime + (details.seekOffset || 10));
+                });
+                navigator.mediaSession.setActionHandler('seekto', (details) => {
+                    if (details.seekTime != null) {
+                        if (details.fastSeek && 'fastSeek' in selectedSong) {
+                            selectedSong.fastSeek(details.seekTime);
+                        } else {
+                            selectedSong.currentTime = details.seekTime;
+                        }
+                    }
+                });
             }
+
+            // 添加页面可见性变化处理
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') {
+                    // 保存状态
+                    if (selectedSong) {
+                        localStorage.setItem('currentIndex', indexSong);
+                        localStorage.setItem('currentTime', selectedSong.currentTime);
+                        localStorage.setItem('isPlaying', songIsPlayed ? 'true' : 'false');
+                    }
+                    if (songIsPlayed) {
+                        selectedSong.pause();
+                    }
+                } else {
+                    // 恢复状态
+                    const savedIndex = localStorage.getItem('currentIndex');
+                    if (savedIndex !== null) {
+                        indexSong = parseInt(savedIndex);
+                        selectedSong = playlistSongs_elmnt[indexSong];
+                        selectedSong.currentTime = parseFloat(localStorage.getItem('currentTime')) || 0;
+                        setProperty(sliderImgs_elmnt, "--index", -indexSong);
+                        updateInfo(singerName_elmnt, songs[indexSong].artist);
+                        updateInfo(songName_elmnt, songs[indexSong].songName);
+                        if (localStorage.getItem('isPlaying') === 'true') {
+                            selectedSong.play();
+                            songIsPlayed = true;
+                            broadcastGuarantor_elmnt.classList.add('click');
+                        }
+                    }
+                }
+            });
 
             function controlSubtitleAnimation(parent, child) {
                 if (child.classList.contains("animate")) return;
@@ -1527,10 +1612,15 @@
                 controlSubtitleAnimation(musicPlayerInfo_elmnt, target);
             }
             function handleScrub(e) {
+                e.preventDefault();
+                let clientX = e.clientX;
+                if (e.touches && e.touches.length > 0) {
+                    clientX = e.touches[0].clientX;
+                }
                 const progressOffsetLeft = progress_elmnt.getBoundingClientRect().left;
                 const progressWidth = progress_elmnt.offsetWidth;
                 const duration = selectedSong.duration;
-                const currentTime = (e.clientX - progressOffsetLeft) / progressWidth;
+                const currentTime = (clientX - progressOffsetLeft) / progressWidth;
                 selectedSong.currentTime = currentTime * duration;
             }
 
@@ -1553,7 +1643,8 @@
                     controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
                 }
             });
-            window.addEventListener("pointerup", () => {
+            window.addEventListener("pointerup", (e) => {
+                e.preventDefault();
                 if (progressBarIsUpdating) {
                     selectedSong.muted = false;
                     progressBarIsUpdating = false;
@@ -1561,6 +1652,21 @@
             });
             window.addEventListener("pointermove", (e) => {
                 if (progressBarIsUpdating) {
+                    e.preventDefault();
+                    handleScrub(e);
+                    selectedSong.muted = true;
+                }
+            });
+            // 添加touch事件支持，以增强iOS兼容性
+            window.addEventListener("touchend", (e) => {
+                if (progressBarIsUpdating) {
+                    selectedSong.muted = false;
+                    progressBarIsUpdating = false;
+                }
+            });
+            window.addEventListener("touchmove", (e) => {
+                if (progressBarIsUpdating) {
+                    e.preventDefault();
                     handleScrub(e);
                     selectedSong.muted = true;
                 }
