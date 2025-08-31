@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍋‍🟩🦋🍋🍉</title>
+    <title>🐈🍏👀🍉 音乐播放器</title>
     <style>
         :root {
             --glow-sens: 30;
@@ -62,11 +62,11 @@
             --color-sens: calc(var(--glow-sens) + 20);
             position: relative;
             width: 345px !important;
-            height: 520px !important;
+            height: 510px !important;
             min-width: 345px;
-            min-height: 520px;
+            min-height: 510px;
             max-width: 345px;
-            max-height: 520px;
+            max-height: 510px;
             border-radius: 20px;
             isolation: isolate;
             transform: translate3d(0, 0, 0.01px);
@@ -76,7 +76,6 @@
             text-align: center;
             box-sizing: border-box;
             border: 1px solid rgb(255 255 255 / 25%);
-            backdrop-filter: blur(0.5px);
         }
 
         .glowing-card::before,
@@ -191,17 +190,16 @@
         }
 
         .sun-toggle {
-            left: 8px;
+            left: 6px;
         }
 
         .moon-toggle {
-            right: 8px;
+            right: 6px;
         }
 
-        /* 新添加的日间模式按钮样式 */
         .day-toggle {
             position: absolute;
-            bottom: 6px;
+            bottom: 5px;
             width: 24px;
             height: 24px;
             cursor: pointer;
@@ -215,11 +213,11 @@
         }
 
         .day-toggle-left {
-            left: 8px;
+            left: 6px;
         }
 
         .day-toggle-right {
-            right: 8px;
+            right: 6px;
         }
 
         .alist-widget-wrapper {
@@ -264,7 +262,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 0 26px 20px;
+            padding: 0 26px 23px;
             overflow: hidden;
         }
 
@@ -342,14 +340,14 @@
             align-items: center;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            padding: 8px 20px;
+            padding: 9.8px 20px;
             max-width: 100%;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             cursor: pointer;
             position: relative;
             margin-bottom: 10px;
             flex-wrap: nowrap;
-            gap: 13px;
+            gap: 16px;
         }
 
         .spotify-left {
@@ -366,7 +364,7 @@
         .spotify-meta {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .spotify-icon {
@@ -389,7 +387,7 @@
             display: flex;
             flex-direction: column;
             text-align: left;
-            gap: 2px;
+            gap: 3px;
         }
 
         .track-title {
@@ -401,7 +399,7 @@
         }
 
         .track-artist {
-            font-size: 16px;
+            font-size: 11.7870px;
             color: var(--fg);
             font-style: italic;
         }
@@ -428,8 +426,8 @@
         }
 
         .spotify-cover {
-            width: 80px;
-            height: 80px;
+            width: 75px;
+            height: 75px;
             border-radius: 12px;
             overflow: hidden;
             flex-shrink: 0;
@@ -459,7 +457,7 @@
             display: flex;
             justify-content: center;
             gap: 5px;
-            margin-top: -0px;
+            margin-top: -8px;
             margin-bottom: 10px;
         }
 
@@ -534,6 +532,7 @@
             margin-right: 60px;
         }
 
+
         .music-player {
             --color-white: #fff;
             --color-gray: #e5e7ea;
@@ -544,18 +543,18 @@
             --color-text-2: #ffffff6b;
             --cover-size: 4.2em;
             --border-radius: 1.2em;
-            --music-player-height: calc(var(--page-height) - 50px);
+            --music-player-height: calc(var(--page-height) - 0px);
             --offset-cover: 1em;
-            width: 100%;
-            max-width: 330px;
+            width: 335px !important;
+            height: 445px !important;
             user-select: none;
             color: var(--color-text-1);
             height: var(--music-player-height);
             border-radius: var(--border-radius);
             background-color: rgba(255, 255, 255, 0.1);
-            margin-top: 15px;
+            margin-top: -15px;
             margin-right: auto;
-            margin-bottom: 25px;
+            margin-bottom: -0px;
             margin-left: auto;
             box-sizing: border-box;
         }
@@ -593,11 +592,19 @@
         .slider__content .button { --size: 2.5em; z-index: 1; position: absolute; width: var(--size); height: var(--size); }
         .slider__content i { position: absolute; pointer-events: none; font-size: var(--size); }
         .music-player__playlist-button {
-            top: 5.5%; left: 5.5%; transform: scale(0); transition: calc(var(--duration) / 2) transform;
+            top: 5.5%;
+            left: 5.5%;
+            transform: scale(0);
+            transition: calc(var(--duration) / 2) transform;
         }
         .slider.resize .music-player__playlist-button {
             transform: scale(1);
             transition: 0.30s var(--duration) transform cubic-bezier(0, 0.85, 0.11, 1.64);
+        }
+        .music-player__broadcast-guarantor {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         .music-player__broadcast-guarantor .icon-pause,
         .music-player__broadcast-guarantor.click .icon-play { opacity: 0; }
@@ -609,7 +616,7 @@
         }
         .slider__imgs > img { pointer-events: none; }
         .slider__controls {
-            --controls-y: 225%; --controls-x: 17.3%; --controls-width: 68.4%; --controls-resize-width: 88%;
+            --controls-y: 210%; --controls-x: 17.3%; --controls-width: 68.4%; --controls-resize-width: 88%;
             gap: 0.375em 0; flex-wrap: wrap; position: absolute; align-items: center; padding-top: 0.375em;
             width: var(--controls-width); transform: translate3d(var(--controls-x), 0, 0);
             animation: var(--controls-animate, "down paused") var(--duration) var(--ease-timeline) forwards;
@@ -623,7 +630,7 @@
         }
         .slider__switch-button { font-size: 2.5em; height: max-content; }
         .music-player__info {
-            width: 56.3%; cursor: pointer; line-height: 1.6; overflow: hidden; font-weight: bold; padding: 0 0.0625em; white-space: nowrap;
+            width: 56.3%; cursor: pointer; line-height: 1.45; overflow: hidden; font-weight: bold; padding: 0 0.0625em; white-space: nowrap;
         }
         .music-player__info > * { margin: 0 auto; pointer-events: none; }
         .music-player__singer-name { font-size: 1.1em; width: max-content; }
@@ -636,20 +643,61 @@
         @keyframes subtitle {
             80%, 100% { transform: translate3d(calc((100% + var(--subtitle-gap)) / -2), 0, 0); }
         }
+        
+        /* 进度条改进样式 - 增加触摸区域大小 */
         .progress {
-            width: 90%; height: 1em; cursor: pointer; transition: var(--duration) width var(--ease-timeline);
+            width: 90%; 
+            height: 1.5em; /* 增加高度便于触摸 */
+            cursor: pointer; 
+            transition: var(--duration) width var(--ease-timeline); 
+            position: relative; 
+            top: 8px;
+            display: flex;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
         }
-        .slider.resize .progress { width: 100%; }
+        
         .progress__wrapper {
-            width: 100%; height: 0.3em; position: relative; border-radius: 1em; background-color: var(--color-gray);
+            width: 100%; 
+            height: 0.5em; /* 稍微加粗进度条 */
+            position: relative; 
+            border-radius: 1em; 
+            background-color: var(--color-gray);
         }
+        
         .progress__bar {
-            top: 0; left: 0; bottom: 0; position: absolute; width: var(--width); border-radius: inherit; background-color: var(--color-blue);
+            top: 0; 
+            left: 0; 
+            bottom: 0; 
+            position: absolute; 
+            width: var(--width); 
+            border-radius: inherit; 
+            background-color: var(--color-blue);
+            transition: width 0.1s ease; /* 添加平滑过渡 */
         }
+        
         .progress__bar::after {
-            --size: 0.375em; left: 98%; content: ""; position: absolute; width: var(--size); height: var(--size);
-            border-radius: 100%; background-color: var(--color-blue-dark);
+            --size: 0.8em; /* 增大拖动点 */
+            left: 98%; 
+            content: ""; 
+            position: absolute; 
+            width: var(--size); 
+            height: var(--size);
+            border-radius: 100%; 
+            background-color: var(--color-blue-dark);
+            transform: translate(-50%, -50%);
+            top: 50%;
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
+        
+        .progress:hover .progress__bar::after,
+        .progress.dragging .progress__bar::after {
+            opacity: 1; /* 悬停或拖动时显示拖动点 */
+        }
+        
+        .slider.resize .progress { width: 100%; }
+        
         .music-player__playlist {
             height: 100%;
             overflow-y: auto;
@@ -720,6 +768,23 @@
             margin-top: 10px;
             font-size: 16px;
             color: var(--fg);
+        }
+        
+        /* 触摸设备优化 */
+        @media (hover: none) {
+            .progress__bar::after {
+                opacity: 1; /* 在触摸设备上始终显示拖动点 */
+                --size: 1em; /* 在移动设备上更大 */
+            }
+            
+            .progress {
+                height: 2em; /* 在移动设备上增加触摸区域 */
+            }
+            
+            .slider__switch-button {
+                min-width: 44px; /* 满足苹果人机界面指南的最小触摸目标 */
+                min-height: 44px;
+            }
         }
     </style>
 </head>
@@ -841,7 +906,7 @@
                 </svg>
                 
                 <!-- 新添加的左下角日间模式按钮 -->
-                <svg class="day-toggle day-toggle-left" viewBox="0 0 24 24" onclick="switchBackground('https://dogpan.com/f/8PPfY/xxx.PNG')">
+                <svg class="day-toggle day-toggle-left" viewBox="0 0 24 24" onclick="switchBackground('https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/bizhi.JPG')">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                         <circle cx="12" cy="12" r="4"/>
                         <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
@@ -849,7 +914,7 @@
                 </svg>
 
                 <!-- 新添加的右下角日间模式按钮 -->
-                <svg class="day-toggle day-toggle-right" viewBox="0 0 24 24" onclick="switchBackground('https://dogpan.com/f/7NvuZ/lll.PNG')">
+                <svg class="day-toggle day-toggle-right" viewBox="0 0 24 24" onclick="switchBackground('https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/%E9%97%AA%E5%85%89.JPG')">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                         <circle cx="12" cy="12" r="4"/>
                         <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
@@ -868,15 +933,15 @@
                             <div class="profile-header">
                                 <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
                             </div>
-                            <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
+                            <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3UkRfA9F62DYYDzqOskoov?si=MXIJN0wrQx24IS-qmyCUjg', '_blank')">
                                 <div class="spotify-left">
                                     <div class="spotify-meta">
                                         <div class="spotify-icon">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" />
+                                            <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Spotify.svg" alt="Spotify" />
                                         </div>
                                         <div class="track-text">
-                                            <div class="track-title">Astral Chill</div>
-                                            <div class="track-artist">Virtual Mage</div>
+                                            <div class="track-title">Signals</div>
+                                            <div class="track-artist">Lazer Boomerang</div>
                                         </div>
                                     </div>
                                     <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
@@ -886,14 +951,14 @@
                                     </button>
                                 </div>
                                 <div class="spotify-cover">
-                                    <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
+                                    <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.jpg" alt="封面" />
                                 </div>
-                                <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
+                                <audio id="audioPlayer" src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.mp3"></audio>
                             </div>
 
                             <div class="link-scroll-container">
                                 <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
-                                    <img src="https://dogpan.com/f/OVjUv/Instagram.png" alt="Instagram" class="link-icon" />
+                                    <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Instagram.png" alt="Instagram" class="link-icon" />
                                     <span class="link-title">Instagram</span>
                                 </a>
 
@@ -964,13 +1029,13 @@
             init();
             preloadImages([
                 'https://dogpan.com/f/qPPFX/000.jpeg',
-                'https://dogpan.com/f/8PPfY/xxx.PNG',
-                'https://dogpan.com/f/7NvuZ/lll.PNG'
+                'https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/bizhi.JPG',
+                'https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/%E9%97%AA%E5%85%89.JPG'
             ]);
             loadMusicPlayer();
             switchPageTo(2);
             setTimeout(playAnimation, 500);
-            toggleTheme('dark');
+            toggleTheme('light');
         };
 
         /* 新添加的预加载函数 */
@@ -1223,8 +1288,8 @@
                     } else {
                         indexSong = isPrev ? (indexSong -= 1) : (indexSong += 1);
                     }
-                    if (indexSong < 0) { indexSong = 0; return; }
-                    else if (indexSong > songsLength) { indexSong = songsLength; return; }
+                    if (indexSong < 0) { indexSong = songsLength; }
+                    else if (indexSong > songsLength) { indexSong = 0; }
                     selectedSong.pause();
                     selectedSong.currentTime = 0;
                     progressBarIsUpdating = false;
@@ -1234,6 +1299,15 @@
                     setProperty(sliderImgs_elmnt, "--index", -indexSong);
                     updateInfo(singerName_elmnt, songs[indexSong].artist);
                     updateInfo(songName_elmnt, songs[indexSong].songName);
+
+                    // 更新MediaSession元数据
+                    if ('mediaSession' in navigator) {
+                        navigator.mediaSession.metadata = new MediaMetadata({
+                            title: songs[indexSong].songName,
+                            artist: songs[indexSong].artist,
+                            artwork: [{ src: songs[indexSong].files.cover, sizes: '512x512', type: 'image/jpeg' }]
+                        });
+                    }
                 }
                 return (
                     dom("div", { class: "music-player flex-column" },
@@ -1287,19 +1361,22 @@
                             dom("div", { class: "music-player__info text_trsf-cap" },
                                 dom("div", null,
                                     dom("div", { class: "music-player__singer-name" },
-                                        dom("div", null, slides[0].artist)
+                                        dom("div", null, slides[0].songName)
                                     )
                                 ),
                                 dom("div", null,
                                     dom("div", { class: "music-player__subtitle" },
-                                        dom("div", null, slides[0].songName)
+                                        dom("div", null, slides[0].artist)
                                     )
                                 )
                             ),
                             dom("button", { class: "slider__switch-button flex-row button", onclick: () => handleChangeMusic({ isPrev: false }) },
                                 dom("i", { class: "icon-next" })
                             ),
-                            dom("div", { class: "progress center", onpointerdown: (e) => { handleScrub(e); progressBarIsUpdating = true; } },
+                            dom("div", { class: "progress center", 
+                                onpointerdown: (e) => { handleScrub(e); progressBarIsUpdating = true; },
+                                ontouchstart: (e) => { handleScrub(e); progressBarIsUpdating = true; e.preventDefault(); }
+                            },
                                 dom("div", { class: "progress__wrapper" },
                                     dom("div", { class: "progress__bar center" })
                                 )
@@ -1310,7 +1387,7 @@
             }
 
             function Playlist({ list, handleChangeMusic }) {
-                function loadedAudio() {
+                function loadedMetadata() {
                     const duration = this.duration;
                     const target = this.parentElement.querySelector(".music-player__song-duration");
                     let min = parseInt(duration / 60); if (min < 10) min = "0" + min;
@@ -1324,10 +1401,6 @@
                     setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
                     if (songIsPlayed && currentTime === duration) {
                         handleChangeMusic({});
-                    }
-                    if (indexSong === songsLength && this === selectedSong && currentTime === duration) {
-                        songIsPlayed = false;
-                        broadcastGuarantor_elmnt.classList.remove("click");
                     }
                 }
                 return (
@@ -1344,7 +1417,7 @@
                                         )
                                     )
                                 ),
-                                dom("audio", { src: song, onloadeddata: loadedAudio, ontimeupdate: updateTheProgressBar })
+                                dom("audio", { src: song, onloadedmetadata: loadedMetadata, ontimeupdate: updateTheProgressBar })
                             )
                         )
                     )
@@ -1379,61 +1452,117 @@
                 return element;
             }
 
-            fetch("https://gist.githubusercontent.com/abxlfazl/37404417d17230a629683eb3f2f0a88a/raw/366ad64df645e94592847283a306fe2276de458e/music-info.json")
-                .then((response) => response.json())
-                .then((result) => {
-                    const songs = result.songs;
-                    function downloadTheFiles(media, input) {
-                        return Promise.all(
-                            input.map((song) => {
-                                const promise = new Promise((resolve) => {
-                                    const url = song.files[media];
-                                    const req = new XMLHttpRequest();
-                                    req.open("GET", url, true);
-                                    req.responseType = "blob";
-                                    req.send();
-                                    req.onreadystatechange = () => {
-                                        if (req.readyState === 4 && req.status === 200) {
-                                            const blob = req.response;
-                                            const file = URL.createObjectURL(blob);
-                                            song.files[media] = file;
-                                            resolve(song);
-                                        }
-                                    };
-                                });
-                                return promise;
-                            })
-                        );
+            // 硬编码的歌单列表
+            const songs = [
+                {
+                    "bg": "#c9bea28f",
+                    "artist": "sickick",
+                    "songName": "talking to the moon (bruno mars remix)",
+                    "files": {
+                        "song": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/1/song.mp3",
+                        "cover": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/1/img.jpg"
                     }
-                    downloadTheFiles("cover", songs).then((response) => {
-                        downloadTheFiles("song", response).then((data) => {
-                            root.innerHTML = '';
-                            root.appendChild(App({ songs: data }));
-                            songsLength = data.length - 1;
-                            progress_elmnt = document.querySelector(".progress");
-                            playlistSongs_elmnt = root.querySelectorAll("audio");
-                            sliderImgs_elmnt = document.querySelector(".slider__imgs");
-                            songName_elmnt = document.querySelector(".music-player__subtitle");
-                            musicPlayerInfo_elmnt = document.querySelector(".music-player__info");
-                            singerName_elmnt = document.querySelector(".music-player__singer-name");
-                            selectedSong = playlistSongs_elmnt[indexSong];
-                            progressBar_elmnt = document.querySelector(".progress__bar");
-                            broadcastGuarantor_elmnt = document.querySelector(".music-player__broadcast-guarantor");
-                            controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
-                            controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
-                            musicPlayerLoaded = true;
-                        }).catch(error => {
-                            root.innerHTML = '<div style="color: var(--fg); font-style: italic;">音乐加载失败，请刷新重试</div>';
-                            console.error('音乐加载失败:', error);
-                        });
-                    }).catch(error => {
-                        root.innerHTML = '<div style="color: var(--fg); font-style: italic;">封面加载失败，请刷新重试</div>';
-                        console.error('封面加载失败:', error);
-                    });
-                }).catch(error => {
-                    root.innerHTML = '<div style="color: var(--fg); font-style: italic;">播放列表加载失败，请刷新重试</div>';
-                    console.error('播放列表加载失败:', error);
+                },
+                {
+                    "bg": "#0896eba1",
+                    "artist": "bless you",
+                    "songName": "driving",
+                    "files": {
+                        "song": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/2/song.mp3",
+                        "cover": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/2/img.jpg"
+                    }
+                },
+                {
+                    "bg": "#ebbe03",
+                    "artist": "lil uzi vert",
+                    "songName": "demon high",
+                    "files": {
+                        "song": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/3/song.mp3",
+                        "cover": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/3/img.jpg"
+                    }
+                },
+                {
+                    "bg": "#ffc382",
+                    "artist": "travis scott",
+                    "songName": "a man",
+                    "files": {
+                        "song": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/4/song.mp3",
+                        "cover": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/4/img.jpg"
+                    }
+                },
+                {
+                    "bg": "#ffcbdc",
+                    
+                    "songName": "Memory Reboot",
+                  "artist": "VØJ/Narvent",
+                    "files": {
+                        "song": "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Memory%20Reboot.mp3",
+                        "cover": "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Memory%20Reboot.jpg"
+                    }
+                },
+                {
+                    "bg": "#44c16fb5",
+                    "artist": "tritonal",
+                    "songName": "diamonds (feat. rose darling)",
+                    "files": {
+                        "song": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/6/song.mp3",
+                        "cover": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/6/img.jpg"
+                    }
+                },
+                {
+                    "bg": "#ff4545",
+                    "artist": "the weeknd",
+                    "songName": "blinding lights",
+                    "files": {
+                        "song": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/7/song.mp3",
+                        "cover": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/7/img.jpg"
+                    }
+                },
+                {
+                    "bg": "#e5e7e9",
+                    "artist": "arizona zervas",
+                    "songName": "no i in team",
+                    "files": {
+                        "song": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/8/song.mp3",
+                        "cover": "https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/media/songs/8/img.jpg"
+                    }
+                }
+            ];
+
+            // 直接渲染播放器，无需下载Blob
+            root.innerHTML = '';
+            root.appendChild(App({ songs: songs }));
+            songsLength = songs.length - 1;
+            progress_elmnt = document.querySelector(".progress");
+            playlistSongs_elmnt = root.querySelectorAll("audio");
+            sliderImgs_elmnt = document.querySelector(".slider__imgs");
+            songName_elmnt = document.querySelector(".music-player__singer-name"); // 注意：这里交换了引用
+            musicPlayerInfo_elmnt = document.querySelector(".music-player__info");
+            singerName_elmnt = document.querySelector(".music-player__subtitle"); // 注意：这里交换了引用
+            selectedSong = playlistSongs_elmnt[indexSong];
+            progressBar_elmnt = document.querySelector(".progress__bar");
+            broadcastGuarantor_elmnt = document.querySelector(".music-player__broadcast-guarantor");
+            controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
+            controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
+            musicPlayerLoaded = true;
+
+            // 添加MediaSession API支持（适配媒体键和AirPods）
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: songs[0].songName,
+                    artist: songs[0].artist,
+                    artwork: [{ src: songs[0].files.cover, sizes: '512x512', type: 'image/jpeg' }]
                 });
+
+                navigator.mediaSession.setActionHandler('previoustrack', () => handleChangeMusic({ isPrev: true }));
+                navigator.mediaSession.setActionHandler('nexttrack', () => handleChangeMusic({ isPrev: false }));
+                navigator.mediaSession.setActionHandler('play', () => {
+                    if (selectedSong.paused) selectedSong.play();
+                });
+                navigator.mediaSession.setActionHandler('pause', () => {
+                    if (!selectedSong.paused) selectedSong.pause();
+                });
+            }
 
             function controlSubtitleAnimation(parent, child) {
                 if (child.classList.contains("animate")) return;
@@ -1457,12 +1586,31 @@
                 target.classList.remove("animate");
                 controlSubtitleAnimation(musicPlayerInfo_elmnt, target);
             }
+            
+            // 改进的handleScrub函数，支持触摸事件
             function handleScrub(e) {
+                // 同时支持鼠标和触摸事件
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                if (!clientX) return;
+                
                 const progressOffsetLeft = progress_elmnt.getBoundingClientRect().left;
                 const progressWidth = progress_elmnt.offsetWidth;
                 const duration = selectedSong.duration;
-                const currentTime = (e.clientX - progressOffsetLeft) / progressWidth;
-                selectedSong.currentTime = currentTime * duration;
+                
+                // 计算点击位置对应的时间
+                let scrubTime = (clientX - progressOffsetLeft) / progressWidth;
+                scrubTime = Math.max(0, Math.min(1, scrubTime)); // 限制在0-1范围内
+                
+                selectedSong.currentTime = scrubTime * duration;
+                
+                // 更新MediaSession（如果支持）
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.setPositionState({
+                        duration: duration,
+                        playbackRate: selectedSong.playbackRate,
+                        position: scrubTime * duration
+                    });
+                }
             }
 
             handleResize();
@@ -1484,16 +1632,53 @@
                     controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
                 }
             });
-            window.addEventListener("pointerup", () => {
+            
+            // 添加触摸事件监听器
+            window.addEventListener("touchstart", (e) => {
+                if (e.target.closest('.progress')) {
+                    progress_elmnt.classList.add('dragging');
+                    handleScrub(e);
+                    selectedSong.muted = true;
+                    progressBarIsUpdating = true;
+                }
+            });
+            
+            window.addEventListener("touchmove", (e) => {
                 if (progressBarIsUpdating) {
+                    handleScrub(e);
+                }
+            });
+            
+            window.addEventListener("touchend", () => {
+                if (progressBarIsUpdating) {
+                    progress_elmnt.classList.remove('dragging');
                     selectedSong.muted = false;
                     progressBarIsUpdating = false;
                 }
             });
+            
+            // 原有的pointer事件保持不变，添加dragging类
+            window.addEventListener("pointerdown", (e) => {
+                if (e.target.closest('.progress')) {
+                    progress_elmnt.classList.add('dragging');
+                    handleScrub(e);
+                    progressBarIsUpdating = true;
+                }
+            });
+            
+            // 在原有的pointermove事件处理中添加dragging状态
             window.addEventListener("pointermove", (e) => {
                 if (progressBarIsUpdating) {
                     handleScrub(e);
                     selectedSong.muted = true;
+                }
+            });
+            
+            window.addEventListener("pointerup", () => {
+                if (progressBarIsUpdating) {
+                    progress_elmnt.classList.remove('dragging');
+                    selectedSong.muted = false;
+                    progressBarIsUpdating = false;
                 }
             });
         }
