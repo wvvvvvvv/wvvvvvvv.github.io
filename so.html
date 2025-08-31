@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐈🍏👀🍉 音乐播放器</title>
+    <title>🐈👀🍉🦋🐈‍⬛</title>
     <style>
         :root {
             --glow-sens: 30;
@@ -197,6 +197,7 @@
             right: 6px;
         }
 
+        /* 新添加的日间模式按钮样式 */
         .day-toggle {
             position: absolute;
             bottom: 5px;
@@ -644,36 +645,28 @@
             80%, 100% { transform: translate3d(calc((100% + var(--subtitle-gap)) / -2), 0, 0); }
         }
         
-        /* 进度条改进样式 - 增加触摸区域大小 */
+        /* 为触摸设备优化进度条样式 */
         .progress {
             width: 90%; 
-            height: 1.5em; /* 增加高度便于触摸 */
+            height: 1.2em; /* 增加高度便于触摸 */
             cursor: pointer; 
             transition: var(--duration) width var(--ease-timeline); 
             position: relative; 
             top: 8px;
-            display: flex;
-            align-items: center;
-            -webkit-tap-highlight-color: transparent;
+            -webkit-tap-highlight-color: transparent; /* 移除触摸高亮 */
+            touch-action: none; /* 防止触摸事件的默认行为 */
         }
         
         .progress__wrapper {
             width: 100%; 
-            height: 0.5em; /* 稍微加粗进度条 */
+            height: 0.6em; /* 增加高度便于触摸 */
             position: relative; 
             border-radius: 1em; 
             background-color: var(--color-gray);
         }
         
         .progress__bar {
-            top: 0; 
-            left: 0; 
-            bottom: 0; 
-            position: absolute; 
-            width: var(--width); 
-            border-radius: inherit; 
-            background-color: var(--color-blue);
-            transition: width 0.1s ease; /* 添加平滑过渡 */
+            top: 0; left: 0; bottom: 0; position: absolute; width: var(--width); border-radius: inherit; background-color: var(--color-blue);
         }
         
         .progress__bar::after {
@@ -685,15 +678,13 @@
             height: var(--size);
             border-radius: 100%; 
             background-color: var(--color-blue-dark);
-            transform: translate(-50%, -50%);
-            top: 50%;
-            opacity: 0;
-            transition: opacity 0.2s ease;
+            transition: transform 0.1s ease;
         }
         
-        .progress:hover .progress__bar::after,
-        .progress.dragging .progress__bar::after {
-            opacity: 1; /* 悬停或拖动时显示拖动点 */
+        /* 触摸时的反馈效果 */
+        .progress:active .progress__bar::after,
+        .progress.touching .progress__bar::after {
+            transform: scale(1.3);
         }
         
         .slider.resize .progress { width: 100%; }
@@ -768,23 +759,6 @@
             margin-top: 10px;
             font-size: 16px;
             color: var(--fg);
-        }
-        
-        /* 触摸设备优化 */
-        @media (hover: none) {
-            .progress__bar::after {
-                opacity: 1; /* 在触摸设备上始终显示拖动点 */
-                --size: 1em; /* 在移动设备上更大 */
-            }
-            
-            .progress {
-                height: 2em; /* 在移动设备上增加触摸区域 */
-            }
-            
-            .slider__switch-button {
-                min-width: 44px; /* 满足苹果人机界面指南的最小触摸目标 */
-                min-height: 44px;
-            }
         }
     </style>
 </head>
@@ -1374,9 +1348,8 @@
                                 dom("i", { class: "icon-next" })
                             ),
                             dom("div", { class: "progress center", 
-                                onpointerdown: (e) => { handleScrub(e); progressBarIsUpdating = true; },
-                                ontouchstart: (e) => { handleScrub(e); progressBarIsUpdating = true; e.preventDefault(); }
-                            },
+                                onpointerdown: handleProgressStart,
+                                ontouchstart: handleProgressStart },
                                 dom("div", { class: "progress__wrapper" },
                                     dom("div", { class: "progress__bar center" })
                                 )
@@ -1564,6 +1537,63 @@
                 });
             }
 
+            function handleProgressStart(e) {
+                handleScrub(e);
+                progressBarIsUpdating = true;
+                progress_elmnt.classList.add('touching');
+                
+                // 如果是触摸事件，添加额外的触摸监听器
+                if (e.type.includes('touch')) {
+                    document.addEventListener('touchmove', handleProgressMove, { passive: false });
+                    document.addEventListener('touchend', handleProgressEnd);
+                } else {
+                    document.addEventListener('pointermove', handleProgressMove);
+                    document.addEventListener('pointerup', handleProgressEnd);
+                }
+            }
+            
+            function handleProgressMove(e) {
+                if (progressBarIsUpdating) {
+                    e.preventDefault(); // 防止页面滚动
+                    handleScrub(e);
+                    selectedSong.muted = true;
+                }
+            }
+            
+            function handleProgressEnd() {
+                if (progressBarIsUpdating) {
+                    selectedSong.muted = false;
+                    progressBarIsUpdating = false;
+                    progress_elmnt.classList.remove('touching');
+                    
+                    // 移除事件监听器
+                    document.removeEventListener('pointermove', handleProgressMove);
+                    document.removeEventListener('pointerup', handleProgressEnd);
+                    document.removeEventListener('touchmove', handleProgressMove);
+                    document.removeEventListener('touchend', handleProgressEnd);
+                }
+            }
+
+            function handleScrub(e) {
+                // 获取触摸或鼠标事件的坐标
+                let clientX;
+                if (e.type.includes('touch')) {
+                    clientX = e.touches[0].clientX;
+                } else {
+                    clientX = e.clientX;
+                }
+                
+                const progressOffsetLeft = progress_elmnt.getBoundingClientRect().left;
+                const progressWidth = progress_elmnt.offsetWidth;
+                const duration = selectedSong.duration;
+                
+                // 计算点击位置对应的时间
+                let scrubTime = (clientX - progressOffsetLeft) / progressWidth;
+                scrubTime = Math.max(0, Math.min(1, scrubTime)); // 限制在0-1范围内
+                
+                selectedSong.currentTime = scrubTime * duration;
+            }
+
             function controlSubtitleAnimation(parent, child) {
                 if (child.classList.contains("animate")) return;
                 const element = child.firstChild;
@@ -1586,32 +1616,6 @@
                 target.classList.remove("animate");
                 controlSubtitleAnimation(musicPlayerInfo_elmnt, target);
             }
-            
-            // 改进的handleScrub函数，支持触摸事件
-            function handleScrub(e) {
-                // 同时支持鼠标和触摸事件
-                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-                if (!clientX) return;
-                
-                const progressOffsetLeft = progress_elmnt.getBoundingClientRect().left;
-                const progressWidth = progress_elmnt.offsetWidth;
-                const duration = selectedSong.duration;
-                
-                // 计算点击位置对应的时间
-                let scrubTime = (clientX - progressOffsetLeft) / progressWidth;
-                scrubTime = Math.max(0, Math.min(1, scrubTime)); // 限制在0-1范围内
-                
-                selectedSong.currentTime = scrubTime * duration;
-                
-                // 更新MediaSession（如果支持）
-                if ('mediaSession' in navigator) {
-                    navigator.mediaSession.setPositionState({
-                        duration: duration,
-                        playbackRate: selectedSong.playbackRate,
-                        position: scrubTime * duration
-                    });
-                }
-            }
 
             handleResize();
             window.addEventListener("resize", handleResize);
@@ -1630,55 +1634,6 @@
                 if (target.classList.contains("slider") && propertyName === "height") {
                     controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
                     controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
-                }
-            });
-            
-            // 添加触摸事件监听器
-            window.addEventListener("touchstart", (e) => {
-                if (e.target.closest('.progress')) {
-                    progress_elmnt.classList.add('dragging');
-                    handleScrub(e);
-                    selectedSong.muted = true;
-                    progressBarIsUpdating = true;
-                }
-            });
-            
-            window.addEventListener("touchmove", (e) => {
-                if (progressBarIsUpdating) {
-                    handleScrub(e);
-                }
-            });
-            
-            window.addEventListener("touchend", () => {
-                if (progressBarIsUpdating) {
-                    progress_elmnt.classList.remove('dragging');
-                    selectedSong.muted = false;
-                    progressBarIsUpdating = false;
-                }
-            });
-            
-            // 原有的pointer事件保持不变，添加dragging类
-            window.addEventListener("pointerdown", (e) => {
-                if (e.target.closest('.progress')) {
-                    progress_elmnt.classList.add('dragging');
-                    handleScrub(e);
-                    progressBarIsUpdating = true;
-                }
-            });
-            
-            // 在原有的pointermove事件处理中添加dragging状态
-            window.addEventListener("pointermove", (e) => {
-                if (progressBarIsUpdating) {
-                    handleScrub(e);
-                    selectedSong.muted = true;
-                }
-            });
-            
-            window.addEventListener("pointerup", () => {
-                if (progressBarIsUpdating) {
-                    progress_elmnt.classList.remove('dragging');
-                    selectedSong.muted = false;
-                    progressBarIsUpdating = false;
                 }
             });
         }
