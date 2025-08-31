@@ -1223,6 +1223,84 @@
             let broadcastGuarantor_elmnt = null;
             const root = document.querySelector("#root");
 
+            // 添加页面可见性检测
+            let pageVisible = true;
+            document.addEventListener('visibilitychange', () => {
+                pageVisible = !document.hidden;
+                
+                if (pageVisible) {
+                    // 页面变为可见，恢复播放状态
+                    restorePlaybackState();
+                } else {
+                    // 页面变为隐藏，保存播放状态
+                    savePlaybackState();
+                }
+            });
+            
+            // 保存播放状态到localStorage
+            function savePlaybackState() {
+                if (!selectedSong) return;
+                
+                const playbackState = {
+                    currentSongIndex: indexSong,
+                    currentTime: selectedSong.currentTime,
+                    isPlaying: !selectedSong.paused,
+                    volume: selectedSong.volume
+                };
+                
+                localStorage.setItem('musicPlayerState', JSON.stringify(playbackState));
+            }
+            
+            // 从localStorage恢复播放状态
+            function restorePlaybackState() {
+                try {
+                    const savedState = localStorage.getItem('musicPlayerState');
+                    if (!savedState) return;
+                    
+                    const playbackState = JSON.parse(savedState);
+                    
+                    // 确保状态有效
+                    if (playbackState.currentSongIndex !== undefined && 
+                        playbackState.currentSongIndex >= 0 && 
+                        playbackState.currentSongIndex <= songsLength) {
+                        
+                        // 如果当前歌曲与保存的歌曲不同，切换到保存的歌曲
+                        if (indexSong !== playbackState.currentSongIndex) {
+                            handleChangeMusic({ playListIndex: playbackState.currentSongIndex });
+                        }
+                        
+                        // 设置播放位置
+                        if (playbackState.currentTime !== undefined) {
+                            selectedSong.currentTime = playbackState.currentTime;
+                        }
+                        
+                        // 设置音量
+                        if (playbackState.volume !== undefined) {
+                            selectedSong.volume = playbackState.volume;
+                        }
+                        
+                        // 恢复播放状态
+                        if (playbackState.isPlaying && selectedSong.paused) {
+                            selectedSong.play().catch(e => console.log("Autoplay prevented:", e));
+                            broadcastGuarantor_elmnt.classList.add("click");
+                            songIsPlayed = true;
+                        } else if (!playbackState.isPlaying && !selectedSong.paused) {
+                            selectedSong.pause();
+                            broadcastGuarantor_elmnt.classList.remove("click");
+                            songIsPlayed = false;
+                        }
+                    }
+                } catch (e) {
+                    console.error("Error restoring playback state:", e);
+                }
+            }
+            
+            // 添加窗口卸载事件监听，保存状态
+            window.addEventListener('beforeunload', savePlaybackState);
+            
+            // 添加定期保存状态（每5秒）
+            setInterval(savePlaybackState, 5000);
+
             function App({ songs }) {
                 function handleChangeMusic({ isPrev = false, playListIndex = null }) {
                     if (isLocked || indexSong === playListIndex) return;
@@ -1233,12 +1311,28 @@
                     }
                     if (indexSong < 0) { indexSong = songsLength; }
                     else if (indexSong > songsLength) { indexSong = 0; }
-                    selectedSong.pause();
-                    selectedSong.currentTime = 0;
-                    progressBarIsUpdating = false;
+                    
+                    // 暂停当前歌曲
+                    if (selectedSong) {
+                        selectedSong.pause();
+                    }
+                    
                     selectedSong = playlistSongs_elmnt[indexSong];
-                    if (selectedSong.paused && songIsPlayed) selectedSong.play();
-                    else selectedSong.pause();
+                    
+                    // 确保只有一个音频在播放
+                    playlistSongs_elmnt.forEach((song, i) => {
+                        if (i !== indexSong && !song.paused) {
+                            song.pause();
+                            song.currentTime = 0;
+                        }
+                    });
+                    
+                    if (selectedSong.paused && songIsPlayed) {
+                        selectedSong.play().catch(e => console.log("Play failed:", e));
+                    } else {
+                        selectedSong.pause();
+                    }
+                    
                     setProperty(sliderImgs_elmnt, "--index", -indexSong);
                     updateInfo(singerName_elmnt, songs[indexSong].artist);
                     updateInfo(songName_elmnt, songs[indexSong].songName);
@@ -1250,7 +1344,7 @@
                             artist: songs[indexSong].artist,
                             artwork: [{ src: songs[indexSong].files.cover, sizes: '512x512', type: 'image/jpeg' }]
                         });
-                        if (selectedSong.readyState >= 2) { // HAVE_CURRENT_DATA or more
+                        if (selectedSong.readyState >= 2) {
                             navigator.mediaSession.setPositionState({
                                 duration: selectedSong.duration,
                                 playbackRate: selectedSong.playbackRate,
@@ -1258,7 +1352,11 @@
                             });
                         }
                     }
+                    
+                    // 保存状态
+                    savePlaybackState();
                 }
+                
                 return (
                     dom("div", { class: "music-player flex-column" },
                         Slider({ slides: songs, handleChangeMusic }),
@@ -1287,6 +1385,7 @@
                     this.classList.toggle("click");
                     songIsPlayed = !songIsPlayed;
                     selectedSong.paused ? selectedSong.play() : selectedSong.pause();
+                    savePlaybackState();
                 }
                 return (
                     dom("div", { class: "slider center", onclick: handleResizeSlider },
@@ -1353,6 +1452,8 @@
                     const currentTime = this.currentTime;
                     const progressBarWidth = (currentTime / duration) * 100;
                     setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
+                    // 移除此行以避免双重调用 handleChangeMusic
+                    // if (songIsPlayed && currentTime === duration) { handleChangeMusic({}); }
                     if ('mediaSession' in navigator) {
                         navigator.mediaSession.setPositionState({
                             duration: this.duration,
@@ -1509,28 +1610,15 @@
             controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
             musicPlayerLoaded = true;
 
-            // 恢复保存的状态（如果有）
-            const savedIndex = localStorage.getItem('currentIndex');
-            if (savedIndex !== null) {
-                indexSong = parseInt(savedIndex);
-                selectedSong = playlistSongs_elmnt[indexSong];
-                selectedSong.currentTime = parseFloat(localStorage.getItem('currentTime')) || 0;
-                setProperty(sliderImgs_elmnt, "--index", -indexSong);
-                updateInfo(singerName_elmnt, songs[indexSong].artist);
-                updateInfo(songName_elmnt, songs[indexSong].songName);
-                if (localStorage.getItem('isPlaying') === 'true') {
-                    selectedSong.play();
-                    songIsPlayed = true;
-                    broadcastGuarantor_elmnt.classList.add('click');
-                }
-            }
+            // 尝试恢复之前的播放状态
+            setTimeout(restorePlaybackState, 100);
 
             // 添加MediaSession API支持（适配媒体键和AirPods）
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: songs[indexSong].songName,
-                    artist: songs[indexSong].artist,
-                    artwork: [{ src: songs[indexSong].files.cover, sizes: '512x512', type: 'image/jpeg' }]
+                    title: songs[0].songName,
+                    artist: songs[0].artist,
+                    artwork: [{ src: songs[0].files.cover, sizes: '512x512', type: 'image/jpeg' }]
                 });
 
                 navigator.mediaSession.setActionHandler('previoustrack', () => handleChangeMusic({ isPrev: true }));
@@ -1557,37 +1645,6 @@
                     }
                 });
             }
-
-            // 添加页面可见性变化处理
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'hidden') {
-                    // 保存状态
-                    if (selectedSong) {
-                        localStorage.setItem('currentIndex', indexSong);
-                        localStorage.setItem('currentTime', selectedSong.currentTime);
-                        localStorage.setItem('isPlaying', songIsPlayed ? 'true' : 'false');
-                    }
-                    if (songIsPlayed) {
-                        selectedSong.pause();
-                    }
-                } else {
-                    // 恢复状态
-                    const savedIndex = localStorage.getItem('currentIndex');
-                    if (savedIndex !== null) {
-                        indexSong = parseInt(savedIndex);
-                        selectedSong = playlistSongs_elmnt[indexSong];
-                        selectedSong.currentTime = parseFloat(localStorage.getItem('currentTime')) || 0;
-                        setProperty(sliderImgs_elmnt, "--index", -indexSong);
-                        updateInfo(singerName_elmnt, songs[indexSong].artist);
-                        updateInfo(songName_elmnt, songs[indexSong].songName);
-                        if (localStorage.getItem('isPlaying') === 'true') {
-                            selectedSong.play();
-                            songIsPlayed = true;
-                            broadcastGuarantor_elmnt.classList.add('click');
-                        }
-                    }
-                }
-            });
 
             function controlSubtitleAnimation(parent, child) {
                 if (child.classList.contains("animate")) return;
