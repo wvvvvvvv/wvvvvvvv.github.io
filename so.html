@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐈👀🦋</title>
+    <title>👀🐈🍉</title>
     <style>
         :root {
             --glow-sens: 30;
@@ -1250,6 +1250,13 @@
                             artist: songs[indexSong].artist,
                             artwork: [{ src: songs[indexSong].files.cover, sizes: '512x512', type: 'image/jpeg' }]
                         });
+                        if (selectedSong.readyState >= 2) { // HAVE_CURRENT_DATA or more
+                            navigator.mediaSession.setPositionState({
+                                duration: selectedSong.duration,
+                                playbackRate: selectedSong.playbackRate,
+                                position: selectedSong.currentTime
+                            });
+                        }
                     }
                 }
                 return (
@@ -1333,6 +1340,13 @@
                     let min = parseInt(duration / 60); if (min < 10) min = "0" + min;
                     let sec = parseInt(duration % 60); if (sec < 10) sec = "0" + sec;
                     target.appendChild(document.createTextNode(`${min}:${sec}`));
+                    if ('mediaSession' in navigator) {
+                        navigator.mediaSession.setPositionState({
+                            duration: this.duration,
+                            playbackRate: this.playbackRate,
+                            position: this.currentTime
+                        });
+                    }
                 }
                 function updateTheProgressBar() {
                     const duration = this.duration;
@@ -1341,6 +1355,13 @@
                     setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
                     if (songIsPlayed && currentTime === duration) {
                         handleChangeMusic({});
+                    }
+                    if ('mediaSession' in navigator) {
+                        navigator.mediaSession.setPositionState({
+                            duration: this.duration,
+                            playbackRate: this.playbackRate,
+                            position: this.currentTime
+                        });
                     }
                 }
                 return (
@@ -1501,6 +1522,21 @@
                 });
                 navigator.mediaSession.setActionHandler('pause', () => {
                     if (!selectedSong.paused) selectedSong.pause();
+                });
+                navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+                    selectedSong.currentTime = Math.max(0, selectedSong.currentTime - (details.seekOffset || 10));
+                });
+                navigator.mediaSession.setActionHandler('seekforward', (details) => {
+                    selectedSong.currentTime = Math.min(selectedSong.duration, selectedSong.currentTime + (details.seekOffset || 10));
+                });
+                navigator.mediaSession.setActionHandler('seekto', (details) => {
+                    if (details.seekTime != null) {
+                        if (details.fastSeek && 'fastSeek' in selectedSong) {
+                            selectedSong.fastSeek(details.seekTime);
+                        } else {
+                            selectedSong.currentTime = details.seekTime;
+                        }
+                    }
                 });
             }
 
