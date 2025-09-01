@@ -1304,6 +1304,7 @@
                 }
                 
                 selectedSong = playlistSongs_elmnt[indexSong];
+                selectedSong.currentTime = 0;  // 添加这一行：切换歌曲时重置播放位置到开头
                 
                 // 确保只有一个音频在播放
                 playlistSongs_elmnt.forEach((song, i) => {
