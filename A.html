@@ -1269,11 +1269,6 @@
                             handleChangeMusic({ playListIndex: playbackState.currentSongIndex });
                         }
                         
-                        // 设置播放位置
-                        if (playbackState.currentTime !== undefined) {
-                            selectedSong.currentTime = playbackState.currentTime;
-                        }
-                        
                         // 设置音量
                         if (playbackState.volume !== undefined) {
                             selectedSong.volume = playbackState.volume;
