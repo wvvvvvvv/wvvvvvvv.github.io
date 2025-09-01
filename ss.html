@@ -1235,7 +1235,6 @@
                 
                 const playbackState = {
                     currentSongIndex: indexSong,
-                    currentTime: selectedSong.currentTime,
                     isPlaying: !selectedSong.paused,
                     volume: selectedSong.volume
                 };
@@ -1255,6 +1254,23 @@
                     if (playbackState.currentSongIndex !== undefined && 
                         playbackState.currentSongIndex >= 0 && 
                         playbackState.currentSongIndex <= songsLength) {
+                        
+                        // 暂停所有音频以防止同时播放
+                        playlistSongs_elmnt.forEach(song => {
+                            song.pause();
+                        });
+                        const spotifyAudio = document.getElementById('audioPlayer');
+                        if (spotifyAudio) {
+                            spotifyAudio.pause();
+                            const spotifyBtn = document.querySelector('.play-btn');
+                            if (spotifyBtn) {
+                                spotifyBtn.classList.remove('playing');
+                                spotifyBtn.innerHTML = `
+                                    <svg viewBox="0 0 16 16" fill="white">
+                                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                                    </svg> Play`;
+                            }
+                        }
                         
                         // 如果当前歌曲与保存的歌曲不同，切换到保存的歌曲
                         if (indexSong !== playbackState.currentSongIndex) {
@@ -1303,9 +1319,6 @@
                     selectedSong.pause();
                 }
                 
-                selectedSong = playlistSongs_elmnt[indexSong];
-                selectedSong.currentTime = 0; // 强制从头开始播放
-                
                 // 确保只有一个音频在播放
                 playlistSongs_elmnt.forEach((song, i) => {
                     if (i !== indexSong && !song.paused) {
@@ -1313,6 +1326,9 @@
                         song.currentTime = 0;
                     }
                 });
+                
+                selectedSong = playlistSongs_elmnt[indexSong];
+                selectedSong.currentTime = 0;
                 
                 if (selectedSong.paused && songIsPlayed) {
                     selectedSong.play().catch(e => console.log("Play failed:", e));
