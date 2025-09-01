@@ -1269,9 +1269,6 @@
                             handleChangeMusic({ playListIndex: playbackState.currentSongIndex });
                         }
                         
-                        // 设置当前时间
-                        selectedSong.currentTime = playbackState.currentTime || 0;
-                        
                         // 设置音量
                         if (playbackState.volume !== undefined) {
                             selectedSong.volume = playbackState.volume;
@@ -1325,7 +1322,7 @@
                         }
                     });
                     
-                    if (songIsPlayed) {
+                    if (selectedSong.paused && songIsPlayed) {
                         selectedSong.play().catch(e => console.log("Play failed:", e));
                     } else {
                         selectedSong.pause();
@@ -1450,6 +1447,8 @@
                     const currentTime = this.currentTime;
                     const progressBarWidth = (currentTime / duration) * 100;
                     setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
+                    // 移除此行以避免双重调用 handleChangeMusic
+                    // if (songIsPlayed && currentTime === duration) { handleChangeMusic({}); }
                     if ('mediaSession' in navigator) {
                         navigator.mediaSession.setPositionState({
                             duration: this.duration,
@@ -1501,7 +1500,7 @@
                 children.forEach((child) => {
                     if (Array.isArray(child)) {
                         child.forEach((nestedChild) => element.appendChild(
-                            nestedChild.nodeType ? nestedChild : document.createTextNode(nestedChild.toString())
+                            nestedChild.nodeType ? nestedChild : document.createTextNode(child.toString())
                         ));
                     } else {
                         element.appendChild(
@@ -1620,34 +1619,16 @@
                 navigator.mediaSession.setActionHandler('previoustrack', () => handleChangeMusic({ isPrev: true }));
                 navigator.mediaSession.setActionHandler('nexttrack', () => handleChangeMusic({ isPrev: false }));
                 navigator.mediaSession.setActionHandler('play', () => {
-                    if (selectedSong.paused) {
-                        selectedSong.play().catch(e => console.log("Play failed:", e));
-                        broadcastGuarantor_elmnt.classList.add("click");
-                        songIsPlayed = true;
-                    }
+                    if (selectedSong.paused) selectedSong.play();
                 });
                 navigator.mediaSession.setActionHandler('pause', () => {
-                    if (!selectedSong.paused) {
-                        selectedSong.pause();
-                        broadcastGuarantor_elmnt.classList.remove("click");
-                        songIsPlayed = false;
-                    }
+                    if (!selectedSong.paused) selectedSong.pause();
                 });
-                navigator.mediaSession.setActionHandler('seekbackward', (details) => {
-                    selectedSong.currentTime = Math.max(0, selectedSong.currentTime - (details.seekOffset || 10));
-                });
-                navigator.mediaSession.setActionHandler('seekforward', (details) => {
-                    selectedSong.currentTime = Math.min(selectedSong.duration, selectedSong.currentTime + (details.seekOffset || 10));
-                });
-                navigator.mediaSession.setActionHandler('seekto', (details) => {
-                    if (details.seekTime != null) {
-                        if (details.fastSeek && 'fastSeek' in selectedSong) {
-                            selectedSong.fastSeek(details.seekTime);
-                        } else {
-                            selectedSong.currentTime = details.seekTime;
-                        }
-                    }
-                });
+                
+                // 移除快进和后退功能
+                navigator.mediaSession.setActionHandler('seekbackward', null);
+                navigator.mediaSession.setActionHandler('seekforward', null);
+                navigator.mediaSession.setActionHandler('seekto', null);
             }
 
             function controlSubtitleAnimation(parent, child) {
