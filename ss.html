@@ -581,7 +581,7 @@
             width: var(--cover-size); height: var(--cover-size);
             transition: transform, width, height;
             transition-duration: var(--duration);
-            transition-timing-function: var(--ease-timeline);
+            transition-tensing-function: var(--ease-timeline);
             transform: translate3d(var(--offset-cover), var(--offset-cover), 0);
         }
         .slider.resize .slider__content {
@@ -1139,7 +1139,7 @@
                 endValue: 100,
                 onUpdate: (v) => {
                     const d = (angleEnd - angleStart) * (v / 100) + angleStart;
-                    $card.style.setProperty('--pointer-°', `${d}deg`);
+                    $card.style.setProperty('--pointer-°', `${d}deg`;
                 }
             });
 
@@ -1304,7 +1304,6 @@
                 }
                 
                 selectedSong = playlistSongs_elmnt[indexSong];
-                selectedSong.currentTime = 0;  // 添加这一行：切换歌曲时重置播放位置到开头
                 
                 // 确保只有一个音频在播放
                 playlistSongs_elmnt.forEach((song, i) => {
@@ -1313,6 +1312,9 @@
                         song.currentTime = 0;
                     }
                 });
+                
+                // 关键修改：切换歌曲时总是从头开始播放
+                selectedSong.currentTime = 0;
                 
                 if (selectedSong.paused && songIsPlayed) {
                     selectedSong.play().catch(e => console.log("Play failed:", e));
