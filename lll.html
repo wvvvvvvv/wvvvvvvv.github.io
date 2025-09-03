@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>音乐播放器</title>
+    <title>🎶音乐播放器</title>
     <style>
         :root {
             --glow-sens: 30;
@@ -365,23 +365,18 @@
                         mainAudio.src = songs[indexSong].files.song;
                         mainAudio.load();
                         
-                        if (playbackState.volume !== undefined) {
-                            mainAudio.volume = playbackState.volume;
-                        }
-                        
                         mainAudio.addEventListener('loadedmetadata', () => {
                             if (playbackState.currentTime !== undefined) {
                                 mainAudio.currentTime = playbackState.currentTime;
                             }
-                            
-                            if (playbackState.isPlaying) {
-                                mainAudio.play().catch(e => console.log("Autoplay prevented:", e));
-                                broadcastGuarantor_elmnt.classList.add("click");
-                                songIsPlayed = true;
-                            } else {
-                                broadcastGuarantor_elmnt.classList.remove("click");
-                                songIsPlayed = false;
+                            if (playbackState.volume !== undefined) {
+                                mainAudio.volume = playbackState.volume;
                             }
+                            
+                            // 强制设置为未播放状态
+                            mainAudio.pause();
+                            broadcastGuarantor_elmnt.classList.remove("click");
+                            songIsPlayed = false;
                             
                             updateInfo(songName_elmnt, songs[indexSong].songName);
                             updateInfo(singerName_elmnt, songs[indexSong].artist);
