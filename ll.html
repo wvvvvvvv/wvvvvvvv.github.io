@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐈🌅🦋</title>
+    <title>🐈🌅</title>
     <style>
         :root {
             --glow-sens: 30;
@@ -193,9 +193,9 @@
             left: 6px;
             transition: transform 0.1s ease;
         }
-        .sun-toggle:hover {
-             transform: scale(1.2);
-        }
+      .sun-toggle:hover {
+    transform: scale(1.2);
+}
 
         .moon-toggle {
             right: 6px;
@@ -218,7 +218,11 @@
 
         .day-toggle-left {
             left: 6px;
+            transition: transform 0.1s ease;
         }
+        .day-toggle-left:hover {
+    transform: scale(1.2);
+}
 
         .day-toggle-right {
             right: 6px;
@@ -423,6 +427,10 @@
             margin-top: 4px;
             width: fit-content;
             font-style: italic;
+            transition: transform 0.1s ease;
+        }
+        .play-btn:hover {
+            transform: scale(1.05);
         }
 
         .play-btn svg {
@@ -1275,7 +1283,7 @@
                                 navigator.mediaSession.metadata = new MediaMetadata({
                                     title: songs[indexSong].songName,
                                     artist: songs[indexSong].artist,
-                                    artwork: [{ src: songs[indexSong].files.cover, sizes: '512x512', type: 'image/jpeg' }]
+                                    artwork: getArtwork(songs[indexSong].files.cover)
                                 });
                                 navigator.mediaSession.setPositionState({
                                     duration: mainAudio.duration,
@@ -1292,6 +1300,17 @@
 
             window.addEventListener('beforeunload', savePlaybackState);
             setInterval(savePlaybackState, 5000);
+
+            function getArtwork(coverUrl) {
+                return [
+                    { src: coverUrl, sizes: '96x96', type: 'image/jpeg' },
+                    { src: coverUrl, sizes: '128x128', type: 'image/jpeg' },
+                    { src: coverUrl, sizes: '192x192', type: 'image/jpeg' },
+                    { src: coverUrl, sizes: '256x256', type: 'image/jpeg' },
+                    { src: coverUrl, sizes: '384x384', type: 'image/jpeg' },
+                    { src: coverUrl, sizes: '512x512', type: 'image/jpeg' }
+                ];
+            }
 
             function handleChangeMusic({ isPrev = false, playListIndex = null }) {
                 if (isLocked) return;
@@ -1325,7 +1344,7 @@
                     navigator.mediaSession.metadata = new MediaMetadata({
                         title: songs[indexSong].songName,
                         artist: songs[indexSong].artist,
-                        artwork: [{ src: songs[indexSong].files.cover, sizes: '512x512', type: 'image/jpeg' }]
+                        artwork: getArtwork(songs[indexSong].files.cover)
                     });
                 }
             }
@@ -1653,7 +1672,7 @@
                 navigator.mediaSession.metadata = new MediaMetadata({
                     title: songs[0].songName,
                     artist: songs[0].artist,
-                    artwork: [{ src: songs[0].files.cover, sizes: '512x512', type: 'image/jpeg' }]
+                    artwork: getArtwork(songs[0].files.cover)
                 });
 
                 navigator.mediaSession.setActionHandler('previoustrack', () => handleChangeMusic({ isPrev: true }));
@@ -1770,6 +1789,37 @@
                 }, 1500);
             });
         }
+      
+      
+      
+      // 添加日间和夜间模式按钮的鼠标事件监听
+document.querySelectorAll('.theme-toggle').forEach(button => {
+    button.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.2)';
+    });
+    
+    button.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+    });
+});
+      
+      
+      
+      
+// 添加日间和夜间模式按钮的鼠标事件监听
+document.querySelectorAll('.day-toggle').forEach(button => {
+    button.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.2)';
+    });
+    
+    button.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+    });
+});
+
+      
+      
+      
     </script>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script>
