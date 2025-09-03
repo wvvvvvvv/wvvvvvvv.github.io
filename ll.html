@@ -743,7 +743,8 @@
     </style>
 </head>
 <body>
-
+    <canvas id="shuicheCanvas"></canvas>
+    
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script>
         const count = 5000;
@@ -766,9 +767,11 @@
             camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 500);
             camera.position.z = 200;
             
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
+const canvas = document.getElementById('shuicheCanvas');
+renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(window.devicePixelRatio || 1);
+renderer.setSize(window.innerWidth, window.innerHeight, false); // false 避免自动更改样式宽高
+renderer.setClearColor(0x000000, 0); // 保证透明
             
             for (let index = 0, len = count; index < len; index++) {
                 const x = Math.random() * 800 - 400;
