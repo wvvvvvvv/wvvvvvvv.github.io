@@ -769,7 +769,6 @@
             
 const canvas = document.getElementById('shuicheCanvas');
 renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-renderer.setPixelRatio(window.devicePixelRatio || 1);
 renderer.setSize(window.innerWidth, window.innerHeight, false); // false 避免自动更改样式宽高
 renderer.setClearColor(0x000000, 0); // 保证透明
             
