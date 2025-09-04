@@ -1794,7 +1794,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
       
       
       
-      // 添加日间和夜间模式按钮的鼠标事件监听
+// 添加日间和夜间模式按钮的鼠标事件监听
 document.querySelectorAll('.theme-toggle').forEach(button => {
     button.addEventListener('mouseenter', function() {
         this.style.transform = 'scale(1.2)';
@@ -1802,6 +1802,13 @@ document.querySelectorAll('.theme-toggle').forEach(button => {
     
     button.addEventListener('mouseleave', function() {
         this.style.transform = 'scale(1)';
+    });
+    
+    // 添加点击事件处理 - 1秒后自动恢复大小
+    button.addEventListener('click', function() {
+        setTimeout(() => {
+            this.style.transform = 'scale(1)';
+        }, 500);
     });
 });
       
@@ -1816,6 +1823,13 @@ document.querySelectorAll('.day-toggle').forEach(button => {
     
     button.addEventListener('mouseleave', function() {
         this.style.transform = 'scale(1)';
+    });
+    
+    // 添加点击事件处理 - 1秒后自动恢复大小
+    button.addEventListener('click', function() {
+        setTimeout(() => {
+            this.style.transform = 'scale(1)';
+        }, 500);
     });
 });
 
