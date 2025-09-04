@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>🦋🐈</title>
+    <style>
+        /* LIQUID GLASS STYLES */
+        .liquidGlass-wrapper {
+          width: 220px;
+          height: 265px;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 600;
+          overflow: hidden;
+          color: black;
+          cursor: pointer;
+          box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        }
+
+        .liquidGlass-effect {
+          position: absolute;
+          z-index: 0;
+          inset: 0;
+          backdrop-filter: blur(3px);
+          filter: url(#glass-distortion);
+          overflow: hidden;
+          isolation: isolate;
+        }
+
+        .liquidGlass-tint {
+          z-index: 1;
+          position: absolute;
+          inset: 0;
+          background: rgba(255, 255, 255, 0.25);
+        }
+
+        .liquidGlass-shine {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          overflow: hidden;
+          box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.5),
+            inset -1px -1px 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .liquidGlass-text {
+          z-index: 3;
+          font-size: 2rem;
+          color: black;
+        }
+
+        /* OTHER STYLES */
+        body {
+          padding: 0;
+          margin: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          font-family: sans-serif;
+          font-weight: 300;
+        }
+
+        a {
+          text-decoration: none;
+        }
+
+        .wrapper {
+          display: flex;
+          gap: 25px;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        /* 外层 dock 保留，用于 hover 动画和圆角 */
+        .dock {
+          border-radius: 2rem;
+          padding: 2rem;
+        }
+
+        .dock:hover {
+          padding: 2.5rem;
+          border-radius: 2.5rem;
+        }
+
+        .dock:hover > div {
+          border-radius: 2.5rem;
+        }
+
+        /* 内层 grid 专门用于九宫格布局 */
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          justify-items: center;
+          align-items: center;
+        }
+
+        .grid img {
+          width:60px;
+          padding: 0;
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        }
+
+        .grid img:hover {
+          transform: scale(0.95);
+          transform-origin: center center;
+        }
+
+        .app {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
+        }
+
+        .label {
+          font-size: 12px;
+          color: black;
+          font-weight: 400;
+          font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- 外层保留 dock，保证动画和圆角 -->
+        <div class="liquidGlass-wrapper dock">
+            <div class="liquidGlass-effect"></div>
+            <div class="liquidGlass-tint"></div>
+            <div class="liquidGlass-shine"></div>
+            <div class="liquidGlass-text">
+                <!-- 内层换成 grid，负责图标布局 -->
+                <div class="grid">
+                    <a href="https://www.instagram.com/ol234566" target="_blank" class="app">
+                        <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Instagram.png" alt="Instagram"/>
+                        <div class="label">Instagram</div>
+                    </a>
+                    <a href="https://t.me/vvvvvwwv" target="_blank" class="app">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram"/>
+                        <div class="label">Telegram</div>
+                    </a>
+                    <a href="https://github.com/00000OO" target="_blank" class="app">
+                        <img src="https://dogpan.com/f/Aj6SE/IMG_5829.png" alt="GitHub"/>
+                        <div class="label">GitHub</div>
+                    </a>
+                    <a href="https://🦋.blogspot.com" target="_blank" class="app">
+                        <img src="https://dogpan.com/f/Blps8/TikTok.PNG" alt="TikTok"/>
+                        <div class="label">TikTok</div>
+                    </a>
+                    <a href="https://wa.me/message/SYDPTLQEHYE3P1?" target="_blank" class="app">
+                        <img src="https://dogpan.com/f/Dp7C3/WhatsApp.png" alt="WhatsApp"/>
+                        <div class="label">WhatsApp</div>
+                    </a>
+                    <a href="https://pin.it/5TgH8TZkp" target="_blank" class="app">
+                        <img src="https://dogpan.com/f/GyEcA/Pinterest.png" alt="Pinterest"/>
+                        <div class="label">Pinterest</div>
+                    </a>
+                    <a href="#" target="_blank" class="app">
+                        <img src="https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/finder.png" alt="Finder"/>
+                        <div class="label">Finder</div>
+                    </a>
+                    <!-- 修改WeChat链接 -->
+                    <a href="javascript:void(0);" class="app" id="wechatBtn">
+                        <img src="https://dogpan.com/f/JGrTK/WeChat%E2%80%93.png" alt="WeChat"/>
+                        <div class="label">WeChat</div>
+                    </a>
+                    <a href="https://x.com/vwwvvvvvvv" target="_blank" class="app">
+                        <img src="https://dogpan.com/f/Er2sp/X-.png" alt="X"/>
+                        <div class="label">X</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <svg style="display: none">
+        <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
+            <feTurbulence type="fractalNoise" baseFrequency="0.01 0.01" numOctaves="1" seed="5" result="turbulence"/>
+            <feComponentTransfer in="turbulence" result="mapped">
+                <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+                <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+                <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+            </feComponentTransfer>
+            <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap" />
+            <feSpecularLighting in="softMap" surfaceScale="5" specularConstant="1" specularExponent="100" lighting-color="white" result="specLight">
+                <fePointLight x="-200" y="-200" z="300" />
+            </feSpecularLighting>
+            <feComposite in="specLight" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litImage"/>
+            <feDisplacementMap in="SourceGraphic" in2="softMap" scale="150" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+    </svg>
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+    <script>
+        // WeChat功能 - 完全按照原代码实现
+        const wechatID = "lllIIllIIlIII"; 
+
+        var clipboard = new ClipboardJS('#wechatBtn', {
+            text: function() {
+                return wechatID;
+            }
+        });
+
+        clipboard.on('success', function(e) {
+            alert('👉微信号复制成功,即将前往微信！');
+            window.location.href = 'weixin://';
+        });
+
+        clipboard.on('error', function(e) {
+            alert('复制失败,请手动输入 ' + wechatID);
+            window.location.href = 'weixin://dl/scan';
+        });
+    </script>
+</body>
+</html>
