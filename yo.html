@@ -251,6 +251,7 @@
             object-fit: cover;
             margin: 0 auto;
             display: block;
+            margin: -23px 0;
         }
 
         .link-section {
@@ -288,21 +289,21 @@
         .spotify-card {
             display: flex;
             justify-content: space-between;
-            width: 250px !important;
-            min-width: 250px;
-            max-width: 250px;
+            width: 100% !important;
+            min-width: 0;
+            max-width: 100%;
             height: 100px;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 9.8px 20px;
-            max-width: 100%;
-            box-shadow: 0 0px 0px rgba(0,0,0,0.1);
-            cursor: pointer;
+            background-color: transparent;
+            border-radius: 0;
+            padding: 10px 20px 0;
+            box-shadow: none;
+            cursor: default;
             position: relative;
-            margin-bottom: 10px;
+            margin-bottom: 0;
             flex-wrap: nowrap;
             gap: 16px;
+            margin: 10px 0;
         }
 
         .spotify-left {
@@ -690,12 +691,13 @@
 
         /* LIQUID GLASS STYLES */
         .liquidGlass-wrapper {
-          width: 225px;
-          height: 180px;
+          width: 250px;
+          height: 385px;
           position: relative;
           display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
           font-weight: 600;
           overflow: hidden;
           color: black;
@@ -732,8 +734,12 @@
 
         .liquidGlass-text {
           z-index: 3;
-          font-size: 2rem;
           color: black;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0px;
         }
 
         /* OTHER STYLES */
@@ -764,6 +770,7 @@
         .dock {
           border-radius: 2rem;
           padding: 2rem;
+          margin: 20px 0;
         }
 
         .dock:hover {
@@ -785,7 +792,7 @@
         }
 
         .grid img {
-          width:50px;
+          width:45px;
           padding: 0;
           transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         }
@@ -951,32 +958,6 @@ renderer.setClearColor(0x000000, 0); // 保证透明
                         </div>
 
                         <div id="page2" class="page">
-                            <div class="profile-header">
-                                <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
-                            </div>
-                            <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3UkRfA9F62DYYDzqOskoov?si=MXIJN0wrQx24IS-qmyCUjg', '_blank')">
-                                <div class="spotify-left">
-                                    <div class="spotify-meta">
-                                        <div class="spotify-icon">
-                                            <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Spotify.svg" alt="Spotify" />
-                                        </div>
-                                        <div class="track-text">
-                                            <div class="track-title">Signals</div>
-                                            <div class="track-artist">Lazer Boomerang</div>
-                                        </div>
-                                    </div>
-                                    <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
-                                        <svg viewBox="0 0 16 16" fill="white">
-                                            <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                                        </svg> Play
-                                    </button>
-                                </div>
-                                <div class="spotify-cover">
-                                    <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.jpg" alt="封面" />
-                                </div>
-                                <audio id="audioPlayer" src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.mp3"></audio>
-                            </div>
-
                             <div class="link-scroll-container">
                                 <div class="wrapper">
                                     <!-- 外层 dock 保留，用于 hover 动画和圆角 -->
@@ -985,7 +966,29 @@ renderer.setClearColor(0x000000, 0); // 保证透明
                                         <div class="liquidGlass-tint"></div>
                                         <div class="liquidGlass-shine"></div>
                                         <div class="liquidGlass-text">
-                                            <!-- 内层换成 grid，负责图标布局 -->
+                                            <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
+                                            <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3UkRfA9F62DYYDzqOskoov?si=MXIJN0wrQx24IS-qmyCUjg', '_blank')">
+                                                <div class="spotify-left">
+                                                    <div class="spotify-meta">
+                                                        <div class="spotify-icon">
+                                                            <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Spotify.svg" alt="Spotify" />
+                                                        </div>
+                                                        <div class="track-text">
+                                                            <div class="track-title">Signals</div>
+                                                            <div class="track-artist">Lazer Boomerang</div>
+                                                        </div>
+                                                    </div>
+                                                    <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
+                                                        <svg viewBox="0 0 16 16" fill="white">
+                                                            <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                                                        </svg> Play
+                                                    </button>
+                                                </div>
+                                                <div class="spotify-cover">
+                                                    <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.jpg" alt="封面" />
+                                                </div>
+                                                <audio id="audioPlayer" src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.mp3"></audio>
+                                            </div>
                                             <div class="grid">
                                                 <a href="https://www.instagram.com/ol234566" target="_blank" class="app">
                                                     <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Instagram.png" alt="Instagram"/>
