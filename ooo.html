@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐈🌅</title>
+    <title>☘️🐈🌅</title>
     <style>
         :root {
             --glow-sens: 30;
@@ -69,14 +69,12 @@
             max-height: 510px;
             border-radius: 20px;
             isolation: isolate;
-            transform: translate3d(0, 0, 0.01px);
             background: rgba(255, 255, 255, 0.2);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
             overflow: hidden;
             text-align: center;
             box-sizing: border-box;
             border: 1px solid rgb(255 255 255 / 25%);
-            will-change: transform, opacity;
         }
 
         .glowing-card::before,
@@ -146,10 +144,14 @@
             inset: calc(var(--outset) * -1);
             pointer-events: none;
             z-index: 1;
-            mask-image: 
-                conic-gradient( 
-                    from var(--pointer-°) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%
-                );
+mask-image: conic-gradient(
+  from var(--pointer-°) at center, 
+  rgba(255,255,255,1) 25%, 
+  rgba(255,255,255,0) 40%, 
+  rgba(255,255,255,0) 60%, 
+  rgba(255,255,255,1) 75%
+);
+
             opacity: calc((var(--pointer-d) - var(--glow-sens)) / (100 - var(--glow-sens)));
             mix-blend-mode: var(--glow-blend);
         }
@@ -262,7 +264,6 @@
             transition: transform 0.5s ease-in-out;
             height: 100%;
             transform: translateX(-100%);
-            will-change: transform;
         }
 
         .page {
