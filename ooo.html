@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💜🐈🌅</title>
+    <title>🐈🌅</title>
     <style>
         :root {
             --glow-sens: 30;
@@ -76,10 +76,7 @@
             text-align: center;
             box-sizing: border-box;
             border: 1px solid rgb(255 255 255 / 25%);
-            /* 修复：添加硬件加速和防止黑色阴影 */
-            transform: translateZ(0);
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
+            will-change: transform, opacity;
         }
 
         .glowing-card::before,
@@ -91,8 +88,6 @@
             border-radius: inherit;
             transition: opacity 0.25s ease-out;
             z-index: -1;
-            /* 修复：防止黑色阴影 */
-            background: transparent;
         }
          
         .glowing-card:not(:hover):not(.animating)::before,
@@ -120,9 +115,6 @@
                 conic-gradient( 
                     from var(--pointer-°) at center, black 25%, transparent 40%, transparent 60%, black 75%
                 );
-            /* 修复：防止黑色阴影 */
-            mask-composite: intersect;
-            -webkit-mask-composite: source-in;
         }
         
         .glowing-card::after {
@@ -160,8 +152,6 @@
                 );
             opacity: calc((var(--pointer-d) - var(--glow-sens)) / (100 - var(--glow-sens)));
             mix-blend-mode: var(--glow-blend);
-            /* 修复：防止黑色阴影 */
-            background: transparent;
         }
 
         .glowing-card > .glow::before {
@@ -183,8 +173,6 @@
                 0 0 15px 0 hsl( var(--glow-color) / 50%),
                 0 0 25px 2px hsl( var(--glow-color) / 30%),
                 0 0 50px 2px hsl( var(--glow-color) / 10%);
-            /* 修复：防止黑色阴影 */
-            background: transparent;
         }
 
         .theme-toggle {
@@ -274,6 +262,7 @@
             transition: transform 0.5s ease-in-out;
             height: 100%;
             transform: translateX(-100%);
+            will-change: transform;
         }
 
         .page {
