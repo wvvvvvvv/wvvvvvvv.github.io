@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💰🐈🌅</title>
+    <title>🐈🌅</title>
     <style>
         :root {
             --glow-sens: 30;
@@ -70,13 +70,13 @@
             border-radius: 20px;
             isolation: isolate;
             transform: translate3d(0, 0, 0.01px);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            background: #fff2;
+            box-shadow:  0px 10px 15px rgba(0, 0, 0, 0.2), 0 0 18px #fff inset;
             overflow: hidden;
             text-align: center;
             box-sizing: border-box;
             border: 1px solid rgb(255 255 255 / 25%);
-            will-change: transform, opacity;
+            backdrop-filter:blur(0px);
         }
 
         .glowing-card::before,
@@ -94,7 +94,7 @@
         .glowing-card:not(:hover):not(.animating)::after,
         .glowing-card:not(:hover):not(.animating) > .glow {
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 0.75s ease-in-out;
         }
         
         .glowing-card::before {
@@ -111,10 +111,10 @@
                 radial-gradient(at 51% 4%, hsla(12,100%,72%,1) 0px, transparent 50%) border-box,
                 linear-gradient(#c299ff 0 100%) border-box;
             opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
-mask-image: 
-        conic-gradient( 
-            from var(--pointer-°) at center, rgba(0,0,0,0.8) 25%, transparent 40%, transparent 60%, rgba(0,0,0,0.8) 75%
-        );
+            mask-image: 
+                conic-gradient( 
+                    from var(--pointer-°) at center, black 25%, transparent 40%, transparent 60%, black 75%
+                );
         }
         
         .glowing-card::after {
@@ -136,13 +136,12 @@ mask-image:
                 radial-gradient( ellipse at 66% 33%, black 5%, transparent 40% ),
                 radial-gradient( ellipse at 33% 66%, black 5%, transparent 40% ),
                 conic-gradient( from var(--pointer-°) at center, transparent 5%, black 15%, black 85%, transparent 95% );
-            mask-composite: subtract,add,add;
+            mask-composite: subtract,add,add,add,add,add;
             opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
-
+            mix-blend-mode: var(--blend);
         }
         
         .glowing-card > .glow {
-          transform: translate3d(0, 0, 0);
             --outset: var(--pads);
             inset: calc(var(--outset) * -1);
             pointer-events: none;
@@ -263,7 +262,6 @@ mask-image:
             transition: transform 0.5s ease-in-out;
             height: 100%;
             transform: translateX(-100%);
-            will-change: transform;
         }
 
         .page {
