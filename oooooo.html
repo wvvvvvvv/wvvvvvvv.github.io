@@ -251,17 +251,25 @@
         }
 
         .link-scroll-container {
-            overflow-y: auto;
+            overflow-y: scroll;  /* 修改为 scroll，确保滚动条始终可见（测试用，可改回 auto） */
+    position: relative;  /* 新增：相对定位，便于自定义滚动条位置 */
+    width: calc(100% + 2px);  /* 新增：容器宽度略宽于卡片（275px + 滚动条宽度），让滚动条“溢出”到右边外面 */
+    margin-right: -10px;  /* 新增：负 margin 补偿宽度，让容器不挤压页面布局 */
         }
 
         .link-scroll-container::-webkit-scrollbar {
             width: 0px;
             background: transparent;
         }
-
+      
+      .link-scroll-container::-webkit-scrollbar-track {
+    background: transparent;  /* 轨道完全透明，让它不占内部空间 */
+    border-right: 2px solid transparent;  /* 新增：右侧透明 border“推”thumb到外面，模拟边框外效果 */
+}
         .link-scroll-container::-webkit-scrollbar-thumb {
             background: rgba(200, 200, 200, 0.3);
             border-radius: 100px;
+             border: 1px solid rgba(255, 255, 255, 0.1);  /* 新增：thumb 边框，增强“外面”视觉 */
             opacity: 0;
             transition: opacity 0.3s ease;
         }
