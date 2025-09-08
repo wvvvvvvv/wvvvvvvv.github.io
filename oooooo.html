@@ -253,7 +253,7 @@
         .link-scroll-container {
             overflow-y: scroll;  /* 修改为 scroll，确保滚动条始终可见（测试用，可改回 auto） */
     position: relative;  /* 新增：相对定位，便于自定义滚动条位置 */
-    width: calc(100% + 2px);  /* 新增：容器宽度略宽于卡片（275px + 滚动条宽度），让滚动条“溢出”到右边外面 */
+    width: calc(100% + 0px);  /* 新增：容器宽度略宽于卡片（275px + 滚动条宽度），让滚动条“溢出”到右边外面 */
     margin-right: -10px;  /* 新增：负 margin 补偿宽度，让容器不挤压页面布局 */
         }
 
