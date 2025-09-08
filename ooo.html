@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐯🐈🌅</title>
+    <title>🦋🌅</title>
     <style>
         :root {
             --glow-sens: 30;
@@ -69,18 +69,40 @@
             max-height: 510px;
             border-radius: 20px;
             isolation: isolate;
-            will-change: transform, opacity;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            transform: translate3d(0, 0, 0.01px);
+            background: #fff2;
+            box-shadow:  0px 10px 15px rgba(0, 0, 0, 0.2), 0 0 18px #fff inset;
             overflow: hidden;
             text-align: center;
             box-sizing: border-box;
             border: 1px solid rgb(255 255 255 / 25%);
+            backdrop-filter:blur(5px);
         }
 
-        .glowing-card::before,
-        .glowing-card::after,
-        .glowing-card > .glow {
+        body:not(.light) .glowing-card {
+            backdrop-filter: none;
+            background: rgba(255,255,255,0.2);
+            box-shadow: none;
+            border: none;
+        }
+
+        body:not(.light) .link-card {
+            background: rgba(255,255,255,0.1);
+            box-shadow: none;
+        }
+
+        body:not(.light) .spotify-card {
+            background: rgba(255,255,255,0.1);
+            box-shadow: none;
+        }
+
+        body:not(.light) .music-player {
+            background: rgba(255,255,255,0);
+        }
+
+        .light .glowing-card::before,
+        .light .glowing-card::after,
+        .light .glowing-card > .glow {
             content: "";
             position: absolute;
             inset: 0;
@@ -89,14 +111,14 @@
             z-index: -1;
         }
          
-        .glowing-card:not(:hover):not(.animating)::before,
-        .glowing-card:not(:hover):not(.animating)::after,
-        .glowing-card:not(:hover):not(.animating) > .glow {
+        .light .glowing-card:not(:hover):not(.animating)::before,
+        .light .glowing-card:not(:hover):not(.animating)::after,
+        .light .glowing-card:not(:hover):not(.animating) > .glow {
             opacity: 0;
             transition: opacity 0.75s ease-in-out;
         }
         
-        .glowing-card::before {
+        .light .glowing-card::before {
             border: 1px solid transparent;
             background:
                 linear-gradient(var(--card-bg) 0 100%) padding-box,
@@ -116,7 +138,7 @@
                 );
         }
         
-        .glowing-card::after {
+        .light .glowing-card::after {
             border: 1px solid transparent;
             background:
                 radial-gradient(at 80% 55%, hsla(268,100%,76%,1) 0px, transparent 50%) padding-box,
@@ -140,24 +162,20 @@
             mix-blend-mode: var(--blend);
         }
         
-        .glowing-card > .glow {
+        .light .glowing-card > .glow {
             --outset: var(--pads);
             inset: calc(var(--outset) * -1);
             pointer-events: none;
             z-index: 1;
-mask-image: conic-gradient(
-  from var(--pointer-°) at center, 
-  rgba(255,255,255,1) 25%, 
-  rgba(255,255,255,0) 40%, 
-  rgba(255,255,255,0) 60%, 
-  rgba(255,255,255,1) 75%
-);
-
+            mask-image: 
+                conic-gradient( 
+                    from var(--pointer-°) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%
+                );
             opacity: calc((var(--pointer-d) - var(--glow-sens)) / (100 - var(--glow-sens)));
             mix-blend-mode: var(--glow-blend);
         }
 
-        .glowing-card > .glow::before {
+        .light .glowing-card > .glow::before {
             content: "";
             position: absolute;
             inset: var(--outset);
@@ -292,7 +310,7 @@ mask-image: conic-gradient(
             min-width: 275px;
             max-width: 275px;
             height: 35px;
-            background: rgba(255, 255, 255, 0.1);
+            background: #fff1;
             padding: 8px;
             margin-bottom: 6px;
             border-radius: 15px;
@@ -302,10 +320,15 @@ mask-image: conic-gradient(
             font-size: 16px;
             font-style: italic;
             -webkit-tap-highlight-color: transparent;
+            box-shadow: 0px 4px 3px #0001, 0 0 16px #fffa inset;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
         }
 
         .link-card:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255,255,255,0.8);
+            color: #333;
         }
 
         .link-icon {
@@ -323,17 +346,26 @@ mask-image: conic-gradient(
         }
 
         .link-scroll-container {
-            overflow-y: auto;
+            overflow-y: scroll;  /* 修改为 scroll，确保滚动条始终可见（测试用，可改回 auto） */
+    position: relative;  /* 新增：相对定位，便于自定义滚动条位置 */
+    width: calc(100% + 10px);  /* 新增：容器宽度略宽于卡片（275px + 滚动条宽度），让滚动条“溢出”到右边外面 */
+    margin-right: -10px;  /* 新增：负 margin 补偿宽度，让容器不挤压页面布局 */
         }
 
         .link-scroll-container::-webkit-scrollbar {
-            width: 0px;
+            width: 6px;
             background: transparent;
         }
+      
+      .link-scroll-container::-webkit-scrollbar-track {
+    background: transparent;  /* 轨道完全透明，让它不占内部空间 */
+    border-right: 2px solid transparent;  /* 新增：右侧透明 border“推”thumb到外面，模拟边框外效果 */
+}
 
         .link-scroll-container::-webkit-scrollbar-thumb {
             background: rgba(200, 200, 200, 0.3);
             border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);  /* 新增：thumb 边框，增强“外面”视觉 */
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -350,16 +382,18 @@ mask-image: conic-gradient(
             max-width: 250px;
             height: 100px;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0.1);
+            background: #fff1;
             border-radius: 20px;
             padding: 9.8px 20px;
             max-width: 100%;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0px 4px 3px #0001, 0 0 16px #fffa inset;
             cursor: pointer;
             position: relative;
             margin-bottom: 10px;
             flex-wrap: nowrap;
             gap: 16px;
+            user-select: none;
+            transition: all 0.2s ease;
         }
 
         .spotify-left {
@@ -746,7 +780,7 @@ mask-image: conic-gradient(
         }
     </style>
 </head>
-<body>
+<body class="light">
     <canvas id="shuicheCanvas"></canvas>
     
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
@@ -992,7 +1026,6 @@ renderer.setClearColor(0x000000, 0); // 保证透明
             loadMusicPlayer();
             switchPageTo(2);
             setTimeout(playAnimation, 500);
-            toggleTheme('light');
         };
 
         function preloadImages(urls) {
@@ -1047,16 +1080,19 @@ renderer.setClearColor(0x000000, 0); // 保证透明
         });
 
         function toggleTheme(theme) {
+            const canvas = document.getElementById('shuicheCanvas');
             if (theme === 'light') {
                 document.body.classList.add('light');
                 renderer.setClearColor(0x000000, 0);
                 document.body.style.background = '';
                 document.documentElement.style.setProperty('--fg', 'black');
+                canvas.style.display = 'block';
             } else {
                 document.body.classList.remove('light');
                 renderer.setClearColor(0x000000, 0);
-                document.body.style.background = '#000000';
+                document.body.style.background = 'black'; // 修改为黑色背景
                 document.documentElement.style.setProperty('--fg', 'white');
+                canvas.style.display = 'block';
             }
         }
 
@@ -1065,6 +1101,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
             document.body.classList.add('light');
             renderer.setClearColor(0x000000, 0);
             document.documentElement.style.setProperty('--fg', 'black');
+            document.getElementById('shuicheCanvas').style.display = 'block';
         }
 
         const $card = document.querySelector(".glowing-card");
