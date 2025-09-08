@@ -253,20 +253,20 @@
         }
       
 .link-scroll-container {
-    overflow-y: scroll;  /* 修改为 scroll，确保滚动条始终可见（测试用，可改回 auto） */
+    overflow-y: auto;  /* 修改为 scroll，确保滚动条始终可见（测试用，可改回 auto） */
     position: relative;  /* 新增：相对定位，便于自定义滚动条位置 */
     width: 100%;  /* 修改：恢复为 100%，不再加宽，避免整体宽度不对称 */
     /* 移除原 margin-right: -10px; 因为不再需要补偿宽度 */
 }
 
         .link-scroll-container::-webkit-scrollbar {
-            width: 6px;
+            width: 0px;
             background: transparent;
         }
 
       .link-scroll-container::-webkit-scrollbar-track {
     background: transparent;  /* 轨道完全透明，让它不占内部空间 */
-    border-right: 2px solid transparent;  /* 新增：右侧透明 border“推”thumb到外面，模拟边框外效果 */
+    border-right: 1px solid transparent;  /* 新增：右侧透明 border“推”thumb到外面，模拟边框外效果 */
 }
 .link-scroll-container::-webkit-scrollbar-thumb {
     background: rgba(200, 200, 200, 0.3);
