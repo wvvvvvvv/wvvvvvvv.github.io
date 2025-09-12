@@ -730,7 +730,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script>
-        const count = 3000; // 减少粒子数量以提高性能
+        const count = 5000;
         let scene, camera, renderer;
         let mouseX = 0, mouseY = 0;
         let windowHalfX = window.innerWidth / 2;
@@ -751,7 +751,7 @@
             camera.position.z = 200;
             
 const canvas = document.getElementById('shuicheCanvas');
-renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false, alpha: true }); // 关闭抗锯齿以提高性能
+renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight, false); // false 避免自动更改样式宽高
 renderer.setClearColor(0x000000, 0); // 保证透明
             
@@ -782,7 +782,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
             window.addEventListener('resize', resize, false);
             document.body.addEventListener('pointermove', onPointerMove);
             
-            animate();
+            anime();
         }
         
         function resize() {
@@ -793,10 +793,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
             windowHalfY = window.innerHeight / 2;
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // 更新粒子
+        function anime() {
             for (let index = 0, len = count; index < len; index++) {
                 velocityArray[2 * index] += 0.015;
                 velocityArray[2 * index + 1] += 0.015;
@@ -813,18 +810,21 @@ renderer.setClearColor(0x000000, 0); // 保证透明
             }
 
             position.needsUpdate = true;
-
-            // 更新相机位置
-            camera.position.x += (-mouseX * 0.1 - camera.position.x) * 0.02;
-            camera.position.y += (-mouseY * 0.1 - camera.position.y) * 0.02;
-            camera.lookAt(scene.position);
-
             renderer.render(scene, camera);
+            requestAnimationFrame(anime);
+            render();
         }
 
         function onPointerMove(event) {
             mouseX = event.clientX - windowHalfX;
             mouseY = event.clientY - windowHalfY;
+        }
+
+        function render() {
+            camera.position.x += (-mouseX * 0.1 - camera.position.x) * 0.02;
+            camera.position.y += (-mouseY * 0.1 - camera.position.y) * 0.02;
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
         }
     </script>
 
