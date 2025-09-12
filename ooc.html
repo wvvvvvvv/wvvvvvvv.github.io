@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌙🐈🌅</title>
+    <style>
+        :root {
+            --glow-sens: 30;
+            --dark: hsl(260, 25%, 10%);
+            --fg: black;
+            --h: 260;
+            --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
+            --blend: soft-light;
+            --glow-blend: plus-lighter;
+            --glow-color: 40deg 80% 80%;
+            --duration: 1s;
+            --ease-slider: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-timeline: cubic-bezier(0.71, 0.21, 0.3, 0.95);
+            --page-height: 498px;
+            --accent: hsl(260, 100%, 80%);
+        }
+
+        .light {
+            --card-bg: linear-gradient(8deg, color-mix(in hsl, hsl(260, 25%, 95%), var(--dark) 2.5%) 75%, hsl(260, 25%, 95%) 75.5%);
+            --blend: darken;
+            --glow-blend: luminosity;
+            --glow-color: 280deg 90% 95%;
+            --fg: black;
+            color: var(--fg);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: url('https://dogpan.com/f/qPPFX/000.jpeg') center/cover fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            color: var(--fg);
+            overflow: hidden;
+        }
+
+        body.light {
+            background: url('https://dogpan.com/f/qPPFX/000.jpeg') center/cover fixed;
+            color: var(--fg);
+        }
+        
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+        }
+        
+        .glowing-card {
+            --pads: 20px;
+            --color-sens: calc(var(--glow-sens) + 20);
+            position: relative;
+            width: 345px !important;
+            height: 510px !important;
+            min-width: 345px;
+            min-height: 510px;
+            max-width: 345px;
+            max-height: 510px;
+            border-radius: 20px;
+            isolation: isolate;
+            transform: translate3d(0, 0, 0.01px);
+            background: #fff2;
+            box-shadow:  0px 10px 15px rgba(0, 0, 0, 0), 0 0 18px #fff inset;
+            overflow: hidden;
+            text-align: center;
+            box-sizing: border-box;
+            border: none;
+            backdrop-filter:blur(5px);
+        }
+
+        body:not(.light) .glowing-card {
+            backdrop-filter: none;
+            background: rgba(255,255,255,0.15);
+            box-shadow: none;
+            border: 1px solid rgb(255 255 255 / 25%);
+        }
+
+        body:not(.light) .link-card {
+            background: rgba(255,255,255,0.07);
+            box-shadow: none;
+        }
+        
+        body:not(.light) .link-card:hover {
+            background: rgba(255,255,255,0.2); 
+        }
+
+        body:not(.light) .spotify-card {
+            background: rgba(255,255,255,0.07);
+            box-shadow: none;
+        }
+
+        body:not(.light) .music-player {
+            background: rgba(255,255,255,0);
+            box-shadow: none;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 6px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .theme-toggle:hover {
+            opacity: 0.7;
+        }
+
+        .sun-toggle {
+            left: 6px;
+            transition: transform 0.1s ease;
+        }
+      .sun-toggle:hover {
+    transform: scale(1.2);
+}
+
+        .moon-toggle {
+            right: 6px;
+        }
+
+        .day-toggle {
+            position: absolute;
+            bottom: 5px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .day-toggle:hover {
+            opacity: 0.7;
+        }
+
+        .day-toggle-left {
+            left: 6px;
+            transition: transform 0.1s ease;
+        }
+        .day-toggle-left:hover {
+    transform: scale(1.2);
+}
+
+        .day-toggle-right {
+            right: 6px;
+        }
+
+        .alist-widget-wrapper {
+            padding: 20px;
+            z-index: 1;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .profile-header {
+            padding: 15px 2px 12px;
+            position: relative;
+        }
+
+        .profile-pic {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .link-section {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .pages {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+            transform: translateX(-100%);
+        }
+
+        .page {
+            flex: 0 0 100%;
+            height: var(--page-height);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0 27px 26.2px;
+            overflow: hidden;
+        }
+
+        #page3 {
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;              
+            width: 275px !important;
+            min-width: 275px;
+            max-width: 275px;
+            height: 35px;
+            background: #fff1;
+            padding: 8px;
+            margin-bottom: 6px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: var(--fg);
+            transition: background 0.3s;
+            font-size: 16px;
+            font-style: italic;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0px 4px 3px #0001, 0 0 16px #fffa inset;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .link-card:hover {
+            background: rgba(255,255,255,0.4);
+            color: #333;
+        }
+
+        .link-icon {
+            width: 36px;
+            height: 36px;
+            margin-left: 16px;
+            margin-right: 18px;
+        }
+
+        .link-title {
+            text-align: center;
+            width: 100%;
+            font-size: 18px;
+            color: var(--fg);
+        }
+
+        .link-scroll-container {
+            overflow-y: scroll;  /* 修改为 scroll，确保滚动条始终可见（测试用，可改回 auto） */
+    position: relative;  /* 新增：相对定位，便于自定义滚动条位置 */
+    width: calc(284px + 10px);  /* 新增：容器宽度略宽于卡片（275px + 滚动条宽度），让滚动条“溢出”到右边外面 */
+    margin-right: -10px;  /* 新增：负 margin 补偿宽度，让容器不挤压页面布局 */
+        }
+
+        .link-scroll-container::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+      
+      .link-scroll-container::-webkit-scrollbar-track {
+    background: transparent;  /* 轨道完全透明，让它不占内部空间 */
+    border-right: 0px solid transparent;  /* 新增：右侧透明 border“推”thumb到外面，模拟边框外效果 */
+}
+        .link-scroll-container::-webkit-scrollbar-thumb {
+            background: rgba(200, 200, 200, 0.3);
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);  /* 新增：thumb 边框，增强“外面”视觉 */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .link-scroll-container.scrolling::-webkit-scrollbar-thumb {
+            opacity: 1;
+        }
+
+        .spotify-card {
+            display: flex;
+            justify-content: space-between;
+            width: 251px !important;
+            min-width: 251px;
+            max-width: 251px;
+            height: 100px;
+            align-items: center;
+            background: #fff1;
+            border-radius: 20px;
+            padding: 10.8px 20px;
+            max-width: 100%;
+            box-shadow: 0px 4px 3px #0001, 0 0 16px #fffa inset;
+            cursor: pointer;
+            position: relative;
+            margin-bottom: 10px;
+            flex-wrap: nowrap;
+            gap: 16px;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .spotify-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: auto;
+            flex: 1;
+            min-width: 0;
+            padding-right: 8px;
+            gap: 6px;
+        }
+
+        .spotify-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .spotify-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background-color: #1ed760;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .spotify-icon img {
+            width: 22px;
+            height: 22px;
+        }
+
+        .track-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            gap: 1px;
+        }
+
+        .track-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+            color: var(--fg);
+            font-style: italic;
+        }
+
+        .track-artist {
+            font-size: 11.7870px;
+            color: var(--fg);
+            font-style: italic;
+        }
+
+        .play-btn {
+            background-color: #3fd97a;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 6px 36px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            margin-top: 1px;
+            width: fit-content;
+            font-style: italic;
+            transition: transform 0.1s ease;
+        }
+        .play-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .play-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .spotify-cover {
+            width: 75px;
+            height: 75px;
+            border-radius: 12px;
+            overflow: hidden;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+
+        .spotify-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+            
+        .play-btn {
+            width: fit-content;
+            justify-content: flex-start;
+        }
+
+        #shuicheCanvas {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 2147483647;
+            pointer-events: none;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: -8px;
+            margin-bottom: 10px;
+        }
+
+        .bullet {
+            width: 85px;
+            height: 6px;
+            background: var(--fg);
+            opacity: 0.2;
+            border-radius:10%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .bullet.active {
+            border-radius:10%;
+            opacity: 1;
+            background: #c299ff;
+            box-shadow: 0px 0px 20px rgba(194, 153, 255, 0);
+        }
+
+        @font-face {
+            font-family: "icomoon";
+            src: url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.eot?u8ckod");
+            src: url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.eot?u8ckod#iefix") format("embedded-opentype"),
+                url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.ttf?u8ckod") format("truetype"),
+                url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.woff?u8ckod") format("woff"),
+                url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.svg?u8ckod#icomoon") format("svg");
+            font-weight: normal;
+            font-style: normal;
+            font-display: block;
+        }
+
+        [class^="icon-"],
+        [class*=" icon-"] {
+            font-family: "icomoon" !important;
+            speak: never;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .icon-back:before { content: "\e900"; color: #827d7b; }
+        .icon-next:before { content: "\e901"; color: #827d7b; }
+        .icon-pause:before { content: "\e902"; color: #fff; }
+        .icon-play:before { content: "\e903"; color: #fff; }
+        .icon-playlist:before { content: "\e904"; color: #fff; }
+
+        .img { width: 100%; flex-shrink: 0; display: block; object-fit: cover; }
+        .list { margin: 0; padding: 0; list-style-type: none; }
+        .text_trsf-cap { text-transform: capitalize; }
+        .button { all: unset; cursor: pointer; }
+        .center { display: flex; align-items: center; justify-content: center; }
+        .flex-row { display: flex; }
+        .flex-column { display: flex; flex-direction: column; }
+        ._align_center { align-items: center; }
+        ._align_start { align-items: flex-start; }
+        ._align_end { align-items: flex-end; }
+        ._justify_center { justify-content: center; }
+        ._justify_start { justify-content: flex-start; }
+        ._justify_end { justify-content: flex-end; }
+        ._justify_space-btwn { justify-content: space-between; }
+        .text_overflow {
+            width: 66%;
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+            text-overflow: ellipsis;
+            margin-right: 60px;
+        }
+
+        .music-player {
+            --color-white: #fff;
+            --color-gray: #e5e7ea;
+            --color-blue: #78adfe;
+            --color-blue-dark: #5781bd;
+            --box-shadow: 0 2px 6px 1px #0000001f;
+            --color-text-1: var(--fg);
+            --color-text-2: #ffffff6b;
+            --cover-size: 4.2em;
+            --border-radius: 1.2em;
+            --music-player-height: calc(var(--page-height) - 0px);
+            --offset-cover: 1em;
+            width: 335px !important;
+            height: 445px !important;
+            user-select: none;
+            color: var(--color-text-1);
+            height: var(--music-player-height);
+            border-radius: var(--border-radius);
+            background-color: rgba(255, 255, 255, 0);
+            margin-top: -15px;
+            margin-right: auto;
+            margin-bottom: -0px;
+            margin-left: auto;
+            box-sizing: border-box;
+        }
+        .light .music-player {
+            --color-text-2: #0000006b;
+        }
+        .slider {
+            --shadow-opacity: 1;
+            z-index: 0;
+            flex-shrink: 0;
+            height: 6.8em;
+            position: relative;
+            border-radius: inherit;
+            transition: var(--duration) height var(--ease-timeline);
+        }
+        .slider.resize { --shadow-opacity: 0; height: var(--music-player-height); }
+        .slider::after {
+            top: 0; left: 0; right: 0; content: ""; width: 100%; z-index: -1;
+            height: 100%; position: absolute; pointer-events: none; border-radius: inherit;
+            box-shadow: var(--box-shadow); opacity: var(--shadow-opacity);
+            transition: var(--duration) opacity;
+        }
+        .slider__content {
+            top: 0; left: 0; overflow: hidden; position: absolute; border-radius: inherit;
+            width: var(--cover-size); height: var(--cover-size);
+            transition: transform, width, height;
+            transition-duration: var(--duration);
+            transition-timing-function: var(--ease-timeline);
+            transform: translate3d(var(--offset-cover), var(--offset-cover), 0);
+        }
+        .slider.resize .slider__content {
+            width: 100%; height: 22em;
+            transform: translate3d(0, 0, 0);
+        }
+        .slider__content .button { --size: 2.5em; z-index: 1; position: absolute; width: var(--size); height: var(--size); }
+        .slider__content i { position: absolute; pointer-events: none; font-size: var(--size); }
+        .music-player__playlist-button {
+            top: 5.5%;
+            left: 5.5%;
+            transform: scale(0);
+            transition: calc(var(--duration) / 2) transform;
+        }
+        .slider.resize .music-player__playlist-button {
+            transform: scale(1);
+            transition: 0.30s var(--duration) transform cubic-bezier(0, 0.85, 0.11, 1.64);
+        }
+        .music-player__broadcast-guarantor {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .music-player__broadcast-guarantor .icon-pause,
+        .music-player__broadcast-guarantor.click .icon-play { opacity: 0; }
+        .music-player__broadcast-guarantor.click .icon-pause { opacity: 1; }
+        .slider__imgs {
+            width: 100%; height: 100%; filter: brightness(75%);
+            transform: translate3d(calc(var(--index) * 100%), 0, 0);
+            transition: var(--duration) transform var(--ease-slider);
+        }
+        .slider__imgs > img { pointer-events: none; }
+        .slider__controls {
+            --controls-y: 210%; --controls-x: 17.3%; --controls-width: 68.4%; --controls-resize-width: 88%;
+            gap: 0.375em 0; flex-wrap: wrap; position: absolute; align-items: center; padding-top: 0.375em;
+            width: var(--controls-width); transform: translate3d(var(--controls-x), 0, 0);
+            animation: var(--controls-animate, "down paused") var(--duration) var(--ease-timeline) forwards;
+        }
+        @keyframes down {
+            100% { width: var(--controls-resize-width); transform: translate3d(0, var(--controls-y), 0); }
+        }
+        @keyframes up {
+            0% { width: var(--controls-resize-width); transform: translate3d(0, var(--controls-y), 0); }
+            100% { width: var(--controls-width); transform: translate3d(var(--controls-x), 0, 0); }
+        }
+        .slider__switch-button { font-size: 2.5em; height: max-content; }
+        .music-player__info {
+            width: 56.3%; cursor: pointer; line-height: 1.45; overflow: hidden; font-weight: bold; padding: 0 0.0625em; white-space: nowrap;
+        }
+        .music-player__info > * { margin: 0 auto; pointer-events: none; }
+        .music-player__singer-name { font-size: 1.1em; width: max-content; }
+        .music-player__subtitle { font-size: 0.8em; font-weight: bold; color: var(--color-text-2); }
+        .slider__controls .music-player__subtitle { width: max-content; }
+        .music-player__singer-name.animate, .music-player__subtitle.animate {
+            --subtitle-gap: 1.2em;
+            display: flex; gap: 0 var(--subtitle-gap); animation: subtitle 12s 1.2s linear infinite;
+        }
+        @keyframes subtitle {
+            80%, 100% { transform: translate3d(calc((100% + var(--subtitle-gap)) / -2), 0, 0); }
+        }
+        .progress {
+            width: 90%; height: 0.6em; cursor: pointer; transition: var(--duration) width var(--ease-timeline); position: relative; top: 8px;
+        }
+        .slider.resize .progress { width: 100%; }
+        .progress__wrapper {
+            width: 100%; height: 0.35em; position: relative; border-radius: 1em; background-color: var(--color-gray);
+        }
+        .progress__bar {
+            top: 0; left: 0; bottom: 0; position: absolute; width: var(--width); border-radius: inherit; background-color: var(--color-blue);
+        }
+        .progress__bar::after {
+            --size: 0.375em; left: 98%; content: ""; position: absolute; width: var(--size); height: var(--size);
+            border-radius: 100%; background-color: var(--color-blue-dark);
+        }
+        .music-player__playlist {
+            height: 100%;
+            overflow-y: auto;
+            padding: 1em 0.9em 0 var(--offset-cover);
+            box-sizing: border-box;
+        }
+        .music-player__song {
+            --gap: 0.5em; cursor: pointer; margin-bottom: var(--gap); padding-bottom: var(--gap); border-bottom: 0.8px solid #d8d8d859;
+        }
+        .music-player__song audio { display: none; }
+        .music-player__song-img {
+            width: var(--cover-size); height: var(--cover-size); border-radius: var(--border-radius);
+        }
+        .music-player__playlist-info {
+            width: 100%;
+            overflow: hidden;
+            line-height: 1.2;
+            font-size: 1em;
+            margin-left: 1.2em;
+        }
+
+        .music-player__playlist-info b {
+            display: block;
+            margin-left: 0;
+            padding-left: 0;
+            text-align: left;
+            width: calc(100% - 50px);
+        }
+
+        .flex-row._justify_space-btwn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .music-player__playlist-info .music-player__subtitle {
+            display: block;
+            text-align: left;
+            margin-left: 0;
+            padding-left: 0;
+            flex-grow: 1;
+        }
+
+        .music-player__song-duration {
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+        .music-player__song-duration {
+            font-weight: bold; font-size: 0.8em; color: var(--color-text-2);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--fg);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 10px;
+            font-size: 16px;
+            color: var(--fg);
+        }
+
+        img.noise {
+            width: 300px; /* 调整大小以适应卡片宽度 */
+            filter: url('#noise');
+            display: block;
+        }
+    </style>
+</head>
+<body class="light">
+    <!-- SVG 滤镜 -->
+    <svg width="0" height="0">
+        <filter id="noise">
+            <!-- 生成噪声纹理 -->
+            <feTurbulence 
+                type="turbulence" 
+                baseFrequency="0.01 0.4" 
+                numOctaves="2" 
+                seed="2" 
+                stitchTiles="stitch" 
+                result="turbulence1">
+                <animate 
+                    attributeName="baseFrequency" 
+                    from="0.01 0.4" 
+                    to="0.01 4" 
+                    dur="0.6s" 
+                    repeatCount="indefinite" />
+            </feTurbulence>
+
+            <!-- 应用扭曲 -->
+            <feDisplacementMap 
+                in="SourceGraphic" 
+                in2="turbulence1" 
+                scale="20" 
+                xChannelSelector="R" 
+                yChannelSelector="R" />
+        </filter>
+    </svg>
+
+    <canvas id="shuicheCanvas"></canvas>
+    
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script>
+        const count = 5000;
+        let scene, camera, renderer;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        let geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6 * count), 3));
+        geometry.setAttribute('velocity', new THREE.BufferAttribute(new Float32Array(2 * count), 1));
+
+        let position = geometry.getAttribute('position');
+        let positionArray = position.array;
+        let velocity = geometry.getAttribute('velocity');
+        let velocityArray = velocity.array;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 500);
+            camera.position.z = 200;
+            
+const canvas = document.getElementById('shuicheCanvas');
+renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight, false); // false 避免自动更改样式宽高
+renderer.setClearColor(0x000000, 0); // 保证透明
+            
+            for (let index = 0, len = count; index < len; index++) {
+                const x = Math.random() * 800 - 400;
+                const y = Math.random() * 800 - 400;
+                const z = Math.random() * 400 - 200;
+                const x2 = x;
+                const y2 = y;
+                const z2 = z;
+
+                positionArray[6 * index] = x;
+                positionArray[6 * index + 1] = y;
+                positionArray[6 * index + 2] = z;
+
+                positionArray[6 * index + 3] = x2;
+                positionArray[6 * index + 4] = y2;
+                positionArray[6 * index + 5] = z2;
+
+                velocityArray[2 * index] = 0;
+                velocityArray[2 * index + 1] = 0;
+            }
+            
+            let material = new THREE.LineBasicMaterial({ color: 0xffffff });
+            let lines = new THREE.LineSegments(geometry, material);
+            scene.add(lines);
+
+            window.addEventListener('resize', resize, false);
+            document.body.addEventListener('pointermove', onPointerMove);
+            
+            anime();
+        }
+        
+        function resize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+        }
+
+        function anime() {
+            for (let index = 0, len = count; index < len; index++) {
+                velocityArray[2 * index] += 0.015;
+                velocityArray[2 * index + 1] += 0.015;
+                positionArray[6 * index + 2] += velocityArray[2 * index] + 0.03;
+                positionArray[6 * index + 5] += velocityArray[2 * index + 1];
+
+                if(positionArray[6 * index + 2] > 200) {
+                    let z = Math.random() * 200 - 200;
+                    positionArray[6 * index + 2] = z;
+                    positionArray[6 * index + 5] = z;
+                    velocityArray[2 * index] = 0;
+                    velocityArray[2 * index + 1] = 0;
+                }
+            }
+
+            position.needsUpdate = true;
+            renderer.render(scene, camera);
+            requestAnimationFrame(anime);
+            render();
+        }
+
+        function onPointerMove(event) {
+            mouseX = event.clientX - windowHalfX;
+            mouseY = event.clientY - windowHalfY;
+        }
+
+        function render() {
+            camera.position.x += (-mouseX * 0.1 - camera.position.x) * 0.02;
+            camera.position.y += (-mouseY * 0.1 - camera.position.y) * 0.02;
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+        }
+    </script>
+
+    <div class="alist-widget-wrapper">
+        <div class="glowing-card">
+            <div class="inner">
+                <svg class="theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light')">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </g>
+                </svg>
+                
+               <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleTheme('dark')">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
+                </svg>
+                
+                <svg class="day-toggle day-toggle-left" viewBox="0 0 24 24" onclick="switchBackground('https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/bizhi.JPG')">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </g>
+                </svg>
+
+                <svg class="day-toggle day-toggle-right" viewBox="0 0 24 24" onclick="switchBackground('https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/%E9%97%AA%E5%85%89.JPG')">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </g>
+                </svg>
+                
+                <div class="link-section">
+                    <div class="pages">
+                        <div id="page1" class="page">
+                            <div class="profile-header"></div>
+                            <div style="height: 100%; display: flex; justify-content: center; align-items: center; color: var(--fg); font-style: italic;">
+                                <!-- 添加 Glitch 图片 -->
+                                <img src="https://dogpan.com/f/v2qDuA/FullSizeRender.jpeg" class="noise" alt="Glitch Image">
+                            </div>
+                        </div>
+
+                        <div id="page2" class="page">
+                            <div class="profile-header">
+                                <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
+                            </div>
+                            <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3UkRfA9F62DYYDzqOskoov?si=MXIJN0wrQx24IS-qmyCUjg', '_blank')">
+                                <div class="spotify-left">
+                                    <div class="spotify-meta">
+                                        <div class="spotify-icon">
+                                            <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Spotify.svg" alt="Spotify" />
+                                        </div>
+                                        <div class="track-text">
+                                            <div class="track-title">Signals</div>
+                                            <div class="track-artist">Lazer Boomerang</div>
+                                        </div>
+                                    </div>
+                                    <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
+                                        <svg viewBox="0 0 16 16" fill="white">
+                                            <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                                        </svg> Play
+                                    </button>
+                                </div>
+                                <div class="spotify-cover">
+                                    <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.jpg" alt="封面" />
+                                </div>
+                                <audio id="audioPlayer" src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Signals.mp3"></audio>
+                            </div>
+
+                            <div class="link-scroll-container">
+                                <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
+                                    <img src="https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Instagram.png" alt="Instagram" class="link-icon" />
+                                    <span class="link-title">Instagram</span>
+                                </a>
+
+                                <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
+                                    <span class="link-title">Telegram</span>
+                                </a>
+
+                                <a href="https://github.com/00000OO" class="link-card" target="_blank">
+                                    <img src="https://dogpan.com/f/Aj6SE/IMG_5829.png" alt="GitHub" class="link-icon" />
+                                    <span class="link-title">GitHub</span>
+                                </a>
+
+                                <a href="https://🩵.blogspot.com" class="link-card" target="_blank">
+                                    <img src="https://dogpan.com/f/Blps8/TikTok.PNG" alt="GitHub" class="link-icon" />
+                                    <span class="link-title">https://🦋.blogspot.com</span>
+                                </a>
+
+                                <a href="https://wa.me/message/SYDPTLQEHYE3P1?src=qr" class="link-card" target="_blank">
+                                    <img src="https://dogpan.com/f/Dp7C3/WhatsApp.png" alt="WhatsApp" class="link-icon" />
+                                    <span class="link-title">WhatsApp</span>
+                                </a>
+
+                                <a href="https://x.com/vwwvvvvvvv" class="link-card" target="_blank">
+                                    <img src="https://dogpan.com/f/Er2sp/X-.png" alt="X" class="link-icon" />
+                                    <span class="link-title">X</span>
+                                </a>
+
+                                <a href="https://pin.it/5TgH8TZkp" class="link-card" target="_blank">
+                                    <img src="https://dogpan.com/f/GyEcA/Pinterest.png" alt="Pinterest" class="link-icon" />
+                                    <span class="link-title">Pinterest</span>
+                                </a>
+
+                                <a href="javascript:void(0);" class="link-card" id="wechatBtn">
+                                    <img src="https://dogpan.com/f/JGrTK/WeChat%E2%80%93.png" alt="WeChat" class="link-icon" />
+                                    <span class="link-title">WeChat</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div id="page3" class="page">
+                            <div class="profile-header"></div>
+                            <audio id="mainAudio" preload="auto"></audio>
+                            <div id="root">
+                                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                                    <div class="loading-spinner"></div>
+                                    <div class="loading-text">加载音乐播放器...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pagination">
+                        <div class="bullet" data-page="1" onclick="switchPageTo(1)"></div>
+                        <div class="bullet active" data-page="2" onclick="switchPageTo(2)"></div>
+                        <div class="bullet" data-page="3" onclick="switchPageTo(3)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 2;
+        let musicPlayerLoaded = false;
+
+        window.onload = function() {
+            init();
+            preloadImages([
+                'https://dogpan.com/f/qPPFX/000.jpeg',
+                'https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/bizhi.JPG',
+                'https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/%E9%97%AA%E5%85%89.JPG'
+            ]);
+            loadMusicPlayer();
+            switchPageTo(2);
+        };
+
+        function preloadImages(urls) {
+            urls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+        }
+
+        function switchPageTo(page) {
+            if (page < 1 || page > 3) return;
+            currentPage = page;
+
+            const pages = document.querySelector('.pages');
+            pages.style.transform = `translateX(-${(page - 1) * 100}%)`;
+
+            document.querySelectorAll('.bullet').forEach(b => b.classList.toggle('active', parseInt(b.dataset.page) === page));
+        }
+
+        let isPlaying = false;
+        const audio = document.getElementById('audioPlayer');
+
+        function togglePlay(button) {
+            if (isPlaying) {
+                audio.pause();
+                button.classList.remove('playing');
+                button.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="white">
+                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                    </svg> Play`;
+            } else {
+                audio.play();
+                button.classList.add('playing');
+                button.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="white">
+                        <path d="M4 2H6V14H4V2ZM10 2H12V14H10V2Z"/>
+                    </svg> Pause`;
+            }
+            isPlaying = !isPlaying;
+        }
+
+        audio.addEventListener('ended', () => {
+            isPlaying = false;
+            const btn = document.querySelector('.play-btn');
+            if (btn) {
+                btn.classList.remove('playing');
+                btn.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="white">
+                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                    </svg> Play`;
+            }
+        });
+
+        function toggleTheme(theme) {
+            const canvas = document.getElementById('shuicheCanvas');
+            if (theme === 'light') {
+                document.body.classList.add('light');
+                renderer.setClearColor(0x000000, 0);
+                document.body.style.background = '';
+                document.documentElement.style.setProperty('--fg', 'black');
+                canvas.style.display = 'block';
+            } else {
+                document.body.classList.remove('light');
+                renderer.setClearColor(0x000000, 0);
+                document.body.style.background = 'black';
+                document.documentElement.style.setProperty('--fg', 'white');
+                canvas.style.display = 'block';
+            }
+        }
+
+        function switchBackground(url) {
+            document.body.style.background = `url('${url}') center/cover fixed`;
+            document.body.classList.add('light');
+            renderer.setClearColor(0x000000, 0);
+            document.documentElement.style.setProperty('--fg', 'black');
+            document.getElementById('shuicheCanvas').style.display = 'block';
+        }
+
+        function loadMusicPlayer() {
+            let indexSong = 0;
+            let isLocked = false;
+            let songsLength = null;
+            let selectedSong = null;
+            let songIsPlayed = false;
+            let progress_elmnt = null;
+            let songName_elmnt = null;
+            let sliderImgs_elmnt = null;
+            let singerName_elmnt = null;
+            let progressBar_elmnt = null;
+            let musicPlayerInfo_elmnt = null;
+            let progressBarIsUpdating = false;
+            let broadcastGuarantor_elmnt = null;
+            const root = document.querySelector("#root");
+            const mainAudio = document.getElementById('mainAudio');
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') {
+                    savePlaybackState();
+                }
+            });
+
+            function savePlaybackState() {
+                if (!selectedSong) return;
+                
+                const playbackState = {
+                    currentSongIndex: indexSong,
+                    isPlaying: !selectedSong.paused,
+                    volume: selectedSong.volume,
+                    currentTime: selectedSong.currentTime
+                };
+                
+                localStorage.setItem('musicPlayerState', JSON.stringify(playbackState));
+            }
+
+            function restorePlaybackState() {
+                try {
+                    const savedState = localStorage.getItem('musicPlayerState');
+                    if (!savedState) return;
+                    
+                    const playbackState = JSON.parse(savedState);
+                    
+                    if (playbackState.currentSongIndex !== undefined && 
+                        playbackState.currentSongIndex >= 0 && 
+                        playbackState.currentSongIndex <= songsLength) {
+                        
+                        indexSong = playbackState.currentSongIndex;
+                        
+                        mainAudio.src = songs[indexSong].files.song;
+                        mainAudio.load();
+                        
+                        mainAudio.addEventListener('loadedmetadata', () => {
+                            if (playbackState.currentTime !== undefined) {
+                                mainAudio.currentTime = playbackState.currentTime;
+                            }
+                            if (playbackState.volume !== undefined) {
+                                mainAudio.volume = playbackState.volume;
+                            }
+                            
+                            // 强制设置为未播放状态
+                            mainAudio.pause();
+                            broadcastGuarantor_elmnt.classList.remove("click");
+                            songIsPlayed = false;
+                            
+                            updateInfo(songName_elmnt, songs[indexSong].songName);
+                            updateInfo(singerName_elmnt, songs[indexSong].artist);
+                            setProperty(sliderImgs_elmnt, "--index", -indexSong);
+                            
+                            if ('mediaSession' in navigator) {
+                                navigator.mediaSession.metadata = new MediaMetadata({
+                                    title: songs[indexSong].songName,
+                                    artist: songs[indexSong].artist,
+                                    artwork: getArtwork(songs[indexSong].files.cover)
+                                });
+                                navigator.mediaSession.setPositionState({
+                                    duration: mainAudio.duration,
+                                    playbackRate: mainAudio.playbackRate,
+                                    position: mainAudio.currentTime
+                                });
+                            }
+                        }, { once: true });
+                    }
+                } catch (e) {
+                    console.error("Error restoring playback state:", e);
+                }
+            }
+
+            window.addEventListener('beforeunload', savePlaybackState);
+            setInterval(savePlaybackState, 5000);
+
+            function getArtwork(coverUrl) {
+                return [
+                    { src: coverUrl, sizes: '96x96', type: 'image/jpeg' },
+                    { src: coverUrl, sizes: '128x128', type: 'image/jpeg' },
+                    { src: coverUrl, sizes: '192x192', type: 'image/jpeg' },
+                    { src: coverUrl, sizes: '256x256', type: 'image/jpeg' },
+                    { src: coverUrl, sizes: '384x384', type: 'image/jpeg' },
+                    { src: coverUrl, sizes: '512x512', type: 'image/jpeg' }
+                ];
+            }
+
+            function handleChangeMusic({ isPrev = false, playListIndex = null }) {
+                if (isLocked) return;
+                let newIndex;
+                if (playListIndex || playListIndex === 0) {
+                    newIndex = playListIndex;
+                } else {
+                    newIndex = isPrev ? (indexSong - 1) : (indexSong + 1);
+                }
+                if (newIndex < 0) { newIndex = songsLength; }
+                else if (newIndex > songsLength) { newIndex = 0; }
+                if (newIndex === indexSong) return;
+
+                mainAudio.pause();
+                indexSong = newIndex;
+                mainAudio.src = songs[indexSong].files.song;
+                mainAudio.load();
+
+                mainAudio.addEventListener('loadedmetadata', () => {
+                    if (songIsPlayed) {
+                        mainAudio.play().catch(e => console.log("Play failed:", e));
+                    }
+                    savePlaybackState();
+                }, { once: true });
+
+                setProperty(sliderImgs_elmnt, "--index", -indexSong);
+                updateInfo(songName_elmnt, songs[indexSong].songName);
+                updateInfo(singerName_elmnt, songs[indexSong].artist);
+
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: songs[indexSong].songName,
+                        artist: songs[indexSong].artist,
+                        artwork: getArtwork(songs[indexSong].files.cover)
+                    });
+                }
+            }
+
+            function handleResizeSlider({ target }) {
+                if (isLocked) return;
+                else if (target.classList.contains("music-player__info")) {
+                    this.classList.add("resize");
+                    setProperty(this, "--controls-animate", "down running");
+                    return;
+                } else if (target.classList.contains("music-player__playlist-button")) {
+                    this.classList.remove("resize");
+                    setProperty(this, "--controls-animate", "up running");
+                    return;
+                }
+            }
+
+            function handlePlayMusic() {
+                if (mainAudio.currentTime === mainAudio.duration) {
+                    handleChangeMusic({});
+                }
+                this.classList.toggle("click");
+                songIsPlayed = !songIsPlayed;
+                mainAudio.paused ? mainAudio.play() : mainAudio.pause();
+                savePlaybackState();
+            }
+
+            function updateTheProgressBar() {
+                const duration = this.duration;
+                const currentTime = this.currentTime;
+                const progressBarWidth = (currentTime / duration) * 100;
+                setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.setPositionState({
+                        duration: this.duration,
+                        playbackRate: this.playbackRate,
+                        position: this.currentTime
+                    });
+                }
+            }
+
+            function handleSongEnded() {
+                if (songIsPlayed) {
+                    handleChangeMusic({});
+                }
+            }
+
+            function handleScrub(e) {
+                e.preventDefault();
+                let clientX = e.clientX;
+                if (e.touches && e.touches.length > 0) {
+                    clientX = e.touches[0].clientX;
+                }
+                const progressOffsetLeft = progress_elmnt.getBoundingClientRect().left;
+                const progressWidth = progress_elmnt.offsetWidth;
+                const duration = selectedSong.duration;
+                const currentTime = (clientX - progressOffsetLeft) / progressWidth;
+                selectedSong.currentTime = currentTime * duration;
+            }
+
+            const songs = [
+                {
+                    "bg": "#c9bea28f",
+                    "artist": "sickick",
+                    "songName": "talking to the moon (bruno mars remix)",
+                    "files": {
+                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/1/song.mp3",
+                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/1/img.jpg"
+                    }
+                },
+                {
+                    "bg": "#0896eba1",
+                    "artist": "bless you",
+                    "songName": "driving",
+                    "files": {
+                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/2/song.mp3",
+                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/2/img.jpg"
+                    }
+                },
+                {
+                    "bg": "#ebbe03",
+                    "artist": "lil uzi vert",
+                    "songName": "demon high",
+                    "files": {
+                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/3/song.mp3",
+                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/3/img.jpg"
+                    }
+                },
+                {
+                    "bg": "#ffc382",
+                    "artist": "travis scott",
+                    "songName": "a man",
+                    "files": {
+                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/4/song.mp3",
+                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/4/img.jpg"
+                    }
+                },
+                {
+                    "bg": "#ffcbdc",
+                    "songName": "Memory Reboot",
+                    "artist": "VØJ/Narvent",
+                    "files": {
+                        "song": "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Memory%20Reboot.mp3",
+                        "cover": "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Memory%20Reboot.jpg"
+                    }
+                },
+                {
+                    "bg": "#44c16fb5",
+                    "artist": "tritonal",
+                    "songName": "diamonds (feat. rose darling)",
+                    "files": {
+                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/6/song.mp3",
+                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/6/img.jpg"
+                    }
+                },
+                {
+                    "bg": "#ff4545",
+                    "artist": "the weeknd",
+                    "songName": "blinding lights",
+                    "files": {
+                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/7/song.mp3",
+                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/7/img.jpg"
+                    }
+                },
+                {
+                    "bg": "#e5e7e9",
+                    "artist": "arizona zervas",
+                    "songName": "no i in team",
+                    "files": {
+                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/8/song.mp3",
+                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/8/img.jpg"
+                    }
+                }
+            ];
+
+            const musicPlayer = document.createElement("div");
+            musicPlayer.className = "music-player flex-column";
+            
+            const slider = document.createElement("div");
+            slider.className = "slider center";
+            slider.onclick = handleResizeSlider;
+            
+            const sliderContent = document.createElement("div");
+            sliderContent.className = "slider__content center";
+            
+            const playlistButton = document.createElement("button");
+            playlistButton.className = "music-player__playlist-button center button";
+            const playlistIcon = document.createElement("i");
+            playlistIcon.className = "icon-playlist";
+            playlistButton.appendChild(playlistIcon);
+            
+            const broadcastGuarantor = document.createElement("button");
+            broadcastGuarantor.className = "music-player__broadcast-guarantor center button";
+            broadcastGuarantor.onclick = handlePlayMusic;
+            const playIcon = document.createElement("i");
+            playIcon.className = "icon-play";
+            const pauseIcon = document.createElement("i");
+            pauseIcon.className = "icon-pause";
+            broadcastGuarantor.appendChild(playIcon);
+            broadcastGuarantor.appendChild(pauseIcon);
+            
+            const sliderImgs = document.createElement("div");
+            sliderImgs.className = "slider__imgs flex-row";
+            songs.forEach(({ files: { cover }, songName }) => {
+                const img = document.createElement("img");
+                img.src = cover;
+                img.className = "img";
+                img.alt = songName;
+                sliderImgs.appendChild(img);
+            });
+            
+            sliderContent.appendChild(playlistButton);
+            sliderContent.appendChild(broadcastGuarantor);
+            sliderContent.appendChild(sliderImgs);
+            
+            const sliderControls = document.createElement("div");
+            sliderControls.className = "slider__controls center";
+            
+            const prevButton = document.createElement("button");
+            prevButton.className = "slider__switch-button flex-row button";
+            prevButton.onclick = () => handleChangeMusic({ isPrev: true });
+            const prevIcon = document.createElement("i");
+            prevIcon.className = "icon-back";
+            prevButton.appendChild(prevIcon);
+            
+            const musicInfo = document.createElement("div");
+            musicInfo.className = "music-player__info text_trsf-cap";
+            
+            const songNameDiv = document.createElement("div");
+            const singerNameDiv = document.createElement("div");
+            singerNameDiv.className = "music-player__singer-name";
+            singerNameDiv.innerHTML = `<div>${songs[0].songName}</div>`;
+            
+            const subtitleDiv = document.createElement("div");
+            const subtitle = document.createElement("div");
+            subtitle.className = "music-player__subtitle";
+            subtitle.innerHTML = `<div>${songs[0].artist}</div>`;
+            subtitleDiv.appendChild(subtitle);
+            
+            songNameDiv.appendChild(singerNameDiv);
+            musicInfo.appendChild(songNameDiv);
+            musicInfo.appendChild(subtitleDiv);
+            
+            const nextButton = document.createElement("button");
+            nextButton.className = "slider__switch-button flex-row button";
+            nextButton.onclick = () => handleChangeMusic({ isPrev: false });
+            const nextIcon = document.createElement("i");
+            nextIcon.className = "icon-next";
+            nextButton.appendChild(nextIcon);
+            
+            const progress = document.createElement("div");
+            progress.className = "progress center";
+            progress.onpointerdown = (e) => { 
+                e.preventDefault(); 
+                handleScrub(e); 
+                progressBarIsUpdating = true; 
+            };
+            
+            const progressWrapper = document.createElement("div");
+            progressWrapper.className = "progress__wrapper";
+            
+            const progressBar = document.createElement("div");
+            progressBar.className = "progress__bar center";
+            
+            progressWrapper.appendChild(progressBar);
+            progress.appendChild(progressWrapper);
+            
+            sliderControls.appendChild(prevButton);
+            sliderControls.appendChild(musicInfo);
+            sliderControls.appendChild(nextButton);
+            sliderControls.appendChild(progress);
+            
+            slider.appendChild(sliderContent);
+            slider.appendChild(sliderControls);
+            
+            const playlist = document.createElement("ul");
+            playlist.className = "music-player__playlist list";
+            
+            songs.forEach(({ songName, artist, files: { cover } }, index) => {
+                const listItem = document.createElement("li");
+                listItem.className = "music-player__song";
+                listItem.onclick = () => handleChangeMusic({ playListIndex: index });
+                
+                const flexRow = document.createElement("div");
+                flexRow.className = "flex-row _align_center";
+                
+                const songImg = document.createElement("img");
+                songImg.src = cover;
+                songImg.className = "img music-player__song-img";
+                
+                const playlistInfo = document.createElement("div");
+                playlistInfo.className = "music-player__playlist-info text_trsf-cap";
+                
+                const songTitle = document.createElement("b");
+                songTitle.className = "text_overflow";
+                songTitle.textContent = songName;
+                
+                const flexRowInfo = document.createElement("div");
+                flexRowInfo.className = "flex-row _justify_space-btwn";
+                
+                const artistName = document.createElement("span");
+                artistName.className = "music-player__subtitle";
+                artistName.textContent = artist;
+                
+                const songDuration = document.createElement("span");
+                songDuration.className = "music-player__song-duration";
+                
+                flexRowInfo.appendChild(artistName);
+                flexRowInfo.appendChild(songDuration);
+                
+                playlistInfo.appendChild(songTitle);
+                playlistInfo.appendChild(flexRowInfo);
+                
+                flexRow.appendChild(songImg);
+                flexRow.appendChild(playlistInfo);
+                
+                listItem.appendChild(flexRow);
+                
+                playlist.appendChild(listItem);
+            });
+            
+            musicPlayer.appendChild(slider);
+            musicPlayer.appendChild(playlist);
+            
+            root.innerHTML = '';
+            root.appendChild(musicPlayer);
+            
+            songsLength = songs.length - 1;
+            progress_elmnt = document.querySelector(".progress");
+            sliderImgs_elmnt = document.querySelector(".slider__imgs");
+            songName_elmnt = document.querySelector(".music-player__singer-name");
+            musicPlayerInfo_elmnt = document.querySelector(".music-player__info");
+            singerName_elmnt = document.querySelector(".music-player__subtitle");
+            progressBar_elmnt = document.querySelector(".progress__bar");
+            broadcastGuarantor_elmnt = document.querySelector(".music-player__broadcast-guarantor");
+            selectedSong = mainAudio;
+
+            // 预加载所有歌曲的duration
+            const durationElements = document.querySelectorAll(".music-player__song-duration");
+            songs.forEach((song, i) => {
+                const tempAudio = new Audio(song.files.song);
+                tempAudio.addEventListener('loadedmetadata', () => {
+                    const duration = tempAudio.duration;
+                    let min = parseInt(duration / 60); if (min < 10) min = "0" + min;
+                    let sec = parseInt(duration % 60); if (sec < 10) sec = "0" + sec;
+                    durationElements[i].textContent = `${min}:${sec}`;
+                });
+                tempAudio.load();
+            });
+
+            // 绑定事件到mainAudio
+            mainAudio.addEventListener('timeupdate', updateTheProgressBar);
+            mainAudio.addEventListener('ended', handleSongEnded);
+
+            controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
+            controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
+
+            // 初始化主音频
+            mainAudio.src = songs[0].files.song;
+            mainAudio.load();
+
+            setTimeout(restorePlaybackState, 100);
+
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: songs[0].songName,
+                    artist: songs[0].artist,
+                    artwork: getArtwork(songs[0].files.cover)
+                });
+
+                navigator.mediaSession.setActionHandler('previoustrack', () => handleChangeMusic({ isPrev: true }));
+                navigator.mediaSession.setActionHandler('nexttrack', () => handleChangeMusic({ isPrev: false }));
+                navigator.mediaSession.setActionHandler('play', () => {
+                    if (mainAudio.paused) {
+                        mainAudio.play();
+                        broadcastGuarantor_elmnt.classList.add("click");
+                        songIsPlayed = true;
+                    }
+                });
+                navigator.mediaSession.setActionHandler('pause', () => {
+                    if (!mainAudio.paused) {
+                        mainAudio.pause();
+                        broadcastGuarantor_elmnt.classList.remove("click");
+                        songIsPlayed = false;
+                    }
+                });
+                navigator.mediaSession.setActionHandler('seekto', (details) => {
+                    if (details.seekTime != null) {
+                        if (details.fastSeek && 'fastSeek' in mainAudio) {
+                            mainAudio.fastSeek(details.seekTime);
+                        } else {
+                            mainAudio.currentTime = details.seekTime;
+                        }
+                    }
+                });
+            }
+
+            function controlSubtitleAnimation(parent, child) {
+                if (child.classList.contains("animate")) return;
+                const element = child.firstChild;
+                if (child.clientWidth > parent.clientWidth) {
+                    child.appendChild(element.cloneNode(true));
+                    child.classList.add("animate");
+                }
+                setProperty(child.parentElement, "width", `${element.clientWidth}px`);
+            }
+            
+            function setProperty(target, prop, value = "") { 
+                target.style.setProperty(prop, value); 
+            }
+            
+            function updateInfo(target, value) {
+                while (target.firstChild) { target.removeChild(target.firstChild); }
+                const targetChild_elmnt = document.createElement("div");
+                targetChild_elmnt.appendChild(document.createTextNode(value));
+                target.appendChild(targetChild_elmnt);
+                target.classList.remove("animate");
+                controlSubtitleAnimation(musicPlayerInfo_elmnt, target);
+            }
+
+            function handleResize() {
+                const vH = window.innerHeight * 0.01;
+                setProperty(document.documentElement, "--vH", `${vH}px`);
+            }
+
+            handleResize();
+            window.addEventListener("resize", handleResize);
+            window.addEventListener("orientationchange", handleResize);
+            window.addEventListener("transitionstart", ({ target }) => {
+                if (target === sliderImgs_elmnt) {
+                    isLocked = true;
+                    setProperty(sliderImgs_elmnt, "will-change", "transform");
+                }
+            });
+            window.addEventListener("transitionend", ({ target, propertyName }) => {
+                if (target === sliderImgs_elmnt) {
+                    isLocked = false;
+                    setProperty(sliderImgs_elmnt, "will-change", "auto");
+                }
+                if (target.classList.contains("slider") && propertyName === "height") {
+                    controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
+                    controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
+                }
+            });
+            window.addEventListener("pointerup", (e) => {
+                e.preventDefault();
+                if (progressBarIsUpdating) {
+                    selectedSong.muted = false;
+                    progressBarIsUpdating = false;
+                }
+            });
+            window.addEventListener("pointermove", (e) => {
+                if (progressBarIsUpdating) {
+                    e.preventDefault();
+                    handleScrub(e);
+                    selectedSong.muted = true;
+                }
+            });
+            window.addEventListener("touchend", (e) => {
+                if (progressBarIsUpdating) {
+                    selectedSong.muted = false;
+                    progressBarIsUpdating = false;
+                }
+            });
+            window.addEventListener("touchmove", (e) => {
+                if (progressBarIsUpdating) {
+                    e.preventDefault();
+                    handleScrub(e);
+                    selectedSong.muted = true;
+                }
+            });
+        }
+
+        const scrollContainer = document.querySelector('.link-scroll-container');
+        let scrollTimeout;
+        if (scrollContainer) {
+            scrollContainer.addEventListener('scroll', () => {
+                scrollContainer.classList.add('scrolling');
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    scrollContainer.classList.remove('scrolling');
+                }, 1500);
+            });
+        }
+      
+      
+      
+// 添加日间和夜间模式按钮的鼠标事件监听
+document.querySelectorAll('.theme-toggle').forEach(button => {
+    button.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.2)';
+    });
+    
+    button.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+    });
+    
+    // 添加点击事件处理 - 1秒后自动恢复大小
+    button.addEventListener('click', function() {
+        setTimeout(() => {
+            this.style.transform = 'scale(1)';
+        }, 350);
+    });
+});
+      
+      
+      
+      
+// 添加日间和夜间模式按钮的鼠标事件监听
+document.querySelectorAll('.day-toggle').forEach(button => {
+    button.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.2)';
+    });
+    
+    button.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+    });
+    
+    // 添加点击事件处理 - 1秒后自动恢复大小
+    button.addEventListener('click', function() {
+        setTimeout(() => {
+            this.style.transform = 'scale(1)';
+        }, 350);
+    });
+});
+
+      
+      
+      
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    const wechatID = "lllIIllIIlIII"; 
+
+    var clipboard = new ClipboardJS('#wechatBtn', {
+        text: function() {
+            return wechatID;
+        }
+    });
+
+    clipboard.on('success', function(e) {
+        alert('👉微信号复制成功,即将前往微信！');
+        window.location.href = 'weixin://';
+    });
+
+    clipboard.on('error', function(e) {
+        alert('复制失败,请手动输入 ' + wechatID);
+        window.location.href = 'weixin://dl/scan';
+    });
+</script>
+
+</body>
+</html>
