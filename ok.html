@@ -1,0 +1,721 @@
+<!--去掉底部Powered by Alist--->
+<style>
+.footer span,.footer a:nth-of-type(1){
+  display:none;
+}
+</style>
+
+
+
+<!--去掉底部Powered by Alist--->
+<style>
+.footer span,.footer a:nth-of-type(1){
+  display:none;
+}
+</style>
+
+
+
+<!-- 自定义壁纸&文件列表透明30% -->
+<style>
+.obj-box.hope-stack.hope-c-dhzjXW.hope-c-PJLV.hope-c-PJLV-igScBhH-css {
+background-color: rgba(255, 255, 255, 0.05) !important;
+}
+.hope-c-PJLV.hope-c-PJLV-ikSuVsl-css{
+background-color: rgba(255, 255, 255, 0.3) !important;
+}
+.hope-c-ivMHWx-hZistB-cv.hope-icon-button{
+background-color: rgba(255, 255, 255, 0.3) !important;
+}
+.hope-c-PJLV-ijgzmFG-css{
+background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨落日航班🌅</title>
+    <style>
+        :root {
+            --glow-sens: 30;
+            --dark: hsl(260, 25%, 10%);
+            --fg: white;
+            --h: 260;
+            --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
+            --blend: soft-light;
+            --glow-blend: plus-lighter;
+            --glow-color: 40deg 80% 80%;
+            --duration: 1s;
+            --ease-slider: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-timeline: cubic-bezier(0.71, 0.21, 0.3, 0.95);
+            --accent: hsl(260, 100%, 80%);
+        }
+
+        .light {
+            --card-bg: linear-gradient(8deg, color-mix(in hsl, hsl(260, 25%, 95%), var(--dark) 2.5%) 75%, hsl(260, 25%, 95%) 75.5%);
+            --blend: darken;
+            --glow-blend: luminosity;
+            --glow-color: 280deg 90% 95%;
+            --fg: black;
+            color: var(--fg);
+        }
+
+        /* 修改布局部分 - 不再固定居中 */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body.light {
+            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--fg);
+        }
+        
+        /* 保持3D粒子效果 */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+        }
+        
+        /* 修改卡片容器样式 */
+        .alist-widget-wrapper {
+            padding: 20px;
+            z-index: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 发光卡片样式 - 恢复玻璃发光效果 */
+        .glowing-card {
+            --pads: 20px;
+            --color-sens: calc(var(--glow-sens) + 20);
+            position: relative;
+            max-width: 345px;
+            max-height: 510px;
+            width: 100%;
+            border-radius: 20px;
+            isolation: isolate;
+            transform: translate3d(0, 0, 0.01px);
+            background: #fff2;
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0), 0 0 18px #fff inset;
+            overflow: hidden;
+            text-align: center;
+            box-sizing: border-box;
+            border: none;
+            backdrop-filter: blur(5px);
+            margin: 0 auto; /* 改为自动外边距实现水平居中 */
+        }
+
+        body:not(.light) .glowing-card {
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0), 0 0 18px #fff inset;
+            border: 1px solid rgb(255 255 255 / 25%);
+            backdrop-filter: blur(5px);
+        }
+
+        /* 主题切换按钮样式保持不变 */
+        .theme-toggle {
+            position: absolute;
+            top: 6px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .theme-toggle:hover {
+            opacity: 0.7;
+        }
+
+        .sun-toggle {
+            left: 6px;
+            transition: transform 0.1s ease;
+        }
+
+        .sun-toggle:hover {
+            transform: scale(1.2);
+        }
+
+        .moon-toggle {
+            right: 6px;
+            transition: transform 0.1s ease;
+        }
+
+        .moon-toggle:hover {
+            transform: scale(1.2);
+        }
+
+        /* 背景切换按钮样式 */
+        .day-toggle {
+            position: absolute;
+            bottom: 5px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .day-toggle:hover {
+            opacity: 0.7;
+        }
+
+        .day-toggle-left {
+            left: 6px;
+            transition: transform 0.1s ease;
+        }
+
+        .day-toggle-left:hover {
+            transform: scale(1.2);
+        }
+
+        .day-toggle-right {
+            right: 6px;
+            transition: transform 0.1s ease;
+        }
+
+        .day-toggle-right:hover {
+            transform: scale(1.2);
+        }
+
+        /* 个人主页样式调整 */
+        .profile-header {
+            padding: 8px 16px 10px;
+            position: relative;
+        }
+
+        .profile-pic {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .link-section {
+            padding: 0 28px 30px;
+        }
+
+        /* 链接卡片样式 - 恢复玻璃发光效果 */
+        .link-card {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            background: #fff1;
+            padding: 8px;
+            margin-bottom: 6px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: var(--fg);
+            transition: background 0.3s;
+            font-size: 16px;
+            font-style: italic;
+            box-shadow: 0px 4px 3px #0001, 0 0 16px #fffa inset;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .link-card:hover {
+            background: rgba(255,255,255,0.4);
+            color: #333;
+        }
+
+        body:not(.light) .link-card {
+            background: rgba(255,255,255,0.07);
+            box-shadow: 0px 4px 3px #0001, 0 0 16px #fffa inset;
+        }
+        
+        body:not(.light) .link-card:hover {
+            background: rgba(255,255,255,0.2); 
+        }
+
+        .link-icon {
+            width: 36px;
+            height: 36px;
+            margin-left: 16px;
+            margin-right: 18px;
+        }
+
+        .link-title {
+            text-align: center;
+            width: 100%;
+            font-size: 18px;
+            color: var(--fg);
+        }
+
+        /* Spotify 卡片样式 - 恢复玻璃发光效果 */
+        .spotify-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff1;
+            border-radius: 20px;
+            padding: 9.8px 20px;
+            max-width: 100%;
+            box-shadow: 0px 4px 3px #0001, 0 0 16px #fffa inset;
+            cursor: pointer;
+            position: relative;
+            margin-bottom: 8px;
+            flex-wrap: nowrap;
+            gap: 6px;
+        }
+
+        body:not(.light) .spotify-card {
+            background: rgba(255,255,255,0.07);
+            box-shadow: 0px 4px 3px #0001, 0 0 16px #fffa inset;
+        }
+
+        .spotify-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: auto;
+            flex: 1;
+            min-width: 0;
+            padding-right: 0px;
+            gap: 0px;
+        }
+
+        .spotify-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spotify-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background-color: #1ed760;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .spotify-icon img {
+            width: 22px;
+            height: 22px;
+        }
+
+        .track-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            gap: 0px;
+        }
+
+        .track-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+            color: var(--fg);
+            font-style: italic;
+        }
+
+        .track-artist {
+            font-size: 13px;
+            color: var(--fg);
+            font-style: italic;
+        }
+
+        .play-btn {
+            background-color: #3fd97a;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 6px 36px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            margin-top: 6px;
+            width: fit-content;
+        }
+
+        .play-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .spotify-cover {
+            width: 75px;
+            height: 75px;
+            border-radius: 12px;
+            overflow: hidden;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+
+        .spotify-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 480px) {
+            .spotify-card {
+                flex-wrap: nowrap;
+            }
+            
+            .spotify-left {
+                flex: 1 1 auto;
+                min-width: 0;
+            }
+            
+            .spotify-cover {
+                margin-left: 12px;
+                margin-top: 0;
+            }
+            
+            .play-btn {
+                width: fit-content;
+                justify-content: flex-start;
+            }
+        }
+
+        /* 鼠标特效画布样式保持不变 */
+        #shuicheCanvas {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 2147483647;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 鼠标特效画布 -->
+    <canvas id="shuicheCanvas"></canvas>
+
+    <!-- 3D粒子动画脚本保持不变 -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script>
+        // 保持原有Three.js粒子动画代码不变
+        const count = 5000;
+        let scene, camera, renderer;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        let geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6 * count), 3));
+        geometry.setAttribute('velocity', new THREE.BufferAttribute(new Float32Array(2 * count), 1));
+
+        let position = geometry.getAttribute('position');
+        let positionArray = position.array;
+        let velocity = geometry.getAttribute('velocity');
+        let velocityArray = velocity.array;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 500);
+            camera.position.z = 200;
+            
+const canvas = document.getElementById('shuicheCanvas');
+renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight, false); // false 避免自动更改样式宽高
+renderer.setClearColor(0x000000, 0); // 保证透明
+            
+            for (let index = 0; index < count; index++) {
+                const x = Math.random() * 800 - 400;
+                const y = Math.random() * 800 - 400;
+                const z = Math.random() * 400 - 200;
+                const x2 = x;
+                const y2 = y;
+                const z2 = z;
+
+                positionArray[6 * index] = x;
+                positionArray[6 * index + 1] = y;
+                positionArray[6 * index + 2] = z;
+
+                positionArray[6 * index + 3] = x2;
+                positionArray[6 * index + 4] = y2;
+                positionArray[6 * index + 5] = z2;
+
+                velocityArray[2 * index] = 0;
+                velocityArray[2 * index + 1] = 0;
+            }
+            
+            let material = new THREE.LineBasicMaterial({ color: 0xffffff });
+            let lines = new THREE.LineSegments(geometry, material);
+            scene.add(lines);
+
+            window.addEventListener('resize', resize, false);
+            document.body.addEventListener('pointermove', onPointerMove);
+            
+            anime();
+        }
+        
+        function resize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+        }
+
+        function anime() {
+            for (let index = 0; index < count; index++) {
+                velocityArray[2 * index] += 0.015;
+                velocityArray[2 * index + 1] += 0.015;
+                positionArray[6 * index + 2] += velocityArray[2 * index] + 0.03;
+                positionArray[6 * index + 5] += velocityArray[2 * index + 1];
+
+                if(positionArray[6 * index + 2] > 200) {
+                    let z = Math.random() * 200 - 200;
+                    positionArray[6 * index + 2] = z;
+                    positionArray[6 * index + 5] = z;
+                    velocityArray[2 * index] = 0;
+                    velocityArray[2 * index + 1] = 0;
+                }
+            }
+
+            position.needsUpdate = true;
+            renderer.render(scene, camera);
+            requestAnimationFrame(anime);
+            render();
+        }
+
+        function onPointerMove(event) {
+            mouseX = event.clientX - windowHalfX;
+            mouseY = event.clientY - windowHalfY;
+        }
+
+        function render() {
+            camera.position.x += (-mouseX * 0.1 - camera.position.x) * 0.02;
+            camera.position.y += (-mouseY * 0.1 - camera.position.y) * 0.02;
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+        }
+
+        window.onload = init;
+    </script>
+
+    <!-- 发光卡片个人主页导航 - 修改为自适应AList容器 -->
+    <div class="alist-widget-wrapper">
+        <div class="glowing-card">
+            <div class="inner">
+                <!-- 主题切换按钮 -->
+                <svg class="theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light')">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </g>
+                </svg>
+                
+                <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleTheme('dark')">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
+                </svg>
+                
+                <!-- 背景切换按钮 -->
+                <svg class="day-toggle day-toggle-left" viewBox="0 0 24 24" onclick="switchBackground('https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/bizhi.JPG')">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </g>
+                </svg>
+
+                <svg class="day-toggle day-toggle-right" viewBox="0 0 24 24" onclick="switchBackground('https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/%E9%97%AA%E5%85%89.JPG')">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </g>
+                </svg>
+                
+                <div class="profile-header">
+                    <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
+                </div>
+
+                <div class="link-section">
+                    <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
+                        <div class="spotify-left">
+                            <div class="spotify-meta">
+                                <div class="spotify-icon">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" />
+                                </div>
+                                <div class="track-text">
+                                    <div class="track-title">Astral Chill</div>
+                                    <div class="track-artist">Virtual Mage</div>
+                                </div>
+                            </div>
+                            <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
+                                <svg viewBox="0 0 16 16" fill="white">
+                                    <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                                </svg> Play
+                            </button>
+                        </div>
+                        <div class="spotify-cover">
+                             <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
+                        </div>
+                        <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
+                    </div>
+
+                    <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="link-icon" />
+                        <span class="link-title">Instagram</span>
+                    </a>
+
+                    <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
+                        <span class="link-title">Telegram</span>
+                    </a>
+
+                    <a href="https://github.com/00000OO" class="link-card" target="_blank">
+                        <img src="https://dogpan.com/f/Aj6SE/IMG_5829.png" alt="GitHub" class="link-icon" />
+                        <span class="link-title">GitHub</span>
+                    </a>
+
+                    <!-- 修改WeChat链接为按钮，添加ID -->
+                    <a href="javascript:void(0);" class="link-card" id="wechatBtn">
+                        <img src="https://dogpan.com/f/JGrTK/WeChat%E2%80%93.png" alt="WeChat" class="link-icon" />
+                        <span class="link-title">WeChat</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 音频播放控制保持不变
+        let isPlaying = false;
+        const audio = document.getElementById('audioPlayer');
+
+        function togglePlay(button) {
+            if (isPlaying) {
+                audio.pause();
+                button.classList.remove('playing');
+                button.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="white">
+                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                    </svg> Play`;
+            } else {
+                audio.play();
+                button.classList.add('playing');
+                button.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="white">
+                        <path d="M4 2H6V14H4V2ZM10 2H12V14H10V2Z"/>
+                    </svg> Pause`;
+            }
+            isPlaying = !isPlaying;
+        }
+
+        audio.addEventListener('ended', () => {
+            isPlaying = false;
+            const btn = document.querySelector('.play-btn');
+            if (btn) {
+                btn.classList.remove('playing');
+                btn.innerHTML = `
+                    <svg viewBox="0 0 16 16" fill="white">
+                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
+                    </svg> Play`;
+            }
+        });
+
+        // 主题切换功能
+        function toggleTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light');
+                renderer.setClearColor(0x000000, 0);
+                document.body.style.background = '';
+                document.documentElement.style.setProperty('--fg', 'black');
+            } else {
+                document.body.classList.remove('light');
+                renderer.setClearColor(0x000000, 0);
+                document.body.style.background = '#000000';
+                document.documentElement.style.setProperty('--fg', 'white');
+            }
+        }
+
+        // 背景切换功能
+        function switchBackground(url) {
+            document.body.style.background = `url('${url}') center/cover fixed`;
+            document.body.classList.add('light');
+            renderer.setClearColor(0x000000, 0);
+            document.documentElement.style.setProperty('--fg', 'black');
+        }
+
+        // 初始化时默认设置为日间模式
+        toggleTheme('dark');
+
+        // 添加按钮悬停效果
+        document.querySelectorAll('.theme-toggle, .day-toggle').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.2)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+            
+            // 添加点击事件处理 - 0.35秒后自动恢复大小
+            button.addEventListener('click', function() {
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 350);
+            });
+        });
+    </script>
+
+    <!-- 添加Clipboard.js库 -->
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+    <script>
+        // 微信复制功能
+        const wechatID = "lllIIllIIlIII"; 
+
+        var clipboard = new ClipboardJS('#wechatBtn', {
+            text: function() {
+                return wechatID;
+            }
+        });
+
+        clipboard.on('success', function(e) {
+            alert('👉微信号复制成功,即将前往微信！');
+            window.location.href = 'weixin://';
+        });
+
+        clipboard.on('error', function(e) {
+            alert('复制失败,请手动输入 ' + wechatID);
+            window.location.href = 'weixin://dl/scan';
+        });
+    </script>
+</body>
+</html>
