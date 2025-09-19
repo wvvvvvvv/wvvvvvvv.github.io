@@ -8,7 +8,7 @@
         :root {
             --glow-sens: 30;
             --dark: hsl(260, 25%, 10%);
-            --fg: black;
+            --fg: white;
             --h: 260;
             --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
             --blend: soft-light;
@@ -34,12 +34,20 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: url('https://dogpan.com/f/qPPFX/000.jpeg') center/cover fixed;
+            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             font-family: 'Inter', sans-serif;
         }
 
         body.light {
-            background: url('https://dogpan.com/f/qPPFX/000.jpeg') center/cover fixed;
+            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             color: var(--fg);
         }
         
@@ -84,13 +92,13 @@
         }
 
         body:not(.light) .glowing-card {
-            backdrop-filter: none;
             background: rgba(255,255,255,0.15);
-            box-shadow: none;
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0), 0 0 18px #fff inset;
             border: 1px solid rgb(255 255 255 / 25%);
+            backdrop-filter: blur(5px);
         }
 
-        /* 主题切换按钮样式保持不变 */
+        /* 主题切换按钮样式 - 添加动画效果 */
         .theme-toggle {
             position: absolute;
             top: 6px;
@@ -99,30 +107,27 @@
             cursor: pointer;
             z-index: 10;
             opacity: 0.5;
-            transition: opacity 0.3s;
+            transition: all 0.3s ease;
             -webkit-tap-highlight-color: transparent;
+            transform-origin: center;
         }
 
         .theme-toggle:hover {
-            opacity: 0.7;
+            opacity: 0.8;
+            transform: scale(1.2);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.9);
+            transition: transform 0.1s ease;
         }
 
         .sun-toggle {
             left: 6px;
-            transition: transform 0.1s ease;
-        }
-
-        .sun-toggle:hover {
-            transform: scale(1.2);
         }
 
         .moon-toggle {
             right: 6px;
-            transition: transform 0.1s ease;
-        }
-
-        .moon-toggle:hover {
-            transform: scale(1.2);
         }
 
         /* 背景切换按钮样式 */
@@ -206,7 +211,7 @@
 
         body:not(.light) .link-card {
             background: rgba(255,255,255,0.07);
-            box-shadow: none;
+            box-shadow: 0px 4px 3px #0001, 0 0 16px #fffa inset;
         }
         
         body:not(.light) .link-card:hover {
@@ -246,7 +251,7 @@
 
         body:not(.light) .spotify-card {
             background: rgba(255,255,255,0.07);
-            box-shadow: none;
+            box-shadow: 0px 4px 3px #0001, 0 0 16px #fffa inset;
         }
 
         .spotify-left {
@@ -532,7 +537,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
                             </button>
                         </div>
                         <div class="spotify-cover">
-                             <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
+                             <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9p.sin6u.co/ima9e/ab67616d0000b27301a4c201d6b5366ab4c241c8.jpeg?h=215" alt="封面" />
                         </div>
                         <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
                     </div>
@@ -600,19 +605,16 @@ renderer.setClearColor(0x000000, 0); // 保证透明
 
         // 主题切换功能
         function toggleTheme(theme) {
-            const canvas = document.getElementById('shuicheCanvas');
             if (theme === 'light') {
                 document.body.classList.add('light');
                 renderer.setClearColor(0x000000, 0);
                 document.body.style.background = '';
                 document.documentElement.style.setProperty('--fg', 'black');
-                canvas.style.display = 'block';
             } else {
                 document.body.classList.remove('light');
                 renderer.setClearColor(0x000000, 0);
-                document.body.style.background = 'black';
+                document.body.style.background = '#000000';
                 document.documentElement.style.setProperty('--fg', 'white');
-                canvas.style.display = 'block';
             }
         }
 
@@ -627,23 +629,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
         // 初始化时默认设置为日间模式
         toggleTheme('dark');
 
-        // 添加按钮悬停效果
-        document.querySelectorAll('.theme-toggle, .day-toggle').forEach(button => {
-            button.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.2)';
-            });
-            
-            button.addEventListener('mouseleave', function() {
-                this.style.transform = 'scale(1)';
-            });
-            
-            // 添加点击事件处理 - 0.35秒后自动恢复大小
-            button.addEventListener('click', function() {
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 350);
-            });
-        });
+        // 添加按钮悬停效果 - 移除重复的JS代码，因为CSS已经处理了
     </script>
 
     <!-- 添加Clipboard.js库 -->
