@@ -8,7 +8,7 @@
         :root {
             --glow-sens: 30;
             --dark: hsl(260, 25%, 10%);
-            --fg: white;
+            --fg: black;
             --h: 260;
             --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
             --blend: soft-light;
@@ -34,20 +34,12 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            background: url('https://dogpan.com/f/qPPFX/000.jpeg') center/cover fixed;
             font-family: 'Inter', sans-serif;
         }
 
         body.light {
-            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            background: url('https://dogpan.com/f/qPPFX/000.jpeg') center/cover fixed;
             color: var(--fg);
         }
         
@@ -92,13 +84,13 @@
         }
 
         body:not(.light) .glowing-card {
+            backdrop-filter: none;
             background: rgba(255,255,255,0.15);
-            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0), 0 0 18px #fff inset;
+            box-shadow: none;
             border: 1px solid rgb(255 255 255 / 25%);
-            backdrop-filter: blur(5px);
         }
 
-        /* 主题切换按钮样式 */
+        /* 主题切换按钮样式保持不变 */
         .theme-toggle {
             position: absolute;
             top: 6px;
@@ -107,26 +99,30 @@
             cursor: pointer;
             z-index: 10;
             opacity: 0.5;
-            transition: opacity 0.3s ease, transform 0.2s ease;
+            transition: opacity 0.3s;
             -webkit-tap-highlight-color: transparent;
         }
 
         .theme-toggle:hover {
             opacity: 0.7;
-            transform: scale(1.2);
         }
 
         .sun-toggle {
             left: 6px;
+            transition: transform 0.1s ease;
+        }
+
+        .sun-toggle:hover {
+            transform: scale(1.2);
         }
 
         .moon-toggle {
             right: 6px;
+            transition: transform 0.1s ease;
         }
 
-        /* 夜间模式下图标颜色为白色 */
-        body:not(.light) .theme-toggle {
-            color: white;
+        .moon-toggle:hover {
+            transform: scale(1.2);
         }
 
         /* 背景切换按钮样式 */
@@ -138,26 +134,30 @@
             cursor: pointer;
             z-index: 10;
             opacity: 0.5;
-            transition: opacity 0.3s ease, transform 0.2s ease;
+            transition: opacity 0.3s;
             -webkit-tap-highlight-color: transparent;
         }
 
         .day-toggle:hover {
             opacity: 0.7;
-            transform: scale(1.2);
         }
 
         .day-toggle-left {
             left: 6px;
+            transition: transform 0.1s ease;
+        }
+
+        .day-toggle-left:hover {
+            transform: scale(1.2);
         }
 
         .day-toggle-right {
             right: 6px;
+            transition: transform 0.1s ease;
         }
 
-        /* 夜间模式下图标颜色为白色 */
-        body:not(.light) .day-toggle {
-            color: white;
+        .day-toggle-right:hover {
+            transform: scale(1.2);
         }
 
         /* 个人主页样式调整 */
@@ -206,7 +206,7 @@
 
         body:not(.light) .link-card {
             background: rgba(255,255,255,0.07);
-            box-shadow: 0px 4px 3px #0001, 0 0 16px #fffa inset;
+            box-shadow: none;
         }
         
         body:not(.light) .link-card:hover {
@@ -246,7 +246,7 @@
 
         body:not(.light) .spotify-card {
             background: rgba(255,255,255,0.07);
-            box-shadow: 0px 4px 3px #0001, 0 0 16px #fffa inset;
+            box-shadow: none;
         }
 
         .spotify-left {
@@ -483,26 +483,26 @@ renderer.setClearColor(0x000000, 0); // 保证透明
         <div class="glowing-card">
             <div class="inner">
                 <!-- 主题切换按钮 -->
-                <svg class="theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleThemeWithAnimation('light', this)">
+                <svg class="theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light')">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                         <circle cx="12" cy="12" r="4"/>
                         <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
                     </g>
                 </svg>
                 
-                <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleThemeWithAnimation('dark', this)">
+                <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleTheme('dark')">
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
                 </svg>
                 
                 <!-- 背景切换按钮 -->
-                <svg class="day-toggle day-toggle-left" viewBox="0 0 24 24" onclick="switchBackgroundWithAnimation('https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/bizhi.JPG', this)">
+                <svg class="day-toggle day-toggle-left" viewBox="0 0 24 24" onclick="switchBackground('https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/bizhi.JPG')">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                         <circle cx="12" cy="12" r="4"/>
                         <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
                     </g>
                 </svg>
 
-                <svg class="day-toggle day-toggle-right" viewBox="0 0 24 24" onclick="switchBackgroundWithAnimation('https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/%E9%97%AA%E5%85%89.JPG', this)">
+                <svg class="day-toggle day-toggle-right" viewBox="0 0 24 24" onclick="switchBackground('https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/%E9%97%AA%E5%85%89.JPG')">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                         <circle cx="12" cy="12" r="4"/>
                         <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
@@ -532,7 +532,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
                             </button>
                         </div>
                         <div class="spotify-cover">
-                             <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28/haW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
+                             <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
                         </div>
                         <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
                     </div>
@@ -600,34 +600,20 @@ renderer.setClearColor(0x000000, 0); // 保证透明
 
         // 主题切换功能
         function toggleTheme(theme) {
+            const canvas = document.getElementById('shuicheCanvas');
             if (theme === 'light') {
                 document.body.classList.add('light');
                 renderer.setClearColor(0x000000, 0);
                 document.body.style.background = '';
                 document.documentElement.style.setProperty('--fg', 'black');
+                canvas.style.display = 'block';
             } else {
                 document.body.classList.remove('light');
                 renderer.setClearColor(0x000000, 0);
-                document.body.style.background = '#000000';
+                document.body.style.background = 'black';
                 document.documentElement.style.setProperty('--fg', 'white');
+                canvas.style.display = 'block';
             }
-        }
-
-        // 带动画的主题切换功能
-        function toggleThemeWithAnimation(theme, element) {
-            // 保存原始transform值
-            const originalTransform = element.style.transform;
-            
-            // 添加放大动画
-            element.style.transform = 'scale(1.4)';
-            
-            // 执行主题切换
-            toggleTheme(theme);
-            
-            // 0.35秒后恢复原大小
-            setTimeout(() => {
-                element.style.transform = originalTransform;
-            }, 350);
         }
 
         // 背景切换功能
@@ -638,27 +624,26 @@ renderer.setClearColor(0x000000, 0); // 保证透明
             document.documentElement.style.setProperty('--fg', 'black');
         }
 
-        // 带动画的背景切换功能
-        function switchBackgroundWithAnimation(url, element) {
-            // 保存原始transform值
-            const originalTransform = element.style.transform;
-            
-            // 添加放大动画
-            element.style.transform = 'scale(1.4)';
-            
-            // 执行背景切换
-            switchBackground(url);
-            
-            // 0.35秒后恢复原大小
-            setTimeout(() => {
-                element.style.transform = originalTransform;
-            }, 350);
-        }
-
         // 初始化时默认设置为日间模式
         toggleTheme('dark');
 
-        // 添加按钮悬停效果 - 使用CSS实现，不需要JavaScript
+        // 添加按钮悬停效果
+        document.querySelectorAll('.theme-toggle, .day-toggle').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.2)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+            
+            // 添加点击事件处理 - 0.35秒后自动恢复大小
+            button.addEventListener('click', function() {
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 350);
+            });
+        });
     </script>
 
     <!-- 添加Clipboard.js库 -->
