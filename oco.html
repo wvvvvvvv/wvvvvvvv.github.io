@@ -101,7 +101,7 @@
         }
 
         body:not(.light) .music-player {
-            background: rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.03);
             box-shadow: none;
         }
 
@@ -950,8 +950,8 @@ renderer.setClearColor(0x000000, 0); // 保证透明
             }
             const isLight = document.body.classList.contains('light');
             const reducedBoxShadow = isLight 
-                ? '0px 10px 15px rgba(0, 0, 0, 0), 0 0 10px #fff inset' 
-                : '0px 10px 15px rgba(0, 0, 0, 0), 0 0 3px #fff inset';
+                ? '0px 10px 15px rgba(0, 0, 0, 0), 0 0 26px #fff inset' 
+                : '0px 10px 15px rgba(0, 0, 0, 0), 0 0 1.5px #fff inset';
             glowingCard.style.boxShadow = reducedBoxShadow;
         }
 
