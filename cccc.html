@@ -1,0 +1,328 @@
+<style>
+.image-gallery[image-gallery=justify] {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.image-gallery[image-gallery=justify] .gallery_card {
+    box-sizing: border-box;
+}
+
+.image-gallery[image-gallery=justify] .gallery_card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 左侧留白区域相关代码 */
+.left-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 26%;
+    height: 100vh;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.main-content {
+    margin-left: 26%;
+    width: 74%;
+}
+
+[local-style="37160823"] .container_width {
+    width: 100% /*!variable_defaults*/;
+}
+
+/* 内边距相关代码 */
+[local-style="37160823"] .content_padding {
+    padding-top: 5.8rem /*!main_margin*/;
+    padding-bottom: 5.8rem /*!main_margin*/;
+    padding-left: 5.8rem /*!main_margin*/;
+    padding-right: 5.8rem /*!main_margin*/;
+}
+
+/* 响应式处理 */
+@media (max-width: 768px) {
+    .image-gallery[image-gallery=justify] .gallery_card {
+        width: 100% !important;
+    }
+    
+    .left-sidebar {
+        display: none;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+/* 间距系统 */
+[image-gallery-pad="1"] { padding: 0.5rem; }
+[image-gallery-gutter="2"] { margin: -1rem; }
+
+/* 滚动动画效果 */
+.scroll-transition-fade {
+    transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
+}
+
+.scroll-transition-fade.below-viewport {
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+/* 添加从之前代码提取的响应式规则 */
+
+body.mobile [grid-responsive] [grid-col] {
+    width: 100%;
+    -webkit-box-flex: none;
+    -webkit-flex: none;
+    -ms-flex: none;
+    flex: none
+}
+
+body.mobile [split-responsive] {
+    display: flex;
+    flex-direction: column
+}
+
+body.mobile [split-responsive] .container {
+    width: 100%;
+    order: 2
+}
+
+body.mobile [split-responsive] .backdrop {
+    position: relative;
+    height: 50vh;
+    width: 100%;
+    order: 1
+}
+
+body.mobile [split-responsive] [data-auxiliary].backdrop {
+    position: absolute;
+    height: 50vh;
+    width: 100%;
+    order: 1
+}
+
+/* 网格系统从原代码 */
+[grid-row] {
+    align-items: flex-start;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap
+}
+
+[grid-col] {
+    box-sizing: border-box
+}
+
+[grid-col=auto] {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1
+}
+
+[grid-col="6"] {
+    width: 50%
+}
+
+/* 填充和间距从原代码 */
+[grid-pad="4"] {
+    padding: 2rem
+}
+
+[grid-gutter="8"] {
+    margin: -4rem
+}
+
+/* 画廊特定响应式 */
+body.mobile .image-gallery[image-gallery=justify] .gallery_card {
+    width: 100% !important;
+}
+
+/* 左侧栏在移动端隐藏 - 已存在 */
+
+/* 添加viewport模拟，虽然这是meta，但这里作为注释 */
+ /* <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> */
+
+/* 滚动动画保持 */
+
+/* 边距应用 */
+.content_padding {
+    padding-top: 5.8rem;
+    padding-bottom: 5.8rem;
+    padding-left: 5.8rem;
+    padding-right: 5.8rem;
+}
+
+@media (max-width: 768px) {
+    .content_padding {
+        padding-top: 2.3rem; /* 调整为移动端 */
+        padding-bottom: 2.3rem;
+        padding-left: 2.3rem;
+        padding-right: 2.3rem;
+    }
+    
+    /* 更多移动端调整 */
+    body {
+        -webkit-text-size-adjust: none; /* 从原代码 */
+    }
+}
+
+/* 确保JS检测设备添加body.mobile */
+</style>
+
+<script>
+// 滚动动画功能 - 只在向下滚动时触发，且可重复
+document.addEventListener('DOMContentLoaded', function() {
+    const fadeElements = document.querySelectorAll('.scroll-transition-fade');
+    let lastScrollTop = 0;
+    
+    // 记录元素上次触发动画时的位置
+    const elementLastTriggerPos = new Map();
+
+    function checkScroll() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const isScrollingDown = scrollTop > lastScrollTop;
+        
+        fadeElements.forEach(element => {
+            const rect = element.getBoundingClientRect();
+            const elementTop = rect.top;
+            const viewportHeight = window.innerHeight;
+            
+            // 当元素进入视窗时显示（从底部进入视窗20%时触发）
+            const triggerPoint = viewportHeight * 0.8;
+            const isVisible = elementTop < triggerPoint && elementTop > 0;
+            
+            // 获取元素上次触发动画时的滚动位置
+            const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
+            
+            if (isScrollingDown && isVisible) {
+                // 只有在当前滚动位置比上次触发位置更靠下时才触发动画
+                if (scrollTop > lastTriggerPos) {
+                    element.classList.remove('below-viewport');
+                    elementLastTriggerPos.set(element, scrollTop);
+                }
+            } else if (!isScrollingDown && !isVisible) {
+                // 向上滚动且元素离开视窗时，重新隐藏以便下次触发
+                if (elementTop > viewportHeight) {
+                    element.classList.add('below-viewport');
+                    // 重置触发位置，允许下次向下滚动时重新触发
+                    elementLastTriggerPos.set(element, 0);
+                }
+            }
+        });
+        
+        lastScrollTop = scrollTop;
+    }
+
+    // 使用防抖优化性能
+    let scrollTimeout;
+    function handleScroll() {
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+        scrollTimeout = setTimeout(checkScroll, 16); // 约60fps
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    checkScroll(); // 初始检查
+});
+
+// 原有滚动动画
+
+// 添加设备检测JS来添加body.mobile
+function checkDevice() {
+    if (window.innerWidth <= 768) {
+        document.body.classList.add('mobile');
+    } else {
+        document.body.classList.remove('mobile');
+    }
+}
+window.addEventListener('resize', checkDevice);
+checkDevice();
+</script>
+
+<!-- 左侧留白区域 -->
+<div class="left-sidebar">
+    <!-- 左侧留白内容 -->
+</div>
+
+<!-- 主要内容区域 -->
+<div class="main-content">
+    <div class="content_container">
+        <div data-view="Content" data-set="Scaffolding">
+            <div data-container="page" class="page_container" local-style="37160823" data-id="37160823">
+                <div class="page container container_width" data-container="content" data-id="37160823">
+                    <bodycopy class="bodycopy content content_padding" style="padding: 2.3rem;">
+                        <div class="page_content clearfix" data-elementresizer="" data-resize-parent="" data-ce-host="true" data-ce-model-id="37160823">
+                            
+                            <!-- 间距设置 -->
+                            <div class="image-gallery" 
+                                 data-gallery="{&quot;data&quot;:{&quot;image_padding&quot;:&quot;1&quot;,&quot;mobile_data&quot;:{&quot;image_padding&quot;:&quot;1.25&quot;,&quot;separate_mobile_view&quot;:false}}}"
+                                 image-gallery-pad="1">
+
+                            <div style="text-align: right;">
+                                <br>
+                                <br>
+                                <span style="color: #f00;">
+                                    <ul>
+                                        <li>
+                                            <i>
+                                                <b>
+                                                    <small>
+                                                        <span style="color: #f00;">
+                                                            <i>
+                                                                <span style="color: #f00;">Restorative Topophilia</span>
+                                                            </i>
+                                                        </span>
+                                                    </small>
+                                                </b>
+                                            </i>
+                                        </li>
+                                        <li>
+                                            <i style="font-size: 1.5rem; background-color: initial;">
+                                                <b>
+                                                    <small>
+                                                        <span style="color: #f00;">
+                                                            <i>
+                                                                <span style="color: #f00;">这片土地使我痊愈</span>
+                                                            </i>
+                                                        </span>
+                                                    </small>
+                                                </b>
+                                            </i>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </div>
+
+                            <div class="image-gallery initialized" 
+                                 data-gallery="{&quot;mode_id&quot;:3,&quot;gallery_instance_id&quot;:1,&quot;name&quot;:&quot;Justify&quot;,&quot;path&quot;:&quot;justify&quot;,&quot;data&quot;:{&quot;image_padding&quot;:&quot;1&quot;,&quot;row_height&quot;:&quot;65&quot;,&quot;variation_index&quot;:&quot;0&quot;,&quot;variation&quot;:0,&quot;variation_mode&quot;:0,&quot;variation_seed&quot;:0,&quot;responsive&quot;:true,&quot;meta_data&quot;:{},&quot;mobile_data&quot;:{&quot;image_padding&quot;:&quot;1.25&quot;,&quot;row_height&quot;:&quot;54&quot;,&quot;separate_mobile_view&quot;:false},&quot;captions&quot;:false,&quot;responsive_row_height&quot;:&quot;54&quot;,&quot;responsive_image_padding&quot;:&quot;1.25&quot;}}" 
+                                 gid="1" 
+                                 data-padding-zero="" 
+                                 image-gallery="justify" 
+                                 image-gallery-row="" 
+                                 image-gallery-pad="1" 
+                                 image-gallery-gutter="2" 
+                                 style="">
+
+                                <!-- 所有图片卡片保持不变 -->
+<div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="0" data-width="24.509" data-row="1" style="width: 25.1339%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%; transition-duration: initial;"><img data-gallery-item-index="0" data-gallery-uid="147" width="1600" height="2240" src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-src="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-mid="225397439" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="1" data-width="27.45" data-row="1" style="width: 27.8667%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%; transition-duration: initial;"><img data-gallery-item-index="1" data-gallery-uid="148" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" data-src="https://freight.cargo.site/t/original/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" data-mid="225397396" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="2" data-width="48.039" data-row="1" style="width: 46.9975%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%; transition-duration: initial;"><img data-gallery-item-index="2" data-gallery-uid="149" width="2240" height="1600" src="//freight.cargo.site/w/1000/q/75/i/60a3246f9e1282e24171b0dfee7ddfad43889fc987fb818e6290dbbfbefb1b30/Restorative-Topophilia-S-43.jpg" data-src="https://freight.cargo.site/t/original/i/60a3246f9e1282e24171b0dfee7ddfad43889fc987fb818e6290dbbfbefb1b30/Restorative-Topophilia-S-43.jpg" data-mid="225397383" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div>
+                            </div>
+                        </div>
+                    </bodycopy>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
