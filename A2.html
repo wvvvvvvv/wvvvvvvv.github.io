@@ -1,6 +1,6 @@
 <div class="main_container">
     <!-- 左侧导航栏：空白位置，固定左侧 -->
-    <div data-view="pinned_top" class="pinned pinned_top">
+    <div data-view="pinned_top" data-set="Scaffolding" data-position="top" class="pinned pinned_top">
         <div class="page_container overlay fixed" local-style="37160820" data-id="37160820">
             <div class="page container container_width clearfix" data-container="content" data-id="37160820">
                 <bodycopy class="bodycopy content content_padding">
@@ -9,7 +9,7 @@
                     </div>
                 </bodycopy>
             </div>
-            <div class="page_background" style="background: rgba(255,255,255,0.1);"></div> <!-- 轻微背景以示占位 -->
+            <div class="page_background" style="background: rgba(255,255,255,0.1);"></div> <!-- 轻微背景占位，便于调试 -->
         </div>
     </div>
 
@@ -63,7 +63,7 @@
                 <br>
 
                 <!-- 照片区域：image-gallery -->
-                <div class="image-gallery initialized" data-gallery="{&quot;mode_id&quot;:3,&quot;gallery_instance_id&quot;:1,&quot;name&quot;:&quot;Justify&quot;,&quot;path&quot;:&quot;justify&quot;,&quot;data&quot;:{&quot;image_padding&quot;:&quot;1&quot;,&quot;row_height&quot;:&quot;65&quot;,&quot;variation_index&quot;:&quot;0&quot;,&quot;variation&quot;:0,&quot;variation_mode&quot;:0,&quot;variation_seed&quot;:0,&quot;responsive&quot;:true,&quot;meta_data&quot;:{},&quot;mobile_data&quot;:{&quot;image_padding&quot;:&quot;1.25&quot;,&quot;row_height&quot;:&quot;54&quot;,&quot;separate_mobile_view&quot;:false},&quot;captions&quot;:false,&quot;responsive_row_height&quot;:&quot;54&quot;,&quot;responsive_image_padding&quot;:&quot;1.25&quot;}}" gid="1" data-padding-zero="" image-gallery="justify" image-gallery-row="" image-gallery-pad="1" image-gallery-gutter="2" style="margin-left: 26%;"> <!-- 右移26%避开左侧 -->
+                <div class="image-gallery initialized" data-gallery="{&quot;mode_id&quot;:3,&quot;gallery_instance_id&quot;:1,&quot;name&quot;:&quot;Justify&quot;,&quot;path&quot;:&quot;justify&quot;,&quot;data&quot;:{&quot;image_padding&quot;:&quot;1&quot;,&quot;row_height&quot;:&quot;65&quot;,&quot;variation_index&quot;:&quot;0&quot;,&quot;variation&quot;:0,&quot;variation_mode&quot;:0,&quot;variation_seed&quot;:0,&quot;responsive&quot;:true,&quot;meta_data&quot;:{},&quot;mobile_data&quot;:{&quot;image_padding&quot;:&quot;1.25&quot;,&quot;row_height&quot;:&quot;54&quot;,&quot;separate_mobile_view&quot;:false},&quot;captions&quot;:false,&quot;responsive_row_height&quot;:&quot;54&quot;,&quot;responsive_image_padding&quot;:&quot;1.25&quot;}}" gid="1" data-padding-zero="" image-gallery="justify" image-gallery-row="" image-gallery-pad="1" image-gallery-gutter="2" style="margin-left: 26%;">
                     <div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="0" data-width="24.509" data-row="1" style="width: 25.1339%;">
                         <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%; transition-duration: initial;">
                             <img data-gallery-item-index="0" data-gallery-uid="147" width="1600" height="2240" src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-src="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-mid="225397439" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom">
@@ -89,9 +89,9 @@
     </div>
 </div>
 
-<!-- 全局CSS：响应式、间距、照片、滚动、左侧 -->
+<!-- 全局CSS：加强响应式隐藏 + 其他 -->
 <style>
-    /* 响应式：电脑端/移动端 */
+    /* 响应式：电脑端/移动端（原规则 + 新增左侧隐藏） */
     body.mobile [grid-responsive] [grid-col] { width: 100%; flex: none; }
     body.mobile [split-responsive] { display: flex; flex-direction: column; }
     body.mobile [split-responsive] .container { width: 100%; order: 2; }
@@ -101,7 +101,9 @@
     [image-gallery=justify] { align-items: flex-start; }
     [image-gallery=justify] .gallery_card img { margin: 0; }
     body.mobile [image-gallery-col] { width: 100%; }
-    body.mobile [local-style="37160820"] { display: none; } /* 移动端隐藏左侧 */
+    /* 新增：移动端隐藏左侧导航 */
+    body.mobile .pinned.pinned_top [local-style="37160820"] { display: none !important; }
+    body.mobile .image-gallery { margin-left: 0 !important; } /* 移动端画廊全宽 */
 
     /* 上下左右间距、边距 */
     [grid-pad="4"] { padding: 2rem; }
@@ -130,7 +132,7 @@
     [local-style="37160820"] .page { min-height: 100vh; background: transparent; }
 </style>
 
-<!-- JS：滚动监听（简化，无预览） -->
+<!-- JS：滚动监听 + 加强响应式（动态添加body.mobile + 调整margin） -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // 滚动效果
@@ -144,14 +146,23 @@
 
         document.querySelectorAll('.scroll-transition-fade').forEach(el => observer.observe(el));
 
-        // 响应式调整
+        // 响应式调整：添加/移除body.mobile class
         function handleResize() {
-            if (window.innerWidth <= 768) {
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
                 document.body.classList.add('mobile');
-                document.querySelector('.image-gallery').style.setProperty('--row-height', '54');
+                const gallery = document.querySelector('.image-gallery');
+                if (gallery) {
+                    gallery.style.setProperty('--row-height', '54');
+                    gallery.style.marginLeft = '0';
+                }
             } else {
                 document.body.classList.remove('mobile');
-                document.querySelector('.image-gallery').style.setProperty('--row-height', '65');
+                const gallery = document.querySelector('.image-gallery');
+                if (gallery) {
+                    gallery.style.setProperty('--row-height', '65');
+                    gallery.style.marginLeft = '26%';
+                }
             }
         }
         handleResize();
