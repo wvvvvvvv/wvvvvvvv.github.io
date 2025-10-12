@@ -1,21 +1,19 @@
 <style>
 /* -------------------------
-   基本变量（可以按需调整）
+   变量（便于统一调整）
    ------------------------- */
 :root{
-  --left-nav-width: 26%;      /* 左侧栏桌面宽度（与原代码一致） */
-  --content-width: 75%;       /* 主内容宽度参考值（原文件中为75%） */
-  --main-margin: 5.8rem;      /* 页面主内边距（原文件 main_margin=5.8rem） */
-  --grid-gutter-2: 1rem;      /* image-gallery gutter 对应 "2" 的数值（负 margin） */
-  --image-pad-1: 0.5rem;      /* image-gallery pad=1 -> 0.5rem */
-  --responsive-breakpoint: 768px;
-  --mobile-small: 480px;
+  --left-nav-width: 26%;      /* 桌面左侧栏宽度 */
+  --content-width: calc(100% - var(--left-nav-width));
+  --main-margin: 5.8rem;      /* 页面主内边距 */
+  --grid-gutter-2: 1rem;
+  --image-pad-1: 0.5rem;
+  --breakpoint-tablet: 768px;
+  --breakpoint-phone: 480px;
 }
 
 /* -------------------------
-   全局布局：左侧栏 + 主体（桌面）
-   - 左侧栏固定 overlay，主内容留出左侧空白（margin-left）
-   - 左侧栏内容为空白（你要求删除内容），但保留占位/响应式样式
+   外壳与主布局（桌面）
    ------------------------- */
 .site-shell {
   position: relative;
@@ -23,7 +21,7 @@
   box-sizing: border-box;
 }
 
-/* 左侧导航（空内容），桌面固定在视口左侧 */
+/* 左侧导航：桌面固定显示（空内容但占位） */
 .left-nav {
   position: fixed;
   top: 0;
@@ -32,84 +30,137 @@
   width: var(--left-nav-width);
   max-width: 360px;
   min-width: 180px;
-  padding: calc(var(--main-margin) / 2) 1.2rem; /* 左侧上下/左右边距 */
+  padding: calc(var(--main-margin) / 2) 1.2rem; /* 上下/左右间距 */
   box-sizing: border-box;
-  z-index: 40;
-  /* 透明或保持背景以保留“空白栏”效果；如果你想要背景色可在此开启 */
-  background: transparent;
-  pointer-events: none; /* 空白区不捕获交互（若你以后放内容可移除） */
+  z-index: 60;
+  background: transparent;    /* 桌面保持透明空白（如需背景改这里） */
+  pointer-events: auto;       /* 桌面可交互（但内部内容为空） */
+  transition: transform 0.32s ease, box-shadow 0.32s ease;
+  will-change: transform;
+  overflow: auto;
 }
 
-/* 主内容区，桌面时保留左侧空白（与左侧栏宽度对齐） */
+/* 主内容区：桌面时为左侧留出空间 */
 .main-content {
   box-sizing: border-box;
   margin-left: var(--left-nav-width);
   padding: var(--main-margin) var(--main-margin) calc(var(--main-margin) / 2);
-  width: calc(100% - var(--left-nav-width));
-  transition: margin-left 0.25s ease;
-}
-
-/* 当左侧栏以 overlay / 覆盖形式存在（展开时），可以用 pinned-open 类切换互动 */
-.left-nav.pinned-open {
-  pointer-events: auto;
-  /* 如果需要可添加背景色和阴影 */
-  /* background: rgba(255,255,255,0.02); box-shadow: 0 4px 24px rgba(0,0,0,0.08); */
+  width: var(--content-width);
+  transition: margin-left 0.25s ease, width 0.25s ease;
 }
 
 /* -------------------------
-   图片画廊（justify 模式）原有样式保留并扩展
+   移动端：左侧导航为 off-canvas（默认隐藏）
+   - 增加滑出动画、遮罩、移动端按钮样式
+   ------------------------- */
+.nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 55;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+/* 移动端按钮（打开导航）- 默认隐藏，仅在小屏显示 */
+.mobile-nav-toggle {
+  display: none; /* 仅在 media query 中显示 */
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 80;
+  border: none;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* 左侧导航内的移动端关闭按钮（右上角） - 默认隐藏（仅 mobile 显示） */
+.left-nav .mobile-close-btn {
+  display: none;
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 70;
+  border: none;
+  background: transparent;
+  color: #000;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 当移动端打开时给 left-nav 添加此类（JS 控制） */
+.left-nav.mobile-open {
+  transform: translateX(0);
+  background: rgba(255,255,255,0.98); /* 打开时显示空白背景，便于识别面板 */
+  box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+  pointer-events: auto;
+}
+
+/* 展示遮罩（打开时） */
+.nav-backdrop.show {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* -------------------------
+   image-gallery（保留与扩展）
    ------------------------- */
 .image-gallery[image-gallery=justify] {
     align-items: flex-start;
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
-    /* gallery 左右间距由外部 padding 控制 */
 }
 
-/* gallery 卡片盒模型 */
 .image-gallery[image-gallery=justify] .gallery_card {
     box-sizing: border-box;
     padding: var(--image-pad-1);
 }
 
-/* 图片自适应 */
 .image-gallery[image-gallery=justify] .gallery_card img {
     width: 100%;
     height: auto;
     display: block;
 }
 
-/* image-gallery 的通用 pad / gutter（源自原文件设定） */
 [image-gallery-pad="1"] { padding: var(--image-pad-1); }
 [image-gallery-gutter="2"] { margin: calc(-1 * var(--grid-gutter-2)); }
 
-/* 主体标题区域（你原来用很多 inline 样式，这里给出更规范的间距控制） */
-.gallery-header {
-  text-align: right;
-  padding-bottom: 1.2rem;
-  margin-bottom: 0.6rem;
-}
-
-/* 小屏下对 header 的微调 */
-@media (max-width: 480px) {
-  .gallery-header { text-align: left; padding-left: 0.75rem; }
-}
+/* gallery header 排版微调 */
+.gallery-header { text-align: right; padding-bottom: 1.2rem; margin-bottom: 0.6rem; }
 
 /* -------------------------
-   响应式：窄屏（<= 768px）行为
-   - 左侧导航不再 fixed 覆盖，而是堆叠在上方或隐藏（保持空白占位逻辑）
-   - 主内容去掉左侧 margin，撑满宽度
-   - gallery 的行高/缩略 pad 在移动端调整（与原文件 mobile_data 一致）
+   响应式：小于等于 768px（mobile）
+   - 左侧导航默认收起（translateX(-110%)），需点按钮打开
+   - 主内容取消左侧 margin，撑满屏
+   - 打开按钮与关闭按钮可见
    ------------------------- */
 @media (max-width: 768px) {
   .left-nav {
-    position: relative;         /* 移动端堆叠，不固定 */
-    width: 100%;
-    height: auto;
-    min-width: 0;
-    pointer-events: none;       /* 空白区不捕获交互 */
-    padding: calc(var(--main-margin) / 3) 0.9rem;
+    /* off-canvas 初始为隐藏（向左移出） */
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 80%;
+    max-width: 360px;
+    min-width: 220px;
+    transform: translateX(-110%);
+    background: rgba(255,255,255,0.98);
+    padding: calc(var(--main-margin) / 3) 1rem;
+    pointer-events: none;
+    z-index: 70;
   }
 
   .main-content {
@@ -118,53 +169,44 @@
     padding: calc(var(--main-margin) / 2) 1rem;
   }
 
-  /* image-gallery 在移动端改为纵向堆叠：每张卡片 100% */
+  /* gallery 在移动端纵向堆叠，padding 使用 mobile_data（1.25） */
   .image-gallery[image-gallery=justify] .gallery_card {
       width: 100% !important;
-      padding: 1.25rem; /* 对应 mobile_data.image_padding = 1.25 */
+      padding: 1.25rem;
   }
 
-  /* 适当减小 gallery 的行高显示（如果 JS 读取 row_height 可用） */
-  .image-gallery[image-gallery=justify] .gallery_card .gallery_card_image {
-      /* 不直接改高度，这里只是给出 mobile-friendly 的默认内边距 */
-  }
+  /* 显示打开按钮 */
+  .mobile-nav-toggle { display: block; }
+
+  /* 显示 left-nav 内的关闭按钮 */
+  .left-nav .mobile-close-btn { display: block; }
+
+  /* 显示遮罩时阻止页面滚动（当 JS 添加 site-overlay-active） */
+  .site-overlay-active { overflow: hidden; }
 }
 
-/* 更小屏（<=480px）再调整文字与间距 */
+/* 更小屏微调 */
 @media (max-width: 480px) {
-    .main-content { padding: 2.2rem 0.8rem; }
-    .left-nav { padding: 1rem 0.6rem; }
-    .image-gallery[image-gallery=justify] .gallery_card { padding: 1.25rem; }
+  .mobile-nav-toggle { top: 0.8rem; left: 0.6rem; width:40px; height:40px; font-size:18px; }
+  .left-nav { width: 86%; }
+  .main-content { padding: 2.2rem 0.8rem; }
 }
 
 /* -------------------------
-   滚动过渡动画（你原来的代码要求）
+   滚动动画（保留）
    ------------------------- */
 .scroll-transition-fade {
     transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
 }
-
 .scroll-transition-fade.below-viewport {
     opacity: 0;
     transform: translateY(40px);
 }
-
-/* -------------------------
-   可选：当左侧 nav 展开为 overlay 时，主内容降低不透明度（可选）
-   ------------------------- */
-.site-overlay-active .main-content {
-  /* opacity: 0.96; */
-  /* pointer-events: none; */
-}
-
-/* 小结：以上样式尽可能复刻原布局的空间、响应式和 left-nav 行为 */
 </style>
 
 <script>
 /* -------------------------
-   滚动动画功能 - 保留并增强（与你原脚本功能等同）
-   - 仅在向下滚动且元素进入视窗时移除 below-viewport（播放）
-   - 向上滚动并离开视窗时重新添加 below-viewport（以便下次触发）
+   滚动动画（与你原脚本功能一致）
    ------------------------- */
 document.addEventListener('DOMContentLoaded', function() {
     const fadeElements = document.querySelectorAll('.scroll-transition-fade');
@@ -180,7 +222,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const viewportHeight = window.innerHeight;
             const triggerPoint = viewportHeight * 0.8;
             const isVisible = elementTop < triggerPoint && elementTop > -rect.height;
-
             const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
 
             if (isScrollingDown && isVisible) {
@@ -189,14 +230,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     elementLastTriggerPos.set(element, scrollTop);
                 }
             } else if (!isScrollingDown && !isVisible) {
-                // 当向上滚动并且元素已经离开视窗底部（避免频繁触发）
                 if (elementTop > viewportHeight) {
                     element.classList.add('below-viewport');
                     elementLastTriggerPos.set(element, 0);
                 }
             }
         });
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // for Mobile or negative scrolling
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     }
 
     let scrollTimeout;
@@ -211,67 +251,134 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /* -------------------------
-   左侧导航（Left Nav）响应式/钉住逻辑脚本
-   - 保留空白占位（content 已移除）
-   - 在桌面上 left-nav 为 fixed（CSS），移动端转为相对堆叠
-   - 提供 programmatic 的 open/close（如果以后需要开关）
+   左侧导航移动端开关逻辑
+   - 默认 mobile = closed
+   - openButton 在移动端可见，点击会打开导航（滑出）
+   - closeButton 或点击遮罩会关闭导航
+   - 同时管理 body/.site-shell 的 site-overlay-active 类
    ------------------------- */
 (function() {
-  function applyLeftNavBehavior() {
-    const left = document.querySelector('.left-nav');
-    const shell = document.querySelector('.site-shell');
-    if (!left || !shell) return;
+  const openBtnSelector = '.mobile-nav-toggle';
+  const closeBtnSelector = '.left-nav .mobile-close-btn';
+  const leftNavSelector = '.left-nav';
+  const backdropSelector = '.nav-backdrop';
+  const shellSelector = '.site-shell';
 
-    const mobile = window.matchMedia('(max-width: 768px)').matches;
-    if (mobile) {
-      left.classList.remove('pinned-open');
-      shell.classList.remove('site-overlay-active');
-      // 移动端将 left-nav 置为相对（CSS 已处理），保持空白占位
-    } else {
-      // 桌面端默认关闭 pointer-events（空白不拦截），但保留 fixed 占位
-      left.classList.remove('pinned-open');
-      shell.classList.remove('site-overlay-active');
-    }
+  function isMobile() {
+    return window.matchMedia('(max-width: 768px)').matches;
   }
 
-  // 暴露一个全局函数以便未来手动切换（如果你想给左侧栏加按钮）
-  window.toggleLeftNav = function(open) {
-    const left = document.querySelector('.left-nav');
-    const shell = document.querySelector('.site-shell');
-    if (!left || !shell) return;
-    if (open === undefined) open = !left.classList.contains('pinned-open');
-    if (open) {
-      left.classList.add('pinned-open');
-      shell.classList.add('site-overlay-active');
-    } else {
-      left.classList.remove('pinned-open');
-      shell.classList.remove('site-overlay-active');
-    }
-  };
+  function openMobileNav() {
+    const left = document.querySelector(leftNavSelector);
+    const backdrop = document.querySelector(backdropSelector);
+    const shell = document.querySelector(shellSelector);
+    if (!left || !backdrop || !shell) return;
+    left.classList.add('mobile-open');
+    backdrop.classList.add('show');
+    shell.classList.add('site-overlay-active');
+    // 阻止页面滚动（备用）
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    // 为可访问性设置
+    left.setAttribute('aria-hidden', 'false');
+  }
 
+  function closeMobileNav() {
+    const left = document.querySelector(leftNavSelector);
+    const backdrop = document.querySelector(backdropSelector);
+    const shell = document.querySelector(shellSelector);
+    if (!left || !backdrop || !shell) return;
+    left.classList.remove('mobile-open');
+    backdrop.classList.remove('show');
+    shell.classList.remove('site-overlay-active');
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    left.setAttribute('aria-hidden', 'true');
+  }
+
+  // 绑定事件
+  document.addEventListener('DOMContentLoaded', function() {
+    const openBtn = document.querySelector(openBtnSelector);
+    const closeBtn = document.querySelector(closeBtnSelector);
+    const backdrop = document.querySelector(backdropSelector);
+
+    if (openBtn) {
+      openBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (isMobile()) openMobileNav();
+      });
+    }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        closeMobileNav();
+      });
+    }
+    if (backdrop) {
+      backdrop.addEventListener('click', function() {
+        closeMobileNav();
+      });
+    }
+
+    // 初始：在移动端把 left-nav 标记为 aria-hidden=true（默认关闭）
+    const left = document.querySelector(leftNavSelector);
+    if (left && isMobile()) left.setAttribute('aria-hidden', 'true');
+  });
+
+  // 处理窗口尺寸变化：离开移动端时确保侧栏恢复桌面状态
+  let resizeTO;
   window.addEventListener('resize', function() {
-    // debounce 简单实现
-    if (this._resizeTO) clearTimeout(this._resizeTO);
-    this._resizeTO = setTimeout(function() {
-      applyLeftNavBehavior();
+    if (resizeTO) clearTimeout(resizeTO);
+    resizeTO = setTimeout(function() {
+      const left = document.querySelector(leftNavSelector);
+      const backdrop = document.querySelector(backdropSelector);
+      const shell = document.querySelector(shellSelector);
+      if (!left || !backdrop || !shell) return;
+      if (!isMobile()) {
+        // 强制关闭移动端样式/遮罩，恢复桌面固定显示
+        left.classList.remove('mobile-open');
+        backdrop.classList.remove('show');
+        shell.classList.remove('site-overlay-active');
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        left.setAttribute('aria-hidden', 'false');
+      } else {
+        // 在移动端确保默认是关闭（不自动弹出）
+        left.classList.remove('mobile-open');
+        backdrop.classList.remove('show');
+        shell.classList.remove('site-overlay-active');
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        left.setAttribute('aria-hidden', 'true');
+      }
     }, 80);
   });
 
-  // 初始调用
-  document.addEventListener('DOMContentLoaded', applyLeftNavBehavior);
+  // 为全局方便控制，保留 toggleLeftNav，但注意默认行为改为
+  window.toggleLeftNav = function(open) {
+    if (open === undefined) open = !(document.querySelector('.left-nav') || {}).classList.contains('mobile-open');
+    if (open) openMobileNav(); else closeMobileNav();
+  };
 })();
 </script>
 
-<!-- 页面结构：外壳（site-shell）包含左侧空白导航与主内容 -->
+<!-- 页面主体结构（在这里我加入了移动端打开按钮与遮罩） -->
 <div class="site-shell">
-  <!-- 左侧导航（已清空内容，保留占位/样式/响应式/JS） -->
-  <aside class="left-nav" role="navigation" aria-label="左侧导航（占位）">
-    <!-- 这里刻意留空（你要求删除左侧导航里面的内容） -->
+  <!-- 左侧导航（已清空内容，桌面可见；移动端默认隐藏，点开后滑出） -->
+  <aside id="left-nav" class="left-nav" role="navigation" aria-label="左侧导航（占位）">
+    <!-- 关闭按钮（只在移动端显示） -->
+    <button class="mobile-close-btn" aria-label="关闭左侧导航">&times;</button>
+    <!-- 故意留空：保留占位但不包含内容（你要求删除左侧导航里面的内容） -->
   </aside>
 
-  <!-- 主内容区（包含标题/画廊） -->
+  <!-- 遮罩（仅移动端打开导航时可见、点击遮罩可关闭） -->
+  <div class="nav-backdrop" aria-hidden="true"></div>
+
+  <!-- 移动端左上角打开按钮（仅移动端显示） -->
+  <button class="mobile-nav-toggle" aria-controls="left-nav" aria-expanded="false" aria-label="打开左侧导航">☰</button>
+
+  <!-- 主内容 -->
   <main class="main-content" role="main">
-    <!-- 间距与标题区域（原始 inline 文本保持视觉一致，但我把布局放进 .gallery-header） -->
     <div class="gallery-header">
       <br>
       <br>
@@ -295,12 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </span>
     </div>
 
-    <!-- ------ 下面保持原始 image-gallery 内容（未改动图片卡片） ------ -->
-    <div class="image-gallery" 
-         data-gallery="{&quot;data&quot;:{&quot;image_padding&quot;:&quot;1&quot;,&quot;mobile_data&quot;:{&quot;image_padding&quot;:&quot;1.25&quot;,&quot;separate_mobile_view&quot;:false}}}"
-         image-gallery-pad="1">
-    </div>
-
+    <!-- image-gallery 保持原始卡片（请把你所有的 .gallery_card 完整放回此处） -->
     <div class="image-gallery initialized" 
          data-gallery="{&quot;mode_id&quot;:3,&quot;gallery_instance_id&quot;:1,&quot;name&quot;:&quot;Justify&quot;,&quot;path&quot;:&quot;justify&quot;,&quot;data&quot;:{&quot;image_padding&quot;:&quot;1&quot;,&quot;row_height&quot;:&quot;65&quot;,&quot;variation_index&quot;:&quot;0&quot;,&quot;variation&quot;:0,&quot;variation_mode&quot;:0,&quot;variation_seed&quot;:0,&quot;responsive&quot;:true,&quot;meta_data&quot;:{},&quot;mobile_data&quot;:{&quot;image_padding&quot;:&quot;1.25&quot;,&quot;row_height&quot;:&quot;54&quot;,&quot;separate_mobile_view&quot;:false},&quot;captions&quot;:false,&quot;responsive_row_height&quot;:&quot;54&quot;,&quot;responsive_image_padding&quot;:&quot;1.25&quot;}}" 
          gid="1" 
@@ -310,11 +412,10 @@ document.addEventListener('DOMContentLoaded', function() {
          image-gallery-pad="1" 
          image-gallery-gutter="2" 
          style="">
-      <!-- 你原来所有的 .gallery_card 元素放在这里（未改变） -->
-      <!-- （为了保持回答简洁，我假设你会把原来的卡片 HTML 完整复制回这里；如果需要我可以把你原始那一长串卡片整段原封不动粘回） -->
-      <!-- 下面示例复制了一些卡片（请保证把页面上所有卡片保留） -->
+      <!-- 把你原始的所有 .gallery_card 元素原封不动粘回这里，保证画廊与原页面行为一致 -->
+      <!-- 示例项（仅示意） -->
 <div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="0" data-width="24.509" data-row="1" style="width: 25.1339%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%; transition-duration: initial;"><img data-gallery-item-index="0" data-gallery-uid="147" width="1600" height="2240" src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-src="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-mid="225397439" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="1" data-width="27.45" data-row="1" style="width: 27.8667%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%; transition-duration: initial;"><img data-gallery-item-index="1" data-gallery-uid="148" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" data-src="https://freight.cargo.site/t/original/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" data-mid="225397396" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="2" data-width="48.039" data-row="1" style="width: 46.9975%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%; transition-duration: initial;"><img data-gallery-item-index="2" data-gallery-uid="149" width="2240" height="1600" src="//freight.cargo.site/w/1000/q/75/i/60a3246f9e1282e24171b0dfee7ddfad43889fc987fb818e6290dbbfbefb1b30/Restorative-Topophilia-S-43.jpg" data-src="https://freight.cargo.site/t/original/i/60a3246f9e1282e24171b0dfee7ddfad43889fc987fb818e6290dbbfbefb1b30/Restorative-Topophilia-S-43.jpg" data-mid="225397383" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="3" data-width="25.99" data-row="2" style="width: 26.5101%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 129.438%; transition-duration: initial;"><img data-gallery-item-index="3" data-gallery-uid="150" width="1600" height="2071" src="//freight.cargo.site/w/600/q/75/i/a3ba8b128b378dc264dac136c659c2d39b5b7ac735d02e418dcf7dd82e872751/Restorative-Topophilia-S-252.jpg" data-src="https://freight.cargo.site/t/original/i/a3ba8b128b378dc264dac136c659c2d39b5b7ac735d02e418dcf7dd82e872751/Restorative-Topophilia-S-252.jpg" data-mid="225397437" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="4" data-width="26.912" data-row="2" style="width: 27.3668%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%; transition-duration: initial;"><img data-gallery-item-index="4" data-gallery-uid="151" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/8aac933d14bb20b20cf352e336a2b10e82469eccf8ff73d126ad9b4f25627160/Restorative-Topophilia-S-156.jpg" data-src="https://freight.cargo.site/t/original/i/8aac933d14bb20b20cf352e336a2b10e82469eccf8ff73d126ad9b4f25627160/Restorative-Topophilia-S-156.jpg" data-mid="225397430" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="5" data-width="47.097" data-row="2" style="width: 46.1223%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%; transition-duration: initial;"><img data-gallery-item-index="5" data-gallery-uid="152" width="2240" height="1600" src="//freight.cargo.site/w/900/q/75/i/93c82f89ff3cfd2289555a480044f867fcedc85c4a438776a7a499eda371ee95/Restorative-Topophilia-S-96.jpg" data-src="https://freight.cargo.site/t/original/i/93c82f89ff3cfd2289555a480044f867fcedc85c4a438776a7a499eda371ee95/Restorative-Topophilia-S-96.jpg" data-mid="225397402" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="6" data-width="33.333" data-row="3" style="width: 33.333%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%; transition-duration: initial;"><img data-gallery-item-index="6" data-gallery-uid="153" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/4fed32de1c77bf1c2878b495795871e162ab30ef38fbda85d28d87cddfe0f740/Restorative-Topophilia-S-95.jpg" data-src="https://freight.cargo.site/t/original/i/4fed32de1c77bf1c2878b495795871e162ab30ef38fbda85d28d87cddfe0f740/Restorative-Topophilia-S-95.jpg" data-mid="225397401" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="7" data-width="33.333" data-row="3" style="width: 33.333%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%; transition-duration: initial;"><img data-gallery-item-index="7" data-gallery-uid="154" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/cf174873e72aaa68c4f8b861ae1bfc532dc027463ed0c41f85540546483afbb2/Restorative-Topophilia-S-32.jpg" data-src="https://freight.cargo.site/t/original/i/cf174873e72aaa68c4f8b861ae1bfc532dc027463ed0c41f85540546483afbb2/Restorative-Topophilia-S-32.jpg" data-mid="225397378" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="8" data-width="33.333" data-row="3" style="width: 33.333%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%; transition-duration: initial;"><img data-gallery-item-index="8" data-gallery-uid="155" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/9669f9d36b2cb42569bddc7a2068cf510baa36c65075a9ad30133e9498848197/Restorative-Topophilia-S-31.jpg" data-src="https://freight.cargo.site/t/original/i/9669f9d36b2cb42569bddc7a2068cf510baa36c65075a9ad30133e9498848197/Restorative-Topophilia-S-31.jpg" data-mid="225397377" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="9" data-width="33.333" data-row="4" style="width: 33.333%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="9" data-gallery-uid="156" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/cef0d160d570771cde76e07f99c6b7ab44fd6d8994ac2ab5e43fadd7629c8c2f/Restorative-Topophilia-S-141.jpg" data-src="https://freight.cargo.site/t/original/i/cef0d160d570771cde76e07f99c6b7ab44fd6d8994ac2ab5e43fadd7629c8c2f/Restorative-Topophilia-S-141.jpg" data-mid="225397426" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="10" data-width="33.333" data-row="4" style="width: 33.333%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="10" data-gallery-uid="157" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/c7d6dbd38f82d709ca76140b39e07001f33b5aef2759ee77018dce331463a571/Restorative-Topophilia-S-52.jpg" data-src="https://freight.cargo.site/t/original/i/c7d6dbd38f82d709ca76140b39e07001f33b5aef2759ee77018dce331463a571/Restorative-Topophilia-S-52.jpg" data-mid="225397388" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="11" data-width="33.333" data-row="4" style="width: 33.333%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="11" data-gallery-uid="158" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/f6b3dba05e1e3d75878b7010287e93a51c135b132761b050afe5f000bfc89e6d/Restorative-Topophilia-S-40.jpg" data-src="https://freight.cargo.site/t/original/i/f6b3dba05e1e3d75878b7010287e93a51c135b132761b050afe5f000bfc89e6d/Restorative-Topophilia-S-40.jpg" data-mid="225397381" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="12" data-width="29.029" data-row="5" style="width: 29.3338%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 111.125%;"><img data-gallery-item-index="12" data-gallery-uid="159" width="1600" height="1778" src="//freight.cargo.site/w/600/q/75/i/cef30ef94b45444ae2c32d5acfa6eeadbd7be205a042c342f007372df0faf446/Restorative-Topophilia-S-36.jpg" data-src="https://freight.cargo.site/t/original/i/cef30ef94b45444ae2c32d5acfa6eeadbd7be205a042c342f007372df0faf446/Restorative-Topophilia-S-36.jpg" data-mid="225397380" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="13" data-width="25.807" data-row="5" style="width: 26.34%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="13" data-gallery-uid="160" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/595eebcea7819130bd18d7ae984b9e89da44b47b666bd588e22a7a9d69b7b7a9/Restorative-Topophilia-S-42.jpg" data-src="https://freight.cargo.site/t/original/i/595eebcea7819130bd18d7ae984b9e89da44b47b666bd588e22a7a9d69b7b7a9/Restorative-Topophilia-S-42.jpg" data-mid="225397382" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="14" data-width="45.162" data-row="5" style="width: 44.3243%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;"><img data-gallery-item-index="14" data-gallery-uid="161" width="2240" height="1600" src="//freight.cargo.site/w/900/q/75/i/03b6a912af1ce276a88355e7d8ec248d4a3ea0da6c1c56862b44c4b1672938ef/Restorative-Topophilia-S-98.jpg" data-src="https://freight.cargo.site/t/original/i/03b6a912af1ce276a88355e7d8ec248d4a3ea0da6c1c56862b44c4b1672938ef/Restorative-Topophilia-S-98.jpg" data-mid="225397403" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="15" data-width="34.792" data-row="6" style="width: 35.51%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="15" data-gallery-uid="162" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/5424a3750169492f3f79a7877c253350df4d49bca68efa645289715fe541c5af/Restorative-Topophilia-S-59.jpg" data-src="https://freight.cargo.site/t/original/i/5424a3750169492f3f79a7877c253350df4d49bca68efa645289715fe541c5af/Restorative-Topophilia-S-59.jpg" data-mid="225397390" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="16" data-width="65.207" data-row="6" style="width: 64.489%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 66.6945%;"><img data-gallery-item-index="16" data-gallery-uid="163" width="2399" height="1600" src="//freight.cargo.site/w/1500/q/75/i/347518b7c5fe4b3e14cefb6a84472e0c682fa7845c61a41d9d426aea522ea59d/Restorative-Topophilia-S-200.jpg" data-src="https://freight.cargo.site/t/original/i/347518b7c5fe4b3e14cefb6a84472e0c682fa7845c61a41d9d426aea522ea59d/Restorative-Topophilia-S-200.jpg" data-mid="225397432" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="17" data-width="36.363" data-row="7" style="width: 37.0069%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="17" data-gallery-uid="164" width="1600" height="2000" src="//freight.cargo.site/w/800/q/75/i/3e7b8d5ad9557f130dd4ed50df8b0b398f763834a6afc6d00c1e84e6749195bf/Restorative-Topophilia-S-49.jpg" data-src="https://freight.cargo.site/t/original/i/3e7b8d5ad9557f130dd4ed50df8b0b398f763834a6afc6d00c1e84e6749195bf/Restorative-Topophilia-S-49.jpg" data-mid="225397385" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="18" data-width="63.636" data-row="7" style="width: 62.9922%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;"><img data-gallery-item-index="18" data-gallery-uid="165" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/dda4eeb94f9c6a9a5731568ec141826588faaeb19670131711ccab2973a4a629/Restorative-Topophilia-S-138.jpg" data-src="https://freight.cargo.site/t/original/i/dda4eeb94f9c6a9a5731568ec141826588faaeb19670131711ccab2973a4a629/Restorative-Topophilia-S-138.jpg" data-mid="225397424" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="19" data-width="63.636" data-row="8" style="width: 62.9922%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;"><img data-gallery-item-index="19" data-gallery-uid="166" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/debbcb8e312b98d971b07d58c4990ce9f5f18049b569e123c53d46d881e078cf/Restorative-Topophilia-S-232.jpg" data-src="https://freight.cargo.site/t/original/i/debbcb8e312b98d971b07d58c4990ce9f5f18049b569e123c53d46d881e078cf/Restorative-Topophilia-S-232.jpg" data-mid="225397434" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="20" data-width="36.363" data-row="8" style="width: 37.0069%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="20" data-gallery-uid="167" width="1600" height="2000" src="//freight.cargo.site/w/800/q/75/i/cb50b8c1f6502c738bf274b197c15b8f6274070e25177493d82afb1987259437/Restorative-Topophilia-S-112.jpg" data-src="https://freight.cargo.site/t/original/i/cb50b8c1f6502c738bf274b197c15b8f6274070e25177493d82afb1987259437/Restorative-Topophilia-S-112.jpg" data-mid="225397411" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="21" data-width="25.811" data-row="9" style="width: 26.3437%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="21" data-gallery-uid="168" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/7bc6fdf3a4b9990b5e21e57111cb5be208efe3de6c4c1ea7ddb27c07e13d47ad/Restorative-Topophilia-S-50.jpg" data-src="https://freight.cargo.site/t/original/i/7bc6fdf3a4b9990b5e21e57111cb5be208efe3de6c4c1ea7ddb27c07e13d47ad/Restorative-Topophilia-S-50.jpg" data-mid="225397386" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="22" data-width="25.811" data-row="9" style="width: 26.3437%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="22" data-gallery-uid="169" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/bad87710e7d4e7e5af2a3ca54b0b05220008b518865ee4821a67df6fbfc34dd9/Restorative-Topophilia-S-44.jpg" data-src="https://freight.cargo.site/t/original/i/bad87710e7d4e7e5af2a3ca54b0b05220008b518865ee4821a67df6fbfc34dd9/Restorative-Topophilia-S-44.jpg" data-mid="225397384" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="23" data-width="48.376" data-row="9" style="width: 47.3107%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 66.6945%;"><img data-gallery-item-index="23" data-gallery-uid="170" width="2399" height="1600" src="//freight.cargo.site/w/1000/q/75/i/07e6c93df5b8c0d174ac59f9973458df92307d44ff0c77c0dc425fcdcc573562/Restorative-Topophilia-S-51.jpg" data-src="https://freight.cargo.site/t/original/i/07e6c93df5b8c0d174ac59f9973458df92307d44ff0c77c0dc425fcdcc573562/Restorative-Topophilia-S-51.jpg" data-mid="225397387" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="24" data-width="63.636" data-row="10" style="width: 62.9922%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;"><img data-gallery-item-index="24" data-gallery-uid="171" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/834470ecf929d5b9460f830154ad53d57c7a5fe85b5a03d48c43531428e86334/Restorative-Topophilia-S-221.jpg" data-src="https://freight.cargo.site/t/original/i/834470ecf929d5b9460f830154ad53d57c7a5fe85b5a03d48c43531428e86334/Restorative-Topophilia-S-221.jpg" data-mid="225397433" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="25" data-width="36.363" data-row="10" style="width: 37.0069%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="25" data-gallery-uid="172" width="1600" height="2000" src="//freight.cargo.site/w/800/q/75/i/ef70cfe86db3154e332e9aae6dd0fcee088372b86532826263cbcc5df54df32b/Restorative-Topophilia-S-55.jpg" data-src="https://freight.cargo.site/t/original/i/ef70cfe86db3154e332e9aae6dd0fcee088372b86532826263cbcc5df54df32b/Restorative-Topophilia-S-55.jpg" data-mid="225397389" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="26" data-width="29.78" data-row="11" style="width: 30.0316%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 149.938%;"><img data-gallery-item-index="26" data-gallery-uid="173" width="1600" height="2399" src="//freight.cargo.site/w/600/q/75/i/3e5e696524fdf4021dc60a6932ba3b44af7a96e26a001c2587afba925306938b/Restorative-Topophilia-S-64.jpg" data-src="https://freight.cargo.site/t/original/i/3e5e696524fdf4021dc60a6932ba3b44af7a96e26a001c2587afba925306938b/Restorative-Topophilia-S-64.jpg" data-mid="225397392" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="27" data-width="34.497" data-row="11" style="width: 34.4146%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 129.438%;"><img data-gallery-item-index="27" data-gallery-uid="174" width="1600" height="2071" src="//freight.cargo.site/w/700/q/75/i/515fb3da72dd707a27a629a22fc8782f327407e345e8cf32afd6574504ceefe1/Restorative-Topophilia-S-240.jpg" data-src="https://freight.cargo.site/t/original/i/515fb3da72dd707a27a629a22fc8782f327407e345e8cf32afd6574504ceefe1/Restorative-Topophilia-S-240.jpg" data-mid="225397435" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="28" data-width="35.721" data-row="11" style="width: 35.5519%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="28" data-gallery-uid="175" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/d6daaf9ebb8fda43749156e24dce9f5267d159659320280e1abf7c72fb75878b/Restorative-Topophilia-S-106.jpg" data-src="https://freight.cargo.site/t/original/i/d6daaf9ebb8fda43749156e24dce9f5267d159659320280e1abf7c72fb75878b/Restorative-Topophilia-S-106.jpg" data-mid="225397408" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="29" data-width="33.333" data-row="12" style="width: 33.333%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="29" data-gallery-uid="176" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/a20d4a3afa8bef727107fee397916ddaec5de1d9eabdee278e880834a2fba0d3/Restorative-Topophilia-S-65.jpg" data-src="https://freight.cargo.site/t/original/i/a20d4a3afa8bef727107fee397916ddaec5de1d9eabdee278e880834a2fba0d3/Restorative-Topophilia-S-65.jpg" data-mid="225397393" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="30" data-width="33.333" data-row="12" style="width: 33.333%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="30" data-gallery-uid="177" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/7e22dd07593d3e2ffc1e6ecc0d5ccbe657098d747c0f314a59cb8cfe23065914/Restorative-Topophilia-S-94.jpg" data-src="https://freight.cargo.site/t/original/i/7e22dd07593d3e2ffc1e6ecc0d5ccbe657098d747c0f314a59cb8cfe23065914/Restorative-Topophilia-S-94.jpg" data-mid="225397400" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="31" data-width="33.333" data-row="12" style="width: 33.333%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="31" data-gallery-uid="178" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/9b2d90c4ad4177513b4b80e26c5854c07a92f1f2311d0f7a61cbc200fcdb41ce/Restorative-Topophilia-S-70.jpg" data-src="https://freight.cargo.site/t/original/i/9b2d90c4ad4177513b4b80e26c5854c07a92f1f2311d0f7a61cbc200fcdb41ce/Restorative-Topophilia-S-70.jpg" data-mid="225397394" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="32" data-width="36.363" data-row="13" style="width: 37.0069%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="32" data-gallery-uid="179" width="1600" height="2000" src="//freight.cargo.site/w/800/q/75/i/3656516a84ba5ec308dc48fd515d04866330f355762cdeb22c6365f48665f5d2/Restorative-Topophilia-S-89.jpg" data-src="https://freight.cargo.site/t/original/i/3656516a84ba5ec308dc48fd515d04866330f355762cdeb22c6365f48665f5d2/Restorative-Topophilia-S-89.jpg" data-mid="225397399" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="33" data-width="63.636" data-row="13" style="width: 62.9922%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;"><img data-gallery-item-index="33" data-gallery-uid="180" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/4febe28969b8f964c4358a5bd2b0f56c87dcafb60fd91190deab5e0198d3bb9a/Restorative-Topophilia-S-99.jpg" data-src="https://freight.cargo.site/t/original/i/4febe28969b8f964c4358a5bd2b0f56c87dcafb60fd91190deab5e0198d3bb9a/Restorative-Topophilia-S-99.jpg" data-mid="225397404" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="34" data-width="35.56" data-row="14" style="width: 36.2418%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 129.438%;"><img data-gallery-item-index="34" data-gallery-uid="181" width="1600" height="2071" src="//freight.cargo.site/w/700/q/75/i/17fcbbc52df709425ed3b71ffb45844e23afb5abf9e5c5b6ec92bbcd2483ea80/Restorative-Topophilia-S-251.jpg" data-src="https://freight.cargo.site/t/original/i/17fcbbc52df709425ed3b71ffb45844e23afb5abf9e5c5b6ec92bbcd2483ea80/Restorative-Topophilia-S-251.jpg" data-mid="225397436" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="35" data-width="64.439" data-row="14" style="width: 63.7573%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;"><img data-gallery-item-index="35" data-gallery-uid="182" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/bd40e31534fe12eb910fcaabd0e5a499ed6b9412bd9f3c76490fabcb2b98d816/Restorative-Topophilia-S-109.jpg" data-src="https://freight.cargo.site/t/original/i/bd40e31534fe12eb910fcaabd0e5a499ed6b9412bd9f3c76490fabcb2b98d816/Restorative-Topophilia-S-109.jpg" data-mid="225397409" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="36" data-width="33.333" data-row="15" style="width: 33.333%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="36" data-gallery-uid="183" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/5514e559855cdce2b0421b63e62e078c51dc42b776f7e5d48ce337c74c4249d4/Restorative-Topophilia-S-116.jpg" data-src="https://freight.cargo.site/t/original/i/5514e559855cdce2b0421b63e62e078c51dc42b776f7e5d48ce337c74c4249d4/Restorative-Topophilia-S-116.jpg" data-mid="225397412" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="37" data-width="33.333" data-row="15" style="width: 33.333%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="37" data-gallery-uid="184" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/c1f4bdb84dc91b2c44d54ee75369b13fa11aee4a93f356bd34023a2fdf4a2b60/Restorative-Topophilia-S-120.jpg" data-src="https://freight.cargo.site/t/original/i/c1f4bdb84dc91b2c44d54ee75369b13fa11aee4a93f356bd34023a2fdf4a2b60/Restorative-Topophilia-S-120.jpg" data-mid="225397415" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="38" data-width="33.333" data-row="15" style="width: 33.333%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="38" data-gallery-uid="185" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/cedb0b8374252b01ef863163c5ccafc44427ca0026eb43d1f03354edae76ff46/Restorative-Topophilia-S-119.jpg" data-src="https://freight.cargo.site/t/original/i/cedb0b8374252b01ef863163c5ccafc44427ca0026eb43d1f03354edae76ff46/Restorative-Topophilia-S-119.jpg" data-mid="225397414" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="39" data-width="50" data-row="16" style="width: 50%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;"><img data-gallery-item-index="39" data-gallery-uid="186" width="2240" height="1600" src="//freight.cargo.site/w/1000/q/75/i/039f9df48343cd93e14b1ac54126fb39637fb3e1c6dba25ad1107056d5006b86/Restorative-Topophilia-S-124.jpg" data-src="https://freight.cargo.site/t/original/i/039f9df48343cd93e14b1ac54126fb39637fb3e1c6dba25ad1107056d5006b86/Restorative-Topophilia-S-124.jpg" data-mid="225397417" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="40" data-width="50" data-row="16" style="width: 50%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;"><img data-gallery-item-index="40" data-gallery-uid="187" width="2240" height="1600" src="//freight.cargo.site/w/1000/q/75/i/35552e1f31434e60c69c3c07180c8a81840169f8f6a415f0ce5556719f5bf95b/Restorative-Topophilia-S-133.jpg" data-src="https://freight.cargo.site/t/original/i/35552e1f31434e60c69c3c07180c8a81840169f8f6a415f0ce5556719f5bf95b/Restorative-Topophilia-S-133.jpg" data-mid="225397422" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="41" data-width="36.363" data-row="17" style="width: 37.0069%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;"><img data-gallery-item-index="41" data-gallery-uid="188" width="1600" height="2000" src="//freight.cargo.site/w/800/q/75/i/db2b0fde1f29333237ea2ec962078705da4464925a8419591fb3e018c9d58dfb/Restorative-Topophilia-S-129.jpg" data-src="https://freight.cargo.site/t/original/i/db2b0fde1f29333237ea2ec962078705da4464925a8419591fb3e018c9d58dfb/Restorative-Topophilia-S-129.jpg" data-mid="225397420" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div><div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="42" data-width="63.636" data-row="17" style="width: 62.9922%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;"><img data-gallery-item-index="42" data-gallery-uid="189" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/d9bdf7e44d86686853d8c39c083728f889da0ac017dbd71d34dbddd14d0d3ccd/Restorative-Topophilia-S-132.jpg" data-src="https://freight.cargo.site/t/original/i/d9bdf7e44d86686853d8c39c083728f889da0ac017dbd71d34dbddd14d0d3ccd/Restorative-Topophilia-S-132.jpg" data-mid="225397421" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div></div>
-      <!-- ...（其余 gallery_card 略，直接粘回你原始的全部卡片） -->
+      <!-- ...其余卡片请完整粘回 -->
     </div>
 
   </main>
