@@ -1,0 +1,181 @@
+<style>
+/* ====== 基础布局：左侧导航 + 主内容 ====== */
+.split-layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* 左侧导航区域：留空，但保留宽度和间距 */
+.split-layout .left-panel {
+  width: 26%;
+  background-color: #f9f9f9;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* 右侧主内容 */
+.split-layout .right-panel {
+  flex: 1;
+  padding: 5.8rem 4.5rem;
+  box-sizing: border-box;
+}
+
+/* ====== 响应式：移动端上下堆叠 ====== */
+@media screen and (max-width: 1024px) {
+  .split-layout {
+    flex-direction: column;
+  }
+  .split-layout .left-panel {
+    width: 100%;
+    height: auto;
+    padding: 2rem 2.5rem;
+  }
+  .split-layout .right-panel {
+    padding: 3.5rem 2rem;
+  }
+}
+
+/* ====== 主体内容间距 ====== */
+.content_padding {
+  padding-top: 5.8rem;
+  padding-left: 4.5rem;
+  padding-right: 4.5rem;
+  padding-bottom: 4rem;
+}
+
+.page_content {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+/* ====== 图片区域样式（与文件一致） ====== */
+.image-gallery {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin: -1rem; /* 控制外边距补偿 */
+}
+
+.image-gallery [image-gallery-pad] {
+  padding: 1rem; /* 控制图片间距 */
+  box-sizing: border-box;
+}
+
+.gallery_card {
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery_card_image {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.gallery_card_image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* ====== 滚动淡入上浮动画（来自文件逻辑） ====== */
+.scroll-transition-fade {
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.scroll-transition-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ====== 移动端图像尺寸调整 ====== */
+@media (max-width: 768px) {
+  .image-gallery [image-gallery-pad] {
+    padding: 1.25rem;
+  }
+}
+</style>
+
+<!-- ================= 页面主体结构 ================= -->
+<div class="split-layout split-responsive">
+  <!-- 左侧导航栏区域（留空） -->
+  <div class="left-panel">
+    <!-- 保留空白结构，用于布局 -->
+  </div>
+
+  <!-- 右侧内容区域 -->
+  <div class="right-panel">
+    <bodycopy class="bodycopy content content_padding">
+      <div class="page_content clearfix" data-elementresizer data-resize-parent data-ce-host="true" data-ce-model-id="37160823">
+        <div style="text-align: right;">
+          <br><br>
+          <span style="color: #f00;">
+            <ul>
+              <li>
+                <i><b><small><span style="color: #f00;"><i>Restorative Topophilia</i></span></small></b></i>
+              </li>
+              <li>
+                <i style="font-size: 1.5rem;"><b><small><span style="color: #f00;"><i>这片土地使我痊愈</i></span></small></b></i>
+              </li>
+            </ul>
+          </span>
+        </div>
+
+        <h2>
+          <div grid-row grid-pad="4" grid-gutter="8" grid-responsive>
+            <div grid-col="6" grid-pad="4" class=""><br></div>
+          </div>
+        </h2>
+
+        <br><br>
+
+        <!-- 图片画廊区域 -->
+        <div class="image-gallery initialized" image-gallery="justify" image-gallery-row image-gallery-pad="1" image-gallery-gutter="2">
+          <div class="gallery_card" image-gallery-pad="1" image-gallery-col data-gallery-item-id="0" style="width: 25.1339%;">
+            <div class="gallery_card_image scroll-transition-fade" style="padding-bottom: 140%;">
+              <img src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" alt="">
+            </div>
+          </div>
+
+          <div class="gallery_card" image-gallery-pad="1" image-gallery-col data-gallery-item-id="1" style="width: 27.8667%;">
+            <div class="gallery_card_image scroll-transition-fade" style="padding-bottom: 125%;">
+              <img src="//freight.cargo.site/w/600/q/75/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" alt="">
+            </div>
+          </div>
+
+          <div class="gallery_card" image-gallery-pad="1" image-gallery-col data-gallery-item-id="2" style="width: 46.9975%;">
+            <div class="gallery_card_image scroll-transition-fade" style="padding-bottom: 71.4286%;">
+              <img src="//freight.cargo.site/w/1000/q/75/i/60a3246f9e1282e24171b0dfee7ddfad43889fc987fb818e6290dbbfbefb1b30/Restorative-Topophilia-S-43.jpg" alt="">
+            </div>
+          </div>
+        </div>
+
+        <br><br><small></small>
+      </div>
+    </bodycopy>
+  </div>
+</div>
+
+<!-- ====== JS：滚动时图片淡入上浮 ====== -->
+<script>
+function scrollFadeEffect() {
+  const elements = document.querySelectorAll('.scroll-transition-fade');
+  const windowHeight = window.innerHeight;
+
+  elements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < windowHeight - 80) {
+      el.classList.add('visible');
+    }
+  });
+}
+
+window.addEventListener('scroll', scrollFadeEffect);
+window.addEventListener('load', scrollFadeEffect);
+</script>
