@@ -19,22 +19,21 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
-        /* 主容器布局 */
+        /* 主容器布局 - 完全按照原代码 */
         .main_container {
             min-height: 100vh;
             width: 100%;
             overflow: hidden;
-            display: flex;
         }
 
-        /* 左侧导航栏 */
+        /* 左侧导航栏 - 完全按照原代码 */
         .pinned.pinned_top {
             position: fixed;
             top: 0;
             left: 0;
             width: 26%;
             height: 100vh;
-            z-index: 10;
+            z-index: 2;
         }
 
         .pinned.pinned_top .page_container {
@@ -47,28 +46,29 @@
         }
 
         .pinned.pinned_top .content_padding {
-            padding-top: 0;
-            padding-bottom: 0;
             padding-left: 3rem;
-            padding-right: 0;
+            padding-right: 0rem;
         }
 
         .pinned.pinned_top .container {
             margin-left: 0;
             margin-right: auto;
             height: 100%;
+            align-items: flex-start;
         }
 
-        /* 内容区域 */
+        .pinned.pinned_top .page {
+            min-height: 100vh;
+        }
+
+        /* 内容区域 - 完全按照原代码 */
         .content_container {
-            flex: 1;
-            margin-left: 26%;
             width: 74%;
+            margin-left: 26%;
         }
 
         .container_width {
             width: 75%;
-            margin: 0 auto;
         }
 
         .content_padding {
@@ -78,16 +78,20 @@
             padding-right: 5.8rem;
         }
 
-        /* 网格系统 */
+        .container {
+            align-items: flex-start;
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 100%;
+            width: 100%;
+            overflow: visible;
+        }
+
+        /* 网格系统 - 完全按照原代码 */
         [grid-row] {
             align-items: flex-start;
             box-sizing: border-box;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -ms-flexbox;
             display: flex;
-            -webkit-flex-wrap: wrap;
-            -ms-flex-wrap: wrap;
             flex-wrap: wrap;
         }
 
@@ -107,7 +111,7 @@
             margin: -4rem;
         }
 
-        /* 图片画廊间距系统 */
+        /* 图片画廊样式 - 完全按照原代码 */
         .image-gallery {
             position: relative;
             width: 100%;
@@ -120,16 +124,11 @@
         .image-gallery[image-gallery-row] {
             align-items: flex-start;
             box-sizing: border-box;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -ms-flexbox;
             display: flex;
-            -webkit-flex-wrap: wrap;
-            -ms-flex-wrap: wrap;
             flex-wrap: wrap;
         }
 
-        /* 图片间距设置 */
+        /* 图片间距系统 - 完全按照原代码 */
         .image-gallery[image-gallery-pad="1"] {
             padding: 0.5rem;
         }
@@ -140,26 +139,22 @@
 
         .gallery_card {
             box-sizing: border-box;
-            position: relative;
-        }
-
-        .gallery_card[image-gallery-pad="1"] {
-            padding: 0.5rem;
+            padding: 0.5rem; /* 图片上下左右间距 */
         }
 
         .gallery_card_image {
             width: 100%;
             position: relative;
-            overflow: hidden;
         }
 
         .gallery_card_image img {
             display: block;
             width: 100%;
             height: auto;
+            margin: 0;
         }
 
-        /* 滚动动画 */
+        /* 滚动动画 - 完全按照原代码 */
         .scroll-transition-fade {
             transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
         }
@@ -169,56 +164,55 @@
             transform: translateY(40px);
         }
 
-        /* 响应式设计 - 移动端间距调整 */
+        /* 响应式设计 - 完全按照原代码 */
         @media (max-width: 768px) {
-            .main_container {
-                flex-direction: column;
+            body.mobile .main_container {
+                display: block;
             }
 
-            .pinned.pinned_top {
+            body.mobile .pinned.pinned_top {
                 position: relative;
                 width: 100%;
                 height: auto;
             }
 
-            .content_container {
+            body.mobile .content_container {
+                width: 100%;
                 margin-left: 0;
+            }
+
+            body.mobile .container_width {
                 width: 100%;
             }
 
-            .container_width {
+            body.mobile .content_padding {
+                padding: 2rem;
+            }
+
+            body.mobile .pinned.pinned_top .content_padding {
+                padding: 2rem;
+            }
+
+            body.mobile [grid-responsive] [grid-col] {
                 width: 100%;
+                flex: none;
             }
 
-            .content_padding {
-                padding-top: 2rem;
-                padding-bottom: 2rem;
-                padding-left: 2rem;
-                padding-right: 2rem;
-            }
-
-            .pinned.pinned_top .content_padding {
-                padding-top: 2rem;
-                padding-bottom: 2rem;
-                padding-left: 2rem;
-                padding-right: 2rem;
-            }
-
-            [grid-col="6"] {
-                width: 100%;
-            }
-
-            /* 移动端图片间距调整 */
-            .image-gallery[image-gallery-pad="1"] {
+            /* 移动端图片间距 - 完全按照原代码 */
+            body.mobile .image-gallery[image-gallery-pad="1"] {
                 padding: 0.625rem;
             }
 
-            .image-gallery[image-gallery-gutter="2"] {
+            body.mobile .image-gallery[image-gallery-gutter="2"] {
                 margin: -1.25rem;
             }
 
-            .gallery_card[image-gallery-pad="1"] {
-                padding: 0.625rem;
+            body.mobile .gallery_card {
+                padding: 0.625rem; /* 移动端图片上下左右间距 */
+            }
+
+            body.mobile [grid-col="6"] {
+                width: 100%;
             }
         }
 
@@ -247,33 +241,38 @@
             font-size: 0.875em;
         }
 
-        /* 清除浮动 */
         .clearfix:after {
             content: "";
             display: table;
             clear: both;
         }
+
+        .page_content {
+            position: relative;
+            z-index: 2;
+        }
     </style>
 </head>
 <body>
     <div class="main_container">
-        <!-- 左侧导航栏（空白） -->
-        <div data-view="pinned_top" class="pinned pinned_top">
+        <!-- 左侧导航栏（空白）- 完全按照原代码结构 -->
+        <div data-view="pinned_top" data-position="top" class="pinned pinned_top">
             <div class="page_container overlay fixed" local-style="37160820">
                 <div class="page container container_width clearfix">
                     <bodycopy class="bodycopy content content_padding">
-                        <div class="page_content clearfix">
+                        <div class="page_content clearfix" data-elementresizer data-resize-parent>
                             <!-- 左侧导航栏内容留空 -->
                         </div>
                     </bodycopy>
                 </div>
+                <div class="page_background"></div>
             </div>
         </div>
 
-        <!-- 主要内容区域 -->
+        <!-- 主要内容区域 - 完全按照原代码结构 -->
         <div class="content_container">
             <div data-view="Content">
-                <div data-container="page" class="page_container">
+                <div data-container="page" class="page_container" local-style="37160823">
                     <div class="page container container_width">
                         <bodycopy class="bodycopy content content_padding">
                             <div class="page_content clearfix" data-elementresizer data-resize-parent>
@@ -324,10 +323,10 @@
                                 <br>
                                 <br>
 
-                                <!-- 图片画廊 -->
+                                <!-- 图片画廊 - 完全按照原代码结构 -->
                                 <div class="image-gallery initialized" 
                                      data-gallery='{"mode_id":3,"gallery_instance_id":1,"name":"Justify","path":"justify","data":{"image_padding":"1","row_height":"65","variation_index":"0","variation":0,"variation_mode":0,"variation_seed":0,"responsive":true,"meta_data":{},"mobile_data":{"image_padding":"1.25","row_height":"54","separate_mobile_view":false},"captions":false,"responsive_row_height":"54","responsive_image_padding":"1.25"}}' 
-                                     gid="1" data-padding-zero="" 
+                                     gid="1" 
                                      image-gallery="justify" 
                                      image-gallery-row="" 
                                      image-gallery-pad="1" 
@@ -344,38 +343,39 @@
                             </div>
                         </bodycopy>
                     </div>
+                    <div class="page_background"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 滚动动画效果
+        // 移动端检测 - 完全按照原代码逻辑
+        function detectMobile() {
+            if (window.innerWidth <= 768) {
+                document.body.classList.add('mobile');
+            } else {
+                document.body.classList.remove('mobile');
+            }
+        }
+
+        // 滚动动画效果 - 完全按照原代码逻辑
         document.addEventListener('DOMContentLoaded', function() {
-            // 滚动淡入动画
+            detectMobile();
+            
             const scrollElements = document.querySelectorAll('.scroll-transition-fade');
             
-            const elementInView = (el, dividend = 1) => {
+            const elementInView = (el) => {
                 const elementTop = el.getBoundingClientRect().top;
-                return (
-                    elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
-                );
-            };
-
-            const displayScrollElement = (element) => {
-                element.classList.remove('below-viewport');
-            };
-
-            const hideScrollElement = (element) => {
-                element.classList.add('below-viewport');
+                return elementTop <= (window.innerHeight || document.documentElement.clientHeight) / 1.25;
             };
 
             const handleScrollAnimation = () => {
                 scrollElements.forEach((el) => {
-                    if (elementInView(el, 1.25)) {
-                        displayScrollElement(el);
+                    if (elementInView(el)) {
+                        el.classList.remove('below-viewport');
                     } else {
-                        hideScrollElement(el);
+                        el.classList.add('below-viewport');
                     }
                 });
             };
@@ -385,32 +385,31 @@
                 el.classList.add('below-viewport');
             });
 
-            // 监听滚动事件
-            window.addEventListener('scroll', () => {
-                handleScrollAnimation();
-            });
-
-            // 初始检查
+            window.addEventListener('scroll', handleScrollAnimation);
             handleScrollAnimation();
         });
 
-        // 响应式网格系统
+        // 响应式处理 - 完全按照原代码逻辑
+        window.addEventListener('resize', function() {
+            detectMobile();
+        });
+
+        // 网格响应式 - 完全按照原代码逻辑
         function handleGridResponsive() {
-            const gridElements = document.querySelectorAll('[grid-responsive]');
-            
-            gridElements.forEach(grid => {
-                if (window.innerWidth < 768) {
-                    grid.querySelectorAll('[grid-col]').forEach(col => {
+            if (document.body.classList.contains('mobile')) {
+                const gridElements = document.querySelectorAll('[grid-responsive]');
+                gridElements.forEach(grid => {
+                    const cols = grid.querySelectorAll('[grid-col]');
+                    cols.forEach(col => {
                         col.style.width = '100%';
                         col.style.flex = 'none';
                     });
-                }
-            });
+                });
+            }
         }
 
-        // 初始化响应式
-        window.addEventListener('resize', handleGridResponsive);
         window.addEventListener('load', handleGridResponsive);
+        window.addEventListener('resize', handleGridResponsive);
     </script>
 </body>
 </html>
