@@ -19,14 +19,14 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
-        /* 主容器布局 - 完全按照原代码 */
+        /* 主容器布局 */
         .main_container {
             min-height: 100vh;
             width: 100%;
             overflow: hidden;
         }
 
-        /* 左侧导航栏 - 完全按照原代码 */
+        /* 左侧导航栏 */
         .pinned.pinned_top {
             position: fixed;
             top: 0;
@@ -61,7 +61,7 @@
             min-height: 100vh;
         }
 
-        /* 内容区域 - 完全按照原代码 */
+        /* 内容区域 */
         .content_container {
             width: 74%;
             margin-left: 26%;
@@ -87,31 +87,7 @@
             overflow: visible;
         }
 
-        /* 网格系统 - 完全按照原代码 */
-        [grid-row] {
-            align-items: flex-start;
-            box-sizing: border-box;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        [grid-col] {
-            box-sizing: border-box;
-        }
-
-        [grid-col="6"] {
-            width: 50%;
-        }
-
-        [grid-pad="4"] {
-            padding: 2rem;
-        }
-
-        [grid-gutter="8"] {
-            margin: -4rem;
-        }
-
-        /* 图片画廊样式 - 完全按照原代码 */
+        /* 图片画廊样式 */
         .image-gallery {
             position: relative;
             width: 100%;
@@ -128,7 +104,7 @@
             flex-wrap: wrap;
         }
 
-        /* 图片间距系统 - 严格按照原代码 */
+        /* 图片间距系统 - 严格按照原始代码 */
         .content .page_content [image-gallery-pad="1"] {
             padding: 0.5rem;
         }
@@ -153,7 +129,7 @@
             margin: 0;
         }
 
-        /* 滚动动画 - 完全按照原代码 */
+        /* 滚动动画 */
         .scroll-transition-fade {
             transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
         }
@@ -163,7 +139,7 @@
             transform: translateY(40px);
         }
 
-        /* 响应式设计 - 完全按照原代码 */
+        /* 响应式设计 - 完全按照原始代码的移动端设置 */
         @media (max-width: 768px) {
             body.mobile .main_container {
                 display: block;
@@ -184,12 +160,22 @@
                 width: 100%;
             }
 
+            /* 关键修复：完全按照原始代码的移动端间距设置 */
             body.mobile .content_padding {
                 padding: 2rem;
+                padding-left: 2rem;
+                padding-right: 2rem;
+                /* 原始代码中的移动端设置 */
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+                padding-left: 2rem;
+                padding-right: 2rem;
             }
 
             body.mobile .pinned.pinned_top .content_padding {
                 padding: 2rem;
+                padding-left: 2rem;
+                padding-right: 2rem;
             }
 
             body.mobile [grid-responsive] [grid-col] {
@@ -197,23 +183,29 @@
                 flex: none;
             }
 
-            /* 移动端图片间距 - 严格按照原代码 */
+            /* 移动端图片间距 - 严格按照原始代码 */
             body.mobile .content .page_content [image-gallery-pad="1"] {
-                padding: 0.625rem;
+                padding: 0.625rem; /* 原始代码中的 1.25 对应的值 */
             }
 
             body.mobile .content .page_content [image-gallery-gutter="2"] {
-                margin: -1.25rem;
+                margin: -1.25rem; /* 原始代码中的移动端间距 */
             }
 
             body.mobile [grid-col="6"] {
                 width: 100%;
             }
 
-            /* 移动端内容区域对称间距 */
-            body.mobile .content_padding {
-                padding-left: 2rem;
-                padding-right: 2rem;
+            /* 确保图片画廊在移动端有正确的容器间距 */
+            body.mobile .image-gallery {
+                margin: 0;
+                padding: 0;
+            }
+
+            /* 确保画廊卡片继承正确的间距 */
+            body.mobile .gallery_card {
+                margin: 0;
+                padding: 0.625rem; /* 与 image-gallery-pad 保持一致 */
             }
         }
 
@@ -256,7 +248,7 @@
 </head>
 <body>
     <div class="main_container">
-        <!-- 左侧导航栏（空白）- 完全按照原代码结构 -->
+        <!-- 左侧导航栏 -->
         <div data-view="pinned_top" data-position="top" class="pinned pinned_top">
             <div class="page_container overlay fixed" local-style="37160820">
                 <div class="page container container_width clearfix">
@@ -270,7 +262,7 @@
             </div>
         </div>
 
-        <!-- 主要内容区域 - 完全按照原代码结构 -->
+        <!-- 主要内容区域 -->
         <div class="content_container">
             <div data-view="Content">
                 <div data-container="page" class="page_container" local-style="37160823">
@@ -324,21 +316,23 @@
                                 <br>
                                 <br>
 
-                                <!-- 图片画廊 - 完全按照原代码结构 -->
+                                <!-- 图片画廊 - 严格按照原始代码结构 -->
                                 <div class="image-gallery initialized" 
                                      data-gallery='{"mode_id":3,"gallery_instance_id":1,"name":"Justify","path":"justify","data":{"image_padding":"1","row_height":"65","variation_index":"0","variation":0,"variation_mode":0,"variation_seed":0,"responsive":true,"meta_data":{},"mobile_data":{"image_padding":"1.25","row_height":"54","separate_mobile_view":false},"captions":false,"responsive_row_height":"54","responsive_image_padding":"1.25"}}' 
                                      gid="1" 
                                      image-gallery="justify" 
                                      image-gallery-row="" 
                                      image-gallery-pad="1" 
-                                     image-gallery-gutter="2">
+                                     image-gallery-gutter="2"
+                                     style="width: 100%; margin: 0; padding: 0;">
                                     
                                     <div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="0" style="width: 25.1339%;">
                                         <div class="gallery_card_image scroll-transition-fade">
                                             <img width="1600" height="2240" 
                                                  src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" 
                                                  data-src="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" 
-                                                 data-mid="225397439">
+                                                 data-mid="225397439"
+                                                 style="display: block; width: 100%; height: auto;">
                                         </div>
                                     </div>
                                     
@@ -347,7 +341,8 @@
                                             <img width="1600" height="2000" 
                                                  src="//freight.cargo.site/w/600/q/75/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" 
                                                  data-src="https://freight.cargo.site/t/original/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" 
-                                                 data-mid="225397396">
+                                                 data-mid="225397396"
+                                                 style="display: block; width: 100%; height: auto;">
                                         </div>
                                     </div>
                                     
@@ -356,7 +351,8 @@
                                             <img width="2240" height="1600" 
                                                  src="//freight.cargo.site/w/1000/q/75/i/60a3246f9e1282e24171b0dfee7ddfad43889fc987fb818e6290dbbfbefb1b30/Restorative-Topophilia-S-43.jpg" 
                                                  data-src="https://freight.cargo.site/t/original/i/60a3246f9e1282e24171b0dfee7ddfad43889fc987fb818e6290dbbfbefb1b30/Restorative-Topophilia-S-43.jpg" 
-                                                 data-mid="225397383">
+                                                 data-mid="225397383"
+                                                 style="display: block; width: 100%; height: auto;">
                                         </div>
                                     </div>
                                 </div>
@@ -374,16 +370,18 @@
     </div>
 
     <script>
-        // 移动端检测 - 完全按照原代码逻辑
+        // 移动端检测
         function detectMobile() {
             if (window.innerWidth <= 768) {
                 document.body.classList.add('mobile');
+                console.log('Mobile mode activated');
             } else {
                 document.body.classList.remove('mobile');
+                console.log('Desktop mode activated');
             }
         }
 
-        // 滚动动画效果 - 完全按照原代码逻辑
+        // 滚动动画效果
         document.addEventListener('DOMContentLoaded', function() {
             detectMobile();
             
@@ -404,7 +402,6 @@
                 });
             };
 
-            // 初始化所有元素为隐藏状态
             scrollElements.forEach((el) => {
                 el.classList.add('below-viewport');
             });
@@ -413,12 +410,12 @@
             handleScrollAnimation();
         });
 
-        // 响应式处理 - 完全按照原代码逻辑
+        // 响应式处理
         window.addEventListener('resize', function() {
             detectMobile();
         });
 
-        // 网格响应式 - 完全按照原代码逻辑
+        // 网格响应式
         function handleGridResponsive() {
             if (document.body.classList.contains('mobile')) {
                 const gridElements = document.querySelectorAll('[grid-responsive]');
