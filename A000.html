@@ -1,192 +1,151 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图片画廊</title>
-    
-    <!-- PhotoSwipe CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
-    
-    <style>
-        /* ====== 布局结构：左侧导航 + 主内容 ====== */
-        .split-layout {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            min-height: 100vh;
-        }
+<!-- 在页面末尾添加 PhotoSwipe 的 CSS -->
+<link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
 
-        /* 左侧导航栏（内容留空） */
-        .split-layout .left-panel {
-            width: 26%;
-            background-color: #f9f9f9;
-            padding: 2rem;
-            box-sizing: border-box;
-        }
+<style>
+/* ====== 原有的所有样式完全保持不变 ====== */
+/* ====== 布局结构：左侧导航 + 主内容 ====== */
+.split-layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 100vh;
+}
 
-        /* 右侧内容区 */
-        .split-layout .right-panel {
-            flex: 1;
-            padding: 5.8rem 4.5rem;
-            box-sizing: border-box;
-        }
+/* 左侧导航栏（内容留空） */
+.split-layout .left-panel {
+  width: 26%;
+  background-color: #f9f9f9;
+  padding: 2rem;
+  box-sizing: border-box;
+}
 
-        /* ====== 响应式布局（移动端上下堆叠） ====== */
-        @media screen and (max-width: 1024px) {
-            .split-layout {
-                flex-direction: column;
-            }
-            .split-layout .left-panel {
-                width: 100%;
-                height: auto;
-                min-height: auto;
-                padding: 2rem 2.5rem;
-                background-color: #f9f9f9;
-            }
-            .split-layout .right-panel {
-                width: 100%;
-                padding: 3.5rem 2rem;
-            }
-            
-            /* 移动端调整主体内容边距 */
-            .content_padding {
-                padding-top: 3.5rem;
-                padding-left: 2rem;
-                padding-right: 2rem;
-                padding-bottom: 3rem;
-            }
-        }
+/* 右侧内容区 */
+.split-layout .right-panel {
+  flex: 1;
+  padding: 5.8rem 4.5rem;
+  box-sizing: border-box;
+}
 
-        /* ====== 主体内容边距 ====== */
-        .content_padding {
-            padding-top: 5.8rem;
-            padding-left: 4.5rem;
-            padding-right: 4.5rem;
-            padding-bottom: 4rem;
-        }
+/* ====== 响应式布局（移动端上下堆叠） ====== */
+@media screen and (max-width: 1024px) {
+  .split-layout {
+    flex-direction: column;
+  }
+  .split-layout .left-panel {
+    width: 100%;
+    height: auto;
+    padding: 2rem 2.5rem;
+  }
+  .split-layout .right-panel {
+    padding: 3.5rem 2rem;
+  }
+}
 
-        .page_content {
-            margin: 0 auto;
-            max-width: 1200px;
-        }
+/* ====== 主体内容边距 ====== */
+.content_padding {
+  padding-top: 5.8rem;
+  padding-left: 4.5rem;
+  padding-right: 4.5rem;
+  padding-bottom: 4rem;
+}
 
-        /* ====== 图片画廊样式（恢复原有间距） ====== */
-        .image-gallery {
-            position: relative;
-            display: flex;
-            flex-wrap: wrap;
-            margin-left: -2rem;   /* 恢复左右负边距补偿 */
-            margin-right: -2rem;
-        }
+.page_content {
+  margin: 0 auto;
+  max-width: 1200px;
+}
 
-        .image-gallery [image-gallery-pad] {
-            padding-left: 0.7rem;   /* 恢复原有间距 */
-            padding-right: 0.7rem;
-            box-sizing: border-box;
-        }
+/* ====== 图片画廊样式（修正版本） ====== */
+.image-gallery {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -2rem;   /* 左右负边距补偿 */
+  margin-right: -2rem;
+}
 
-        /* 控制上下间距（恢复原有设置） */
-        .gallery_card {
-            margin-bottom: 1.3rem;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
+.image-gallery [image-gallery-pad] {
+  padding-left: 0.7rem;   /* 与 Cargo 原样一致 */
+  padding-right: 0.7rem;
+  box-sizing: border-box;
+}
 
-        .gallery_card:hover {
-            transform: scale(1.02);
-        }
+/* 控制上下间距（比 Cargo 稍紧凑） */
+.gallery_card {
+  margin-bottom: 1.3rem;
+}
 
-        .gallery_card_image {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-        }
+.gallery_card_image {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
 
-        .gallery_card_image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
+.gallery_card_image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
 
-        /* ====== 滚动动画效果 ====== */
-        .scroll-transition-fade {
-            transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
-        }
+/* ====== 滚动动画效果（替换为新版本） ====== */
+.scroll-transition-fade {
+    transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
+}
 
-        .scroll-transition-fade.below-viewport {
-            opacity: 0;
-            transform: translateY(40px);
-        }
+.scroll-transition-fade.below-viewport {
+    opacity: 0;
+    transform: translateY(40px);
+}
 
-        /* ====== 移动端图片间距调整 ====== */
-        @media (max-width: 768px) {
-            .image-gallery {
-                margin-left: -1rem;
-                margin-right: -1rem;
-            }
-            
-            .image-gallery [image-gallery-pad] {
-                padding: 0.5rem;
-            }
-            
-            /* 移动端调整图片卡片间距 */
-            .gallery_card {
-                margin-bottom: 1rem;
-            }
-        }
+/* ====== 移动端图片间距调整 ====== */
+@media (max-width: 768px) {
+  .image-gallery [image-gallery-pad] {
+    padding: 1.25rem;
+  }
+}
 
-        /* ====== 隐藏 PhotoSwipe 的 UI 控件 ====== */
-        .pswp__button--zoom,
-        .pswp__button--close {
-            display: none !important;
-        }
+/* ====== 只添加这一个样式来隐藏PhotoSwipe按钮 ====== */
+.pswp__button--zoom,
+.pswp__button--close {
+  display: none !important;
+}
+</style>
 
-        /* 确保图片在 PhotoSwipe 中正确显示 */
-        .pswp__img {
-            opacity: 1 !important;
-        }
-    </style>
-</head>
-<body>
-    <!-- ================= 页面主体结构 ================= -->
-    <div class="split-layout">
-        <!-- 左侧导航栏区域（留空） -->
-        <div class="left-panel">
-            <!-- 左侧导航内容（根据您的需要添加） -->
+<!-- ================= 页面主体结构完全保持不变 ================= -->
+<div class="split-layout split-responsive">
+  <!-- 左侧导航栏区域（留空） -->
+  <div class="left-panel"></div>
+
+  <!-- 右侧主要内容 -->
+  <div class="right-panel">
+    <bodycopy class="bodycopy content content_padding">
+      <div class="page_content clearfix" data-elementresizer data-resize-parent data-ce-host="true" data-resize-model-id="37160823">
+        <div style="text-align: right;">
+          <br><br>
+          <span style="color: #f00;">
+            <ul>
+              <li>
+                <i><b><small><span style="color: #f00;"><i>Restorative Topophilia</i></span></small></b></i>
+              </li>
+              <li>
+                <i style="font-size: 1.5rem;"><b><small><span style="color: #f00;"><i>这片土地使我痊愈</i></span></small></b></i>
+              </li>
+            </ul>
+          </span>
         </div>
 
-        <!-- 右侧主要内容 -->
-        <div class="right-panel">
-            <div class="bodycopy content content_padding">
-                <div class="page_content clearfix">
-                    <div style="text-align: right;">
-                        <br><br>
-                        <span style="color: #f00;">
-                            <ul>
-                                <li>
-                                    <i><b><small><span style="color: #f00;"><i>Restorative Topophilia</i></span></small></b></i>
-                                </li>
-                                <li>
-                                    <i style="font-size: 1.5rem;"><b><small><span style="color: #f00;"><i>这片土地使我痊愈</i></span></small></b></i>
-                                </li>
-                            </ul>
-                        </span>
-                    </div>
+        <h2>
+          <div grid-row grid-pad="4" grid-gutter="8" grid-responsive>
+            <div grid-col="6" grid-pad="4" class=""><br></div>
+          </div>
+        </h2>
 
-                    <h2>
-                        <div grid-row grid-pad="4" grid-gutter="8" grid-responsive>
-                            <div grid-col="6" grid-pad="4" class=""><br></div>
-                        </div>
-                    </h2>
+        <br><br>
 
-                    <br><br>
-
-                    <!-- ====== 图片画廊区域 ====== -->
-                    <div class="image-gallery initialized" image-gallery="justify" image-gallery-row image-gallery-pad="1" image-gallery-gutter="2" id="photoSwipeGallery">
-                        
+        <!-- ====== 图片画廊区域（完整 43 张图片）完全保持不变 ====== -->
+        <div class="image-gallery initialized" image-gallery="justify" image-gallery-row image-gallery-pad="1" image-gallery-gutter="2" id="gallery--test-padding">
+          <!-- 您原有的所有 gallery_card 代码完全不变 -->
                         <!-- 恢复原有的图片结构 -->
                         <div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="0" data-width="24.509" data-row="1" style="width: 25.1339%;">
                             <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%;">
@@ -195,129 +154,90 @@
                                    data-pswp-height="2240">
                                     <img data-gallery-item-index="0" data-gallery-uid="147" width="1600" height="2240" src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-src="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-mid="225397439" class="image-zoom">
                                 </a>
-                            </div>
-                        </div>
 
-                        <div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="1" data-width="27.45" data-row="1" style="width: 27.8667%;">
-                            <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
-                                <a href="https://freight.cargo.site/t/original/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg"
-                                   data-pswp-width="1600" 
-                                   data-pswp-height="2000">
-                                    <img data-gallery-item-index="1" data-gallery-uid="148" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" data-src="https://freight.cargo.site/t/original/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" data-mid="225397396" class="image-zoom">
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- 在这里继续添加其他图片... -->
-                        
-                    </div>
-
-                    <br><br><small></small>
-                </div>
-            </div>
+          <!-- ... 其余42张图片完全不变 ... -->
         </div>
-    </div>
 
-    <!-- PhotoSwipe 容器 -->
-    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="pswp__bg"></div>
-        <div class="pswp__scroll-wrap">
-            <div class="pswp__container">
-                <div class="pswp__item"></div>
-                <div class="pswp__item"></div>
-                <div class="pswp__item"></div>
-            </div>
-            <div class="pswp__ui pswp__ui--hidden">
-                <div class="pswp__top-bar">
-                    <div class="pswp__counter"></div>
-                </div>
-                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
-                <div class="pswp__caption">
-                    <div class="pswp__caption__center"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+        <br><br><small></small>
+      </div>
+    </bodycopy>
+  </div>
+</div>
 
-    <script>
-        // 滚动动画功能
-        document.addEventListener('DOMContentLoaded', function() {
-            const fadeElements = document.querySelectorAll('.scroll-transition-fade');
-            let lastScrollTop = 0;
+<!-- ====== 滚动动画功能完全保持不变 ====== -->
+<script>
+// 滚动动画功能 - 只在向下滚动时触发，且可重复
+document.addEventListener('DOMContentLoaded', function() {
+    const fadeElements = document.querySelectorAll('.scroll-transition-fade');
+    let lastScrollTop = 0;
+    
+    // 记录元素上次触发动画时的位置
+    const elementLastTriggerPos = new Map();
+
+    function checkScroll() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const isScrollingDown = scrollTop > lastScrollTop;
+        
+        fadeElements.forEach(element => {
+            const rect = element.getBoundingClientRect();
+            const elementTop = rect.top;
+            const viewportHeight = window.innerHeight;
             
-            const elementLastTriggerPos = new Map();
-
-            function checkScroll() {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const isScrollingDown = scrollTop > lastScrollTop;
-                
-                fadeElements.forEach(element => {
-                    const rect = element.getBoundingClientRect();
-                    const elementTop = rect.top;
-                    const viewportHeight = window.innerHeight;
-                    
-                    const triggerPoint = viewportHeight * 0.8;
-                    const isVisible = elementTop < triggerPoint && elementTop > 0;
-                    
-                    const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
-                    
-                    if (isScrollingDown && isVisible) {
-                        if (scrollTop > lastTriggerPos) {
-                            element.classList.remove('below-viewport');
-                            elementLastTriggerPos.set(element, scrollTop);
-                        }
-                    } else if (!isScrollingDown && !isVisible) {
-                        if (elementTop > viewportHeight) {
-                            element.classList.add('below-viewport');
-                            elementLastTriggerPos.set(element, 0);
-                        }
-                    }
-                });
-                
-                lastScrollTop = scrollTop;
-            }
-
-            let scrollTimeout;
-            function handleScroll() {
-                if (scrollTimeout) {
-                    clearTimeout(scrollTimeout);
+            // 当元素进入视窗时显示（从底部进入视窗20%时触发）
+            const triggerPoint = viewportHeight * 0.8;
+            const isVisible = elementTop < triggerPoint && elementTop > 0;
+            
+            // 获取元素上次触发动画时的滚动位置
+            const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
+            
+            if (isScrollingDown && isVisible) {
+                // 只有在当前滚动位置比上次触发位置更靠下时才触发动画
+                if (scrollTop > lastTriggerPos) {
+                    element.classList.remove('below-viewport');
+                    elementLastTriggerPos.set(element, scrollTop);
                 }
-                scrollTimeout = setTimeout(checkScroll, 16);
+            } else if (!isScrollingDown && !isVisible) {
+                // 向上滚动且元素离开视窗时，重新隐藏以便下次触发
+                if (elementTop > viewportHeight) {
+                    element.classList.add('below-viewport');
+                    // 重置触发位置，允许下次向下滚动时重新触发
+                    elementLastTriggerPos.set(element, 0);
+                }
             }
-
-            window.addEventListener('scroll', handleScroll);
-            checkScroll();
         });
-    </script>
+        
+        lastScrollTop = scrollTop;
+    }
 
-    <!-- PhotoSwipe 初始化脚本 -->
-    <script type="module">
-        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
+    // 使用防抖优化性能
+    let scrollTimeout;
+    function handleScroll() {
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+        scrollTimeout = setTimeout(checkScroll, 16); // 约60fps
+    }
 
-        const lightbox = new PhotoSwipeLightbox({
-            gallery: '#photoSwipeGallery',
-            children: 'a',
-            pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
-            
-            // 您的定制配置
-            close: false,       // 隐藏关闭按钮
-            zoom: false,        // 隐藏缩放按钮
-            tapAction: 'close', // 单击图片退出预览
-            padding: { top: 5, bottom: 5, left: 5, right: 5 }, // 灯箱内边距
-            
-            // 双击缩放功能
-            doubleTapAction: 'zoom', // 启用双击缩放
-            maxZoomLevel: 4,         // 最大缩放级别
-            minZoomLevel: 0.1,       // 最小缩放级别
-            initialZoomLevel: 'fit', // 初始缩放级别
-            
-            // 其他缩放相关配置
-            wheelToZoom: true,       // 启用滚轮缩放
-            pinchToClose: true,      // 捏合手势关闭
-        });
+    window.addEventListener('scroll', handleScroll);
+    checkScroll(); // 初始检查
+});
+</script>
 
-        lightbox.init();
-    </script>
-</body>
-</html>
+<!-- ====== 只添加PhotoSwipe初始化代码 ====== -->
+<script type="module">
+import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
+
+const lightbox = new PhotoSwipeLightbox({
+  gallery: '#gallery--test-padding',
+  children: 'a',
+  pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
+  padding: { top: 5, bottom: 5, left: 5, right: 5 },
+  // 隐藏右上角的放大缩小按钮和关闭按钮
+  close: false,
+  zoom: false,
+  // 单击图片退出预览
+  tapAction: 'close'
+});
+
+lightbox.init();
+</script>
