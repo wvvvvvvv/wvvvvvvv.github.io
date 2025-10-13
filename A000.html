@@ -1,290 +1,321 @@
-<!-- 在页面末尾添加 PhotoSwipe 的 CSS 和 JS -->
-<link rel="stylesheet" href="https://unpkg.com/photoswipe@5.3.7/dist/photoswipe.css">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片画廊</title>
+    
+    <!-- PhotoSwipe CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
+    
+    <style>
+        /* ====== 布局结构：左侧导航 + 主内容 ====== */
+        .split-layout {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            min-height: 100vh;
+        }
 
-<style>
-/* ====== 布局结构：左侧导航 + 主内容 ====== */
-.split-layout {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  min-height: 100vh;
-}
+        /* 左侧导航栏（内容留空） */
+        .split-layout .left-panel {
+            width: 26%;
+            background-color: #f9f9f9;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
 
-/* 左侧导航栏（内容留空） */
-.split-layout .left-panel {
-  width: 26%;
-  background-color: #f9f9f9;
-  padding: 2rem;
-  box-sizing: border-box;
-}
+        /* 右侧内容区 */
+        .split-layout .right-panel {
+            flex: 1;
+            padding: 5.8rem 4.5rem;
+            box-sizing: border-box;
+        }
 
-/* 右侧内容区 */
-.split-layout .right-panel {
-  flex: 1;
-  padding: 5.8rem 4.5rem;
-  box-sizing: border-box;
-}
+        /* ====== 响应式布局（移动端上下堆叠） ====== */
+        @media screen and (max-width: 1024px) {
+            .split-layout {
+                flex-direction: column;
+            }
+            .split-layout .left-panel {
+                width: 100%;
+                height: auto;
+                padding: 2rem 2.5rem;
+            }
+            .split-layout .right-panel {
+                padding: 3.5rem 2rem;
+            }
+        }
 
-/* ====== 响应式布局（移动端上下堆叠） ====== */
-@media screen and (max-width: 1024px) {
-  .split-layout {
-    flex-direction: column;
-  }
-  .split-layout .left-panel {
-    width: 100%;
-    height: auto;
-    padding: 2rem 2.5rem;
-  }
-  .split-layout .right-panel {
-    padding: 3.5rem 2rem;
-  }
-}
+        /* ====== 主体内容边距 ====== */
+        .content_padding {
+            padding-top: 5.8rem;
+            padding-left: 4.5rem;
+            padding-right: 4.5rem;
+            padding-bottom: 4rem;
+        }
 
-/* ====== 主体内容边距 ====== */
-.content_padding {
-  padding-top: 5.8rem;
-  padding-left: 4.5rem;
-  padding-right: 4.5rem;
-  padding-bottom: 4rem;
-}
+        .page_content {
+            margin: 0 auto;
+            max-width: 1200px;
+        }
 
-.page_content {
-  margin: 0 auto;
-  max-width: 1200px;
-}
+        /* ====== 图片画廊样式（修正版本） ====== */
+        .image-gallery {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: -2rem;
+            margin-right: -2rem;
+        }
 
-/* ====== 图片画廊样式（修正版本） ====== */
-.image-gallery {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: -2rem;   /* 左右负边距补偿 */
-  margin-right: -2rem;
-}
+        .image-gallery [image-gallery-pad] {
+            padding-left: 0.7rem;
+            padding-right: 0.7rem;
+            box-sizing: border-box;
+        }
 
-.image-gallery [image-gallery-pad] {
-  padding-left: 0.7rem;   /* 与 Cargo 原样一致 */
-  padding-right: 0.7rem;
-  box-sizing: border-box;
-}
+        /* 控制上下间距 */
+        .gallery_card {
+            margin-bottom: 1.3rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
 
-/* 控制上下间距（比 Cargo 稍紧凑） */
-.gallery_card {
-  margin-bottom: 1.3rem;
-  cursor: pointer; /* 添加手型光标表示可点击 */
-}
+        .gallery_card:hover {
+            transform: scale(1.02);
+        }
 
-.gallery_card_image {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
+        .gallery_card_image {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
 
-.gallery_card_image img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
+        .gallery_card_image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
 
-/* ====== 滚动动画效果（替换为新版本） ====== */
-.scroll-transition-fade {
-    transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
-}
+        /* ====== 滚动动画效果 ====== */
+        .scroll-transition-fade {
+            transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
+        }
 
-.scroll-transition-fade.below-viewport {
-    opacity: 0;
-    transform: translateY(40px);
-}
+        .scroll-transition-fade.below-viewport {
+            opacity: 0;
+            transform: translateY(40px);
+        }
 
-/* ====== 移动端图片间距调整 ====== */
-@media (max-width: 768px) {
-  .image-gallery [image-gallery-pad] {
-    padding: 1.25rem;
-  }
-}
+        /* ====== 移动端图片间距调整 ====== */
+        @media (max-width: 768px) {
+            .image-gallery [image-gallery-pad] {
+                padding: 1.25rem;
+            }
+        }
 
-/* ====== 隐藏 PhotoSwipe 的 UI 控件 ====== */
-.pswp__button--zoom,
-.pswp__button--close {
-  display: none !important;
-}
-</style>
+        /* ====== 隐藏 PhotoSwipe 的 UI 控件 ====== */
+        .pswp__button--zoom,
+        .pswp__button--close {
+            display: none !important;
+        }
 
-<!-- ================= 页面主体结构 ================= -->
-<div class="split-layout split-responsive">
-  <!-- 左侧导航栏区域（留空） -->
-  <div class="left-panel"></div>
+        /* 确保图片在 PhotoSwipe 中正确显示 */
+        .pswp__img {
+            opacity: 1 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- ================= 页面主体结构 ================= -->
+    <div class="split-layout split-responsive">
+        <!-- 左侧导航栏区域（留空） -->
+        <div class="left-panel"></div>
 
-  <!-- 右侧主要内容 -->
-  <div class="right-panel">
-    <bodycopy class="bodycopy content content_padding">
-      <div class="page_content clearfix" data-elementresizer data-resize-parent data-ce-host="true" data-resize-model-id="37160823">
-        <div style="text-align: right;">
-          <br><br>
-          <span style="color: #f00;">
-            <ul>
-              <li>
-                <i><b><small><span style="color: #f00;"><i>Restorative Topophilia</i></span></small></b></i>
-              </li>
-              <li>
-                <i style="font-size: 1.5rem;"><b><small><span style="color: #f00;"><i>这片土地使我痊愈</i></span></small></b></i>
-              </li>
-            </ul>
-          </span>
-        </div>
+        <!-- 右侧主要内容 -->
+        <div class="right-panel">
+            <div class="bodycopy content content_padding">
+                <div class="page_content clearfix">
+                    <div style="text-align: right;">
+                        <br><br>
+                        <span style="color: #f00;">
+                            <ul>
+                                <li>
+                                    <i><b><small><span style="color: #f00;"><i>Restorative Topophilia</i></span></small></b></i>
+                                </li>
+                                <li>
+                                    <i style="font-size: 1.5rem;"><b><small><span style="color: #f00;"><i>这片土地使我痊愈</i></span></small></b></i>
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
 
-        <h2>
-          <div grid-row grid-pad="4" grid-gutter="8" grid-responsive>
-            <div grid-col="6" grid-pad="4" class=""><br></div>
-          </div>
-        </h2>
+                    <h2>
+                        <div grid-row grid-pad="4" grid-gutter="8" grid-responsive>
+                            <div grid-col="6" grid-pad="4" class=""><br></div>
+                        </div>
+                    </h2>
 
-        <br><br>
+                    <br><br>
 
-        <!-- ====== 图片画廊区域（完整 43 张图片） ====== -->
-        <div class="image-gallery initialized" image-gallery="justify" image-gallery-row image-gallery-pad="1" image-gallery-gutter="2" id="photoSwipeGallery">
-          <!-- ↓↓↓ 这里是你提供的所有 gallery_card 代码 ↓↓↓ -->
-          <!-- 你的43张图片内容保持不变 -->
-          <div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="0" data-width="24.509" data-row="1" style="width: 25.1339%;"><div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%; transition-duration: initial;"><img data-gallery-item-index="0" data-gallery-uid="147" width="1600" height="2240" src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-src="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-mid="225397439" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div>
-          <!-- 其余42张图片保持不变 -->
-          <!-- ... -->
-          <div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="42" data-width="63.636" data-row="17" style="width: 62.9922%;"><div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;"><img data-gallery-item-index="42" data-gallery-uid="189" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/d9bdf7e44d86686853d8c39c083728f889da0ac017dbd71d34dbddd14d0d3ccd/Restorative-Topophilia-S-132.jpg" data-src="https://freight.cargo.site/t/original/i/d9bdf7e44d86686853d8c39c083728f889da0ac017dbd71d34dbddd14d0d3ccd/Restorative-Topophilia-S-132.jpg" data-mid="225397421" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom"></div></div>
-        </div>
+                    <!-- ====== 图片画廊区域 ====== -->
+                    <div class="image-gallery initialized" id="photoSwipeGallery">
+                        <!-- 示例图片项 - 请根据您的实际图片替换这些数据 -->
+                        <div class="gallery_card" style="width: 25%;">
+                            <div class="gallery_card_image scroll-transition-fade">
+                                <a href="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg"
+                                   data-pswp-width="1600" 
+                                   data-pswp-height="2240"
+                                   data-cropped="true">
+                                    <img src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" 
+                                         alt="Restorative Topophilia">
+                                </a>
+                            </div>
+                        </div>
 
-        <br><br><small></small>
-      </div>
-    </bodycopy>
-  </div>
-</div>
+                        <div class="gallery_card" style="width: 25%;">
+                            <div class="gallery_card_image scroll-transition-fade">
+                                <a href="https://freight.cargo.site/t/original/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg"
+                                   data-pswp-width="1600" 
+                                   data-pswp-height="2000"
+                                   data-cropped="true">
+                                    <img src="//freight.cargo.site/w/600/q/75/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" 
+                                         alt="Restorative Topophilia">
+                                </a>
+                            </div>
+                        </div>
 
-<!-- PhotoSwipe 容器 -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="pswp__bg"></div>
-    <div class="pswp__scroll-wrap">
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!-- 这里原本是工具栏，通过CSS隐藏了 -->
-                <div class="pswp__counter"></div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
+                        <!-- 在这里添加更多图片项... -->
+                        
+                    </div>
+
+                    <br><br><small></small>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- ====== 滚动动画功能 ====== -->
-<script>
-// 滚动动画功能 - 只在向下滚动时触发，且可重复
-document.addEventListener('DOMContentLoaded', function() {
-    const fadeElements = document.querySelectorAll('.scroll-transition-fade');
-    let lastScrollTop = 0;
-    
-    const elementLastTriggerPos = new Map();
+    <!-- PhotoSwipe 容器 -->
+    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    function checkScroll() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const isScrollingDown = scrollTop > lastScrollTop;
-        
-        fadeElements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            const elementTop = rect.top;
-            const viewportHeight = window.innerHeight;
+    <script>
+        // 滚动动画功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.scroll-transition-fade');
+            let lastScrollTop = 0;
             
-            const triggerPoint = viewportHeight * 0.8;
-            const isVisible = elementTop < triggerPoint && elementTop > 0;
-            
-            const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
-            
-            if (isScrollingDown && isVisible) {
-                if (scrollTop > lastTriggerPos) {
-                    element.classList.remove('below-viewport');
-                    elementLastTriggerPos.set(element, scrollTop);
-                }
-            } else if (!isScrollingDown && !isVisible) {
-                if (elementTop > viewportHeight) {
-                    element.classList.add('below-viewport');
-                    elementLastTriggerPos.set(element, 0);
-                }
+            const elementLastTriggerPos = new Map();
+
+            function checkScroll() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const isScrollingDown = scrollTop > lastScrollTop;
+                
+                fadeElements.forEach(element => {
+                    const rect = element.getBoundingClientRect();
+                    const elementTop = rect.top;
+                    const viewportHeight = window.innerHeight;
+                    
+                    const triggerPoint = viewportHeight * 0.8;
+                    const isVisible = elementTop < triggerPoint && elementTop > 0;
+                    
+                    const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
+                    
+                    if (isScrollingDown && isVisible) {
+                        if (scrollTop > lastTriggerPos) {
+                            element.classList.remove('below-viewport');
+                            elementLastTriggerPos.set(element, scrollTop);
+                        }
+                    } else if (!isScrollingDown && !isVisible) {
+                        if (elementTop > viewportHeight) {
+                            element.classList.add('below-viewport');
+                            elementLastTriggerPos.set(element, 0);
+                        }
+                    }
+                });
+                
+                lastScrollTop = scrollTop;
             }
+
+            let scrollTimeout;
+            function handleScroll() {
+                if (scrollTimeout) {
+                    clearTimeout(scrollTimeout);
+                }
+                scrollTimeout = setTimeout(checkScroll, 16);
+            }
+
+            window.addEventListener('scroll', handleScroll);
+            checkScroll();
         });
-        
-        lastScrollTop = scrollTop;
-    }
+    </script>
 
-    let scrollTimeout;
-    function handleScroll() {
-        if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
-        }
-        scrollTimeout = setTimeout(checkScroll, 16);
-    }
+    <!-- PhotoSwipe 初始化脚本 -->
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
 
-    window.addEventListener('scroll', handleScroll);
-    checkScroll();
-});
-</script>
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: '#photoSwipeGallery',
+            children: 'a',
+            pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
+            
+            // 您的定制配置
+            close: false,
+            zoom: false,
+            tapAction: 'close',
+            padding: { top: 5, bottom: 5, left: 5, right: 5 },
+            
+            // 确保图片正确加载的配置
+            imageClickAction: 'close',
+            doubleTapAction: 'zoom',
+            maxZoomLevel: 4,
+            initialZoomLevel: 'fit',
+            
+            // 错误处理
+            errorMsg: '无法加载图片'
+        });
 
-<!-- ====== PhotoSwipe 初始化 ====== -->
-<script type="module">
-// 动态导入 PhotoSwipe
-import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.3.7/dist/photoswipe-lightbox.esm.js';
+        // 添加事件监听器来调试
+        lightbox.on('beforeOpen', () => {
+            console.log('PhotoSwipe 即将打开');
+        });
 
-const lightbox = new PhotoSwipeLightbox({
-  // 指定画廊容器
-  gallery: '#photoSwipeGallery',
-  
-  // 指定图片链接元素
-  children: '.gallery_card',
-  
-  // 动态加载核心模块
-  pswpModule: () => import('https://unpkg.com/photoswipe@5.3.7/dist/photoswipe.esm.js'),
-  
-  // 1. 隐藏右上角的放大缩小按钮和关闭按钮
-  close: false,
-  zoom: false,
-  
-  // 2. 单击图片退出预览
-  tapAction: 'close',
-  
-  // 3. 设置灯箱四周的内边距
-  padding: { top: 5, bottom: 5, left: 5, right: 5 },
-  
-  // 4. 其他使用默认配置
-  bgOpacity: 0.8,
-  showHideAnimationType: 'fade',
-  imageClickAction: 'close',
-  doubleTapAction: 'zoom',
-  maxZoomLevel: 4
-});
+        lightbox.on('afterChange', () => {
+            console.log('图片已切换');
+        });
 
-// 初始化 PhotoSwipe
-lightbox.init();
+        lightbox.on('imageLoadComplete', (e) => {
+            console.log('图片加载完成:', e);
+        });
 
-// 添加图片加载事件，确保所有图片都有正确的数据属性
-lightbox.on('contentLoad', (e) => {
-  const content = e.content;
-  if (content.type === 'image') {
-    const imgElement = content.element.querySelector('img');
-    if (imgElement) {
-      // 确保图片有正确的尺寸数据
-      if (!content.data.width || !content.data.height) {
-        content.data.width = imgElement.getAttribute('width') || 1600;
-        content.data.height = imgElement.getAttribute('height') || 1200;
-      }
-    }
-  }
-});
-</script>
+        lightbox.on('error', (e) => {
+            console.error('PhotoSwipe 错误:', e);
+        });
+
+        lightbox.init();
+
+        console.log('PhotoSwipe 已初始化');
+    </script>
+</body>
+</html>
