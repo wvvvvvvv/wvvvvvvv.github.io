@@ -741,13 +741,26 @@ const lightbox = new PhotoSwipeLightbox({
   gallery: '#gallery--test-padding',
   children: 'a',
   pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
-  padding: { top: 5, bottom: 5, left: 5, right: 5 },
+  padding: { top: 20, bottom: 20, left: 20, right: 20 },
   close: false,
   zoom: false,
-  tapAction: 'close',
   
-  // 添加PhotoSwipe性能优化
-  showHideAnimationType: 'fade', // 使用淡入淡出动画，性能更好
+  // 修复：恢复正确的点击行为
+  tapAction: 'close',
+  bgClickAction: 'close',
+  tapToClose: true,
+  clickToCloseNonZoomable: true,
+  
+  // 修复：恢复平滑的动画
+  showHideAnimationType: 'zoom', // 改回 zoom 动画以获得更好的过渡效果
+  showAnimationDuration: 333,    // 打开动画时长
+  hideAnimationDuration: 333,    // 关闭动画时长 - 这个很重要！
+  zoomAnimationDuration: 333,    // 缩放动画时长
+  
+  // 背景透明度设置
+  bgOpacity: 0.8,
+  
+  // 性能优化配置
   getViewportSize: function(options) {
     return {
       x: document.documentElement.clientWidth,
@@ -755,34 +768,40 @@ const lightbox = new PhotoSwipeLightbox({
     };
   },
   
-  // 移动端优化配置
+  // 缩放配置
   initialZoomLevel: 'fit',
   secondaryZoomLevel: 2,
   maxZoomLevel: 4,
   minZoomLevel: 0.1,
   
-  // 动画优化
-  showAnimationDuration: 333,
-  hideAnimationDuration: 333,
-  zoomAnimationDuration: 333,
-  
-  // 手势优化
+  // 手势配置
   pinchToClose: true,
   closeOnVerticalDrag: true,
-  imageClickAction: 'close',
-  bgClickAction: 'close',
-  tapAction: 'close',
   doubleTapAction: 'zoom'
 });
 
-// 添加加载优化
-lightbox.on('firstUpdate', () => {
-  console.log('PhotoSwipe已就绪，移动端点击已优化');
+// 添加动画事件监听（用于调试）
+lightbox.on('beforeOpen', () => {
+  console.log('开始打开动画');
 });
 
-lightbox.on('beforeOpen', () => {
-  console.log('正在打开图片预览...');
+lightbox.on('afterOpen', () => {
+  console.log('打开动画完成');
+});
+
+lightbox.on('beforeClose', () => {
+  console.log('开始关闭动画');
+});
+
+lightbox.on('afterClose', () => {
+  console.log('关闭动画完成');
+});
+
+// 确保关闭时也有过渡
+lightbox.on('close', () => {
+  console.log('图片预览已关闭');
 });
 
 lightbox.init();
+console.log('PhotoSwipe已初始化，退出动画已恢复');
 </script>
