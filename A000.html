@@ -60,22 +60,22 @@
             max-width: 1200px;
         }
 
-        /* ====== 图片画廊样式（修正版本） ====== */
+        /* ====== 图片画廊样式（恢复原有间距） ====== */
         .image-gallery {
             position: relative;
             display: flex;
             flex-wrap: wrap;
-            margin-left: -2rem;
+            margin-left: -2rem;   /* 恢复左右负边距补偿 */
             margin-right: -2rem;
         }
 
         .image-gallery [image-gallery-pad] {
-            padding-left: 0.7rem;
+            padding-left: 0.7rem;   /* 恢复原有间距 */
             padding-right: 0.7rem;
             box-sizing: border-box;
         }
 
-        /* 控制上下间距 */
+        /* 控制上下间距（恢复原有设置） */
         .gallery_card {
             margin-bottom: 1.3rem;
             cursor: pointer;
@@ -161,34 +161,31 @@
 
                     <br><br>
 
-                    <!-- ====== 图片画廊区域 ====== -->
-                    <div class="image-gallery initialized" id="photoSwipeGallery">
-                        <!-- 示例图片项 - 请根据您的实际图片替换这些数据 -->
-                        <div class="gallery_card" style="width: 25%;">
-                            <div class="gallery_card_image scroll-transition-fade">
+                    <!-- ====== 图片画廊区域（恢复原有属性） ====== -->
+                    <div class="image-gallery initialized" image-gallery="justify" image-gallery-row image-gallery-pad="1" image-gallery-gutter="2" id="photoSwipeGallery">
+                        
+                        <!-- 恢复原有的图片结构和间距 -->
+                        <div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="0" data-width="24.509" data-row="1" style="width: 25.1339%;">
+                            <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%; transition-duration: initial;">
                                 <a href="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg"
                                    data-pswp-width="1600" 
-                                   data-pswp-height="2240"
-                                   data-cropped="true">
-                                    <img src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" 
-                                         alt="Restorative Topophilia">
+                                   data-pswp-height="2240">
+                                    <img data-gallery-item-index="0" data-gallery-uid="147" width="1600" height="2240" src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-src="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-mid="225397439" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom">
                                 </a>
                             </div>
                         </div>
 
-                        <div class="gallery_card" style="width: 25%;">
-                            <div class="gallery_card_image scroll-transition-fade">
+                        <div class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="1" data-width="27.45" data-row="1" style="width: 27.8667%;">
+                            <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%; transition-duration: initial;">
                                 <a href="https://freight.cargo.site/t/original/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg"
                                    data-pswp-width="1600" 
-                                   data-pswp-height="2000"
-                                   data-cropped="true">
-                                    <img src="//freight.cargo.site/w/600/q/75/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" 
-                                         alt="Restorative Topophilia">
+                                   data-pswp-height="2000">
+                                    <img data-gallery-item-index="1" data-gallery-uid="148" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" data-src="https://freight.cargo.site/t/original/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" data-mid="225397396" data-gallery-item="" data-elementresizer-no-resize="" data-elementresizer-no-centering="" data-elementresizer-no-vertical-resize="" class="image-zoom">
                                 </a>
                             </div>
                         </div>
 
-                        <!-- 在这里添加更多图片项... -->
+                        <!-- 在这里继续添加其他图片... -->
                         
                     </div>
 
@@ -281,16 +278,20 @@
             pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
             
             // 您的定制配置
-            close: false,
-            zoom: false,
-            tapAction: 'close',
-            padding: { top: 5, bottom: 5, left: 5, right: 5 },
+            close: false,       // 隐藏关闭按钮
+            zoom: false,        // 隐藏缩放按钮
+            tapAction: 'close', // 单击图片退出预览
+            padding: { top: 5, bottom: 5, left: 5, right: 5 }, // 灯箱内边距
             
-            // 确保图片正确加载的配置
-            imageClickAction: 'close',
-            doubleTapAction: 'zoom',
-            maxZoomLevel: 4,
-            initialZoomLevel: 'fit',
+            // 修复双击缩放功能
+            doubleTapAction: 'zoom', // 启用双击缩放
+            maxZoomLevel: 4,         // 最大缩放级别
+            minZoomLevel: 0.1,       // 最小缩放级别
+            initialZoomLevel: 'fit', // 初始缩放级别
+            
+            // 其他缩放相关配置
+            wheelToZoom: true,       // 启用滚轮缩放
+            pinchToClose: true,      // 捏合手势关闭
             
             // 错误处理
             errorMsg: '无法加载图片'
@@ -306,7 +307,11 @@
         });
 
         lightbox.on('imageLoadComplete', (e) => {
-            console.log('图片加载完成:', e);
+            console.log('图片加载完成');
+        });
+
+        lightbox.on('zoomPanUpdate', (e) => {
+            console.log('缩放状态:', e.slide.currZoomLevel);
         });
 
         lightbox.on('error', (e) => {
@@ -315,7 +320,7 @@
 
         lightbox.init();
 
-        console.log('PhotoSwipe 已初始化');
+        console.log('PhotoSwipe 已初始化，双击缩放功能已启用');
     </script>
 </body>
 </html>
