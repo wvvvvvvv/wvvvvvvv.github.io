@@ -227,7 +227,8 @@ document.addEventListener('DOMContentLoaded', function() {
     pswpModule: () => import('https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe.esm.min.js'),
     padding: { top: 20, bottom: 20, left: 20, right: 20 },
     imageClickAction: 'close',
-    tapAction: 'close'
+    tapAction: 'close',
+    showHideAnimationType: 'fade'  // 修改为fade动画以避免闪烁
   });
   lightbox.init();
 </script>
