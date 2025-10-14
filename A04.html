@@ -112,6 +112,39 @@
 .pswp__button--close {
   display: none !important;
 }
+
+/* ====== PhotoSwipe 加载指示器样式 ====== */
+.pswp__loading-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 1500;
+}
+
+.pswp__loading-indicator-line {
+    width: 40px;
+    height: 4px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 2px;
+    animation: pswpLoading 1s infinite;
+}
+
+@keyframes pswpLoading {
+    0% { transform: scaleX(0.3); }
+    50% { transform: scaleX(1); }
+    100% { transform: scaleX(0.3); }
+}
+
+/* 优化图片加载过渡 */
+.pswp__img {
+    transition: opacity 0.3s ease;
+}
+
+.pswp__img--placeholder {
+    background: #f5f5f5;
+}
 </style>
 
 <!-- PhotoSwipe CSS -->
@@ -165,14 +198,12 @@
 <script src="https://cdn.jsdelivr.net/npm/photoswipe@5/dist/umd/photoswipe.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/photoswipe@5/dist/umd/photoswipe-lightbox.umd.min.js"></script>
 
-<!-- ====== 滚动动画功能（替换为新版本） ====== -->
+<!-- ====== 优化后的 JavaScript 代码 ====== -->
 <script>
-// 滚动动画功能 - 只在向下滚动时触发，且可重复
 document.addEventListener('DOMContentLoaded', function() {
+    // 滚动动画功能
     const fadeElements = document.querySelectorAll('.scroll-transition-fade');
     let lastScrollTop = 0;
-    
-    // 记录元素上次触发动画时的位置
     const elementLastTriggerPos = new Map();
 
     function checkScroll() {
@@ -184,24 +215,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const elementTop = rect.top;
             const viewportHeight = window.innerHeight;
             
-            // 当元素进入视窗时显示（从底部进入视窗20%时触发）
             const triggerPoint = viewportHeight * 0.8;
             const isVisible = elementTop < triggerPoint && elementTop > 0;
             
-            // 获取元素上次触发动画时的滚动位置
             const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
             
             if (isScrollingDown && isVisible) {
-                // 只有在当前滚动位置比上次触发位置更靠下时才触发动画
                 if (scrollTop > lastTriggerPos) {
                     element.classList.remove('below-viewport');
                     elementLastTriggerPos.set(element, scrollTop);
                 }
             } else if (!isScrollingDown && !isVisible) {
-                // 向上滚动且元素离开视窗时，重新隐藏以便下次触发
                 if (elementTop > viewportHeight) {
                     element.classList.add('below-viewport');
-                    // 重置触发位置，允许下次向下滚动时重新触发
                     elementLastTriggerPos.set(element, 0);
                 }
             }
@@ -210,27 +236,87 @@ document.addEventListener('DOMContentLoaded', function() {
         lastScrollTop = scrollTop;
     }
 
-    // 使用防抖优化性能
     let scrollTimeout;
     function handleScroll() {
         if (scrollTimeout) {
             clearTimeout(scrollTimeout);
         }
-        scrollTimeout = setTimeout(checkScroll, 16); // 约60fps
+        scrollTimeout = setTimeout(checkScroll, 16);
     }
 
     window.addEventListener('scroll', handleScroll);
-    checkScroll(); // 初始检查
+    checkScroll();
 
-    // 初始化 PhotoSwipe
+    // 预加载前3张图片
+    function preloadFirstImages() {
+        const firstImages = document.querySelectorAll('.gallery_card a[href]');
+        for (let i = 0; i < Math.min(3, firstImages.length); i++) {
+            const img = new Image();
+            img.src = firstImages[i].href;
+        }
+    }
+    preloadFirstImages();
+
+    // 优化 PhotoSwipe 配置
     var lightbox = new PhotoSwipeLightbox({
-      gallery: '.image-gallery',
-      children: 'a',
-      pswpModule: PhotoSwipe,
-      imageClickAction: 'close',
-      tapAction: 'close',
-      padding: { top: 20, bottom: 20, left: 20, right: 20 }
+        gallery: '.image-gallery',
+        children: 'a',
+        pswpModule: PhotoSwipe,
+        
+        // 优化配置
+        preload: [1, 1], // 预加载前后各1张
+        bgOpacity: 0.95, // 提高背景透明度
+        showHideAnimationType: 'fade', // 使用淡入淡出动画
+        zoom: false, // 禁用缩放以提升性能
+        
+        // 图片加载策略
+        getViewportSizeFn: (options, pswp) => {
+            return {
+                x: document.documentElement.clientWidth,
+                y: document.documentElement.clientHeight,
+            };
+        },
+        
+        imageClickAction: 'close',
+        tapAction: 'close',
+        padding: { top: 20, bottom: 20, left: 20, right: 20 }
     });
+
+    // 添加加载状态监听
+    lightbox.on('uiRegister', function() {
+        lightbox.pswp.ui.registerElement({
+            name: 'loadingIndicator',
+            order: 999,
+            isButton: false,
+            appendTo: 'wrapper',
+            html: '<div class="pswp__loading-indicator"><div class="pswp__loading-indicator-line"></div></div>',
+            onInit: (el, pswp) => {
+                pswp.on('change', () => {
+                    // 图片切换时显示加载指示器
+                    el.style.display = 'block';
+                });
+                pswp.on('loadComplete', (e) => {
+                    // 图片加载完成隐藏指示器
+                    if (e.index === pswp.currIndex) {
+                        el.style.display = 'none';
+                    }
+                });
+                pswp.on('destroy', () => {
+                    el.style.display = 'none';
+                });
+            }
+        });
+    });
+
+    // 监听图片加载事件以优化体验
+    lightbox.on('loadComplete', (e) => {
+        console.log('图片加载完成:', e.index);
+    });
+
+    lightbox.on('beforeChange', (e) => {
+        console.log('开始切换图片:', e.currIndex, '->', e.nextIndex);
+    });
+
     lightbox.init();
 });
 </script>
