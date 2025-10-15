@@ -18,14 +18,17 @@
       margin: 0;
       font-family: "Poppins", sans-serif;
       overflow-y: auto;
+      /* 背景壁纸固定不动 */
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)),
+        url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
     }
 
-    /* 首页样式 - 恢复原来的暗色背景 */
+    /* 首页样式 */
     .home-section {
       height: 100vh;
-      background: 
-        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)),
-        url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover no-repeat;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -153,27 +156,29 @@
     /* 空白页面样式 */
     .blank-section {
       height: 100vh;
-      background: #f8f9fa;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      color: #333;
+      color: #fff;
       text-align: center;
       padding: 40px;
+      background: transparent;
     }
 
     .blank-title {
       font-size: 2.5em;
       margin-bottom: 20px;
-      color: #2c3e50;
+      color: #fff;
       font-weight: 300;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
     .blank-text {
       font-size: 1.2em;
       line-height: 1.6;
-      color: #666;
+      color: rgba(255,255,255,0.9);
+      text-shadow: 0 1px 5px rgba(0,0,0,0.3);
     }
   </style>
 </head>
@@ -195,7 +200,7 @@
   <!-- 空白页面 -->
   <section class="blank-section" id="blank-page">
     <h2 class="blank-title">空白页面</h2>
-    <p class="blank-text">这是一个空白页面，你可以在这里添加任何内容。</p>
+    <p class="blank-text">这是一个空白页面，背景壁纸保持固定不动</p>
   </section>
 
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
