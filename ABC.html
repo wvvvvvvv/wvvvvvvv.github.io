@@ -141,14 +141,14 @@ a.gallery_card {
 }
 
 /* 移动端响应式：基础调整 */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .custom-pswp .pswp__counter {
-    font-size: clamp(28px, 6vw, 44px) !important;  /* 响应式：最小28px，视口6%缩放，最大44px（更大一些） */
+    font-size: clamp(28px, 36vw, 85px) !important;  /* 响应式：最小28px，视口6%缩放，最大44px（更大一些） */
     padding: 12px 18px !important;  /* 增加内边距，让它更显眼 */
     border-radius: 6px !important;  /* 轻微圆角 */
   }
   .custom-pswp .pswp__top-bar {
-    padding: 20px !important;  /* 顶部栏整体增大 */
+    padding: 80px !important;  /* 顶部栏整体增大 */
     min-height: 60px !important;
   }
 }
@@ -156,7 +156,7 @@ a.gallery_card {
 /* 超小屏（如iPhone SE，<375px）强制优化 */
 @media (max-width: 375px) {
   .custom-pswp .pswp__counter {
-    font-size: 32px !important;  /* 窄屏更大 */
+    font-size: 82px !important;  /* 窄屏更大 */
     padding: 14px 20px !important;
   }
 }
@@ -164,7 +164,7 @@ a.gallery_card {
 /* 桌面端适中 */
 @media (min-width: 769px) {
   .custom-pswp .pswp__counter {
-    font-size: 18px !important;  /* 略微增大基础值 */
+    font-size: 20px !important;  /* 略微增大基础值 */
     padding: 8px 12px !important;
   }
 }
