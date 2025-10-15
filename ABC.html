@@ -4,6 +4,7 @@
 <!-- 添加 FastClick 库 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
 
+
 <style>
 /* ====== 原有的所有样式完全保持不变 ====== */
 .split-layout {
@@ -69,13 +70,6 @@
 .gallery_card {
   margin-bottom: 1.3rem;
   cursor: pointer;
-  touch-action: manipulation; /* 消除点击延迟 */
-  -webkit-tap-highlight-color: transparent; /* 移除点击高亮 */
-  -webkit-touch-callout: none; /* 禁用长按菜单 */
-  user-select: none; /* 防止文本选择 */
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE/Edge */
 }
 
 .gallery_card_image {
@@ -90,7 +84,6 @@
   display: block;
   object-fit: cover;
   transition: opacity 0.6s ease, transform 0.6s ease;
-  pointer-events: none; /* 防止图片自身的事件干扰 */
 }
 
 .scroll-transition-fade {
@@ -108,6 +101,126 @@
   }
 }
 
+/* ====== 只添加这一个样式来隐藏PhotoSwipe按钮 ====== */
+.pswp__button--zoom,
+.pswp__button--close {
+  display: none !important;
+}
+  
+  
+  
+  
+  
+/* ====== 原有的所有样式完全保持不变 ====== */
+.split-layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.split-layout .left-panel {
+  width: 26%;
+  background-color: #f9f9f9;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.split-layout .right-panel {
+  flex: 1;
+  padding: 5.8rem 4.5rem;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1024px) {
+  .split-layout {
+    flex-direction: column;
+  }
+  .split-layout .left-panel {
+    width: 100%;
+    height: auto;
+    padding: 2rem 2.5rem;
+  }
+  .split-layout .right-panel {
+    padding: 3.5rem 2rem;
+  }
+}
+
+.content_padding {
+  padding-top: 5.8rem;
+  padding-left: 4.5rem;
+  padding-right: 4.5rem;
+  padding-bottom: 4rem;
+}
+
+.page_content {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.image-gallery {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -2rem;
+  margin-right: -2rem;
+}
+
+.image-gallery [image-gallery-pad] {
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+  box-sizing: border-box;
+}
+
+.gallery_card {
+  margin-bottom: 1.3rem;
+}
+
+.gallery_card_image {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.gallery_card_image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-transition-fade {
+    transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
+}
+
+.scroll-transition-fade.below-viewport {
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+@media (max-width: 768px) {
+  .image-gallery [image-gallery-pad] {
+    padding: 1.25rem;
+  }
+}
+
+/* ====== 新增：移动端点击优化样式 ====== */
+.gallery_card {
+  cursor: pointer;
+  touch-action: manipulation; /* 消除点击延迟 */
+  -webkit-tap-highlight-color: transparent; /* 移除点击高亮 */
+  -webkit-touch-callout: none; /* 禁用长按菜单 */
+  user-select: none; /* 防止文本选择 */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE/Edge */
+}
+
+.gallery_card_image img {
+  pointer-events: none; /* 防止图片自身的事件干扰 */
+}
+
 /* 确保链接元素也有触摸优化 */
 a.gallery_card {
   text-decoration: none; /* 移除链接下划线 */
@@ -120,54 +233,38 @@ a.gallery_card {
 .pswp__button--close {
   display: none !important;
 }
-
-/* ====== 修复PhotoSwipe计数器字体大小（响应式 + 高优先级版） ====== */
-.custom-pswp .pswp__counter {
-  font-size: 16px !important;  /* 基础大小 */
-  font-weight: 500 !important;
+  
+  
+/* ====== 修复移动端图片计数太小的问题 ====== */
+.pswp__counter {
+  font-size: 16px !important;
+  font-weight: 500;
   color: #fff !important;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
-  line-height: 1.2 !important;  /* 改善行高 */
-  min-width: 50px !important;  /* 最小宽度 */
-  text-align: center !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;  /* 现代字体，提升移动端清晰度 */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
-/* 确保top-bar不压缩计数器 */
-.custom-pswp .pswp__top-bar {
-  padding: 10px !important;
-  background: rgba(0,0,0,0.5) !important;  /* 半透明背景，提升可读性 */
-  min-height: 50px !important;  /* 最小高度，防压缩 */
-}
-
-/* 移动端响应式：基础调整 */
-@media (max-width: 1024px) {
-  .custom-pswp .pswp__counter {
-    font-size: clamp(585px, 36vw, 585px) !important;  /* 响应式：最小28px，视口6%缩放，最大44px（更大一些） */
-    padding: 12px 18px !important;  /* 增加内边距，让它更显眼 */
-    border-radius: 6px !important;  /* 轻微圆角 */
-  }
-  .custom-pswp .pswp__top-bar {
-    padding: 80px !important;  /* 顶部栏整体增大 */
-    min-height: 60px !important;
-  }
-}
-
-/* 超小屏（如iPhone SE，<375px）强制优化 */
-@media (max-width: 375px) {
-  .custom-pswp .pswp__counter {
-    font-size: 585px !important;  /* 窄屏更大 */
-    padding: 14px 20px !important;
-  }
-}
-
-/* 桌面端适中 */
-@media (min-width: 769px) {
-  .custom-pswp .pswp__counter {
-    font-size: 20px !important;  /* 略微增大基础值 */
+/* 移动端调整计数器大小 */
+@media (max-width: 768px) {
+  .pswp__counter {
+    font-size: 850px !important; /* 移动端更大 */
     padding: 8px 12px !important;
   }
 }
+
+/* 桌面端保持适中大小 */
+@media (min-width: 769px) {
+  .pswp__counter {
+    font-size: 16px !important;
+    padding: 6px 10px !important;
+  }
+}
+
+/* 确保计数器位置正确 */
+.pswp__top-bar {
+  padding: 10px !important;
+}
+
+
 </style>
 
 <!-- ================= 页面主体结构 ================= -->
@@ -200,7 +297,6 @@ a.gallery_card {
         </h2>
 
         <br><br>
-
 
 <!-- ====== 图片画廊区域 ====== -->
 <div class="image-gallery initialized" image-gallery="justify" image-gallery-row image-gallery-pad="1" image-gallery-gutter="2" id="gallery--test-padding">
@@ -610,28 +706,6 @@ a.gallery_card {
     </div>
 </div>
 
-<!-- PhotoSwipe 容器 -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="pswp__bg"></div>
-    <div class="pswp__scroll-wrap">
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <div class="pswp__counter"></div>
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- ====== 滚动动画功能 ====== -->
 <script>
 // 初始化FastClick来消除移动端点击延迟
@@ -701,9 +775,6 @@ const lightbox = new PhotoSwipeLightbox({
   padding: { top: 20, bottom: 20, left: 20, right: 20 },
   close: false,
   zoom: false,
-  
-  // 新增：添加自定义类，便于隔离样式
-  mainClass: 'custom-pswp',
   
   // 修复：正确的点击行为配置
   // 单击图片区域关闭预览（无论是否缩放）
