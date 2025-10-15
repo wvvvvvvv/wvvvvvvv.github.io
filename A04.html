@@ -250,16 +250,35 @@ a.gallery_card {
 
 
 
-/* 确保计数器位置正确且在最上层 */
+/* ====== 修复移动端图片计数太小的问题 - 优化版 ====== */
+.pswp__counter {
+  font-size: 35px !important;
+  font-weight: 600 !important;
+  color: #fff !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0) !important;
+  background: rgba(0,0,0,0) !important;
+  padding: 10px 16px !important;
+  border-radius: 20px !important;
+  backdrop-filter: blur(10px) !important;
+  transition: all 0.3s ease !important;
+}
+
+
+
+/* ====== 使用绝对定位精确控制位置 ====== */
 .pswp__top-bar {
-  padding: 15px !important;
   position: relative !important;
   z-index: 9999 !important;
+  padding: 0 !important;  /* 移除内边距，用绝对定位控制 */
+  height: auto !important;
 }
 
 .pswp__counter {
-  position: relative !important;
+  position: absolute !important;
+  top: 15px !important;    /* 距离顶部15px */
+  left: 5px !important;   /* 距离左边15px */
   z-index: 10000 !important;
+  margin: 0 !important;    /* 移除所有外边距 */
 }
 
 
