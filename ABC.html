@@ -127,8 +127,8 @@ a.gallery_card {
   font-weight: 500 !important;
   color: #fff !important;
   text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
-  line-height: 1.2 !important;  /* 改善行高 */
-  min-width: 50px !important;  /* 最小宽度 */
+  line-height: 2.2 !important;  /* 改善行高 */
+  min-width: 450px !important;  /* 最小宽度 */
   text-align: center !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;  /* 现代字体，提升移动端清晰度 */
 }
@@ -143,20 +143,20 @@ a.gallery_card {
 /* 移动端响应式：基础调整 */
 @media (max-width: 768px) {
   .custom-pswp .pswp__counter {
-    font-size: clamp(950px, 6vw, 1000px) !important;  /* 响应式：最小28px，视口6%缩放，最大44px（更大一些） */
+    font-size: clamp(3950px, 6vw, 4000px) !important;  /* 响应式：最小28px，视口6%缩放，最大44px（更大一些） */
     padding: 12px 18px !important;  /* 增加内边距，让它更显眼 */
     border-radius: 6px !important;  /* 轻微圆角 */
   }
   .custom-pswp .pswp__top-bar {
-    padding: 20px !important;  /* 顶部栏整体增大 */
-    min-height: 60px !important;
+    padding: 80px !important;  /* 顶部栏整体增大 */
+    min-height: 120px !important;
   }
 }
 
 /* 超小屏（如iPhone SE，<375px）强制优化 */
 @media (max-width: 375px) {
   .custom-pswp .pswp__counter {
-    font-size: 1000px !important;  /* 窄屏更大 */
+    font-size: 4000px !important;  /* 窄屏更大 */
     padding: 14px 20px !important;
   }
 }
