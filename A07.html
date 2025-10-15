@@ -42,7 +42,17 @@
 .pswp--zoomed-in .pswp__img:active {
   cursor: grabbing !important;
 }
-  
+ 
+  /* 修复计数器位置 */
+.pswp__counter {
+  position: absolute !important;
+  top: 15px !important;
+  left: 15px !important;
+  z-index: 10000 !important;
+  font-size: 35px !important;
+  font-weight: 600 !important;
+  color: #fff !important;
+} 
   
   
 /* ====== 原有的所有样式完全保持不变 ====== */
@@ -207,13 +217,7 @@ a.gallery_card {
   height: auto !important;
 }
 
-.pswp__counter {
-  position: absolute !important;
-  top: 15px !important;    /* 距离顶部15px */
-  left: 5px !important;   /* 距离左边15px */
-  z-index: 10000 !important;
-  margin: 0 !important;    /* 移除所有外边距 */
-}
+
 
 
 </style>
