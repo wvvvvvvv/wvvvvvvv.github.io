@@ -1,4 +1,5 @@
-
+<!-- 在页面末尾添加 PhotoSwipe 的 CSS -->
+<link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
 
 <!-- 添加 FastClick 库 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
@@ -234,33 +235,66 @@ a.gallery_card {
 }
   
   
-/* ====== 修复移动端图片计数太小的问题 ====== */
-
-/* 更强的选择器来覆盖PhotoSwipe默认样式 */
-.pswp .pswp__top-bar .pswp__counter {
+/* ====== 修复移动端图片计数太小的问题 - 优化版 ====== */
+.pswp__counter {
   font-size: 18px !important;
   font-weight: 600 !important;
-  color: #ffffff !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  padding: 10px 15px !important;
-  line-height: 1.3 !important;
+  color: #fff !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8) !important;
+  background: rgba(0,0,0,0.5) !important;
+  padding: 10px 16px !important;
+  border-radius: 20px !important;
+  backdrop-filter: blur(10px) !important;
+  transition: all 0.3s ease !important;
 }
 
-@media (max-width: 768px) {
+/* 平板设备 */
+@media (max-width: 1024px) {
   .pswp__counter {
-    font-size: clamp(20px, 6vw, 42px) !important;
-    padding: 10px 16px !important;
+    font-size: 86px !important;
+    padding: 12px 18px !important;
+    border-radius: 22px !important;
   }
 }
 
-/* 确保工具栏显示 */
+/* 移动端调整计数器大小 */
+@media (max-width: 768px) {
+  .pswp__counter {
+    font-size: 86px !important;
+    padding: 14px 20px !important;
+    border-radius: 25px !important;
+    font-weight: 700 !important;
+  }
+}
+
+/* 小屏手机 */
+@media (max-width: 480px) {
+  .pswp__counter {
+    font-size: 86px !important;
+    padding: 16px 22px !important;
+    border-radius: 28px !important;
+    margin: 10px !important;
+  }
+}
+
+/* 超小屏手机 */
+@media (max-width: 375px) {
+  .pswp__counter {
+    font-size: 86px !important;
+    padding: 18px 24px !important;
+  }
+}
+
+/* 确保计数器位置正确且在最上层 */
 .pswp__top-bar {
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: flex !important;
-  align-items: center !important;
-  min-height: 60px !important;
+  padding: 15px !important;
+  position: relative !important;
+  z-index: 9999 !important;
+}
+
+.pswp__counter {
+  position: relative !important;
+  z-index: 10000 !important;
 }
 
 
@@ -796,7 +830,7 @@ const lightbox = new PhotoSwipeLightbox({
   zoomAnimationDuration: 333,
   
   // 背景透明度设置
-  bgOpacity: 0.8,
+  bgOpacity: 1,
   
   // 性能优化配置
   getViewportSize: function(options) {
@@ -832,5 +866,3 @@ lightbox.on('bindEvents', () => {
 lightbox.init();
 console.log('PhotoSwipe已初始化：单击图片关闭，双击图片缩放');
 </script>
-<!-- 在页面末尾添加 PhotoSwipe 的 CSS -->
-<link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
