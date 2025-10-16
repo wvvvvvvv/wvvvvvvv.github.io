@@ -1,170 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>图片画廊</title>
+  <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
 
-<link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
+  <style>
+    .split-layout {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      min-height: 100vh;
+    }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+    .split-layout .left-panel {
+      width: 26%;
+      background-color: #f9f9f9;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
 
+    .split-layout .right-panel {
+      flex: 1;
+      padding: 5.8rem 4.5rem;
+      box-sizing: border-box;
+    }
 
+    @media screen and (max-width: 1024px) {
+      .split-layout {
+        flex-direction: column;
+      }
+      .split-layout .left-panel {
+        width: 100%;
+        height: auto;
+        padding: 2rem 2.5rem;
+      }
+      .split-layout .right-panel {
+        padding: 3.5rem 2rem;
+      }
+    }
 
+    .content_padding {
+      padding-top: 5.8rem;
+      padding-left: 4.5rem;
+      padding-right: 4.5rem;
+      padding-bottom: 4rem;
+    }
 
-<style>
-/* ====== 原有的所有样式完全保持不变 ====== */
-.split-layout {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  min-height: 100vh;
-}
+    .page_content {
+      margin: 0 auto;
+      max-width: 1200px;
+    }
 
-.split-layout .left-panel {
-  width: 26%;
-  background-color: #f9f9f9;
-  padding: 2rem;
-  box-sizing: border-box;
-}
+    .image-gallery {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: -2rem;
+      margin-right: -2rem;
+    }
 
-.split-layout .right-panel {
-  flex: 1;
-  padding: 5.8rem 4.5rem;
-  box-sizing: border-box;
-}
+    .image-gallery [image-gallery-pad] {
+      padding-left: 0.7rem;
+      padding-right: 0.7rem;
+      box-sizing: border-box;
+    }
 
-@media screen and (max-width: 1024px) {
-  .split-layout {
-    flex-direction: column;
-  }
-  .split-layout .left-panel {
-    width: 100%;
-    height: auto;
-    padding: 2rem 2.5rem;
-  }
-  .split-layout .right-panel {
-    padding: 3.5rem 2rem;
-  }
-}
+    .gallery_card {
+      margin-bottom: 1.3rem;
+      cursor: pointer;
+    }
 
-.content_padding {
-  padding-top: 5.8rem;
-  padding-left: 4.5rem;
-  padding-right: 4.5rem;
-  padding-bottom: 4rem;
-}
+    .gallery_card_image {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
 
-.page_content {
-  margin: 0 auto;
-  max-width: 1200px;
-}
+    .gallery_card_image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
 
-.image-gallery {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: -2rem;
-  margin-right: -2rem;
-}
+    .scroll-transition-fade {
+        transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
+    }
 
-.image-gallery [image-gallery-pad] {
-  padding-left: 0.7rem;
-  padding-right: 0.7rem;
-  box-sizing: border-box;
-}
+    .scroll-transition-fade.below-viewport {
+        opacity: 0;
+        transform: translateY(40px);
+    }
 
-.gallery_card {
-  margin-bottom: 1.3rem;
-}
+    @media (max-width: 768px) {
+      .image-gallery [image-gallery-pad] {
+        padding: 1.25rem;
+      }
+    }
 
-.gallery_card_image {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
+    .pswp__button--zoom,
+    .pswp__button--close {
+      display: none !important;
+    }
+  </style>
+</head>
 
-.gallery_card_image img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
+<body>
+  <!-- ================= 页面主体结构 ================= -->
+  <div class="split-layout split-responsive">
+    <!-- 左侧导航栏区域（留空） -->
+    <div class="left-panel"></div>
 
-.scroll-transition-fade {
-    transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
-}
-
-.scroll-transition-fade.below-viewport {
-    opacity: 0;
-    transform: translateY(40px);
-}
-
-@media (max-width: 768px) {
-  .image-gallery [image-gallery-pad] {
-    padding: 1.25rem;
-  }
-}
-
-/* ====== 新增：移动端点击优化样式 ====== */
-.gallery_card {
-  cursor: pointer;
-  touch-action: manipulation; /* 消除点击延迟 */
-  -webkit-tap-highlight-color: transparent; /* 移除点击高亮 */
-  -webkit-touch-callout: none; /* 禁用长按菜单 */
-  user-select: none; /* 防止文本选择 */
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE/Edge */
-}
-
-.gallery_card_image img {
-  pointer-events: none; /* 防止图片自身的事件干扰 */
-}
-
-/* 确保链接元素也有触摸优化 */
-a.gallery_card {
-  text-decoration: none; /* 移除链接下划线 */
-  color: inherit; /* 继承文字颜色 */
-  outline: none; /* 移除焦点轮廓 */
-}
-
-/* 隐藏PhotoSwipe按钮 */
-.pswp__button--zoom,
-.pswp__button--close {
-  display: none !important;
-}
-</style>
-
-
-
-</style>
-
-<!-- ================= 页面主体结构 ================= -->
-<div class="split-layout split-responsive">
-  <!-- 左侧导航栏区域（留空） -->
-  <div class="left-panel"></div>
-
-  <!-- 右侧主要内容 -->
-  <div class="right-panel">
-    <bodycopy class="bodycopy content content_padding">
-      <div class="page_content clearfix" data-elementresizer data-resize-parent data-ce-host="true" data-resize-model-id="37160823">
-        <div style="text-align: right;">
-          <br><br>
-          <span style="color: #f00;">
-            <ul>
-              <li>
-                <i><b><small><span style="color: #f00;"><i>Restorative Topophilia</i></span></small></b></i>
-              </li>
-              <li>
-                <i style="font-size: 1.5rem;"><b><small><span style="color: #f00;"><i>这片土地使我痊愈</i></span></small></b></i>
-              </li>
-            </ul>
-          </span>
-        </div>
-
-        <h2>
-          <div grid-row grid-pad="4" grid-gutter="8" grid-responsive>
-            <div grid-col="6" grid-pad="4" class=""><br></div>
+    <!-- 右侧主要内容 -->
+    <div class="right-panel">
+      <bodycopy class="bodycopy content content_padding">
+        <div class="page_content clearfix" data-elementresizer data-resize-parent data-ce-host="true" data-resize-model-id="37160823">
+          <div style="text-align: right;">
+            <br><br>
+            <span style="color: #f00;">
+              <ul>
+                <li>
+                  <i><b><small><span style="color: #f00;"><i>Restorative Topophilia</i></span></small></b></i>
+                </li>
+                <li>
+                  <i style="font-size: 1.5rem;"><b><small><span style="color: #f00;"><i>这片土地使我痊愈</i></span></small></b></i>
+                </li>
+              </ul>
+            </span>
           </div>
-        </h2>
 
-        <br><br>
+          <h2>
+            <div grid-row grid-pad="4" grid-gutter="8" grid-responsive>
+              <div grid-col="6" grid-pad="4" class=""><br></div>
+            </div>
+          </h2>
+
+          <br><br>
 
 <!-- ====== 图片画廊区域 - 全部43张图片已修改为PhotoSwipe能识别的结构 ====== -->
 <div class="image-gallery initialized" image-gallery="justify" image-gallery-row image-gallery-pad="1" image-gallery-gutter="2" id="gallery--test-padding">
@@ -544,188 +518,94 @@ a.gallery_card {
 
 </div>
 
-<!-- PhotoSwipe 容器 -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="pswp__bg"></div>
-    <div class="pswp__scroll-wrap">
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <div class="pswp__counter"></div>
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>
-        
-        
-<!-- ====== 滚动动画功能 ====== -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const fadeElements = document.querySelectorAll('.scroll-transition-fade');
-    let lastScrollTop = 0;
-    
-    const elementLastTriggerPos = new Map();
+  <!-- PhotoSwipe 容器 -->
+  <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="pswp__bg"></div>
+      <div class="pswp__scroll-wrap">
+          <div class="pswp__container">
+              <div class="pswp__item"></div>
+              <div class="pswp__item"></div>
+              <div class="pswp__item"></div>
+          </div>
+          <div class="pswp__ui pswp__ui--hidden">
+              <div class="pswp__top-bar">
+                  <div class="pswp__counter"></div>
+              </div>
+              <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+              <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+              <div class="pswp__caption">
+                  <div class="pswp__caption__center"></div>
+              </div>
+          </div>
+      </div>
+  </div>
 
-    function checkScroll() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const isScrollingDown = scrollTop > lastScrollTop;
-        
-        fadeElements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            const elementTop = rect.top;
-            const viewportHeight = window.innerHeight;
-            
-            const triggerPoint = viewportHeight * 0.8;
-            const isVisible = elementTop < triggerPoint && elementTop > 0;
-            
-            const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
-            
-            if (isScrollingDown && isVisible) {
-                if (scrollTop > lastTriggerPos) {
-                    element.classList.remove('below-viewport');
-                    elementLastTriggerPos.set(element, scrollTop);
-                }
-            } else if (!isScrollingDown && !isVisible) {
-                if (elementTop > viewportHeight) {
-                    element.classList.add('below-viewport');
-                    elementLastTriggerPos.set(element, 0);
-                }
-            }
-        });
-        
-        lastScrollTop = scrollTop;
-    }
+  <!-- ====== 滚动动画功能 ====== -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const fadeElements = document.querySelectorAll('.scroll-transition-fade');
+      let lastScrollTop = 0;
+      
+      const elementLastTriggerPos = new Map();
 
-    let scrollTimeout;
-    function handleScroll() {
-        if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
-        }
-        scrollTimeout = setTimeout(checkScroll, 16);
-    }
+      function checkScroll() {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const isScrollingDown = scrollTop > lastScrollTop;
+          
+          fadeElements.forEach(element => {
+              const rect = element.getBoundingClientRect();
+              const elementTop = rect.top;
+              const viewportHeight = window.innerHeight;
+              
+              const triggerPoint = viewportHeight * 0.8;
+              const isVisible = elementTop < triggerPoint && elementTop > 0;
+              
+              const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
+              
+              if (isScrollingDown && isVisible) {
+                  if (scrollTop > lastTriggerPos) {
+                      element.classList.remove('below-viewport');
+                      elementLastTriggerPos.set(element, scrollTop);
+                  }
+              } else if (!isScrollingDown && !isVisible) {
+                  if (elementTop > viewportHeight) {
+                      element.classList.add('below-viewport');
+                      elementLastTriggerPos.set(element, 0);
+                  }
+              }
+          });
+          
+          lastScrollTop = scrollTop;
+      }
 
-    window.addEventListener('scroll', handleScroll);
-    checkScroll();
-});
-</script>
+      let scrollTimeout;
+      function handleScroll() {
+          if (scrollTimeout) {
+              clearTimeout(scrollTimeout);
+          }
+          scrollTimeout = setTimeout(checkScroll, 16);
+      }
 
-<!-- ====== 滚动动画功能 ====== -->
-<script>
-// 初始化FastClick来消除移动端点击延迟
-document.addEventListener('DOMContentLoaded', function() {
-    // 初始化 FastClick
-    if ('addEventListener' in document && FastClick) {
-        FastClick.attach(document.body);
-    }
-    
-    // 原有的滚动动画代码
-    const fadeElements = document.querySelectorAll('.scroll-transition-fade');
-    let lastScrollTop = 0;
-    
-    const elementLastTriggerPos = new Map();
+      window.addEventListener('scroll', handleScroll);
+      checkScroll();
+  });
+  </script>
 
-    function checkScroll() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const isScrollingDown = scrollTop > lastScrollTop;
-        
-        fadeElements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            const elementTop = rect.top;
-            const viewportHeight = window.innerHeight;
-            
-            const triggerPoint = viewportHeight * 0.8;
-            const isVisible = elementTop < triggerPoint && elementTop > 0;
-            
-            const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
-            
-            if (isScrollingDown && isVisible) {
-                if (scrollTop > lastTriggerPos) {
-                    element.classList.remove('below-viewport');
-                    elementLastTriggerPos.set(element, scrollTop);
-                }
-            } else if (!isScrollingDown && !isVisible) {
-                if (elementTop > viewportHeight) {
-                    element.classList.add('below-viewport');
-                    elementLastTriggerPos.set(element, 0);
-                }
-            }
-        });
-        
-        lastScrollTop = scrollTop;
-    }
+  <!-- ====== PhotoSwipe 初始化 ====== -->
+  <script type="module">
+  import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
 
-    let scrollTimeout;
-    function handleScroll() {
-        if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
-        }
-        scrollTimeout = setTimeout(checkScroll, 16);
-    }
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: '#gallery--test-padding',
+    children: 'a',
+    pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
+    padding: { top: 5, bottom: 5, left: 5, right: 5 },
+    close: false,
+    zoom: false,
+    tapAction: 'close'
+  });
 
-    window.addEventListener('scroll', handleScroll);
-    checkScroll();
-});
-</script>
-
-<!-- ====== PhotoSwipe 初始化（优化版本） ====== -->
-<script type="module">
-import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
-
-const lightbox = new PhotoSwipeLightbox({
-  gallery: '#gallery--test-padding',
-  children: 'a',
-  pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
-  padding: { top: 5, bottom: 5, left: 5, right: 5 },
-  close: false,
-  zoom: false,
-  tapAction: 'close',
-  
-  // 添加PhotoSwipe性能优化
-  showHideAnimationType: 'fade', // 使用淡入淡出动画，性能更好
-  getViewportSize: function(options) {
-    return {
-      x: document.documentElement.clientWidth,
-      y: document.documentElement.clientHeight
-    };
-  },
-  
-  // 移动端优化配置
-  initialZoomLevel: 'fit',
-  secondaryZoomLevel: 2,
-  maxZoomLevel: 4,
-  minZoomLevel: 0.1,
-  
-  // 动画优化
-  showAnimationDuration: 333,
-  hideAnimationDuration: 333,
-  zoomAnimationDuration: 333,
-  
-  // 手势优化
-  pinchToClose: true,
-  closeOnVerticalDrag: true,
-  imageClickAction: 'close',
-  bgClickAction: 'close',
-  tapAction: 'close',
-  doubleTapAction: 'zoom'
-});
-
-// 添加加载优化
-lightbox.on('firstUpdate', () => {
-  console.log('PhotoSwipe已就绪，移动端点击已优化');
-});
-
-lightbox.on('beforeOpen', () => {
-  console.log('正在打开图片预览...');
-});
-
-lightbox.init();
-</script>
+  lightbox.init();
+  </script>
+</body>
+</html>
