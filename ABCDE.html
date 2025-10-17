@@ -1,13 +1,11 @@
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
-  
+
 <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
 
 
 <style>
+
 .split-layout {
   display: flex;
   flex-direction: row;
@@ -101,7 +99,7 @@
   }
 }
 
-/* ====== 新增：移动端点击优化样式 ====== */
+  
 .gallery_card {
   cursor: pointer;
   touch-action: manipulation; /* 消除点击延迟 */
@@ -117,37 +115,58 @@
   pointer-events: none; /* 防止图片自身的事件干扰 */
 }
 
-    /* 新增：灯箱计数器移动端适配 */
-    @media screen and (max-width: 768px) {
-      .pswp__counter {
-        font-size: 16px !important;
-        font-weight: 600 !important;
-        padding: 8px 15px !important;
-        background: rgba(0, 0, 0, 0.6) !important;
-        border-radius: 15px !important;
-      }
-      
-      .pswp__top-bar {
-        padding-top: env(safe-area-inset-top, 10px) !important;
-        padding-left: 15px !important;
-        padding-right: 15px !important;
-      }
-    }
-    
-    /* 通用计数器样式 */
-    .pswp__counter {
-      font-size: 14px;
-      font-weight: 500;
-      color: #fff;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-      padding: 6px 12px;
-      border-radius: 12px;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-    </style>
-</head>
+/* 确保链接元素也有触摸优化 */
+a.gallery_card {
+  text-decoration: none; /* 移除链接下划线 */
+  color: inherit; /* 继承文字颜色 */
+  outline: none; /* 移除焦点轮廓 */
+}
+
+
+/* 默认字体：桌面端稍微缩小 */
+.pswp__counter {
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  color: #fff !important;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6) !important;
+  top: 12px !important;
+  left: 12px !important;
+  right: auto !important;
+  bottom: auto !important;
+  position: absolute !important;
+}
+
+/* 移动端再小一点 */
+@media (max-width: 768px) {
+  .pswp__counter {
+    font-size: 30px !important;
+    top: 10px !important;
+    left: 8px !important;
+  }
+}
+
+
+
+/* ====== 使用绝对定位精确控制位置 ====== */
+.pswp__top-bar {
+  position: relative !important;
+  z-index: 9999 !important;
+  padding: 0 !important;  /* 移除内边距，用绝对定位控制 */
+  height: auto !important;
+}
+
+.pswp__counter {
+  position: absolute !important;
+  top: 15px !important;    /* 距离顶部15px */
+  left: 5px !important;   /* 距离左边15px */
+  z-index: 10000 !important;
+  margin: 0 !important;    /* 移除所有外边距 */
+}
+
+</style>
+
+
+
 
 <!-- ================= 页面主体结构 ================= -->
 <div class="split-layout split-responsive">
@@ -646,7 +665,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- ====== PhotoSwipe 初始化====== -->
+<!-- ====== PhotoSwipe 初始化 ====== -->
 <script type="module">
 import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
 
@@ -658,32 +677,48 @@ const lightbox = new PhotoSwipeLightbox({
   close: false,
   zoom: false,
   
-
+  // 修复：正确的点击行为配置
+  // 单击图片区域关闭预览（无论是否缩放）
   imageClickAction: 'close',
+  // 单击背景关闭预览
   bgClickAction: 'close',
+  // 点击非缩放区域关闭
   clickToCloseNonZoomable: true,
+  // 触摸动作
   tapAction: 'close',
   tapToClose: true,
+  
+  // 双击行为：双击缩放
   doubleTapAction: 'zoom',
+  
+  // 修复：恢复平滑的动画
   showHideAnimationType: 'zoom',
   showAnimationDuration: 333,
   hideAnimationDuration: 333,
   zoomAnimationDuration: 333,
+  
+  // 背景透明度设置
   bgOpacity: 1,
   
+  // 性能优化配置
   getViewportSize: function(options) {
     return {
       x: document.documentElement.clientWidth,
       y: document.documentElement.clientHeight
     };
   },
+  
+  // 缩放配置
   initialZoomLevel: 'fit',
   secondaryZoomLevel: 2,
   maxZoomLevel: 4,
   minZoomLevel: 0.1,
+  
+  // 手势配置
   pinchToClose: true,
   closeOnVerticalDrag: true
 });
+
 
 lightbox.on('beforeOpen', () => {
   const isMobile = window.innerWidth <= 768;
