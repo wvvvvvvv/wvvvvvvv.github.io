@@ -695,11 +695,7 @@ const lightbox = new PhotoSwipeLightbox({
   closeOnVerticalDrag: true
 });
 
-// 添加设备检测和自定义行为
-lightbox.on('beforeOpen', () => {
-  const isMobile = window.innerWidth <= 768;
-  console.log('设备类型:', isMobile ? '移动端' : '桌面端');
-});
+
 
 // 监听图片点击事件，确保关闭行为
 lightbox.on('bindEvents', () => {
