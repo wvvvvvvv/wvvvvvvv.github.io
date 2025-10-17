@@ -142,6 +142,41 @@ a.gallery_card {
   display: none !important;
 }
   
+  
+/* ====== 修改：使用上面代码的灯箱计数样式 ====== */
+.pswp__counter {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #fff !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+  padding: 10px 15px !important;
+}
+
+/* ====== 修改：使用上面代码的顶部工具栏样式 ====== */
+.pswp__top-bar {
+  background: rgba(0,0,0,0.3) !important;
+  height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  position: relative !important;
+  z-index: 9999 !important;
+  padding: 0 !important;
+}
+
+/* ====== 修改：移除绝对定位，使用默认布局 ====== */
+.pswp__counter {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  margin: 0 !important;
+  background: none !important;
+  backdrop-filter: none !important;
+  border-radius: 0 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+
 </style>
 
 <!-- ================= 页面主体结构 ================= -->
@@ -695,7 +730,11 @@ const lightbox = new PhotoSwipeLightbox({
   closeOnVerticalDrag: true
 });
 
-
+// 添加设备检测和自定义行为
+lightbox.on('beforeOpen', () => {
+  const isMobile = window.innerWidth <= 768;
+  console.log('设备类型:', isMobile ? '移动端' : '桌面端');
+});
 
 // 监听图片点击事件，确保关闭行为
 lightbox.on('bindEvents', () => {
