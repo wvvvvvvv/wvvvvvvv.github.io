@@ -119,10 +119,8 @@
 <body>
 <!-- ================= 页面主体结构 ================= -->
 <div class="split-layout split-responsive">
-  <!-- 左侧导航栏区域（留空） -->
   <div class="left-panel"></div>
 
-  <!-- 右侧主要内容 -->
   <div class="right-panel">
     <bodycopy class="bodycopy content content_padding">
       <div class="page_content clearfix" data-elementresizer data-resize-parent data-ce-host="true" data-resize-model-id="37160823">
@@ -543,12 +541,18 @@
             <div class="pswp__item"></div>
             <div class="pswp__item"></div>
         </div>
+
+        <!-- ✅ 已替换：灯箱计数器部分 -->
         <div class="pswp__ui pswp__ui--hidden">
             <div class="pswp__top-bar">
-                <div class="pswp__counter"></div>
+                <div class="pswp__counter" style="position:absolute; left:12px; top:12px; font-size:14px; color:#fff; font-family:Arial, sans-serif; letter-spacing:0.5px;">
+                    <!-- PhotoSwipe 会自动填充 “1 / N” -->
+                </div>
             </div>
+
             <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
             <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+
             <div class="pswp__caption">
                 <div class="pswp__caption__center"></div>
             </div>
@@ -556,12 +560,11 @@
     </div>
 </div>
 
-<!-- ====== 滚动动画功能 ====== -->
+<!-- 滚动动画 -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const fadeElements = document.querySelectorAll('.scroll-transition-fade');
     let lastScrollTop = 0;
-    
     const elementLastTriggerPos = new Map();
 
     function checkScroll() {
@@ -572,10 +575,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const rect = element.getBoundingClientRect();
             const elementTop = rect.top;
             const viewportHeight = window.innerHeight;
-            
             const triggerPoint = viewportHeight * 0.8;
             const isVisible = elementTop < triggerPoint && elementTop > 0;
-            
             const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
             
             if (isScrollingDown && isVisible) {
@@ -596,9 +597,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let scrollTimeout;
     function handleScroll() {
-        if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
-        }
+        if (scrollTimeout) clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(checkScroll, 16);
     }
 
@@ -607,7 +606,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- ====== PhotoSwipe 初始化 + 快速点击优化 ====== -->
+<!-- PhotoSwipe 初始化 -->
 <script type="module">
 import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
 
@@ -620,40 +619,27 @@ const lightbox = new PhotoSwipeLightbox({
   zoom: false,
   tapAction: 'close'
 });
-
 lightbox.init();
 
-/* ✅ 移动端点击立即响应优化（pointerdown触发 + 预加载） */
+/* ✅ 移动端点击优化 */
 (function fastTouchOpen() {
   const gallery = document.getElementById('gallery--test-padding');
   if (!gallery) return;
   const links = gallery.querySelectorAll('a');
-
   links.forEach(link => {
     if (link.dataset.fasttouchBound) return;
     link.dataset.fasttouchBound = '1';
-
     link.addEventListener('pointerdown', (e) => {
       if (e.isPrimary === false) return;
-
-      // 预加载大图（加速打开）
       const href = link.getAttribute('href');
       if (href) {
         const img = new Image();
         img.src = href;
       }
-
-      // 快速触发 PhotoSwipe 打开
       if (e.pointerType === 'touch' || e.pointerType === 'pen') {
         e.preventDefault();
-        const clickEvent = new MouseEvent('click', {
-          view: window,
-          bubbles: true,
-          cancelable: true
-        });
+        const clickEvent = new MouseEvent('click', { view: window, bubbles: true, cancelable: true });
         link.dispatchEvent(clickEvent);
-
-        // 阻止后续浏览器自身的 click 再触发一次
         const blockRealClick = (ev) => {
           ev.stopPropagation();
           ev.preventDefault();
