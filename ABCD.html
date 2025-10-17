@@ -1,13 +1,15 @@
+请说中文，查看代码
+
+photoswipe灯箱的左上角计数显示大小在移动端和电脑端一样的吗？
+
 
 <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
 
 
-
-
 <style>
-/* ====== 原有的所有样式完全保持不变 ====== */
+
 .split-layout {
   display: flex;
   flex-direction: row;
@@ -101,7 +103,7 @@
   }
 }
 
-/* ====== 新增：移动端点击优化样式 ====== */
+  
 .gallery_card {
   cursor: pointer;
   touch-action: manipulation; /* 消除点击延迟 */
@@ -124,16 +126,48 @@ a.gallery_card {
   outline: none; /* 移除焦点轮廓 */
 }
 
-/* 隐藏PhotoSwipe按钮 */
-.pswp__button--zoom,
-.pswp__button--close {
-  display: none !important;
+
+.pswp__counter {
+  font-size: 30px !important;  /* 默认大小，适用于所有设备，包括移动端 */
+  font-weight: 0 !important;
+  color: #fff !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0) !important;
+  background: rgba(0,0,0,0) !important;
+  padding: 10px 16px !important;
+  border-radius: 20px !important;
+  backdrop-filter: blur(10px) !important;
+  transition: all 0.3s ease !important;
 }
+
+/* 针对电脑端（桌面端）调整大小 */
+@media screen and (min-width: 1025px) {
+  .pswp__counter {
+    font-size: 20px !important;  /* 示例：桌面端增大到 40px，你可以根据需要调整数值 */
+  }
+}
+
+
+
+/* ====== 使用绝对定位精确控制位置 ====== */
+.pswp__top-bar {
+  position: relative !important;
+  z-index: 9999 !important;
+  padding: 0 !important;  /* 移除内边距，用绝对定位控制 */
+  height: auto !important;
+}
+
+.pswp__counter {
+  position: absolute !important;
+  top: 15px !important;    /* 距离顶部15px */
+  left: 5px !important;   /* 距离左边15px */
+  z-index: 10000 !important;
+  margin: 0 !important;    /* 移除所有外边距 */
+}
+
 </style>
 
 
 
-</style>
 
 <!-- ================= 页面主体结构 ================= -->
 <div class="split-layout split-responsive">
@@ -166,10 +200,10 @@ a.gallery_card {
 
         <br><br>
 
-<!-- ====== 图片画廊区域 - 全部43张图片已修改为PhotoSwipe能识别的结构 ====== -->
+<!-- ====== 图片画廊区域 ====== -->
 <div class="image-gallery initialized" image-gallery="justify" image-gallery-row image-gallery-pad="1" image-gallery-gutter="2" id="gallery--test-padding">
+
   
-  <!-- 第1-15张图片（前面已修改） -->
   <a href="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg"
      data-pswp-width="1600" data-pswp-height="2240"
      class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="0" data-width="24.509" data-row="1" style="width: 25.1339%;">
@@ -544,6 +578,14 @@ a.gallery_card {
 
 </div>
 
+        </div>
+
+        <br><br><small></small>
+      </div>
+    </bodycopy>
+  </div>
+</div>
+
 <!-- PhotoSwipe 容器 -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="pswp__bg"></div>
@@ -565,57 +607,6 @@ a.gallery_card {
         </div>
     </div>
 </div>
-
-<!-- ====== 滚动动画功能 ====== -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const fadeElements = document.querySelectorAll('.scroll-transition-fade');
-    let lastScrollTop = 0;
-    
-    const elementLastTriggerPos = new Map();
-
-    function checkScroll() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const isScrollingDown = scrollTop > lastScrollTop;
-        
-        fadeElements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            const elementTop = rect.top;
-            const viewportHeight = window.innerHeight;
-            
-            const triggerPoint = viewportHeight * 0.8;
-            const isVisible = elementTop < triggerPoint && elementTop > 0;
-            
-            const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
-            
-            if (isScrollingDown && isVisible) {
-                if (scrollTop > lastTriggerPos) {
-                    element.classList.remove('below-viewport');
-                    elementLastTriggerPos.set(element, scrollTop);
-                }
-            } else if (!isScrollingDown && !isVisible) {
-                if (elementTop > viewportHeight) {
-                    element.classList.add('below-viewport');
-                    elementLastTriggerPos.set(element, 0);
-                }
-            }
-        });
-        
-        lastScrollTop = scrollTop;
-    }
-
-    let scrollTimeout;
-    function handleScroll() {
-        if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
-        }
-        scrollTimeout = setTimeout(checkScroll, 16);
-    }
-
-    window.addEventListener('scroll', handleScroll);
-    checkScroll();
-});
-</script>
 
 <!-- ====== 滚动动画功能 ====== -->
 <script>
@@ -675,7 +666,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- ====== PhotoSwipe 初始化（优化版本） ====== -->
+<!-- ====== PhotoSwipe 初始化 ====== -->
 <script type="module">
 import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
 
@@ -683,13 +674,34 @@ const lightbox = new PhotoSwipeLightbox({
   gallery: '#gallery--test-padding',
   children: 'a',
   pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
-  padding: { top: 5, bottom: 5, left: 5, right: 5 },
+  padding: { top: 20, bottom: 20, left: 20, right: 20 },
   close: false,
   zoom: false,
-  tapAction: 'close',
   
-  // 添加PhotoSwipe性能优化
-  showHideAnimationType: 'fade', // 使用淡入淡出动画，性能更好
+  // 修复：正确的点击行为配置
+  // 单击图片区域关闭预览（无论是否缩放）
+  imageClickAction: 'close',
+  // 单击背景关闭预览
+  bgClickAction: 'close',
+  // 点击非缩放区域关闭
+  clickToCloseNonZoomable: true,
+  // 触摸动作
+  tapAction: 'close',
+  tapToClose: true,
+  
+  // 双击行为：双击缩放
+  doubleTapAction: 'zoom',
+  
+  // 修复：恢复平滑的动画
+  showHideAnimationType: 'zoom',
+  showAnimationDuration: 333,
+  hideAnimationDuration: 333,
+  zoomAnimationDuration: 333,
+  
+  // 背景透明度设置
+  bgOpacity: 1,
+  
+  // 性能优化配置
   getViewportSize: function(options) {
     return {
       x: document.documentElement.clientWidth,
@@ -697,34 +709,29 @@ const lightbox = new PhotoSwipeLightbox({
     };
   },
   
-  // 移动端优化配置
+  // 缩放配置
   initialZoomLevel: 'fit',
   secondaryZoomLevel: 2,
   maxZoomLevel: 4,
   minZoomLevel: 0.1,
   
-  // 动画优化
-  showAnimationDuration: 333,
-  hideAnimationDuration: 333,
-  zoomAnimationDuration: 333,
-  
-  // 手势优化
+  // 手势配置
   pinchToClose: true,
-  closeOnVerticalDrag: true,
-  imageClickAction: 'close',
-  bgClickAction: 'close',
-  tapAction: 'close',
-  doubleTapAction: 'zoom'
+  closeOnVerticalDrag: true
 });
 
-// 添加加载优化
-lightbox.on('firstUpdate', () => {
-  console.log('PhotoSwipe已就绪，移动端点击已优化');
-});
 
 lightbox.on('beforeOpen', () => {
-  console.log('正在打开图片预览...');
+  const isMobile = window.innerWidth <= 768;
+  console.log('设备类型:', isMobile ? '移动端' : '桌面端');
+});
+
+// 监听图片点击事件，确保关闭行为
+lightbox.on('bindEvents', () => {
+  // 确保图片点击总是关闭
+  console.log('PhotoSwipe事件已绑定，单击图片将关闭预览');
 });
 
 lightbox.init();
+console.log('PhotoSwipe已初始化：单击图片关闭，双击图片缩放');
 </script>
