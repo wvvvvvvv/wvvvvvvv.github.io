@@ -1,19 +1,15 @@
-<!-- 在页面末尾添加 PhotoSwipe 的 CSS -->
+<head>
+    <meta charset="UTF-8">
+    <!-- 添加视口设置 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
+  
 <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
 
-<!-- 添加 FastClick 库 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
 
 
 <style>
-/* ====== 原有的所有样式完全保持不变 ====== */
-
-
-  
-  
-  
-  
-/* ====== 原有的所有样式完全保持不变 ====== */
 .split-layout {
   display: flex;
   flex-direction: row;
@@ -123,19 +119,37 @@
   pointer-events: none; /* 防止图片自身的事件干扰 */
 }
 
-/* 确保链接元素也有触摸优化 */
-a.gallery_card {
-  text-decoration: none; /* 移除链接下划线 */
-  color: inherit; /* 继承文字颜色 */
-  outline: none; /* 移除焦点轮廓 */
-}
-
-
-  
-
-
-
-</style>
+    /* 新增：灯箱计数器移动端适配 */
+    @media screen and (max-width: 768px) {
+      .pswp__counter {
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        padding: 8px 15px !important;
+        background: rgba(0, 0, 0, 0.6) !important;
+        border-radius: 15px !important;
+      }
+      
+      .pswp__top-bar {
+        padding-top: env(safe-area-inset-top, 10px) !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+      }
+    }
+    
+    /* 通用计数器样式 */
+    .pswp__counter {
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      padding: 6px 12px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    </style>
+</head>
 
 <!-- ================= 页面主体结构 ================= -->
 <div class="split-layout split-responsive">
@@ -634,7 +648,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- ====== PhotoSwipe 初始化（修复版） ====== -->
+<!-- ====== PhotoSwipe 初始化====== -->
 <script type="module">
 import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
 
@@ -646,49 +660,33 @@ const lightbox = new PhotoSwipeLightbox({
   close: false,
   zoom: false,
   
-  // 修复：正确的点击行为配置
-  // 单击图片区域关闭预览（无论是否缩放）
+
   imageClickAction: 'close',
-  // 单击背景关闭预览
   bgClickAction: 'close',
-  // 点击非缩放区域关闭
   clickToCloseNonZoomable: true,
-  // 触摸动作
   tapAction: 'close',
   tapToClose: true,
-  
-  // 双击行为：双击缩放
   doubleTapAction: 'zoom',
-  
-  // 修复：恢复平滑的动画
   showHideAnimationType: 'zoom',
   showAnimationDuration: 333,
   hideAnimationDuration: 333,
   zoomAnimationDuration: 333,
-  
-  // 背景透明度设置
   bgOpacity: 1,
   
-  // 性能优化配置
   getViewportSize: function(options) {
     return {
       x: document.documentElement.clientWidth,
       y: document.documentElement.clientHeight
     };
   },
-  
-  // 缩放配置
   initialZoomLevel: 'fit',
   secondaryZoomLevel: 2,
   maxZoomLevel: 4,
   minZoomLevel: 0.1,
-  
-  // 手势配置
   pinchToClose: true,
   closeOnVerticalDrag: true
 });
 
-// 添加设备检测和自定义行为
 lightbox.on('beforeOpen', () => {
   const isMobile = window.innerWidth <= 768;
   console.log('设备类型:', isMobile ? '移动端' : '桌面端');
