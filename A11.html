@@ -1,104 +1,13 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
 
 <style>
-/* ---------- 全局变量（方便调整） ---------- */
-:root{
-  --left-width-desktop: 26%;
-  --left-width-mobile: 80%;
-  --left-maxwidth-mobile: 360px;
-  --panel-bg: #f9f9f9;
-  --overlay-bg: rgba(0,0,0,0.4);
-  --burger-size: 40px;
-}
-
-/* 隐藏真实 checkbox（但保留在 DOM 以支持无 JS 切换） */
-.burger-input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  width: 0; height: 0;
-}
-
-/* 你原始的 burger 样式（稍作适配，可复用作 open/close） */
-/* From Uiverse.io by Cevorob (adapted) */
-.burger {
-  position: relative;
-  width: var(--burger-size);
-  height: 30px;
-  background: transparent;
-  cursor: pointer;
-  display: block;
-  z-index: 2100;
-}
-
-/* 用于在移动端显示、在桌面隐藏的打开按钮 */
-.open-burger {
-  display: none; /* 桌面隐藏 */
-}
-
-/* 关闭按钮（放在侧栏右上角）默认隐藏 */
-.close-burger {
-  display: none;
-  /* 我们会把它放在左侧面板内部并定位到右上角 */
-}
-
-/* 两处都会用到的 span 样式（汉堡线） */
-.burger span {
-  display: block;
-  position: absolute;
-  height: 4px;
-  width: 100%;
-  background: black;
-  border-radius: 9px;
-  opacity: 1;
-  left: 0;
-  transform: rotate(0deg);
-  transition: .25s ease-in-out;
-}
-
-.burger span:nth-of-type(1) {
-  top: 0px;
-  transform-origin: left center;
-}
-
-.burger span:nth-of-type(2) {
-  top: 50%;
-  transform: translateY(-50%);
-  transform-origin: left center;
-}
-
-.burger span:nth-of-type(3) {
-  top: 100%;
-  transform-origin: left center;
-  transform: translateY(-100%);
-}
-
-/* 当 checkbox 被勾选时，所有使用 .burger 的 label 会呈现成 X（通用规则） */
-.burger.open-burger.checked,
-.burger.close-burger.checked { /* 备用（JS 不必用） */ }
-
-/* （我们通过选择器控制：当 #burger:checked 时改变对应 label 的样式） */
-#burger:checked ~ .burger-open-label span:nth-of-type(1),
-#burger:checked ~ .split-layout .left-panel .close-burger span:nth-of-type(1) {
-  transform: rotate(45deg);
-  top: 0px;
-  left: 5px;
-}
-#burger:checked ~ .burger-open-label span:nth-of-type(2),
-#burger:checked ~ .split-layout .left-panel .close-burger span:nth-of-type(2) {
-  width: 0%;
-  opacity: 0;
-}
-#burger:checked ~ .burger-open-label span:nth-of-type(3),
-#burger:checked ~ .split-layout .left-panel .close-burger span:nth-of-type(3) {
-  transform: rotate(-45deg);
-  top: 28px;
-  left: 5px;
-}
-
-/* ====== 布局：原有 split-layout（桌面为左右） ====== */
+/* ---------- 布局基础 ---------- */
 .split-layout {
   display: flex;
   flex-direction: row;
@@ -106,181 +15,276 @@
   min-height: 100vh;
 }
 
-/* 左侧（桌面） */
+/* 桌面左侧导航（默认可见） */
 .split-layout .left-panel {
-  width: var(--left-width-desktop);
-  background-color: var(--panel-bg);
+  width: 26%;
+  background-color: #f9f9f9;
   padding: 2rem;
   box-sizing: border-box;
-  position: relative; /* 保持原位置（桌面） */
-  transition: transform 300ms ease;
+  position: relative; /* 桌面为文档流内 */
+  transition: none;
+  z-index: 1;
 }
 
-/* 右侧主要内容 */
+/* 右侧主内容 */
 .split-layout .right-panel {
   flex: 1;
   padding: 5.8rem 4.5rem;
   box-sizing: border-box;
+  position: relative;
 }
 
-/* 响应：小于等于1024px 改为 column 布局，但我们会把左侧改为 off-canvas */
+/* 移动端按钮（左上角打开按钮） */
+.mobile-nav-btn {
+  display: none; /* 桌面隐藏，移动端显示 */
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10050;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+}
+
+/* 抽屉关闭按钮（在左侧面板内的右上角） */
+.mobile-nav-close {
+  display: none; /* 默认桌面隐藏，移动端在抽屉内显式显示 */
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10060;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 遮罩层（移动端抽屉打开时显示） */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0; /* top:0; right:0; bottom:0; left:0; */
+  background: rgba(0,0,0,0.5);
+  z-index: 10040;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+/* 抽屉打开时遮罩可见 */
+.nav-overlay.visible {
+  display: block;
+  opacity: 1;
+}
+
+/* ---------- 响应式：小屏幕时改为抽屉模式 ---------- */
 @media screen and (max-width: 1024px) {
   .split-layout {
-    /* 仍然保持结构，但视觉上右侧为主视图 */
     flex-direction: column;
   }
 
-  /* 把左侧变成固定的抽屉（默认收起） */
+  /* 隐藏原始文档流中的左侧导航，改为固定抽屉 */
   .split-layout .left-panel {
+    width: 80%;
+    max-width: 360px;
+    height: 100vh;
+    padding: 2rem 1.5rem;
+    box-sizing: border-box;
     position: fixed;
     top: 0;
     left: 0;
-    width: var(--left-width-mobile);
-    max-width: var(--left-maxwidth-mobile);
-    height: 100vh;
-    padding: 2rem 2.5rem;
-    box-sizing: border-box;
-    transform: translateX(-110%); /* 隐藏到左侧 */
-    transition: transform 300ms ease;
-    z-index: 2050;
+    transform: translateX(-110%); /* 初始隐藏在左侧外 */
+    transition: transform 0.32s cubic-bezier(.2,.9,.2,1);
+    z-index: 10060; /* 高于 overlay */
+    box-shadow: 6px 0 24px rgba(0,0,0,0.12);
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    box-shadow: 2px 0 12px rgba(0,0,0,0.12);
   }
 
-  /* 右侧内容缩小内边距 */
+  /* 抽屉打开时 */
+  .split-layout .left-panel.open {
+    transform: translateX(0);
+  }
+
+  /* 右侧内容在移动端 padding 变小 */
   .split-layout .right-panel {
     padding: 3.5rem 2rem;
   }
 
-  /* 打开按钮 显示在左上角（移动端） */
-  .open-burger {
-    display: block;
-    position: fixed;
-    top: 12px;
-    left: 12px;
-    z-index: 2100;
-    background: transparent;
+  /* 显示移动按钮与关闭按钮 */
+  .mobile-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mobile-nav-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  /* 关闭按钮（放进侧栏右上）显示 */
-  .close-burger {
-    display: block;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 2101;
-    background: transparent;
-  }
-
-  /* overlay（遮罩）默认隐藏 */
-  .mobile-overlay {
-    display: none;
-  }
-
-  /* 当勾选 hamburger 时：展开左侧栏、显示遮罩 */
-  #burger:checked ~ .split-layout .left-panel {
-    transform: translateX(0);
-  }
-
-  #burger:checked ~ .mobile-overlay {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: var(--overlay-bg);
-    z-index: 2000;
-  }
-
-  /* 为了避免 open 按钮与 close 按钮同时呈现“X”样式冲突，
-     我们把 open-burger 在侧栏打开时隐藏（因为我们在侧栏内部显示 close） */
-  #burger:checked ~ .burger-open-label {
-    display: none;
-  }
-
-  /* 侧栏打开时屏蔽右侧交互（可选） */
-  #burger:checked ~ .split-layout .right-panel {
-    pointer-events: none;
-    user-select: none;
+  /* 当抽屉打开时，禁止 body 滚动（通过 JS 添加类） */
+  body.nav-open {
+    overflow: hidden;
   }
 }
 
-/* 其余原有 css 保持不变（你页面的 gallery、pswp 等） */
-/* 把你原来的 CSS（image-gallery、.pswp__* 等）接着写或保留在此处（我不改变你的 PhotoSwipe 规则） */
-
-/* 你原本的样式（保留） */
-.content_padding { padding-top: 5.8rem; padding-left: 4.5rem; padding-right: 4.5rem; padding-bottom: 4rem; }
-.page_content { margin: 0 auto; max-width: 1200px; }
-.image-gallery { position: relative; display: flex; flex-wrap: wrap; margin-left: -2rem; margin-right: -2rem; }
-.image-gallery [image-gallery-pad] { padding-left: 0.7rem; padding-right: 0.7rem; box-sizing: border-box; }
-.gallery_card { margin-bottom: 1.3rem; }
-.gallery_card_image { position: relative; width: 100%; overflow: hidden; }
-.gallery_card_image img { width: 100%; height: auto; display: block; object-fit: cover; transition: opacity 0.6s ease, transform 0.6s ease; }
-.scroll-transition-fade { transition: transform 1s ease-in-out, opacity 0.8s ease-in-out; }
-.scroll-transition-fade.below-viewport { opacity: 0; transform: translateY(40px); }
-
-@media (max-width: 768px) { .image-gallery [image-gallery-pad] { padding: 1.25rem; } }
-
-.gallery_card { cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
-.gallery_card_image img { pointer-events: none; }
-a.gallery_card { text-decoration: none; color: inherit; outline: none; }
-
-/* PhotoSwipe 覆盖（保留你原样式） */
-.pswp__counter { font-size: 30px !important; font-weight: 0 !important; color: #fff !important; text-shadow: 0 2px 8px rgba(0,0,0,0) !important; background: rgba(0,0,0,0) !important; padding: 10px 16px !important; border-radius: 20px !important; backdrop-filter: blur(10px) !important; transition: all 0.3s ease !important; }
-@media screen and (min-width: 1025px) { .pswp__counter { font-size: 20px !important; } }
-.pswp__top-bar { position: relative !important; z-index: 9999 !important; padding: 0 !important; height: auto !important; }
-.pswp__counter { position: absolute !important; top: 15px !important; left: 0px !important; z-index: 10000 !important; margin: 0 !important; }
-
-/* 减少动画（对偏好减少动画的人） */
-@media (prefers-reduced-motion: reduce) {
-  .burger span { transition: none; }
-  .split-layout .left-panel { transition: none; }
+/* ---------- 其余你原有样式（保持不变／微调） ---------- */
+.content_padding {
+  padding-top: 5.8rem;
+  padding-left: 4.5rem;
+  padding-right: 4.5rem;
+  padding-bottom: 4rem;
 }
 
-/* 小屏下避免内容被汉堡遮挡（你可以按需调整） */
-@media screen and (max-width: 1024px) {
-  .split-layout .right-panel { padding-top: 72px; } /* 给顶部预留空间 */
+.page_content {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.image-gallery {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -2rem;
+  margin-right: -2rem;
+}
+
+.image-gallery [image-gallery-pad] {
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+  box-sizing: border-box;
+}
+
+.gallery_card {
+  margin-bottom: 1.3rem;
+}
+
+.gallery_card_image {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.gallery_card_image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-transition-fade {
+    transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
+}
+
+.scroll-transition-fade.below-viewport {
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+@media (max-width: 768px) {
+  .image-gallery [image-gallery-pad] {
+    padding: 1.25rem;
+  }
+}
+
+  
+.gallery_card {
+  cursor: pointer;
+  touch-action: manipulation; /* 消除点击延迟 */
+  -webkit-tap-highlight-color: transparent; /* 移除点击高亮 */
+  -webkit-touch-callout: none; /* 禁用长按菜单 */
+  user-select: none; /* 防止文本选择 */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE/Edge */
+}
+
+.gallery_card_image img {
+  pointer-events: none; /* 防止图片自身的事件干扰 */
+}
+
+/* 确保链接元素也有触摸优化 */
+a.gallery_card {
+  text-decoration: none; /* 移除链接下划线 */
+  color: inherit; /* 继承文字颜色 */
+  outline: none; /* 移除焦点轮廓 */
+}
+
+/* PhotoSwipe 样式保留（原样） */
+.pswp__counter {
+  font-size: 30px !important;
+  font-weight: 0 !important;
+  color: #fff !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0) !important;
+  background: rgba(0,0,0,0) !important;
+  padding: 10px 16px !important;
+  border-radius: 20px !important;
+  backdrop-filter: blur(10px) !important;
+  transition: all 0.3s ease !important;
+}
+
+@media screen and (min-width: 1025px) {
+  .pswp__counter {
+    font-size: 20px !important;
+  }
+}
+
+.pswp__top-bar {
+  position: relative !important;
+  z-index: 9999 !important;
+  padding: 0 !important;
+  height: auto !important;
+}
+
+.pswp__counter {
+  position: absolute !important;
+  top: 15px !important;
+  left: 0px !important;
+  z-index: 10000 !important;
+  margin: 0 !important;
 }
 </style>
+</head>
+<body>
 
-<!-- ================== HTML 结构（关键部分） ================== -->
-<!-- checkbox（控制开关） -->
-<input type="checkbox" id="burger" class="burger-input" />
+<!-- 移动端：打开左侧导航按钮 -->
+<button id="mobile-nav-open" class="mobile-nav-btn" aria-expanded="false" aria-controls="left-panel" aria-label="打开导航">☰</button>
 
-<!-- 移动端左上角打开按钮（使用你之前的汉堡样式） -->
-<label class="burger open-burger burger-open-label" for="burger" aria-label="打开菜单">
-  <span></span>
-  <span></span>
-  <span></span>
-</label>
+<!-- 遮罩层（移动端抽屉打开时显示） -->
+<div id="nav-overlay" class="nav-overlay" tabindex="-1" aria-hidden="true"></div>
 
-<!-- 当侧栏打开时的遮罩（点击遮罩也可关闭） -->
-<label class="mobile-overlay" for="burger" aria-hidden="true"></label>
-
-<!-- 主布局 -->
+<!-- ================= 页面主体结构 ================= -->
 <div class="split-layout split-responsive">
-  <!-- 左侧导航栏：桌面端显示，移动端作为抽屉弹出 -->
-  <div class="left-panel">
-    <!-- 侧栏右上角的关闭按钮（也用同样的汉堡样式） -->
-    <label class="burger close-burger" for="burger" aria-label="关闭菜单">
-      <span></span>
-      <span></span>
-      <span></span>
-    </label>
+  <!-- 左侧导航栏区域 -->
+  <nav id="left-panel" class="left-panel" role="navigation" aria-label="侧边导航">
+    <!-- 移动端：抽屉内的关闭按钮（右上角） -->
+    <button id="mobile-nav-close" class="mobile-nav-close" aria-label="关闭导航">✕</button>
 
-    <!-- 你可以把真实的导航内容放在这里 -->
-    <nav>
-      <h3>导航</h3>
-      <ul>
-        <li><a href="#">首页</a></li>
-        <li><a href="#">作品集</a></li>
-        <li><a href="#">关于</a></li>
-        <li><a href="#">联系</a></li>
-      </ul>
-    </nav>
-  </div>
+    <!-- 这里放置你的导航内容 -->
+    <h3>导航</h3>
+    <ul>
+      <li><a href="#">链接一</a></li>
+      <li><a href="#">链接二</a></li>
+      <li><a href="#">链接三</a></li>
+    </ul>
 
-  <!-- 右侧主要内容（保持你原来的内容） -->
-  <div class="right-panel">
+    <!-- 你原有留空的左侧内容如果需要放在这里 -->
+  </nav>
+
+  <!-- 右侧主要内容 -->
+  <main class="right-panel" id="main-content">
     <bodycopy class="bodycopy content content_padding">
       <div class="page_content clearfix" data-elementresizer data-resize-parent data-ce-host="true" data-resize-model-id="37160823">
         <div style="text-align: right;">
@@ -691,7 +695,7 @@ a.gallery_card { text-decoration: none; color: inherit; outline: none; }
   </div>
 </div>
 
-<!-- PhotoSwipe 容器（保持你原来的） -->
+<!-- PhotoSwipe 容器（保留） -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="pswp__bg"></div>
     <div class="pswp__scroll-wrap">
@@ -713,15 +717,15 @@ a.gallery_card { text-decoration: none; color: inherit; outline: none; }
     </div>
 </div>
 
-<!-- ====== 你的滚动动画与 FastClick 初始化（保留） ====== -->
+<!-- ====== 脚本：滚动动画 + 移动导航控制 + FastClick 初始化 ====== -->
 <script>
-// 初始化FastClick来消除移动端点击延迟
+// 初始化 FastClick 来消除移动端点击延迟
 document.addEventListener('DOMContentLoaded', function() {
-    if ('addEventListener' in document && FastClick) {
+    if ('addEventListener' in document && typeof FastClick !== 'undefined') {
         FastClick.attach(document.body);
     }
 
-    // 原有的滚动动画代码（保持不变）
+    /* ---------- 滚动淡入动画（保留并修正节流） ---------- */
     const fadeElements = document.querySelectorAll('.scroll-transition-fade');
     let lastScrollTop = 0;
     const elementLastTriggerPos = new Map();
@@ -766,10 +770,99 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('scroll', handleScroll);
     checkScroll();
+
+    /* ---------- 移动端抽屉控制（打开/关闭左侧导航） ---------- */
+    const openBtn = document.getElementById('mobile-nav-open');
+    const closeBtn = document.getElementById('mobile-nav-close');
+    const leftPanel = document.getElementById('left-panel');
+    const overlay = document.getElementById('nav-overlay');
+
+    function isMobileView() {
+        return window.matchMedia('(max-width: 1024px)').matches;
+    }
+
+    function openNav() {
+        if (!isMobileView()) return;
+        leftPanel.classList.add('open');
+        overlay.classList.add('visible');
+        document.body.classList.add('nav-open');
+        openBtn.setAttribute('aria-expanded', 'true');
+        overlay.setAttribute('aria-hidden', 'false');
+        // 将焦点移到抽屉内的第一个可聚焦元素（增强可访问性）
+        const focusable = leftPanel.querySelector('button, a, [tabindex]:not([tabindex="-1"])');
+        if (focusable) focusable.focus();
+    }
+
+    function closeNav() {
+        if (!isMobileView()) {
+            // 在桌面直接确保状态正确
+            leftPanel.classList.remove('open');
+            overlay.classList.remove('visible');
+            document.body.classList.remove('nav-open');
+            openBtn.setAttribute('aria-expanded', 'false');
+            overlay.setAttribute('aria-hidden', 'true');
+            return;
+        }
+        leftPanel.classList.remove('open');
+        overlay.classList.remove('visible');
+        document.body.classList.remove('nav-open');
+        openBtn.setAttribute('aria-expanded', 'false');
+        overlay.setAttribute('aria-hidden', 'true');
+        openBtn.focus(); // 关闭后把焦点回到打开按钮
+    }
+
+    openBtn && openBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        openNav();
+    });
+
+    closeBtn && closeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        closeNav();
+    });
+
+    // 点击遮罩也关闭
+    overlay && overlay.addEventListener('click', function(e) {
+        closeNav();
+    });
+
+    // 按 Esc 关闭
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' || e.key === 'Esc') {
+            if (leftPanel.classList.contains('open')) {
+                closeNav();
+            }
+        }
+    });
+
+    // 当窗口大小变化时，确保状态同步（防止从移动到桌面残留 open 状态）
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            if (!isMobileView()) {
+                // 桌面：移除移动专属类和遮罩
+                leftPanel.classList.remove('open');
+                overlay.classList.remove('visible');
+                document.body.classList.remove('nav-open');
+                openBtn.setAttribute('aria-expanded', 'false');
+                overlay.setAttribute('aria-hidden', 'true');
+            }
+        }, 120);
+    });
+
+    // 初始：确保 aria 与可视状态一致
+    if (!isMobileView()) {
+        openBtn.setAttribute('aria-expanded', 'false');
+        overlay.setAttribute('aria-hidden', 'true');
+    } else {
+        openBtn.setAttribute('aria-expanded', 'false');
+        overlay.setAttribute('aria-hidden', 'true');
+    }
 });
 </script>
 
-<!-- ====== PhotoSwipe 初始化（保持） ====== -->
+<!-- ====== PhotoSwipe 初始化（保持你原来的模块设置） ====== -->
 <script type="module">
 import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
 
@@ -805,6 +898,7 @@ const lightbox = new PhotoSwipeLightbox({
   closeOnVerticalDrag: true
 });
 
+
 lightbox.on('beforeOpen', () => {
   const isMobile = window.innerWidth <= 768;
   console.log('设备类型:', isMobile ? '移动端' : '桌面端');
@@ -817,3 +911,6 @@ lightbox.on('bindEvents', () => {
 lightbox.init();
 console.log('PhotoSwipe已初始化：单击图片关闭，双击图片缩放');
 </script>
+
+</body>
+</html>
