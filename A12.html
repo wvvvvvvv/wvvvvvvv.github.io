@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>响应式导航与图片画廊</title>
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .split-layout {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            min-height: 100vh;
+        }
+        
+        .split-layout .left-panel {
+            width: 26%;
+            background-color: #f9f9f9;
+            padding: 2rem;
+            box-sizing: border-box;
+            transition: transform 0.3s ease;
+        }
+        
+        .split-layout .right-panel {
+            flex: 1;
+            padding: 5.8rem 4.5rem;
+            box-sizing: border-box;
+        }
+        
+        /* 移动端样式 */
+        @media screen and (max-width: 1024px) {
+            .split-layout {
+                flex-direction: column;
+            }
+            
+            .split-layout .left-panel {
+                width: 280px;
+                height: 100vh;
+                padding: 2rem 2.5rem;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1000;
+                transform: translateX(-100%);
+                overflow-y: auto;
+                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            }
+            
+            .split-layout .left-panel.active {
+                transform: translateX(0);
+            }
+            
+            .split-layout .right-panel {
+                padding: 3.5rem 2rem;
+                width: 100%;
+            }
+            
+            /* 移动端菜单按钮 */
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 999;
+                background: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                padding: 8px 12px;
+                cursor: pointer;
+                font-size: 16px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            
+            /* 关闭按钮 */
+            .close-nav-btn {
+                display: block;
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: #333;
+            }
+            
+            /* 移动端遮罩层 */
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+            }
+            
+            .overlay.active {
+                display: block;
+            }
+        }
+        
+        /* 桌面端隐藏移动端按钮 */
+        @media screen and (min-width: 1025px) {
+            .mobile-menu-btn, .close-nav-btn, .overlay {
+                display: none;
+            }
+        }
+        
+        .content_padding {
+            padding-top: 5.8rem;
+            padding-left: 4.5rem;
+            padding-right: 4.5rem;
+            padding-bottom: 4rem;
+        }
+        
+        .page_content {
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+        
+        .image-gallery {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: -1rem;
+            margin-right: -1rem;
+        }
+        
+        .image-gallery [image-gallery-pad] {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            box-sizing: border-box;
+            flex: 0 0 33.333%;
+            max-width: 33.333%;
+        }
+        
+        .gallery_card {
+            margin-bottom: 1.3rem;
+        }
+        
+        .gallery_card_image {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .gallery_card_image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .scroll-transition-fade {
+            transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
+        }
+        
+        .scroll-transition-fade.below-viewport {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        
+        @media (max-width: 768px) {
+            .image-gallery [image-gallery-pad] {
+                flex: 0 0 50%;
+                max-width: 50%;
+                padding: 0.5rem;
+            }
+            
+            .content_padding {
+                padding-top: 4rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                padding-bottom: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .image-gallery [image-gallery-pad] {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+        
+        .gallery_card {
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        
+        .gallery_card_image img {
+            pointer-events: none;
+        }
+        
+        a.gallery_card {
+            text-decoration: none;
+            color: inherit;
+            outline: none;
+        }
+        
+        .pswp__counter {
+            font-size: 30px !important;
+            font-weight: 0 !important;
+            color: #fff !important;
+            text-shadow: 0 2px 8px rgba(0,0,0,0) !important;
+            background: rgba(0,0,0,0) !important;
+            padding: 10px 16px !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(10px) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        /* 针对电脑端（桌面端）调整大小 */
+        @media screen and (min-width: 1025px) {
+            .pswp__counter {
+                font-size: 20px !important;
+            }
+        }
+        
+        /* ====== 使用绝对定位精确控制位置 ====== */
+        .pswp__top-bar {
+            position: relative !important;
+            z-index: 9999 !important;
+            padding: 0 !important;
+            height: auto !important;
+        }
+        
+        .pswp__counter {
+            position: absolute !important;
+            top: 15px !important;
+            left: 0px !important;
+            z-index: 10000 !important;
+            margin: 0 !important;
+        }
+        
+        /* 导航菜单样式 */
+        .nav-menu {
+            list-style: none;
+            margin-top: 2rem;
+        }
+        
+        .nav-menu li {
+            margin-bottom: 1.5rem;
+        }
+        
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            display: block;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .nav-menu a:hover {
+            color: #f00;
+        }
+        
+        /* 页面标题样式 */
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+        
+        /* 画廊标题样式 */
+        .gallery-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- 移动端菜单按钮 -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">🐈</button>
+    
+    <!-- 移动端遮罩层 -->
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- ================= 页面主体结构 ================= -->
+    <div class="split-layout split-responsive">
+        <!-- 左侧导航栏区域 -->
+        <div class="left-panel" id="leftPanel">
+            <!-- 移动端关闭按钮 -->
+            <button class="close-nav-btn" id="closeNavBtn">×</button>
+            
+            <!-- 导航菜单内容 -->
+            <nav>
+                <h2>导航菜单</h2>
+                <ul class="nav-menu">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">作品集</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                    <li><a href="#">博客</a></li>
+                    <li><a href="#">画廊</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- 右侧主要内容 -->
+        <div class="right-panel">
+            <bodycopy class="bodycopy content content_padding">
+                <div class="page_content clearfix">
+                    <div style="text-align: right;">
+                        <br><br>
+                        <span style="color: #f00;">
+                            <ul>
+                                <li>
+                                    <i><b><small><span style="color: #f00;"><i>Restorative Topophilia</i></span></small></b></i>
+                                </li>
+                                <li>
+                                    <i style="font-size: 1.5rem;"><b><small><span style="color: #f00;"><i>这片土地使我痊愈</i></span></small></b></i>
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+
+                    <h2>
+                        <div grid-row grid-pad="4" grid-gutter="8" grid-responsive>
+                            <div grid-col="6" grid-pad="4" class=""><br></div>
+                        </div>
+                    </h2>
+
+                    <br><br>
+
+                    <!-- 页面标题 -->
+                    <h1 class="page-title">我的摄影作品集</h1>
+                    
+                    <!-- 画廊标题 -->
+                    <h2 class="gallery-title">自然风光系列</h2>
+
+                    <!-- ====== 图片画廊区域 ====== -->
+                    <div class="image-gallery initialized" image-gallery="justify" image-gallery-row image-gallery-pad="1" image-gallery-gutter="2" id="gallery--test-padding">
+                        <!-- 图片1 -->
+                        <a href="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg"
+                           data-pswp-width="1600" data-pswp-height="2240"
+                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="0" data-width="24.509" data-row="1">
+                            <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="">
+                                <img data-gallery-item-index="0" data-gallery-uid="147" width="1600" height="2240" src="https://freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-mid="225397439" class="image-zoom">
+                            </div>
+                        </a>
+                        
+                        <!-- 图片2 -->
+                        <a href="https://picsum.photos/id/1018/1600/2240"
+                           data-pswp-width="1600" data-pswp-height="2240"
+                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="1">
+                            <div class="gallery_card_image scroll-transition-fade">
+                                <img data-gallery-item-index="1" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1018/500/700" class="image-zoom">
+                            </div>
+                        </a>
+                        
+                        <!-- 图片3 -->
+                        <a href="https://picsum.photos/id/1015/1600/2240"
+                           data-pswp-width="1600" data-pswp-height="2240"
+                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="2">
+                            <div class="gallery_card_image scroll-transition-fade">
+                                <img data-gallery-item-index="2" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1015/500/700" class="image-zoom">
+                            </div>
+                        </a>
+                        
+                        <!-- 图片4 -->
+                        <a href="https://picsum.photos/id/1020/1600/2240"
+                           data-pswp-width="1600" data-pswp-height="2240"
+                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="3">
+                            <div class="gallery_card_image scroll-transition-fade">
+                                <img data-gallery-item-index="3" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1020/500/700" class="image-zoom">
+                            </div>
+                        </a>
+                        
+                        <!-- 图片5 -->
+                        <a href="https://picsum.photos/id/1025/1600/2240"
+                           data-pswp-width="1600" data-pswp-height="2240"
+                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="4">
+                            <div class="gallery_card_image scroll-transition-fade">
+                                <img data-gallery-item-index="4" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1025/500/700" class="image-zoom">
+                            </div>
+                        </a>
+                        
+                        <!-- 图片6 -->
+                        <a href="https://picsum.photos/id/1035/1600/2240"
+                           data-pswp-width="1600" data-pswp-height="2240"
+                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="5">
+                            <div class="gallery_card_image scroll-transition-fade">
+                                <img data-gallery-item-index="5" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1035/500/700" class="image-zoom">
+                            </div>
+                        </a>
+                    </div>
+
+                    <br><br><small></small>
+                </div>
+            </bodycopy>
+        </div>
+    </div>
+
+    <!-- PhotoSwipe 容器 -->
+    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化FastClick来消除移动端点击延迟
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化 FastClick
+            if ('addEventListener' in document && FastClick) {
+                FastClick.attach(document.body);
+            }
+            
+            // 导航菜单控制
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeNavBtn = document.getElementById('closeNavBtn');
+            const leftPanel = document.getElementById('leftPanel');
+            const overlay = document.getElementById('overlay');
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    leftPanel.classList.add('active');
+                    overlay.classList.add('active');
+                });
+            }
+            
+            if (closeNavBtn) {
+                closeNavBtn.addEventListener('click', function() {
+                    leftPanel.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    leftPanel.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+            }
+            
+            // 原有的滚动动画代码
+            const fadeElements = document.querySelectorAll('.scroll-transition-fade');
+            let lastScrollTop = 0;
+            
+            const elementLastTriggerPos = new Map();
+
+            function checkScroll() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const isScrollingDown = scrollTop > lastScrollTop;
+                
+                fadeElements.forEach(element => {
+                    const rect = element.getBoundingClientRect();
+                    const elementTop = rect.top;
+                    const viewportHeight = window.innerHeight;
+                    
+                    const triggerPoint = viewportHeight * 0.8;
+                    const isVisible = elementTop < triggerPoint && elementTop > 0;
+                    
+                    const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
+                    
+                    if (isScrollingDown && isVisible) {
+                        if (scrollTop > lastTriggerPos) {
+                            element.classList.remove('below-viewport');
+                            elementLastTriggerPos.set(element, scrollTop);
+                        }
+                    } else if (!isScrollingDown && !isVisible) {
+                        if (elementTop > viewportHeight) {
+                            element.classList.add('below-viewport');
+                            elementLastTriggerPos.set(element, 0);
+                        }
+                    }
+                });
+                
+                lastScrollTop = scrollTop;
+            }
+
+            let scrollTimeout;
+            function handleScroll() {
+                if (scrollTimeout) {
+                    clearTimeout(scrollTimeout);
+                }
+                scrollTimeout = setTimeout(checkScroll, 16);
+            }
+
+            window.addEventListener('scroll', handleScroll);
+            checkScroll();
+        });
+    </script>
+
+    <!-- ====== PhotoSwipe 初始化 ====== -->
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
+
+        const lightbox = new PhotoSwipeLightbox({
+          gallery: '#gallery--test-padding',
+          children: 'a',
+          pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
+          padding: { top: 20, bottom: 20, left: 20, right: 20 },
+          close: false,
+          zoom: false,
+          
+          // 修复：正确的点击行为配置
+          // 单击图片区域关闭预览（无论是否缩放）
+          imageClickAction: 'close',
+          // 单击背景关闭预览
+          bgClickAction: 'close',
+          // 点击非缩放区域关闭
+          clickToCloseNonZoomable: true,
+          // 触摸动作
+          tapAction: 'close',
+          tapToClose: true,
+          
+          // 双击行为：双击缩放
+          doubleTapAction: 'zoom',
+          
+          // 修复：恢复平滑的动画
+          showHideAnimationType: 'zoom',
+          showAnimationDuration: 333,
+          hideAnimationDuration: 333,
+          zoomAnimationDuration: 333,
+          
+          // 背景透明度设置
+          bgOpacity: 1,
+          
+          // 性能优化配置
+          getViewportSize: function(options) {
+            return {
+              x: document.documentElement.clientWidth,
+              y: document.documentElement.clientHeight
+            };
+          },
+          
+          // 缩放配置
+          initialZoomLevel: 'fit',
+          secondaryZoomLevel: 2,
+          maxZoomLevel: 4,
+          minZoomLevel: 0.1,
+          
+          // 手势配置
+          pinchToClose: true,
+          closeOnVerticalDrag: true
+        });
+
+        lightbox.on('beforeOpen', () => {
+          const isMobile = window.innerWidth <= 768;
+          console.log('设备类型:', isMobile ? '移动端' : '桌面端');
+        });
+
+        // 监听图片点击事件，确保关闭行为
+        lightbox.on('bindEvents', () => {
+          // 确保图片点击总是关闭
+          console.log('PhotoSwipe事件已绑定，单击图片将关闭预览');
+        });
+
+        lightbox.init();
+        console.log('PhotoSwipe已初始化：单击图片关闭，双击图片缩放');
+    </script>
+</body>
+</html>
