@@ -134,20 +134,19 @@
             max-width: 1200px;
         }
         
+        /* 图片画廊样式 - 保持原有布局和间距 */
         .image-gallery {
             position: relative;
             display: flex;
             flex-wrap: wrap;
-            margin-left: -1rem;
-            margin-right: -1rem;
+            margin-left: -2rem;
+            margin-right: -2rem;
         }
         
         .image-gallery [image-gallery-pad] {
-            padding-left: 1rem;
-            padding-right: 1rem;
+            padding-left: 0.7rem;
+            padding-right: 0.7rem;
             box-sizing: border-box;
-            flex: 0 0 33.333%;
-            max-width: 33.333%;
         }
         
         .gallery_card {
@@ -158,7 +157,6 @@
             position: relative;
             width: 100%;
             overflow: hidden;
-            border-radius: 8px;
         }
         
         .gallery_card_image img {
@@ -180,23 +178,7 @@
         
         @media (max-width: 768px) {
             .image-gallery [image-gallery-pad] {
-                flex: 0 0 50%;
-                max-width: 50%;
-                padding: 0.5rem;
-            }
-            
-            .content_padding {
-                padding-top: 4rem;
-                padding-left: 1rem;
-                padding-right: 1rem;
-                padding-bottom: 2rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .image-gallery [image-gallery-pad] {
-                flex: 0 0 100%;
-                max-width: 100%;
+                padding: 1.25rem;
             }
         }
         
@@ -279,25 +261,11 @@
         .nav-menu a:hover {
             color: #f00;
         }
-        
-        /* 页面标题样式 */
-        .page-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            color: #333;
-        }
-        
-        /* 画廊标题样式 */
-        .gallery-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: #666;
-        }
     </style>
 </head>
 <body>
     <!-- 移动端菜单按钮 -->
-    <button class="mobile-menu-btn" id="mobileMenuBtn">🐈</button>
+    <button class="mobile-menu-btn" id="mobileMenuBtn">☰ 菜单</button>
     
     <!-- 移动端遮罩层 -->
     <div class="overlay" id="overlay"></div>
@@ -349,19 +317,13 @@
 
                     <br><br>
 
-                    <!-- 页面标题 -->
-                    <h1 class="page-title">我的摄影作品集</h1>
-                    
-                    <!-- 画廊标题 -->
-                    <h2 class="gallery-title">自然风光系列</h2>
-
                     <!-- ====== 图片画廊区域 ====== -->
                     <div class="image-gallery initialized" image-gallery="justify" image-gallery-row image-gallery-pad="1" image-gallery-gutter="2" id="gallery--test-padding">
                         <!-- 图片1 -->
                         <a href="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg"
                            data-pswp-width="1600" data-pswp-height="2240"
-                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="0" data-width="24.509" data-row="1">
-                            <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="">
+                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="0" data-width="24.509" data-row="1" style="width: 25.1339%;">
+                            <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%; transition-duration: initial;">
                                 <img data-gallery-item-index="0" data-gallery-uid="147" width="1600" height="2240" src="https://freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-mid="225397439" class="image-zoom">
                             </div>
                         </a>
@@ -369,45 +331,45 @@
                         <!-- 图片2 -->
                         <a href="https://picsum.photos/id/1018/1600/2240"
                            data-pswp-width="1600" data-pswp-height="2240"
-                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="1">
-                            <div class="gallery_card_image scroll-transition-fade">
-                                <img data-gallery-item-index="1" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1018/500/700" class="image-zoom">
+                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="1" data-width="24.509" data-row="1" style="width: 25.1339%;">
+                            <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%; transition-duration: initial;">
+                                <img data-gallery-item-index="1" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1018/500/700" data-mid="225397439" class="image-zoom">
                             </div>
                         </a>
                         
                         <!-- 图片3 -->
                         <a href="https://picsum.photos/id/1015/1600/2240"
                            data-pswp-width="1600" data-pswp-height="2240"
-                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="2">
-                            <div class="gallery_card_image scroll-transition-fade">
-                                <img data-gallery-item-index="2" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1015/500/700" class="image-zoom">
+                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="2" data-width="24.509" data-row="1" style="width: 25.1339%;">
+                            <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%; transition-duration: initial;">
+                                <img data-gallery-item-index="2" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1015/500/700" data-mid="225397439" class="image-zoom">
                             </div>
                         </a>
                         
                         <!-- 图片4 -->
                         <a href="https://picsum.photos/id/1020/1600/2240"
                            data-pswp-width="1600" data-pswp-height="2240"
-                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="3">
-                            <div class="gallery_card_image scroll-transition-fade">
-                                <img data-gallery-item-index="3" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1020/500/700" class="image-zoom">
+                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="3" data-width="24.509" data-row="1" style="width: 25.1339%;">
+                            <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%; transition-duration: initial;">
+                                <img data-gallery-item-index="3" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1020/500/700" data-mid="225397439" class="image-zoom">
                             </div>
                         </a>
                         
                         <!-- 图片5 -->
                         <a href="https://picsum.photos/id/1025/1600/2240"
                            data-pswp-width="1600" data-pswp-height="2240"
-                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="4">
-                            <div class="gallery_card_image scroll-transition-fade">
-                                <img data-gallery-item-index="4" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1025/500/700" class="image-zoom">
+                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="4" data-width="24.509" data-row="1" style="width: 25.1339%;">
+                            <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%; transition-duration: initial;">
+                                <img data-gallery-item-index="4" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1025/500/700" data-mid="225397439" class="image-zoom">
                             </div>
                         </a>
                         
                         <!-- 图片6 -->
                         <a href="https://picsum.photos/id/1035/1600/2240"
                            data-pswp-width="1600" data-pswp-height="2240"
-                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="5">
-                            <div class="gallery_card_image scroll-transition-fade">
-                                <img data-gallery-item-index="5" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1035/500/700" class="image-zoom">
+                           class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="5" data-width="24.509" data-row="1" style="width: 25.1339%;">
+                            <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%; transition-duration: initial;">
+                                <img data-gallery-item-index="5" data-gallery-uid="147" width="1600" height="2240" src="https://picsum.photos/id/1035/500/700" data-mid="225397439" class="image-zoom">
                             </div>
                         </a>
                     </div>
