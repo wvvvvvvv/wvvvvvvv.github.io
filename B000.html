@@ -146,7 +146,7 @@
       }
       @keyframes floatMobile {
         0%, 100% { transform: translateY(0); opacity: 1; }
-        50% { transform: translateY(10px); opacity: 0.6; } /* 📱 浮动幅度减小 */
+        50% { transform: translateY(10px); opacity: 0.6; }
       }
     }
   </style>
@@ -199,9 +199,12 @@
       }
     });
 
-    // 点击滚动到下一页
+    // ✅ 点击滚动到下一页（加下移偏移量）
     document.getElementById('scrollButton').addEventListener('click', function() {
-      document.getElementById('blank-page').scrollIntoView({ behavior: 'smooth' });
+      const target = document.getElementById('blank-page');
+      const offset = 150; // ⬇️ 调整这个数值控制“往下滚动多少像素”
+      const targetPosition = target.getBoundingClientRect().top + window.scrollY + offset;
+      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
     });
 
     // 点击反馈
