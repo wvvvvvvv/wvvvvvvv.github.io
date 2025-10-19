@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 添加 viewport 元标签以适配移动端 -->
+  <title>Butterfly Typing Effect</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      overflow-y: auto;
+      /* 背景壁纸固定不动 */
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+        url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+
+    /* 首页样式 */
+    .home-section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.4em;
+      letter-spacing: 1px;
+    }
+
+    .typing-container {
+      height: 1.5em;
+      overflow: hidden;
+    }
+
+    .typed-text {
+      font-size: 1.3em;
+      font-weight: 300;
+      display: inline;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .typed-cursor {
+      display: inline;
+      font-weight: 300;
+      font-size: 1.3em;
+      color: #fff;
+      line-height: 1;
+      vertical-align: baseline;
+      margin-left: 0.15em;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .blink {
+      animation: blink 0.7s infinite;
+    }
+
+    /* 滚动按钮样式（修改为Butterfly风格的向下箭头） */
+    .scroll-down {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+
+    .scroll-down:hover {
+      opacity: 1;
+    }
+
+    .scroll-down i {
+      font-size: 25px;
+      color: #fff;
+      animation: float 1.5s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(25px);
+        opacity: 0.6;
+      }
+    }
+
+    /* 空白页面样式 */
+    .blank-section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+      background: transparent;
+    }
+
+    .blank-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #fff;
+      font-weight: 300;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .blank-text {
+      font-size: 1.2em;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.9);
+      text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+    }
+
+    /* 移动端适配媒体查询 */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2em; /* 减小 Butterfly 标题字体大小 */
+      }
+
+      .typed-text {
+        font-size: 1em; /* 减小打字机效果字体大小 */
+      }
+
+      .typed-cursor {
+        font-size: 1em; /* 减小光标大小 */
+      }
+
+      .typing-container {
+        height: 1.2em; /* 调整容器高度以匹配字体大小 */
+      }
+
+      .scroll-down {
+        bottom: 20px; /* 调整向下箭头位置，避免底部空间不足 */
+      }
+
+      .scroll-down i {
+        font-size: 18px; /* 减小向下箭头图标大小 */
+      }
+
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        50% {
+          transform: translateY(15px); /* 减小浮动动画幅度 */
+          opacity: 0.6;
+        }
+      }
+
+      .blank-title {
+        font-size: 2em; /* 调整空白页面标题大小 */
+      }
+
+      .blank-text {
+        font-size: 1em; /* 调整空白页面文本大小 */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 首页 -->
+  <section class="home-section" id="home">
+    <h1>Butterfly</h1>
+
+    <div class="typing-container">
+      <span class="typed-text"></span>
+    </div>
+
+    <!-- 滚动按钮（修改为Butterfly风格） -->
+    <div class="scroll-down" id="scrollButton">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- 空白页面 -->
+  <section class="blank-section" id="blank-page">
+    <h2 class="blank-title">空白页面</h2>
+    <p class="blank-text">这是一个空白页面，背景壁纸保持固定不动</p>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script>
+    // 打字机效果
+    const cursor = document.createElement("span");
+    cursor.classList.add("typed-cursor");
+    cursor.textContent = "|";
+    document.querySelector(".typing-container").appendChild(cursor);
+
+    const typed = new Typed(".typed-text", {
+      strings: [
+        "Never put off till tomorrow",
+        "Stay hungry, stay foolish",
+        "Keep moving forward"
+      ],
+      typeSpeed: 80,
+      backSpeed: 50,
+      backDelay: 2000,
+      loop: true,
+      showCursor: false,
+
+      preStringTyped: () => cursor.classList.remove('blink'),
+      onTypingResumed: () => cursor.classList.remove('blink'),
+
+      onStringTyped: function(pos, self) {
+        cursor.classList.add('blink');
+        setTimeout(() => cursor.classList.remove('blink'), self.backDelay);
+      }
+    });
+
+    // 直接高效的滚动
+    document.getElementById('scrollButton').addEventListener('click', function() {
+      document.getElementById('blank-page').scrollIntoView({ 
+        behavior: 'smooth' 
+      });
+    });
+
+    // 点击反馈
+    document.getElementById('scrollButton').addEventListener('mousedown', function() {
+      this.style.transform = 'translateX(-50%) scale(0.95)';
+    });
+
+    document.getElementById('scrollButton').addEventListener('mouseup', function() {
+      this.style.transform = 'translateX(-50%)';
+    });
+
+    document.getElementById('scrollButton').addEventListener('mouseleave', function() {
+      this.style.transform = 'translateX(-50%)';
+    });
+  </script>
+</body>
+</html>
