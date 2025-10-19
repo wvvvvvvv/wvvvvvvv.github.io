@@ -20,7 +20,7 @@
       font-family: "Poppins", sans-serif;
       overflow-y: auto;
       background: 
-        linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)),
+        linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)),
         url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover no-repeat;
       background-attachment: fixed;
       min-height: 100vh;
@@ -79,7 +79,7 @@
     /* 向下滚动按钮（响应式） */
     .scroll-down {
       position: absolute;
-      bottom: 6vh;
+      bottom: 2.5vh;
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
@@ -106,7 +106,7 @@
 
     @keyframes float {
       0%, 100% { transform: translateY(0); opacity: 1; }
-      50% { transform: translateY(15px); opacity: 0.6; }
+      50% { transform: translateY(25px); opacity: 0.6; }
     }
 
     /* 第二页样式 */
@@ -141,7 +141,7 @@
         bottom: 8vh;
       }
       .scroll-down i {
-        font-size: 16px; /* 📱 移动端更小的箭头 */
+        font-size: 22px; /* 📱 移动端更小的箭头 */
         animation: floatMobile 1.5s infinite ease-in-out;
       }
       @keyframes floatMobile {
@@ -202,7 +202,7 @@
     // ✅ 点击滚动到下一页（加下移偏移量）
     document.getElementById('scrollButton').addEventListener('click', function() {
       const target = document.getElementById('blank-page');
-      const offset = 150; // ⬇️ 调整这个数值控制“往下滚动多少像素”
+      const offset = 0; // ⬇️ 调整这个数值控制“往下滚动多少像素”
       const targetPosition = target.getBoundingClientRect().top + window.scrollY + offset;
       window.scrollTo({ top: targetPosition, behavior: 'smooth' });
     });
