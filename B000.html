@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 添加 viewport 元标签以适配移动端 -->
+  <title>Butterfly Typing Effect</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      overflow-y: auto;
+      /* 背景壁纸固定不动 */
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+        url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+
+    /* 首页样式 */
+    .home-section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.4em;
+      letter-spacing: 1px;
+    }
+
+    .typing-container {
+      height: 1.5em;
+      overflow: hidden;
+    }
+
+    .typed-text {
+      font-size: 1.3em;
+      font-weight: 300;
+      display: inline;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .typed-cursor {
+      display: inline;
+      font-weight: 300;
+      font-size: 1.3em;
+      color: #fff;
+      line-height: 1;
+      vertical-align: baseline;
+      margin-left: 0.15em;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .blink {
+      animation: blink 0.7s infinite;
+    }
+
+    /* 滚动按钮样式（修改为Butterfly风格的向下箭头） */
+    .scroll-down {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+
+    .scroll-down:hover {
+      opacity: 1;
+    }
+
+    .scroll-down i {
+      font-size: 25px;
+      color: #fff;
+      animation: float 1.5s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(25px);
+        opacity: 0.6;
+      }
+    }
+
+    /* 空白页面样式 */
+    .blank-section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+      background: transparent;
+    }
+
+    .blank-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #fff;
+      font-weight: 300;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .blank-text {
+      font-size: 1.2em;
+      line-height: 1.6;
+      color
