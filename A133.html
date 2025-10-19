@@ -231,23 +231,16 @@
             color: #f00;
         }
 
-        /* 彻底解决屏闪问题的CSS */
+        /* 修复屏闪的关键CSS - 只针对缩放操作 */
         .pswp__img {
-            /* 完全禁用所有缩放过渡 */
+            /* 保留正常的过渡效果 */
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.22, 1) !important;
+        }
+
+        /* 只在双击时临时禁用过渡 */
+        .pswp--double-tapping .pswp__img,
+        .pswp--double-tapping .pswp__zoom-wrap {
             transition: none !important;
-        }
-        
-        .pswp__zoom-wrap {
-            transition: none !important;
-        }
-        
-        /* 但保留打开和关闭的淡入淡出动画 */
-        .pswp {
-            transition: opacity 333ms ease-in-out !important;
-        }
-        
-        .pswp__bg {
-            transition: opacity 333ms ease-in-out !important;
         }
     </style>
 </head>
@@ -443,11 +436,11 @@
           // 双击行为
           doubleTapAction: 'zoom',
           
-          // 动画配置 - 完全禁用缩放动画，只保留打开关闭动画
+          // 动画配置 - 恢复所有动画效果
           showHideAnimationType: 'zoom',
           showAnimationDuration: 333,
           hideAnimationDuration: 333,
-          zoomAnimationDuration: 0, // 缩放动画设为0
+          zoomAnimationDuration: 333, // 正常的缩放动画
           
           // 背景透明度
           bgOpacity: 0.9,
@@ -475,41 +468,64 @@
           preloaderDelay: 0
         });
 
-        // 在初始化后手动确保所有缩放元素都没有过渡
-        lightbox.on('afterInit', () => {
-            console.log('PhotoSwipe初始化完成，确保无缩放过渡');
-        });
+        // 双击屏闪修复 - 使用更精确的方法
+        let isDoubleTapping = false;
+        let doubleTapTimeout;
 
-        // 监听每个slide的变化，确保没有过渡
-        lightbox.on('change', () => {
-            // 给一点延迟确保DOM更新完成
-            setTimeout(() => {
-                const slides = document.querySelectorAll('.pswp__zoom-wrap');
-                slides.forEach(slide => {
-                    slide.style.transition = 'none';
-                    slide.style.webkitTransition = 'none';
-                });
-                
-                const images = document.querySelectorAll('.pswp__img');
-                images.forEach(img => {
-                    img.style.transition = 'none';
-                    img.style.webkitTransition = 'none';
-                });
-            }, 50);
-        });
-
-        // 监听双击事件，确保即时响应
         lightbox.on('doubleTap', (e) => {
-            console.log('双击缩放 - 无过渡效果');
+            console.log('双击缩放触发');
+            isDoubleTapping = true;
+            
             // 立即禁用当前slide的过渡
             if (e.slide && e.slide.zoomElement) {
                 e.slide.zoomElement.style.transition = 'none';
                 e.slide.zoomElement.style.webkitTransition = 'none';
+                
+                // 给PhotoSwipe容器添加双击状态类
+                if (e.originalEvent.pswp && e.originalEvent.pswp.scrollWrap) {
+                    e.originalEvent.pswp.scrollWrap.classList.add('pswp--double-tapping');
+                }
             }
+            
+            // 清除之前的超时
+            if (doubleTapTimeout) {
+                clearTimeout(doubleTapTimeout);
+            }
+            
+            // 300ms后恢复过渡效果
+            doubleTapTimeout = setTimeout(() => {
+                isDoubleTapping = false;
+                if (e.slide && e.slide.zoomElement) {
+                    e.slide.zoomElement.style.transition = '';
+                    e.slide.zoomElement.style.webkitTransition = '';
+                }
+                
+                // 移除双击状态类
+                if (e.originalEvent.pswp && e.originalEvent.pswp.scrollWrap) {
+                    e.originalEvent.pswp.scrollWrap.classList.remove('pswp--double-tapping');
+                }
+            }, 300);
+        });
+
+        // 确保打开和关闭动画正常工作
+        lightbox.on('beforeOpen', () => {
+            console.log('打开预览 - 淡入动画开始');
+        });
+
+        lightbox.on('openingAnimationEnd', () => {
+            console.log('打开预览 - 淡入动画结束');
+        });
+
+        lightbox.on('beforeClose', () => {
+            console.log('关闭预览 - 淡出动画开始');
+        });
+
+        lightbox.on('closeAnimationEnd', () => {
+            console.log('关闭预览 - 淡出动画结束');
         });
 
         lightbox.init();
-        console.log('PhotoSwipe已初始化：打开关闭有淡入淡出动画，双击缩放无过渡无屏闪');
+        console.log('PhotoSwipe已初始化：打开关闭有淡入淡出动画，双击缩放无屏闪');
     </script>
 </body>
 </html>
