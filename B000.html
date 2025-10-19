@@ -79,7 +79,7 @@
     /* 向下滚动按钮（响应式） */
     .scroll-down {
       position: absolute;
-      bottom: 2.5vh;
+      bottom: 2vh;
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
@@ -141,12 +141,12 @@
         bottom: 8vh;
       }
       .scroll-down i {
-        font-size: 15px; /* 📱 移动端更小的箭头 */
+        font-size: 16px; /* 📱 移动端更小的箭头 */
         animation: floatMobile 1.5s infinite ease-in-out;
       }
       @keyframes floatMobile {
         0%, 100% { transform: translateY(0); opacity: 1; }
-        50% { transform: translateY(10px); opacity: 0.6; }
+        50% { transform: translateY(25px); opacity: 0.6; } /* 📱 浮动幅度减小 */
       }
     }
   </style>
@@ -199,12 +199,9 @@
       }
     });
 
-    // ✅ 点击滚动到下一页（加下移偏移量）
+    // 点击滚动到下一页
     document.getElementById('scrollButton').addEventListener('click', function() {
-      const target = document.getElementById('blank-page');
-      const offset = 0; // ⬇️ 调整这个数值控制“往下滚动多少像素”
-      const targetPosition = target.getBoundingClientRect().top + window.scrollY + offset;
-      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+      document.getElementById('blank-page').scrollIntoView({ behavior: 'smooth' });
     });
 
     // 点击反馈
