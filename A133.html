@@ -219,20 +219,10 @@
             margin: 0 !important;    /* 移除所有外边距 */
         }
         
-        /* 修复屏闪的关键CSS */
+        /* 修复屏闪的关键CSS - 只针对缩放操作 */
         .pswp__img {
-            /* 禁用所有过渡效果，防止屏闪 */
-            transition: none !important;
-        }
-        
-        .pswp--zoom-allowed .pswp__img {
-            /* 允许缩放时也禁用过渡 */
-            transition: none !important;
-        }
-        
-        .pswp__zoom-wrap {
-            /* 确保缩放容器没有过渡效果 */
-            transition: none !important;
+            /* 保留默认过渡效果，但优化缩放性能 */
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.22, 1) !important;
         }
         
         /* 导航菜单样式 */
@@ -452,14 +442,14 @@
           // 双击行为：双击缩放
           doubleTapAction: 'zoom',
           
-          // 修复：优化动画设置，减少屏闪
-          showHideAnimationType: 'zoom',
-          showAnimationDuration: 300,
-          hideAnimationDuration: 300,
-          zoomAnimationDuration: 300,
+          // 修复：恢复平滑的动画，同时避免屏闪
+          showHideAnimationType: 'fade', // 使用淡入淡出动画
+          showAnimationDuration: 333,
+          hideAnimationDuration: 333,
+          zoomAnimationDuration: 250, // 缩短缩放动画时间
           
           // 背景透明度设置
-          bgOpacity: 1,
+          bgOpacity: 0.9,
           
           // 性能优化配置
           getViewportSize: function(options) {
@@ -479,28 +469,46 @@
           pinchToClose: true,
           closeOnVerticalDrag: true,
           
-          // 修复：禁用可能导致屏闪的过渡效果
+          // 预加载配置
           preload: [1, 2],
           preloaderDelay: 0
         });
 
-        // 监听图片加载完成事件
-        lightbox.on('imageLoadComplete', (e) => {
-          // 确保图片加载完成后没有过渡效果
+        // 监听打开事件，确保动画正常工作
+        lightbox.on('beforeOpen', () => {
+          console.log('PhotoSwipe即将打开，淡入动画开始');
+        });
+
+        // 监听关闭事件
+        lightbox.on('beforeClose', () => {
+          console.log('PhotoSwipe即将关闭，淡出动画开始');
+        });
+
+        // 监听缩放事件，优化缩放体验
+        lightbox.on('zoomPanUpdate', (e) => {
+          // 确保缩放时有平滑的过渡
           if (e.slide && e.slide.zoomElement) {
-            e.slide.zoomElement.style.transition = 'none';
+            e.slide.zoomElement.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.22, 1)';
           }
         });
 
-        // 监听缩放事件，禁用过渡
-        lightbox.on('zoomPanUpdate', (e) => {
+        // 监听双击事件，优化双击缩放体验
+        lightbox.on('doubleTap', (e) => {
+          console.log('双击缩放触发');
+          // 短暂禁用过渡以防止屏闪
           if (e.slide && e.slide.zoomElement) {
             e.slide.zoomElement.style.transition = 'none';
+            // 300ms后恢复过渡效果
+            setTimeout(() => {
+              if (e.slide && e.slide.zoomElement) {
+                e.slide.zoomElement.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.22, 1)';
+              }
+            }, 300);
           }
         });
 
         lightbox.init();
-        console.log('PhotoSwipe已初始化：单击图片关闭，双击图片缩放');
+        console.log('PhotoSwipe已初始化：淡入淡出动画已启用');
     </script>
 </body>
 </html>
