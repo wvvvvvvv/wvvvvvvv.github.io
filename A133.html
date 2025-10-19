@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🐈</title>
-
-    <!-- 引入 PhotoSwipe -->
     <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
     <style>
         /* 基础样式 */
         * {
@@ -15,19 +13,19 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
         }
-
+        
         .split-layout {
             display: flex;
             flex-direction: row;
             width: 100%;
             min-height: 100vh;
         }
-
+        
         .split-layout .left-panel {
             width: 26%;
             background-color: #f9f9f9;
@@ -35,19 +33,19 @@
             box-sizing: border-box;
             transition: transform 0.3s ease;
         }
-
+        
         .split-layout .right-panel {
             flex: 1;
             padding: 0rem 3rem;
             box-sizing: border-box;
         }
-
+        
         /* 移动端样式 */
         @media screen and (max-width: 1024px) {
             .split-layout {
                 flex-direction: column;
             }
-
+            
             .split-layout .left-panel {
                 width: 100%;
                 height: auto;
@@ -60,15 +58,15 @@
                 transform: translateX(-100%);
                 overflow-y: auto;
             }
-
+            
             .split-layout .left-panel.active {
                 transform: translateX(0);
             }
-
+            
             .split-layout .right-panel {
                 padding: 0rem 1.2rem;
             }
-
+            
             /* 移动端菜单按钮 */
             .mobile-menu-btn {
                 display: block;
@@ -83,7 +81,7 @@
                 cursor: pointer;
                 font-size: 16px;
             }
-
+            
             /* 关闭按钮 */
             .close-nav-btn {
                 display: block;
@@ -97,26 +95,26 @@
                 color: #333;
             }
         }
-
+        
         /* 桌面端隐藏移动端按钮 */
         @media screen and (min-width: 1025px) {
             .mobile-menu-btn, .close-nav-btn {
                 display: none;
             }
         }
-
+        
         .content_padding {
             padding-top: 5.8rem;
             padding-left: 4.5rem;
             padding-right: 4.5rem;
             padding-bottom: 4rem;
         }
-
+        
         .page_content {
             margin: 0 auto;
             max-width: 1200px;
         }
-
+        
         .image-gallery {
             position: relative;
             display: flex;
@@ -124,41 +122,40 @@
             margin-left: -1rem;
             margin-right: -1rem;
         }
-
+        
         .image-gallery [image-gallery-pad] {
             padding-left: 0.3rem;
             padding-right: 0.7rem;
             box-sizing: border-box;
         }
-
+        
         .gallery_card {
             margin-bottom: 0.8rem;
         }
-
+        
         .gallery_card_image {
             position: relative;
             width: 100%;
             overflow: hidden;
         }
-
-        /* ✅ 限定作用范围的图片过渡，避免影响 PhotoSwipe 内部图片 */
-        .image-gallery .gallery_card_image img {
+        
+        .gallery_card_image img {
             width: 100%;
             height: auto;
             display: block;
             object-fit: cover;
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
-
+        
         .scroll-transition-fade {
             transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
         }
-
+        
         .scroll-transition-fade.below-viewport {
             opacity: 0;
             transform: translateY(40px);
         }
-
+        
         @media (max-width: 768px) {
             .image-gallery [image-gallery-pad] {
                 padding: 0.3rem;
@@ -167,11 +164,11 @@
 
         /* ===== 移动端图片画廊上下间距调整 ===== */
         @media (max-width: 768px) {
-            .gallery_card {
-                margin-bottom: 0rem; /* 修改数值控制上下间距 */
-            }
+          .gallery_card {
+            margin-bottom: 0rem; /* 修改数值控制上下间距 */
+          }
         }
-
+        
         .gallery_card {
             cursor: pointer;
             touch-action: manipulation;
@@ -182,36 +179,36 @@
             -moz-user-select: none;
             -ms-user-select: none;
         }
-
+        
         .gallery_card_image img {
             pointer-events: none;
         }
-
+        
         a.gallery_card {
             text-decoration: none;
             color: inherit;
             outline: none;
         }
-
-        /* 图片计数器样式 */
+        
         .pswp__counter {
             font-size: 18px !important;
             font-weight: 0 !important;
             color: #fff !important;
+            text-shadow: 0 2px 8px rgba(0,0,0,0) !important;
             background: rgba(0,0,0,0) !important;
             padding: 10px 16px !important;
             border-radius: 20px !important;
             backdrop-filter: blur(10px) !important;
             transition: all 0.3s ease !important;
         }
-
+        
         .pswp__top-bar {
             position: relative !important;
             z-index: 9999 !important;
             padding: 0 !important;
             height: auto !important;
         }
-
+        
         .pswp__counter {
             position: absolute !important;
             top: 15px !important;
@@ -219,44 +216,42 @@
             z-index: 10000 !important;
             margin: 0 !important;
         }
-
-        /* 导航菜单样式 */
+        
         .nav-menu {
             list-style: none;
         }
-
+        
         .nav-menu li {
             margin-bottom: 1rem;
         }
-
+        
         .nav-menu a {
             text-decoration: none;
             color: #333;
             font-size: 1.1rem;
             transition: color 0.3s;
         }
-
+        
         .nav-menu a:hover {
             color: #f00;
         }
 
-        /* ✅ 关键修复：禁用 PhotoSwipe 内部图片的 transition，防止屏闪 */
+        /* ✅ 修复 PhotoSwipe 双击放大缩小时闪屏问题 */
         .pswp__zoom-wrap img,
         .pswp__img {
-            transition: none !important;
-            will-change: transform !important;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            transform-origin: center center !important;
+          transition: none !important;
+          will-change: transform !important;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform-origin: center center !important;
         }
     </style>
 </head>
 <body>
     <!-- 移动端菜单按钮 -->
     <button class="mobile-menu-btn" id="mobileMenuBtn">🐈</button>
-
+    
     <div class="split-layout split-responsive">
-        <!-- 左侧导航栏 -->
         <div class="left-panel" id="leftPanel">
             <button class="close-nav-btn" id="closeNavBtn">×</button>
             <nav>
@@ -269,7 +264,6 @@
             </nav>
         </div>
 
-        <!-- 右侧内容 -->
         <div class="right-panel">
             <bodycopy class="bodycopy content content_padding">
                 <div class="page_content clearfix">
@@ -285,145 +279,77 @@
 
                     <br><br>
 
-                    <!-- 图片画廊 -->
+                    <!-- 图片画廊区域 -->
                     <div class="image-gallery" id="gallery--test-padding">
-
                         <a href="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg"
                            data-pswp-width="1600" data-pswp-height="2240"
-                           class="gallery_card">
+                           class="gallery_card" style="width: 25%;">
                             <div class="gallery_card_image scroll-transition-fade" style="padding-bottom: 140%;">
-                                <img src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" width="1600" height="2240">
+                                <img src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg">
                             </div>
                         </a>
 
                         <a href="https://freight.cargo.site/t/original/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg"
                            data-pswp-width="1600" data-pswp-height="2000"
-                           class="gallery_card">
+                           class="gallery_card" style="width: 27%;">
                             <div class="gallery_card_image scroll-transition-fade" style="padding-bottom: 125%;">
-                                <img src="//freight.cargo.site/w/600/q/75/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" width="1600" height="2000">
+                                <img src="//freight.cargo.site/w/600/q/75/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg">
                             </div>
                         </a>
 
                         <a href="https://freight.cargo.site/t/original/i/60a3246f9e1282e24171b0dfee7ddfad43889fc987fb818e6290dbbfbefb1b30/Restorative-Topophilia-S-43.jpg"
                            data-pswp-width="2240" data-pswp-height="1600"
-                           class="gallery_card">
-                            <div class="gallery_card_image scroll-transition-fade" style="padding-bottom: 71.4286%;">
-                                <img src="//freight.cargo.site/w/1000/q/75/i/60a3246f9e1282e24171b0dfee7ddfad43889fc987fb818e6290dbbfbefb1b30/Restorative-Topophilia-S-43.jpg" width="2240" height="1600">
+                           class="gallery_card" style="width: 47%;">
+                            <div class="gallery_card_image scroll-transition-fade" style="padding-bottom: 71.4%;">
+                                <img src="//freight.cargo.site/w/1000/q/75/i/60a3246f9e1282e24171b0dfee7ddfad43889fc987fb818e6290dbbfbefb1b30/Restorative-Topophilia-S-43.jpg">
                             </div>
                         </a>
-
-                        <a href="https://freight.cargo.site/t/original/i/a3ba8b128b378dc264dac136c659c2d39b5b7ac735d02e418dcf7dd82e872751/Restorative-Topophilia-S-252.jpg"
-                           data-pswp-width="1600" data-pswp-height="2071"
-                           class="gallery_card">
-                            <div class="gallery_card_image scroll-transition-fade" style="padding-bottom: 129.438%;">
-                                <img src="//freight.cargo.site/w/600/q/75/i/a3ba8b128b378dc264dac136c659c2d39b5b7ac735d02e418dcf7dd82e872751/Restorative-Topophilia-S-252.jpg" width="1600" height="2071">
-                            </div>
-                        </a>
-
                     </div>
+
                 </div>
             </bodycopy>
         </div>
     </div>
 
-    <!-- 页面脚本 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            if ('addEventListener' in document && FastClick) {
+                FastClick.attach(document.body);
+            }
+
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const closeNavBtn = document.getElementById('closeNavBtn');
             const leftPanel = document.getElementById('leftPanel');
-
+            
             if (mobileMenuBtn) {
                 mobileMenuBtn.addEventListener('click', function() {
                     leftPanel.classList.add('active');
                 });
             }
-
+            
             if (closeNavBtn) {
                 closeNavBtn.addEventListener('click', function() {
                     leftPanel.classList.remove('active');
                 });
             }
-
-            const fadeElements = document.querySelectorAll('.scroll-transition-fade');
-            let lastScrollTop = 0;
-            const elementLastTriggerPos = new Map();
-
-            function checkScroll() {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const isScrollingDown = scrollTop > lastScrollTop;
-
-                fadeElements.forEach(element => {
-                    const rect = element.getBoundingClientRect();
-                    const elementTop = rect.top;
-                    const viewportHeight = window.innerHeight;
-                    const triggerPoint = viewportHeight * 0.8;
-                    const isVisible = elementTop < triggerPoint && elementTop > 0;
-                    const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
-
-                    if (isScrollingDown && isVisible) {
-                        if (scrollTop > lastTriggerPos) {
-                            element.classList.remove('below-viewport');
-                            elementLastTriggerPos.set(element, scrollTop);
-                        }
-                    } else if (!isScrollingDown && !isVisible) {
-                        if (elementTop > viewportHeight) {
-                            element.classList.add('below-viewport');
-                            elementLastTriggerPos.set(element, 0);
-                        }
-                    }
-                });
-                lastScrollTop = scrollTop;
-            }
-
-            let scrollTimeout;
-            function handleScroll() {
-                if (scrollTimeout) clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(checkScroll, 16);
-            }
-
-            window.addEventListener('scroll', handleScroll);
-            checkScroll();
         });
     </script>
 
-    <!-- PhotoSwipe 初始化 -->
     <script type="module">
         import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
 
         const lightbox = new PhotoSwipeLightbox({
-            gallery: '#gallery--test-padding',
-            children: 'a',
-            pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
-
-            padding: { top: 20, bottom: 20, left: 20, right: 20 },
-
-            /* ✅ 修复重点配置 */
-            imageClickAction: 'close',
-            bgClickAction: 'close',
-            tapAction: 'toggle-controls',
-            tapToClose: false,
-            doubleTapAction: 'zoom',
-
-            showHideAnimationType: 'zoom',
-            showAnimationDuration: 333,
-            hideAnimationDuration: 333,
-            zoomAnimationDuration: 333,
-
-            bgOpacity: 1,
-            getViewportSize: function() {
-                return {
-                    x: document.documentElement.clientWidth,
-                    y: document.documentElement.clientHeight
-                };
-            },
-
-            initialZoomLevel: 'fit',
-            secondaryZoomLevel: 2,
-            maxZoomLevel: 4,
-            minZoomLevel: 0.1,
-            pinchToClose: true,
-            closeOnVerticalDrag: true
+          gallery: '#gallery--test-padding',
+          children: 'a',
+          pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
+          doubleTapAction: 'zoom',
+          showHideAnimationType: 'zoom',
+          showAnimationDuration: 333,
+          hideAnimationDuration: 333,
+          zoomAnimationDuration: 333,
+          initialZoomLevel: 'fit',
+          secondaryZoomLevel: 2,
+          maxZoomLevel: 4
         });
 
         lightbox.init();
