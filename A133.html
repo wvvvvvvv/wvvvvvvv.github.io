@@ -231,13 +231,18 @@
             color: #f00;
         }
 
-        /* 修复屏闪的关键CSS - 只针对双击缩放时的过渡 */
-        .pswp--zoomed-in .pswp__img {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.22, 1) !important;
+        /* 修复屏闪的核心CSS - 完全禁用缩放过渡 */
+        .pswp__img {
+            transition: none !important;
         }
-
-        .pswp--zoomed-out .pswp__img {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.22, 1) !important;
+        
+        .pswp__zoom-wrap {
+            transition: none !important;
+        }
+        
+        /* 但保留打开和关闭的动画 */
+        .pswp {
+            transition: opacity 333ms ease-in-out !important;
         }
     </style>
 </head>
@@ -433,11 +438,11 @@
           // 双击行为
           doubleTapAction: 'zoom',
           
-          // 动画配置 - 恢复正常的动画效果
-          showHideAnimationType: 'zoom', // 使用zoom动画，这是PhotoSwipe默认的淡入淡出效果
+          // 动画配置 - 完全禁用缩放动画，只保留打开关闭动画
+          showHideAnimationType: 'zoom',
           showAnimationDuration: 333,
           hideAnimationDuration: 333,
-          zoomAnimationDuration: 333,
+          zoomAnimationDuration: 0, // 缩放动画设为0
           
           // 背景透明度
           bgOpacity: 0.9,
@@ -465,41 +470,38 @@
           preloaderDelay: 0
         });
 
-        // 修复双击屏闪的核心代码
-        let isDoubleTapping = false;
+        // 完全禁用所有缩放相关的过渡
+        lightbox.on('afterInit', () => {
+            console.log('PhotoSwipe初始化完成，缩放过渡已禁用');
+        });
 
-        lightbox.on('doubleTap', (e) => {
-            isDoubleTapping = true;
-            // 在双击期间临时禁用过渡
+        // 监听图片加载，确保没有过渡效果
+        lightbox.on('imageLoadComplete', (e) => {
             if (e.slide && e.slide.zoomElement) {
                 e.slide.zoomElement.style.transition = 'none';
+                e.slide.zoomElement.style.webkitTransition = 'none';
             }
-            
-            // 双击结束后恢复过渡
-            setTimeout(() => {
-                isDoubleTapping = false;
-                if (e.slide && e.slide.zoomElement) {
-                    e.slide.zoomElement.style.transition = '';
-                }
-            }, 300);
         });
 
-        // 监听缩放更新，在非双击时确保有平滑过渡
+        // 监听缩放更新，确保没有过渡
         lightbox.on('zoomPanUpdate', (e) => {
-            if (!isDoubleTapping && e.slide && e.slide.zoomElement) {
-                e.slide.zoomElement.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.22, 1)';
+            if (e.slide && e.slide.zoomElement) {
+                e.slide.zoomElement.style.transition = 'none';
+                e.slide.zoomElement.style.webkitTransition = 'none';
             }
         });
 
-        // 监听图片加载完成
-        lightbox.on('imageLoadComplete', (e) => {
-            if (e.slide && e.slide.zoomElement && !isDoubleTapping) {
-                e.slide.zoomElement.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.22, 1)';
+        // 监听双击事件，确保即时响应
+        lightbox.on('doubleTap', (e) => {
+            console.log('双击缩放 - 无过渡效果');
+            if (e.slide && e.slide.zoomElement) {
+                e.slide.zoomElement.style.transition = 'none';
+                e.slide.zoomElement.style.webkitTransition = 'none';
             }
         });
 
         lightbox.init();
-        console.log('PhotoSwipe已初始化：淡入淡出动画正常，双击缩放无屏闪');
+        console.log('PhotoSwipe已初始化：打开关闭有动画，双击缩放无过渡无屏闪');
     </script>
 </body>
 </html>
