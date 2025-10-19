@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Butterfly Typing Effect</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -76,7 +77,7 @@
       animation: blink 0.7s infinite;
     }
 
-    /* 滚动按钮样式 */
+    /* 滚动按钮样式（修改为Butterfly风格的向下箭头） */
     .scroll-down {
       position: absolute;
       bottom: 40px;
@@ -86,70 +87,26 @@
       cursor: pointer;
       opacity: 0.8;
       transition: opacity 0.2s ease;
-      animation: breathe 2s infinite ease-in-out;
     }
 
     .scroll-down:hover {
       opacity: 1;
     }
 
-    .scroll-down-arrows {
-      width: 30px;
-      height: 50px;
-      border: 2px solid #fff;
-      border-radius: 15px;
-      position: relative;
+    .scroll-down i {
+      font-size: 25px;
+      color: #fff;
+      animation: float 1.5s infinite ease-in-out;
     }
 
-    .scroll-down-arrows:before {
-      content: '';
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 4px;
-      height: 4px;
-      background: #fff;
-      border-radius: 50%;
-      animation: scrollDown 2s infinite;
-    }
-
-    .scroll-down-arrows:after {
-      content: '';
-      position: absolute;
-      top: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 4px;
-      height: 4px;
-      background: #fff;
-      border-radius: 50%;
-      animation: scrollDown 2s infinite;
-      animation-delay: 0.3s;
-    }
-
-    @keyframes breathe {
+    @keyframes float {
       0%, 100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(25px);
         opacity: 0.6;
-        transform: translateX(-50%) translateY(0);
-      }
-      50% {
-        opacity: 1;
-        transform: translateX(-50%) translateY(-8px);
-      }
-    }
-
-    @keyframes scrollDown {
-      0% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(0);
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(15px);
       }
     }
 
@@ -191,9 +148,9 @@
       <span class="typed-text"></span>
     </div>
 
-    <!-- 滚动按钮 -->
+    <!-- 滚动按钮（修改为Butterfly风格） -->
     <div class="scroll-down" id="scrollButton">
-      <div class="scroll-down-arrows"></div>
+      <i class="fas fa-chevron-down"></i>
     </div>
   </section>
 
