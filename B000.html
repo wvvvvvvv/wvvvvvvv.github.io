@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ✅ 移动端关键 -->
   <title>Butterfly Typing Effect</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
   <style>
@@ -18,46 +19,50 @@
     body {
       font-family: "Poppins", sans-serif;
       overflow-y: auto;
-      background:
-        linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)),
         url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover no-repeat;
       background-attachment: fixed;
       min-height: 100vh;
+      color: #fff;
     }
 
-    /* 首页 */
+    /* 首页整体布局 */
     .home-section {
       height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      color: #fff;
       text-align: center;
       position: relative;
       padding: 0 20px;
     }
 
+    /* 标题 */
     h1 {
-      font-size: 3em;
+      font-size: clamp(2em, 5vw, 3.5em); /* ✅ 响应式字号 */
       margin-bottom: 0.4em;
       letter-spacing: 1px;
     }
 
+    /* 打字机容器 */
     .typing-container {
       height: 1.5em;
       overflow: hidden;
     }
 
     .typed-text {
-      font-size: 1.3em;
+      font-size: clamp(1em, 3vw, 1.5em); /* ✅ 响应式字号 */
       font-weight: 300;
+      display: inline;
       white-space: nowrap;
     }
 
     .typed-cursor {
+      display: inline;
       font-weight: 300;
-      font-size: 1.3em;
+      font-size: clamp(1em, 3vw, 1.5em);
       color: #fff;
       margin-left: 0.15em;
     }
@@ -66,18 +71,20 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
-    .blink { animation: blink 0.7s infinite; }
 
-    /* 🦋 向下滚动按钮区域（响应式 + 可整条点击） */
+    .blink {
+      animation: blink 0.7s infinite;
+    }
+
+    /* 向下滚动按钮（响应式） */
     .scroll-down {
       position: absolute;
-      bottom: 5vh;              /* 响应式距离底部 */
+      bottom: 6vh; /* ✅ 响应式底部距离 */
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
       width: 100%;
-      max-width: 100vw;
-      height: 70px;             /* 点击区域高度 */
+      height: 60px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -86,13 +93,15 @@
       transition: opacity 0.2s ease;
     }
 
-    .scroll-down:hover { opacity: 1; }
+    .scroll-down:hover {
+      opacity: 1;
+    }
 
     .scroll-down i {
-      font-size: 30px;
+      font-size: clamp(24px, 5vw, 36px); /* ✅ 响应式箭头大小 */
       color: #fff;
       animation: float 1.5s infinite ease-in-out;
-      pointer-events: none; /* 防止图标阻挡父级点击 */
+      pointer-events: none;
     }
 
     @keyframes float {
@@ -100,64 +109,39 @@
       50% { transform: translateY(15px); opacity: 0.6; }
     }
 
-    /* 空白页面 */
+    /* 第二页样式 */
     .blank-section {
       height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      color: #fff;
       text-align: center;
-      padding: 40px;
+      padding: 40px 20px;
+      background: transparent;
     }
 
     .blank-title {
-      font-size: 2.5em;
+      font-size: clamp(1.8em, 4vw, 2.5em);
       margin-bottom: 20px;
-      color: #fff;
       font-weight: 300;
       text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
     .blank-text {
-      font-size: 1.2em;
+      font-size: clamp(1em, 3vw, 1.3em);
       line-height: 1.6;
       color: rgba(255,255,255,0.9);
       text-shadow: 0 1px 5px rgba(0,0,0,0.3);
     }
 
-    /* 📱 移动端适配 */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2.2em;
-      }
-
-      .typed-text {
-        font-size: 1.1em;
-      }
-
+    /* ✅ 小屏微调 */
+    @media (max-width: 480px) {
       .scroll-down {
-        bottom: 4vh;
-        height: 60px;   /* 点击区域略小 */
+        bottom: 8vh;
       }
-
       .scroll-down i {
-        font-size: 24px; /* 箭头略小 */
-        animation: floatMobile 1.5s infinite ease-in-out;
-      }
-
-      @keyframes floatMobile {
-        0%, 100% { transform: translateY(0); opacity: 1; }
-        50% { transform: translateY(10px); opacity: 0.6; }
-      }
-
-      .blank-title {
-        font-size: 1.8em;
-      }
-
-      .blank-text {
-        font-size: 1em;
+        font-size: 28px;
       }
     }
   </style>
@@ -166,25 +150,26 @@
   <!-- 首页 -->
   <section class="home-section" id="home">
     <h1>Butterfly</h1>
+
     <div class="typing-container">
       <span class="typed-text"></span>
     </div>
 
-    <!-- 向下滚动按钮（响应式） -->
+    <!-- 向下滚动按钮 -->
     <div class="scroll-down" id="scrollButton">
       <i class="fas fa-chevron-down"></i>
     </div>
   </section>
 
-  <!-- 空白页面 -->
+  <!-- 空白页 -->
   <section class="blank-section" id="blank-page">
     <h2 class="blank-title">空白页面</h2>
-    <p class="blank-text">这是一个空白页面，背景壁纸保持固定不动</p>
+    <p class="blank-text">这是一个空白页面，背景壁纸保持固定不动。</p>
   </section>
 
+  <!-- 打字机脚本 -->
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
   <script>
-    // 打字机效果
     const cursor = document.createElement("span");
     cursor.classList.add("typed-cursor");
     cursor.textContent = "|";
@@ -201,7 +186,6 @@
       backDelay: 2000,
       loop: true,
       showCursor: false,
-
       preStringTyped: () => cursor.classList.remove('blink'),
       onTypingResumed: () => cursor.classList.remove('blink'),
       onStringTyped: (pos, self) => {
@@ -210,13 +194,13 @@
       }
     });
 
-    // 滚动到空白页
-    const scrollBtn = document.getElementById('scrollButton');
-    scrollBtn.addEventListener('click', () => {
+    // 点击滚动到下一页
+    document.getElementById('scrollButton').addEventListener('click', function() {
       document.getElementById('blank-page').scrollIntoView({ behavior: 'smooth' });
     });
 
     // 点击反馈
+    const scrollBtn = document.getElementById('scrollButton');
     scrollBtn.addEventListener('mousedown', () => scrollBtn.style.opacity = '0.6');
     scrollBtn.addEventListener('mouseup', () => scrollBtn.style.opacity = '0.8');
     scrollBtn.addEventListener('mouseleave', () => scrollBtn.style.opacity = '0.8');
