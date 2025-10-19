@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ✅ 移动端关键 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Butterfly Typing Effect</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
   <style>
@@ -41,7 +41,7 @@
 
     /* 标题 */
     h1 {
-      font-size: clamp(2em, 5vw, 3.5em); /* ✅ 响应式字号 */
+      font-size: clamp(2em, 5vw, 3.5em);
       margin-bottom: 0.4em;
       letter-spacing: 1px;
     }
@@ -53,7 +53,7 @@
     }
 
     .typed-text {
-      font-size: clamp(1em, 3vw, 1.5em); /* ✅ 响应式字号 */
+      font-size: clamp(1em, 3vw, 1.5em);
       font-weight: 300;
       display: inline;
       white-space: nowrap;
@@ -79,7 +79,7 @@
     /* 向下滚动按钮（响应式） */
     .scroll-down {
       position: absolute;
-      bottom: 6vh; /* ✅ 响应式底部距离 */
+      bottom: 6vh;
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
@@ -98,7 +98,7 @@
     }
 
     .scroll-down i {
-      font-size: clamp(24px, 5vw, 36px); /* ✅ 响应式箭头大小 */
+      font-size: clamp(24px, 5vw, 36px);
       color: #fff;
       animation: float 1.5s infinite ease-in-out;
       pointer-events: none;
@@ -141,7 +141,12 @@
         bottom: 8vh;
       }
       .scroll-down i {
-        font-size: 28px;
+        font-size: 16px; /* 📱 移动端更小的箭头 */
+        animation: floatMobile 1.5s infinite ease-in-out;
+      }
+      @keyframes floatMobile {
+        0%, 100% { transform: translateY(0); opacity: 1; }
+        50% { transform: translateY(10px); opacity: 0.6; } /* 📱 浮动幅度减小 */
       }
     }
   </style>
