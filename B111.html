@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- 关键：允许画面铺满刘海区域 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Butterfly Typing Effect</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    /* 为了兼容旧 iOS，先声明 constant()，再 env() */
+    :root {
+      --safe-top: env(safe-area-inset-top);
+      --safe-bottom: env(safe-area-inset-bottom);
+      /* 旧语法降级（某些非常旧的 iOS） */
+      --safe-top-legacy: constant(safe-area-inset-top);
+      --safe-bottom-legacy: constant(safe-area-inset-bottom);
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      overflow-y: auto;
+      background:
+        linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0)),
+        url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: #fff;
+
+      /* 关键：把安全区内边距给 body，避免页面内容被刘海或底栏遮挡 */
+      padding-top: calc(var(--safe-top) + 0px);
+      padding-bottom: calc(var(--safe-bottom) + 0px);
+
+      /* 降级兼容 */
+      padding-top: calc(var(--safe-top-legacy) + 0px);
+      padding-bottom: calc(var(--safe-bottom-legacy) + 0px);
+    }
+
+    /* 首页整体布局：把可视高度减去安全区高度（避免 100vh 被刘海/底栏覆盖） */
+    .home-section {
+      /* 使用 calc 来减去上下安全区（若浏览器不支持 env(), calc 中的 env 会被当成 0） */
+      min-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+
+      /* 侧边内边距同时考虑安全区（常规左右内边距） */
+      padding: calc(env(safe-area-inset-top, 0px) + 20px) 20px calc(env(safe-area-inset-bottom, 0px) + 20px);
+    }
+
+    h1 {
+      font-size: clamp(2em, 5vw, 3.5em);
+      margin-bottom: 0em;
+      letter-spacing: 1px;
+    }
+
+    .typing-container { height: 6.5em; overflow: hidden; }
+    .typed-text {
+      font-size: clamp(1em, 3vw, 1.5em);
+      font-weight: 300;
+      display: inline;
+      white-space: nowrap;
+    }
+    .typed-cursor {
+      display: inline;
+      font-weight: 300;
+      font-size: clamp(1em, 3vw, 1.5em);
+      color: #fff;
+      margin-left: 0.15em;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .blink { animation: blink 0.7s infinite; }
+
+    /* 向下滚动按钮（响应式） */
+    .scroll-down {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      width: 100%;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 10px;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+
+      /* 关键：把 bottom 设置为安全区底部 + 固定距离，兼容旧语法 */
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+      bottom: calc(constant(safe-area-inset-bottom) + 12px); /* 旧 iOS 备选 */
+    }
+    .scroll-down:hover { opacity: 1; }
+    .scroll-down i {
+      font-size: clamp(20px, 5vw, 20px);
+      color: #fff;
+      animation: float 1.5s infinite ease-in-out;
+      pointer-events: none;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0);opacity:1} 50%{transform:translateY(25px);opacity:0.6} }
+
+    .blank-section {
+      min-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      background: transparent;
+    }
+
+    /* ✅ 小屏微调 */
+    @media (max-width: 480px) {
+      .scroll-down { /* 更小屏时也按安全区底部对齐 */ 
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+      }
+      .scroll-down i {
+        font-size: 16px;
+        animation: floatMobile 1.5s infinite ease-in-out;
+      }
+      @keyframes floatMobile {
+        0%,100%{transform:translateY(0);opacity:1} 50%{transform:translateY(25px);opacity:0.6}
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 首页 -->
+  <section class="home-section" id="home">
+    <h1>Butterfly</h1>
+
+    <div class="typing-container">
+      <span class="typed-text"></span>
+    </div>
+
+    <!-- 向下滚动按钮 -->
+    <div class="scroll-down" id="scrollButton" aria-label="向下滚动">
+      <i class="fas fa-chevron-down" aria-hidden="true"></i>
+    </div>
+  </section>
+
+  <!-- 空白页（文字已删除） -->
+  <section class="blank-section" id="blank-page">
+    <!-- 文字相关代码已删除 -->
+  </section>
+
+  <!-- 打字机脚本 -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script>
+    const cursor = document.createElement("span");
+    cursor.classList.add("typed-cursor");
+    cursor.textContent = "|";
+    document.querySelector(".typing-container").appendChild(cursor);
+
+    const typed = new Typed(".typed-text", {
+      strings: [
+        "Never put off till tomorrow",
+        "Stay hungry, stay foolish",
+        "Keep moving forward"
+      ],
+      typeSpeed: 80,
+      backSpeed: 50,
+      backDelay: 2000,
+      loop: true,
+      showCursor: false,
+      preStringTyped: () => cursor.classList.remove('blink'),
+      onTypingResumed: () => cursor.classList.remove('blink'),
+      onStringTyped: (pos, self) => {
+        cursor.classList.add('blink');
+        setTimeout(() => cursor.classList.remove('blink'), self.backDelay);
+      }
+    });
+
+    // 点击滚动到空白页
+    document.getElementById('scrollButton').addEventListener('click', function() {
+      document.getElementById('blank-page').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // 点击反馈
+    const scrollBtn = document.getElementById('scrollButton');
+    scrollBtn.addEventListener('mousedown', () => scrollBtn.style.opacity = '0.6');
+    scrollBtn.addEventListener('mouseup', () => scrollBtn.style.opacity = '0.8');
+    scrollBtn.addEventListener('mouseleave', () => scrollBtn.style.opacity = '0.8');
+  </script>
+</body>
+</html>
