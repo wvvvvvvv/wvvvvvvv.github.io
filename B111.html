@@ -2,69 +2,77 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <!-- 关键：允许画面铺满刘海区域 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Butterfly Typing Effect</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    /* 为了兼容旧 iOS，先声明 constant()，再 env() */
-    :root {
-      --safe-top: env(safe-area-inset-top);
-      --safe-bottom: env(safe-area-inset-bottom);
-      /* 旧语法降级（某些非常旧的 iOS） */
-      --safe-top-legacy: constant(safe-area-inset-top);
-      --safe-bottom-legacy: constant(safe-area-inset-bottom);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       font-family: "Poppins", sans-serif;
       overflow-y: auto;
-      background:
-        linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0)),
-        url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover no-repeat;
-      background-attachment: fixed;
       min-height: 100vh;
       color: #fff;
-
-      /* 关键：把安全区内边距给 body，避免页面内容被刘海或底栏遮挡 */
-      padding-top: calc(var(--safe-top) + 0px);
-      padding-bottom: calc(var(--safe-bottom) + 0px);
-
-      /* 降级兼容 */
-      padding-top: calc(var(--safe-top-legacy) + 0px);
-      padding-bottom: calc(var(--safe-bottom-legacy) + 0px);
+      position: relative; /* 添加相对定位 */
+      padding-top: env(safe-area-inset-top); /* 适配刘海顶部安全区 */
+      padding-bottom: env(safe-area-inset-bottom); /* 适配底部ホームバー */
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
     }
 
-    /* 首页整体布局：把可视高度减去安全区高度（避免 100vh 被刘海/底栏覆盖） */
+    /* 新增背景容器 */
+    .background {
+      position: fixed; /* 用fixed定位容器 */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)),
+        url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover no-repeat;
+      z-index: -1; /* 放在内容后面 */
+    }
+
+    /* 首页整体布局 */
     .home-section {
-      /* 使用 calc 来减去上下安全区（若浏览器不支持 env(), calc 中的 env 会被当成 0） */
-      min-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
       position: relative;
-
-      /* 侧边内边距同时考虑安全区（常规左右内边距） */
-      padding: calc(env(safe-area-inset-top, 0px) + 20px) 20px calc(env(safe-area-inset-bottom, 0px) + 20px);
+      padding: 0 20px;
     }
 
+    /* 标题 */
     h1 {
       font-size: clamp(2em, 5vw, 3.5em);
       margin-bottom: 0em;
       letter-spacing: 1px;
     }
 
-    .typing-container { height: 6.5em; overflow: hidden; }
+    /* 打字机容器 */
+    .typing-container {
+      height: 6.5em;
+      overflow: hidden;
+    }
+
     .typed-text {
       font-size: clamp(1em, 3vw, 1.5em);
       font-weight: 300;
       display: inline;
       white-space: nowrap;
     }
+
     .typed-cursor {
       display: inline;
       font-weight: 300;
@@ -72,12 +80,20 @@
       color: #fff;
       margin-left: 0.15em;
     }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    .blink { animation: blink 0.7s infinite; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .blink {
+      animation: blink 0.7s infinite;
+    }
 
     /* 向下滚动按钮（响应式） */
     .scroll-down {
       position: absolute;
+      bottom: 0vh;
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
@@ -90,22 +106,27 @@
       cursor: pointer;
       opacity: 0.8;
       transition: opacity 0.2s ease;
-
-      /* 关键：把 bottom 设置为安全区底部 + 固定距离，兼容旧语法 */
-      bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
-      bottom: calc(constant(safe-area-inset-bottom) + 12px); /* 旧 iOS 备选 */
     }
-    .scroll-down:hover { opacity: 1; }
+
+    .scroll-down:hover {
+      opacity: 1;
+    }
+
     .scroll-down i {
       font-size: clamp(20px, 5vw, 20px);
       color: #fff;
       animation: float 1.5s infinite ease-in-out;
       pointer-events: none;
     }
-    @keyframes float { 0%,100%{transform:translateY(0);opacity:1} 50%{transform:translateY(25px);opacity:0.6} }
 
+    @keyframes float {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(25px); opacity: 0.6; }
+    }
+
+    /* 第二页样式（空白页保留） */
     .blank-section {
-      min-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -117,20 +138,23 @@
 
     /* ✅ 小屏微调 */
     @media (max-width: 480px) {
-      .scroll-down { /* 更小屏时也按安全区底部对齐 */ 
-        bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+      .scroll-down {
+        bottom: 2vh;
       }
       .scroll-down i {
-        font-size: 16px;
+        font-size: 16px; 
         animation: floatMobile 1.5s infinite ease-in-out;
       }
       @keyframes floatMobile {
-        0%,100%{transform:translateY(0);opacity:1} 50%{transform:translateY(25px);opacity:0.6}
+        0%, 100% { transform: translateY(0); opacity: 1; }
+        50% { transform: translateY(25px); opacity: 0.6; }
       }
     }
   </style>
 </head>
 <body>
+  <div class="background"></div> <!-- 新增背景div -->
+
   <!-- 首页 -->
   <section class="home-section" id="home">
     <h1>Butterfly</h1>
@@ -140,8 +164,8 @@
     </div>
 
     <!-- 向下滚动按钮 -->
-    <div class="scroll-down" id="scrollButton" aria-label="向下滚动">
-      <i class="fas fa-chevron-down" aria-hidden="true"></i>
+    <div class="scroll-down" id="scrollButton">
+      <i class="fas fa-chevron-down"></i>
     </div>
   </section>
 
