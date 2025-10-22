@@ -2,17 +2,21 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Butterfly Typing Effect + Gallery</title>
 
-  <!-- 第1段资源 -->
+  <!-- Font Awesome（向下箭头） -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
 
-  <!-- 第2段资源 -->
+  <!-- PhotoSwipe 样式（第二段使用） -->
   <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
 
+  <!-- FastClick（第二段使用，消除移动端点击延迟）-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+
   <style>
-    /* ====== 第一段样式（保留原样） ====== */
+    /* ==== 来自两段代码的样式合并（尽量不改动原样式） ==== */
+
     * {
       margin: 0;
       padding: 0;
@@ -24,7 +28,7 @@
     }
 
     body {
-      font-family: "Poppins", sans-serif;
+      font-family: "Poppins", "Arial", sans-serif;
       overflow-y: auto;
       background:
         linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)),
@@ -32,9 +36,11 @@
       background-attachment: fixed;
       min-height: 100vh;
       color: #fff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* 首页整体布局 */
+    /* ---------- 第一段（首页） ---------- */
     .home-section {
       height: 100vh;
       display: flex;
@@ -46,14 +52,12 @@
       padding: 0 20px;
     }
 
-    /* 标题 */
     h1 {
       font-size: clamp(2em, 5vw, 3.5em);
       margin-bottom: 0em;
       letter-spacing: 1px;
     }
 
-    /* 打字机容器 */
     .typing-container {
       height: 6.5em;
       overflow: hidden;
@@ -83,7 +87,6 @@
       animation: blink 0.7s infinite;
     }
 
-    /* 向下滚动按钮（响应式） */
     .scroll-down {
       position: absolute;
       bottom: 0vh;
@@ -117,19 +120,6 @@
       50% { transform: translateY(25px); opacity: 0.6; }
     }
 
-    /* 第二页样式（空白页保留） */
-    .blank-section {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 40px 20px;
-      background: transparent;
-    }
-
-    /* ✅ 小屏微调 */
     @media (max-width: 480px) {
       .scroll-down {
         bottom: 2vh;
@@ -144,11 +134,13 @@
       }
     }
 
-    /* ====== 第二段样式（保留原样） ====== */
-    /* 基础样式（第二段自身也有 * 重置，但已合并） */
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
+    /* ---------- 第二段（分栏 + 画廊） ---------- */
+
+    /* 覆盖 body 的文字颜色为深色，第二段内部需要深色文本（原第二段是浅色背景） */
+    /* 为避免影响第一段的白色文本，第二段容器内部显式设置字体颜色 */
+    .content-section {
+      background: transparent;
+      color: #222; /* 第二段文本颜色，保留原第二段风格 */
     }
 
     .split-layout {
@@ -164,15 +156,17 @@
       padding: 2rem;
       box-sizing: border-box;
       transition: transform 0.3s ease;
+      color: #333;
     }
 
     .split-layout .right-panel {
       flex: 1;
       padding: 0rem 3rem;
       box-sizing: border-box;
+      background: transparent;
+      color: #222;
     }
 
-    /* 移动端样式 */
     @media screen and (max-width: 1024px) {
       .split-layout {
         flex-direction: column;
@@ -199,7 +193,6 @@
         padding: 0rem 1.2rem;
       }
 
-      /* 移动端菜单按钮 */
       .mobile-menu-btn {
         display: block;
         position: fixed;
@@ -214,7 +207,6 @@
         font-size: 16px;
       }
 
-      /* 关闭按钮 */
       .close-nav-btn {
         display: block;
         position: absolute;
@@ -228,7 +220,6 @@
       }
     }
 
-    /* 桌面端隐藏移动端按钮 */
     @media screen and (min-width: 1025px) {
       .mobile-menu-btn, .close-nav-btn {
         display: none;
@@ -245,6 +236,7 @@
     .page_content {
       margin: 0 auto;
       max-width: 1200px;
+      color: #222;
     }
 
     .image-gallery {
@@ -292,39 +284,35 @@
       .image-gallery [image-gallery-pad] {
         padding: 0.3rem;
       }
-    }
-
-    /* 移动端图片画廊上下间距调整 */
-    @media (max-width: 768px) {
       .gallery_card {
-        margin-bottom: 0rem; /* 修改数值控制上下间距 */
+        margin-bottom: 0rem;
       }
     }
 
     .gallery_card {
       cursor: pointer;
-      touch-action: manipulation; /* 消除点击延迟 */
-      -webkit-tap-highlight-color: transparent; /* 移除点击高亮 */
-      -webkit-touch-callout: none; /* 禁用长按菜单 */
-      user-select: none; /* 防止文本选择 */
-      -webkit-user-select: none; /* Safari */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* IE/Edge */
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
     }
 
     .gallery_card_image img {
-      pointer-events: none; /* 防止图片自身的事件干扰 */
+      pointer-events: none;
     }
 
-    /* 确保链接元素也有触摸优化 */
     a.gallery_card {
-      text-decoration: none; /* 移除链接下划线 */
-      color: inherit; /* 继承文字颜色 */
-      outline: none; /* 移除焦点轮廓 */
+      text-decoration: none;
+      color: inherit;
+      outline: none;
     }
 
+    /* PhotoSwipe 定制（来自第二段） */
     .pswp__counter {
-      font-size: 18px !important;  /* 默认大小，适用于所有设备，包括移动端 */
+      font-size: 18px !important;
       font-weight: 0 !important;
       color: #fff !important;
       text-shadow: 0 2px 8px rgba(0,0,0,0) !important;
@@ -335,23 +323,21 @@
       transition: all 0.3s ease !important;
     }
 
-    /* ====== 使用绝对定位精确控制位置 ====== */
     .pswp__top-bar {
       position: relative !important;
       z-index: 9999 !important;
-      padding: 0 !important;  /* 移除内边距，用绝对定位控制 */
+      padding: 0 !important;
       height: auto !important;
     }
 
     .pswp__counter {
       position: absolute !important;
-      top: 15px !important;    /* 距离顶部15px */
-      left: 0px !important;   /* 距离左边15px */
+      top: 15px !important;
+      left: 0px !important;
       z-index: 10000 !important;
-      margin: 0 !important;    /* 移除所有外边距 */
+      margin: 0 !important;
     }
 
-    /* 导航菜单样式 */
     .nav-menu {
       list-style: none;
     }
@@ -371,22 +357,26 @@
       color: #f00;
     }
 
-    /* 针对特定ul的样式 */
     ul {
-      padding-left: 10px;  /* 修改左侧间距为10px（默认约40px），调整这个值来改变间距 */
-      margin-left: 0;      /* 如果有外边距，可以设为0 */
-      list-style-position: outside;  /* 默认值，符号在外部；改成inside可将符号移入行内 */
+      padding-left: 10px;
+      margin-left: 0;
+      list-style-position: outside;
     }
 
-    /* 如果想只影响这个特定的ul，可以用类或ID */
     .custom-ul {
-      padding-left: 5px;   /* 示例：缩小到5px */
+      padding-left: 5px;
+    }
+
+    /* 让第二段内的滚动/触摸更流畅（小改动，兼容移动端） */
+    .split-layout, .left-panel, .right-panel {
+      -webkit-overflow-scrolling: touch;
     }
 
   </style>
 </head>
 <body>
-  <!-- ===== 第一段：首页（打字 + 向下箭头） ===== -->
+
+  <!-- ========== 第一段：首页（保持原样） ========== -->
   <section class="home-section" id="home">
     <h1>Butterfly</h1>
 
@@ -395,18 +385,18 @@
     </div>
 
     <!-- 向下滚动按钮 -->
-    <div class="scroll-down" id="scrollButton">
-      <i class="fas fa-chevron-down"></i>
+    <div class="scroll-down" id="scrollButton" aria-label="向下滚动">
+      <i class="fas fa-chevron-down" aria-hidden="true"></i>
     </div>
   </section>
 
-  <!-- ===== 第二段：将原第二个文档内容放在此处（以方便箭头滚动到此处） ===== -->
-  <!-- 我使用 id="blank-page" 作为跳转目标（保留第一段脚本里原本对 blank-page 的引用更改为指向该区域） -->
-  <section id="blank-page" style="width:100%;">
+  <!-- ========== 第二段：分栏 + 画廊（原第二段内容，放在页面下方） ========== -->
+  <section class="blank-section content-section" id="content-section">
+    <!-- 以下结构保留原第二段的 DOM 与类名 -->
     <!-- 移动端菜单按钮 -->
     <button class="mobile-menu-btn" id="mobileMenuBtn">🐈</button>
 
-    <!-- ================= 页面主体结构 ================= -->
+    <!-- 页面主体结构 -->
     <div class="split-layout split-responsive">
       <!-- 左侧导航栏区域 -->
       <div class="left-panel" id="leftPanel">
@@ -416,7 +406,7 @@
         <!-- 导航菜单内容 -->
         <nav>
           <ul class="nav-menu">
-            <!-- 菜单为空白 -->
+            <!-- 菜单为空白（保留） -->
           </ul>
         </nav>
       </div>
@@ -825,65 +815,66 @@
           </div>
         </bodycopy>
       </div>
-
-      <br><br><small></small>
     </div>
+
   </section>
 
-  <!-- ===== 引入脚本（合并后的脚本） ===== -->
-  <!-- typed.js（第一段） -->
+  <!-- ========== 脚本部分 ========== -->
+
+  <!-- Typed.js（第一段） -->
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
-  <!-- fastclick（第二段） -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
-
   <script>
-    // ===== 第一段：打字机光标与 Typed 初始化（保留原样） =====
-    const cursor = document.createElement("span");
-    cursor.classList.add("typed-cursor");
-    cursor.textContent = "|";
-    document.querySelector(".typing-container").appendChild(cursor);
+    // ========== 打字机光标与 Typed 初始化（保留原逻辑） ==========
+    (function() {
+      const cursor = document.createElement("span");
+      cursor.classList.add("typed-cursor");
+      cursor.textContent = "|";
+      document.querySelector(".typing-container").appendChild(cursor);
 
-    const typed = new Typed(".typed-text", {
-      strings: [
-        "Never put off till tomorrow",
-        "Stay hungry, stay foolish",
-        "Keep moving forward"
-      ],
-      typeSpeed: 80,
-      backSpeed: 50,
-      backDelay: 2000,
-      loop: true,
-      showCursor: false,
-      preStringTyped: () => cursor.classList.remove('blink'),
-      onTypingResumed: () => cursor.classList.remove('blink'),
-      onStringTyped: (pos, self) => {
-        cursor.classList.add('blink');
-        setTimeout(() => cursor.classList.remove('blink'), self.backDelay);
-      }
-    });
+      const typed = new Typed(".typed-text", {
+        strings: [
+          "Never put off till tomorrow",
+          "Stay hungry, stay foolish",
+          "Keep moving forward"
+        ],
+        typeSpeed: 80,
+        backSpeed: 50,
+        backDelay: 2000,
+        loop: true,
+        showCursor: false,
+        preStringTyped: () => cursor.classList.remove('blink'),
+        onTypingResumed: () => cursor.classList.remove('blink'),
+        onStringTyped: (pos, self) => {
+          cursor.classList.add('blink');
+          setTimeout(() => cursor.classList.remove('blink'), self.backDelay);
+        }
+      });
 
-    // 点击滚动到第二段（现在第二段所在的 #blank-page）
-    document.getElementById('scrollButton').addEventListener('click', function() {
-      const target = document.getElementById('blank-page');
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
+      // 点击滚动到第二段内容
+      document.getElementById('scrollButton').addEventListener('click', function() {
+        document.getElementById('content-section').scrollIntoView({ behavior: 'smooth' });
+      });
 
-    // 点击反馈效果（保留）
-    const scrollBtn = document.getElementById('scrollButton');
-    scrollBtn.addEventListener('mousedown', () => scrollBtn.style.opacity = '0.6');
-    scrollBtn.addEventListener('mouseup', () => scrollBtn.style.opacity = '0.8');
-    scrollBtn.addEventListener('mouseleave', () => scrollBtn.style.opacity = '0.8');
+      // 点击反馈（保持原样）
+      const scrollBtn = document.getElementById('scrollButton');
+      scrollBtn.addEventListener('mousedown', () => scrollBtn.style.opacity = '0.6');
+      scrollBtn.addEventListener('mouseup', () => scrollBtn.style.opacity = '0.8');
+      scrollBtn.addEventListener('mouseleave', () => scrollBtn.style.opacity = '0.8');
+    })();
   </script>
 
   <script>
-    // ===== 第二段：FastClick、侧边栏、滚动淡入等（保留原样） =====
+    // ========== 第二段脚本（FastClick、菜单、滚动动画） ==========
     document.addEventListener('DOMContentLoaded', function() {
-      // 初始化 FastClick
-      if ('addEventListener' in document && FastClick) {
-        FastClick.attach(document.body);
+      // 初始化 FastClick（存在性检测）
+      try {
+        if ('addEventListener' in document && window.FastClick) {
+          FastClick.attach(document.body);
+        }
+      } catch (e) {
+        // 若 FastClick 不可用则忽略（不影响页面）
+        console.warn('FastClick init error:', e);
       }
 
       // 导航菜单控制
@@ -903,10 +894,9 @@
         });
       }
 
-      // 原有的滚动动画代码
+      // 原有的滚动动画代码（保留并适配）
       const fadeElements = document.querySelectorAll('.scroll-transition-fade');
       let lastScrollTop = 0;
-
       const elementLastTriggerPos = new Map();
 
       function checkScroll() {
@@ -947,12 +937,13 @@
         scrollTimeout = setTimeout(checkScroll, 16);
       }
 
-      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      // 初始检查
       checkScroll();
     });
   </script>
 
-  <!-- ===== PhotoSwipe 初始化（第二段） ===== -->
+  <!-- PhotoSwipe（第二段）: 使用 ES module 初始化（保留原配置） -->
   <script type="module">
     import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
 
@@ -963,27 +954,34 @@
       padding: { top: 20, bottom: 20, left: 20, right: 20 },
       close: false,
       zoom: false,
+
       imageClickAction: 'close',
       bgClickAction: 'close',
       clickToCloseNonZoomable: true,
       tapAction: 'close',
       tapToClose: true,
+
       doubleTapAction: 'zoom',
+
       showHideAnimationType: 'zoom',
       showAnimationDuration: 333,
       hideAnimationDuration: 333,
       zoomAnimationDuration: 333,
+
       bgOpacity: 1,
+
       getViewportSize: function(options) {
         return {
           x: document.documentElement.clientWidth,
           y: document.documentElement.clientHeight
         };
       },
+
       initialZoomLevel: 'fit',
       secondaryZoomLevel: 2,
       maxZoomLevel: 4,
       minZoomLevel: 0.1,
+
       pinchToClose: true,
       closeOnVerticalDrag: true
     });
@@ -1000,5 +998,6 @@
     lightbox.init();
     console.log('PhotoSwipe已初始化：单击图片关闭，双击图片缩放');
   </script>
+
 </body>
 </html>
