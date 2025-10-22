@@ -3,15 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Butterfly Typing + Gallery</title>
-
-  <!-- FontAwesome 图标 -->
+  <title>Butterfly Gallery</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
-  <!-- PhotoSwipe -->
   <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
-
   <style>
     * {
       margin: 0;
@@ -25,14 +20,16 @@
 
     body {
       font-family: "Poppins", sans-serif;
-      color: #fff;
-      background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0)),
-                  url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover no-repeat;
+      overflow-y: auto;
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)),
+        url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover no-repeat;
       background-attachment: fixed;
-      overflow-x: hidden;
+      min-height: 100vh;
+      color: #fff;
     }
 
-    /* ========== 第一页（Butterfly打字机） ========== */
+    /* 首页整体布局 */
     .home-section {
       height: 100vh;
       display: flex;
@@ -44,12 +41,14 @@
       padding: 0 20px;
     }
 
+    /* 标题 */
     h1 {
       font-size: clamp(2em, 5vw, 3.5em);
       margin-bottom: 0em;
       letter-spacing: 1px;
     }
 
+    /* 打字机容器 */
     .typing-container {
       height: 6.5em;
       overflow: hidden;
@@ -79,9 +78,10 @@
       animation: blink 0.7s infinite;
     }
 
+    /* 向下滚动按钮（响应式） */
     .scroll-down {
       position: absolute;
-      bottom: 2vh;
+      bottom: 0vh;
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
@@ -96,6 +96,10 @@
       transition: opacity 0.2s ease;
     }
 
+    .scroll-down:hover {
+      opacity: 1;
+    }
+
     .scroll-down i {
       font-size: clamp(20px, 5vw, 20px);
       color: #fff;
@@ -108,11 +112,10 @@
       50% { transform: translateY(25px); opacity: 0.6; }
     }
 
-    /* ========== 第二页 图片画廊部分 ========== */
+    /* 画廊页面样式 */
     .gallery-section {
       min-height: 100vh;
-      background-color: #fff;
-      color: #000;
+      background: transparent;
     }
 
     .split-layout {
@@ -124,7 +127,7 @@
 
     .split-layout .left-panel {
       width: 26%;
-      background-color: #f9f9f9;
+      background-color: transparent; /* 修改为全透明 */
       padding: 2rem;
       box-sizing: border-box;
       transition: transform 0.3s ease;
@@ -136,21 +139,34 @@
       box-sizing: border-box;
     }
 
+    /* 移动端样式 */
     @media screen and (max-width: 1024px) {
-      .split-layout { flex-direction: column; }
+      .split-layout {
+        flex-direction: column;
+      }
+
       .split-layout .left-panel {
         width: 100%;
-        height: 100vh;
+        height: auto;
+        padding: 2rem 2.5rem;
         position: fixed;
         top: 0;
         left: 0;
+        height: 100vh;
+        z-index: 1000;
         transform: translateX(-100%);
         overflow-y: auto;
-        z-index: 1000;
-        background: #fff;
+        background-color: transparent; /* 移动端也保持全透明 */
       }
-      .split-layout .left-panel.active { transform: translateX(0); }
-      .split-layout .right-panel { padding: 0rem 1.2rem; }
+
+      .split-layout .left-panel.active {
+        transform: translateX(0);
+      }
+
+      .split-layout .right-panel {
+        padding: 0rem 1.2rem;
+      }
+
       .mobile-menu-btn {
         display: block;
         position: fixed;
@@ -158,9 +174,13 @@
         left: 10px;
         z-index: 999;
         background: rgba(255,255,255,0);
-        border: 0px;
-        font-size: 20px;
+        border: 0px solid #ddd;
+        border-radius: 4px;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 16px;
       }
+
       .close-nav-btn {
         display: block;
         position: absolute;
@@ -175,7 +195,9 @@
     }
 
     @media screen and (min-width: 1025px) {
-      .mobile-menu-btn, .close-nav-btn { display: none; }
+      .mobile-menu-btn, .close-nav-btn {
+        display: none;
+      }
     }
 
     .content_padding {
@@ -207,14 +229,28 @@
     .gallery_card {
       margin-bottom: 0.8rem;
       cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .gallery_card_image {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
     }
 
     .gallery_card_image img {
       width: 100%;
       height: auto;
+      display: block;
       object-fit: cover;
       transition: opacity 0.6s ease, transform 0.6s ease;
-      display: block;
+      pointer-events: none;
     }
 
     .scroll-transition-fade {
@@ -226,18 +262,84 @@
       transform: translateY(40px);
     }
 
+    @media (max-width: 768px) {
+      .image-gallery [image-gallery-pad] {
+        padding: 0.3rem;
+      }
+      .gallery_card {
+        margin-bottom: 0rem;
+      }
+      .scroll-down {
+        bottom: 2vh;
+      }
+      .scroll-down i {
+        font-size: 16px;
+        animation: floatMobile 1.5s infinite ease-in-out;
+      }
+      @keyframes floatMobile {
+        0%, 100% { transform: translateY(0); opacity: 1; }
+        50% { transform: translateY(25px); opacity: 0.6; }
+      }
+    }
+
+    a.gallery_card {
+      text-decoration: none;
+      color: inherit;
+      outline: none;
+    }
+
     .pswp__counter {
       font-size: 18px !important;
+      font-weight: 0 !important;
       color: #fff !important;
+      text-shadow: 0 2px 8px rgba(0,0,0,0) !important;
+      background: rgba(0,0,0,0) !important;
+      padding: 10px 16px !important;
+      border-radius: 20px !important;
+      backdrop-filter: blur(10px) !important;
+      transition: all 0.3s ease !important;
       position: absolute !important;
       top: 15px !important;
       left: 0px !important;
+      z-index: 10000 !important;
+      margin: 0 !important;
+    }
+
+    .pswp__top-bar {
+      position: relative !important;
+      z-index: 9999 !important;
+      padding: 0 !important;
+      height: auto !important;
+    }
+
+    .nav-menu {
+      list-style: none;
+    }
+
+    .nav-menu li {
+      margin-bottom: 1rem;
+    }
+
+    .nav-menu a {
+      text-decoration: none;
+      color: #333;
+      font-size: 1.1rem;
+      transition: color 0.3s;
+    }
+
+    .nav-menu a:hover {
+      color: #f00;
+    }
+
+    ul.custom-ul {
+      padding-left: 5px;
+      margin-left: 0;
+      list-style-position: outside;
     }
   </style>
 </head>
-
 <body>
-  <!-- 第一页 -->
+  <!-- 首页 -->
   <section class="home-section" id="home">
     <h1>Butterfly</h1>
     <div class="typing-container">
@@ -248,28 +350,37 @@
     </div>
   </section>
 
-  <!-- 第二页：图片画廊 -->
+  <!-- 画廊页面 -->
   <section class="gallery-section" id="gallery">
     <button class="mobile-menu-btn" id="mobileMenuBtn">🐈</button>
-    <div class="split-layout">
+    <div class="split-layout split-responsive">
       <div class="left-panel" id="leftPanel">
         <button class="close-nav-btn" id="closeNavBtn">×</button>
         <nav>
           <ul class="nav-menu">
-            <!-- 菜单内容空 -->
+            <!-- 导航菜单内容 -->
           </ul>
         </nav>
       </div>
-
       <div class="right-panel">
-        <div class="page_content content_padding">
-          <div style="text-align: right;">
+        <bodycopy class="bodycopy content content_padding">
+          <div class="page_content clearfix" data-elementresizer data-resize-parent data-ce-host="true" data-resize-model-id="37160823">
+            <div style="text-align: right;">
+              <br><br>
+              <span style="color: #f00;">
+                <ul class="custom-ul">
+                  <li>
+                    <i style="font-size: 3rem;"><b><small><span style="color: #f00;"><i>这片土地使我痊愈</i></span></small></b></i>
+                  </li>
+                </ul>
+              </span>
+            </div>
+            <h2>
+              <div grid-row grid-pad="4" grid-gutter="8" grid-responsive>
+                <div grid-col="6" grid-pad="4" class=""><br></div>
+              </div>
+            </h2>
             <br><br>
-            <span style="color: #f00;">
-              <ul><li><i style="font-size: 3rem;"><b><small><span style="color: #f00;"><i>这片土地使我痊愈</i></span></small></b></i></li></ul>
-            </span>
-          </div>
-          <br><br>
 <!-- ====== 图片画廊区域 ====== -->
 <div class="image-gallery initialized" image-gallery="justify" image-gallery-row image-gallery-pad="1" image-gallery-gutter="2" id="gallery--test-padding">
 
@@ -645,22 +756,22 @@
       <img data-gallery-item-index="42" data-gallery-uid="189" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/d9bdf7e44d86686853d8c39c083728f889da0ac017dbd71d34dbddd14d0d3ccd/Restorative-Topophilia-S-132.jpg" data-mid="225397421" class="image-zoom">
     </div>
   </a>
+            </div>
+            <br><br><small></small>
           </div>
-        </div>
+        </bodycopy>
       </div>
     </div>
   </section>
 
-  <!-- Typed.js -->
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-  <script type="module">
-    import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
-
-    /* 打字机效果 */
+  <script>
+    // 打字机效果
     const cursor = document.createElement("span");
     cursor.classList.add("typed-cursor");
     cursor.textContent = "|";
     document.querySelector(".typing-container").appendChild(cursor);
+
     const typed = new Typed(".typed-text", {
       strings: [
         "Never put off till tomorrow",
@@ -680,42 +791,134 @@
       }
     });
 
-    /* 点击或滚动进入第二页 */
-    document.getElementById('scrollButton').addEventListener('click', () => {
+    // 点击滚动到画廊页面
+    document.getElementById('scrollButton').addEventListener('click', function() {
       document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
     });
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > window.innerHeight * 0.5) {
-        document.getElementById('gallery').classList.add('visible');
+
+    // 点击反馈
+    const scrollBtn = document.getElementById('scrollButton');
+    scrollBtn.addEventListener('mousedown', () => scrollBtn.style.opacity = '0.6');
+    scrollBtn.addEventListener('mouseup', () => scrollBtn.style.opacity = '0.8');
+    scrollBtn.addEventListener('mouseleave', () => scrollBtn.style.opacity = '0.8');
+
+    // 导航菜单控制
+    document.addEventListener('DOMContentLoaded', function() {
+      if ('addEventListener' in document && FastClick) {
+        FastClick.attach(document.body);
       }
+
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const closeNavBtn = document.getElementById('closeNavBtn');
+      const leftPanel = document.getElementById('leftPanel');
+
+      if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function() {
+          leftPanel.classList.add('active');
+        });
+      }
+
+      if (closeNavBtn) {
+        closeNavBtn.addEventListener('click', function() {
+          leftPanel.classList.remove('active');
+        });
+      }
+
+      // 滚动动画
+      const fadeElements = document.querySelectorAll('.scroll-transition-fade');
+      let lastScrollTop = 0;
+
+      const elementLastTriggerPos = new Map();
+
+      function checkScroll() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const isScrollingDown = scrollTop > lastScrollTop;
+
+        fadeElements.forEach(element => {
+          const rect = element.getBoundingClientRect();
+          const elementTop = rect.top;
+          const viewportHeight = window.innerHeight;
+
+          const triggerPoint = viewportHeight * 0.8;
+          const isVisible = elementTop < triggerPoint && elementTop > 0;
+
+          const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
+
+          if (isScrollingDown && isVisible) {
+            if (scrollTop > lastTriggerPos) {
+              element.classList.remove('below-viewport');
+              elementLastTriggerPos.set(element, scrollTop);
+            }
+          } else if (!isScrollingDown && !isVisible) {
+            if (elementTop > viewportHeight) {
+              element.classList.add('below-viewport');
+              elementLastTriggerPos.set(element, 0);
+            }
+          }
+        });
+
+        lastScrollTop = scrollTop;
+      }
+
+      let scrollTimeout;
+      function handleScroll() {
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
+        }
+        scrollTimeout = setTimeout(checkScroll, 16);
+      }
+
+      window.addEventListener('scroll', handleScroll);
+      checkScroll();
     });
+  </script>
 
-    /* FastClick */
-    if ('addEventListener' in document && FastClick) FastClick.attach(document.body);
+  <script type="module">
+    import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
 
-    /* 导航控制 */
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const closeNavBtn = document.getElementById('closeNavBtn');
-    const leftPanel = document.getElementById('leftPanel');
-    mobileMenuBtn.addEventListener('click', () => leftPanel.classList.add('active'));
-    closeNavBtn.addEventListener('click', () => leftPanel.classList.remove('active'));
-
-    /* PhotoSwipe 初始化 */
     const lightbox = new PhotoSwipeLightbox({
       gallery: '#gallery--test-padding',
       children: 'a',
       pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
+      padding: { top: 20, bottom: 20, left: 20, right: 20 },
+      close: false,
+      zoom: false,
       imageClickAction: 'close',
       bgClickAction: 'close',
+      clickToCloseNonZoomable: true,
+      tapAction: 'close',
+      tapToClose: true,
       doubleTapAction: 'zoom',
       showHideAnimationType: 'zoom',
       showAnimationDuration: 333,
       hideAnimationDuration: 333,
+      zoomAnimationDuration: 333,
+      bgOpacity: 1,
+      getViewportSize: function(options) {
+        return {
+          x: document.documentElement.clientWidth,
+          y: document.documentElement.clientHeight
+        };
+      },
       initialZoomLevel: 'fit',
       secondaryZoomLevel: 2,
-      maxZoomLevel: 4
+      maxZoomLevel: 4,
+      minZoomLevel: 0.1,
+      pinchToClose: true,
+      closeOnVerticalDrag: true
     });
+
+    lightbox.on('beforeOpen', () => {
+      const isMobile = window.innerWidth <= 768;
+      console.log('设备类型:', isMobile ? '移动端' : '桌面端');
+    });
+
+    lightbox.on('bindEvents', () => {
+      console.log('PhotoSwipe事件已绑定，单击图片将关闭预览');
+    });
+
     lightbox.init();
+    console.log('PhotoSwipe已初始化：单击图片关闭，双击图片缩放');
   </script>
 </body>
 </html>
