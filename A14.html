@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -150,15 +147,19 @@
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
         
-        .scroll-transition-fade {
-            transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
-        }
-        
-        .scroll-transition-fade.below-viewport {
-            opacity: 0;
-            transform: translateY(40px);
-        }
-        
+.scroll-transition-fade {
+  transition: transform 1s ease, opacity 0.8s ease;
+}
+
+.scroll-transition-fade.below-viewport {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.scroll-transition-fade:not(.below-viewport) {
+  opacity: 1;
+  transform: translateY(0);
+}
         @media (max-width: 768px) {
             .image-gallery [image-gallery-pad] {
                 padding: 0.3rem;
@@ -675,82 +676,82 @@
   </div>
 </div>
 
-    <script>
-        // 初始化FastClick来消除移动端点击延迟
-        document.addEventListener('DOMContentLoaded', function() {
-            // 初始化 FastClick
-            if ('addEventListener' in document && FastClick) {
-                FastClick.attach(document.body);
-            }
-            
-            // 导航菜单控制
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const closeNavBtn = document.getElementById('closeNavBtn');
-            const leftPanel = document.getElementById('leftPanel');
-            
-            if (mobileMenuBtn) {
-                mobileMenuBtn.addEventListener('click', function() {
-                    leftPanel.classList.add('active');
-                });
-            }
-            
-            if (closeNavBtn) {
-                closeNavBtn.addEventListener('click', function() {
-                    leftPanel.classList.remove('active');
-                });
-            }
-            
-            // 原有的滚动动画代码
-            const fadeElements = document.querySelectorAll('.scroll-transition-fade');
-            let lastScrollTop = 0;
-            
-            const elementLastTriggerPos = new Map();
-
-function checkScroll() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const isScrollingDown = scrollTop > lastScrollTop;
-    
-    fadeElements.forEach(element => {
-        const rect = element.getBoundingClientRect();
-        const elementTop = rect.top;
-        const elementBottom = rect.bottom;
-        const viewportHeight = window.innerHeight;
-        
-        // 改进的可见性检测：元素任何部分进入视口80%位置就显示
-        const triggerPoint = viewportHeight * 0.8;
-        const isVisible = elementTop < triggerPoint && elementBottom > 0;
-        
-        const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
-        
-        if (isScrollingDown && isVisible) {
-            if (scrollTop > lastTriggerPos) {
-                element.classList.remove('below-viewport');
-                elementLastTriggerPos.set(element, scrollTop);
-            }
-        } else if (!isScrollingDown && !isVisible) {
-            if (elementTop > viewportHeight) {
-                element.classList.add('below-viewport');
-                elementLastTriggerPos.set(element, 0);
-            }
+<script>
+    // 初始化FastClick来消除移动端点击延迟
+    document.addEventListener('DOMContentLoaded', function() {
+        // 初始化 FastClick
+        if ('addEventListener' in document && FastClick) {
+            FastClick.attach(document.body);
         }
-    });
-    
-    lastScrollTop = scrollTop;
-}
 
-            let scrollTimeout;
-            function handleScroll() {
-                if (scrollTimeout) {
-                    clearTimeout(scrollTimeout);
+        // 导航菜单控制
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeNavBtn = document.getElementById('closeNavBtn');
+        const leftPanel = document.getElementById('leftPanel');
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                leftPanel.classList.add('active');
+            });
+        }
+
+        if (closeNavBtn) {
+            closeNavBtn.addEventListener('click', function() {
+                leftPanel.classList.remove('active');
+            });
+        }
+
+        // ======= 向下滚动触发淡入，往上滚动不触发 =======
+
+        const fadeElements = document.querySelectorAll('.scroll-transition-fade');
+        let lastScrollTop = 0;
+        const viewportHeight = window.innerHeight;
+
+        // 页面加载时全部隐藏
+        fadeElements.forEach(el => el.classList.add('below-viewport'));
+
+        // 已显示过的元素集合
+        const shownElements = new WeakSet();
+
+        function checkScroll() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const isScrollingDown = scrollTop > lastScrollTop;
+            const triggerPoint = viewportHeight * 0.85;
+
+            fadeElements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                const elementTop = rect.top;
+                const elementBottom = rect.bottom;
+
+                // 只在向下滚动时检查触发
+                if (isScrollingDown) {
+                    const isVisible = (elementBottom > 0) && (elementTop < triggerPoint);
+                    if (isVisible && !shownElements.has(element)) {
+                        element.classList.remove('below-viewport');
+                        shownElements.add(element);
+                    }
+                } else {
+                    // 向上滚动时，如果元素完全在视口下方（还未进入视口），则允许下次重新触发
+                    if (rect.top > viewportHeight) {
+                        shownElements.delete(element);
+                        element.classList.add('below-viewport');
+                    }
                 }
-                scrollTimeout = setTimeout(checkScroll, 16);
-            }
+            });
 
-            window.addEventListener('scroll', handleScroll);
-            checkScroll();
-        });
-    </script>
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // 防止负值
+        }
 
+        let scrollTimeout;
+        function handleScroll() {
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(checkScroll, 16);
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        checkScroll(); // 初次检查
+    });
+</script>
     <!-- ====== PhotoSwipe 初始化 ====== -->
     <script type="module">
         import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
