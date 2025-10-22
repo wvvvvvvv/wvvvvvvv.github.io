@@ -147,19 +147,17 @@
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
         
-.scroll-transition-fade {
-  transition: transform 1s ease, opacity 0.8s ease;
-}
-
-.scroll-transition-fade.below-viewport {
-  opacity: 0;
-  transform: translateY(40px);
-}
-
-.scroll-transition-fade:not(.below-viewport) {
-  opacity: 1;
-  transform: translateY(0);
-}
+        .scroll-transition-fade {
+            transition: transform 0.8s ease, opacity 0.8s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        
+        .scroll-transition-fade.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
         @media (max-width: 768px) {
             .image-gallery [image-gallery-pad] {
                 padding: 0.3rem;
@@ -676,6 +674,7 @@
   </div>
 </div>
 
+
 <script>
     // 初始化FastClick来消除移动端点击延迟
     document.addEventListener('DOMContentLoaded', function() {
@@ -683,75 +682,69 @@
         if ('addEventListener' in document && FastClick) {
             FastClick.attach(document.body);
         }
-
+        
         // 导航菜单控制
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const closeNavBtn = document.getElementById('closeNavBtn');
         const leftPanel = document.getElementById('leftPanel');
-
+        
         if (mobileMenuBtn) {
             mobileMenuBtn.addEventListener('click', function() {
                 leftPanel.classList.add('active');
             });
         }
-
+        
         if (closeNavBtn) {
             closeNavBtn.addEventListener('click', function() {
                 leftPanel.classList.remove('active');
             });
         }
-
-        // ======= 向下滚动触发淡入，往上滚动不触发 =======
-
+        
+        // 修复：恢复您原始的逻辑，但修复类名问题
         const fadeElements = document.querySelectorAll('.scroll-transition-fade');
         let lastScrollTop = 0;
-        const viewportHeight = window.innerHeight;
-
-        // 页面加载时全部隐藏
-        fadeElements.forEach(el => el.classList.add('below-viewport'));
-
-        // 已显示过的元素集合
-        const shownElements = new WeakSet();
-
+        
         function checkScroll() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const isScrollingDown = scrollTop > lastScrollTop;
-            const triggerPoint = viewportHeight * 0.85;
-
+            
             fadeElements.forEach(element => {
                 const rect = element.getBoundingClientRect();
                 const elementTop = rect.top;
-                const elementBottom = rect.bottom;
-
-                // 只在向下滚动时检查触发
-                if (isScrollingDown) {
-                    const isVisible = (elementBottom > 0) && (elementTop < triggerPoint);
-                    if (isVisible && !shownElements.has(element)) {
-                        element.classList.remove('below-viewport');
-                        shownElements.add(element);
-                    }
-                } else {
-                    // 向上滚动时，如果元素完全在视口下方（还未进入视口），则允许下次重新触发
-                    if (rect.top > viewportHeight) {
-                        shownElements.delete(element);
-                        element.classList.add('below-viewport');
+                const viewportHeight = window.innerHeight;
+                
+                const triggerPoint = viewportHeight * 0.8;
+                const isVisible = elementTop < triggerPoint;
+                
+                if (isScrollingDown && isVisible) {
+                    element.classList.add('active');
+                } else if (!isScrollingDown && !isVisible) {
+                    if (elementTop > viewportHeight) {
+                        element.classList.remove('active');
                     }
                 }
             });
-
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // 防止负值
+            
+            lastScrollTop = scrollTop;
         }
 
         let scrollTimeout;
         function handleScroll() {
-            if (scrollTimeout) clearTimeout(scrollTimeout);
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
             scrollTimeout = setTimeout(checkScroll, 16);
         }
 
         window.addEventListener('scroll', handleScroll);
-        checkScroll(); // 初次检查
+        checkScroll();
     });
 </script>
+
+
+  
+  
+
     <!-- ====== PhotoSwipe 初始化 ====== -->
     <script type="module">
         import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
