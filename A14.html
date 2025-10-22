@@ -651,7 +651,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化 FastClick
+    // ====== 初始化 FastClick ======
     if ('addEventListener' in document && FastClick) {
         FastClick.attach(document.body);
     }
@@ -681,7 +681,13 @@ document.addEventListener('DOMContentLoaded', function() {
         el.classList.add('below-viewport');
     });
 
+    let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
     function checkScroll() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const isScrollingDown = scrollTop > lastScrollTop;
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // 防止负值
+
         const viewportHeight = window.innerHeight;
 
         fadeElements.forEach(el => {
@@ -689,26 +695,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const elementTop = rect.top;
             const elementBottom = rect.bottom;
 
-            // 元素进入视口范围内（允许一定的提前触发）
             const isVisible = elementBottom > 0 && elementTop < viewportHeight * 0.9;
 
-            if (isVisible) {
-                // 进入视口：播放淡入上浮动画
+            if (isScrollingDown && isVisible) {
+                // ✅ 向下滚动且图片进入视口 → 淡入浮现
                 el.classList.remove('below-viewport');
-            } else {
-                // 离开视口：重置为初始状态，以便下次重新播放动画
+            } 
+            else if (!isScrollingDown && !isVisible) {
+                // ✅ 向上滚出视口 → 重置状态（以便下次向下滚动时再次播放）
                 el.classList.add('below-viewport');
             }
         });
     }
 
-    // 监听滚动、窗口变化与加载事件
     window.addEventListener('scroll', checkScroll, { passive: true });
     window.addEventListener('resize', checkScroll);
     window.addEventListener('load', checkScroll);
 });
 </script>
-
     <!-- PhotoSwipe 初始化 -->
     <script type="module">
         import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
