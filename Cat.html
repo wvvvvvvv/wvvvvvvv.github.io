@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>猫像素艺术</title>
+    <style>
+        :root {
+            --size: 0.5rem;
+            --color: black;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .cat {
+            width: var(--size);
+            height: var(--size);
+            background: var(--color);
+            box-shadow: 
+                calc(2 * var(--size)) calc(-7 * var(--size)) var(--color),
+                calc(3 * var(--size)) calc(-7 * var(--size)) var(--color),
+                
+                calc(2 * var(--size)) calc(-6 * var(--size)) var(--color),
+                
+                calc(2 * var(--size)) calc(-5 * var(--size)) var(--color),
+                
+                calc(2 * var(--size)) calc(-4 * var(--size)) var(--color),
+                calc(3 * var(--size)) calc(-4 * var(--size)) var(--color),
+                calc(4 * var(--size)) calc(-4 * var(--size)) var(--color),
+                calc(5 * var(--size)) calc(-4 * var(--size)) var(--color),
+                calc(6 * var(--size)) calc(-4 * var(--size)) var(--color),
+                calc(7 * var(--size)) calc(-4 * var(--size)) var(--color),
+                
+                calc(-6 * var(--size)) calc(-3 * var(--size)) var(--color),
+                calc(-2 * var(--size)) calc(-3 * var(--size)) var(--color),
+                calc(7 * var(--size)) calc(-3 * var(--size)) var(--color),
+                
+                calc(-6 * var(--size)) calc(-2 * var(--size)) var(--color),
+                calc(-5 * var(--size)) calc(-2 * var(--size)) var(--color),
+                calc(-3 * var(--size)) calc(-2 * var(--size)) var(--color),
+                calc(-2 * var(--size)) calc(-2 * var(--size)) var(--color),
+                calc(1 * var(--size)) calc(-2 * var(--size)) var(--color),
+                calc(2 * var(--size)) calc(-2 * var(--size)) var(--color),
+                calc(3 * var(--size)) calc(-2 * var(--size)) var(--color),
+                calc(4 * var(--size)) calc(-2 * var(--size)) var(--color),
+                calc(7 * var(--size)) calc(-2 * var(--size)) var(--color),
+                
+                calc(-6 * var(--size)) calc(-1 * var(--size)) var(--color),
+                calc(-5 * var(--size)) calc(-1 * var(--size)) var(--color),
+                calc(-4 * var(--size)) calc(-1 * var(--size)) var(--color),
+                calc(-3 * var(--size)) calc(-1 * var(--size)) var(--color),
+                calc(-2 * var(--size)) calc(-1 * var(--size)) var(--color),
+                calc(0 * var(--size)) calc(-1 * var(--size)) var(--color),
+                calc(1 * var(--size)) calc(-1 * var(--size)) var(--color),
+                calc(2 * var(--size)) calc(-1 * var(--size)) var(--color),
+                calc(3 * var(--size)) calc(-1 * var(--size)) var(--color),
+                calc(4 * var(--size)) calc(-1 * var(--size)) var(--color),
+                calc(5 * var(--size)) calc(-1 * var(--size)) var(--color),
+                calc(6 * var(--size)) calc(-1 * var(--size)) var(--color),
+                calc(7 * var(--size)) calc(-1 * var(--size)) var(--color),
+                
+                calc(-6 * var(--size)) calc(0 * var(--size)) var(--color),
+                calc(-4 * var(--size)) calc(0 * var(--size)) var(--color),
+                calc(-2 * var(--size)) calc(0 * var(--size)) var(--color),
+                calc(-1 * var(--size)) calc(0 * var(--size)) var(--color),
+                calc(1 * var(--size)) calc(0 * var(--size)) var(--color),
+                calc(2 * var(--size)) calc(0 * var(--size)) var(--color),
+                calc(3 * var(--size)) calc(0 * var(--size)) var(--color),
+                calc(4 * var(--size)) calc(0 * var(--size)) var(--color),
+                calc(5 * var(--size)) calc(0 * var(--size)) var(--color),
+                calc(6 * var(--size)) calc(0 * var(--size)) var(--color),
+                calc(7 * var(--size)) calc(0 * var(--size)) var(--color),
+                
+                calc(-6 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(-5 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(-4 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(-3 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(-2 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(-1 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(0 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(1 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(2 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(3 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(4 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(5 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(6 * var(--size)) calc(1 * var(--size)) var(--color),
+                calc(7 * var(--size)) calc(1 * var(--size)) var(--color),
+                
+                calc(-5 * var(--size)) calc(2 * var(--size)) var(--color),
+                calc(-4 * var(--size)) calc(2 * var(--size)) var(--color),
+                calc(-3 * var(--size)) calc(2 * var(--size)) var(--color),
+                calc(-2 * var(--size)) calc(2 * var(--size)) var(--color),
+                calc(-1 * var(--size)) calc(2 * var(--size)) var(--color),
+                calc(0 * var(--size)) calc(2 * var(--size)) var(--color),
+                calc(1 * var(--size)) calc(2 * var(--size)) var(--color),
+                calc(2 * var(--size)) calc(2 * var(--size)) var(--color),
+                calc(3 * var(--size)) calc(2 * var(--size)) var(--color),
+                calc(4 * var(--size)) calc(2 * var(--size)) var(--color),
+                calc(5 * var(--size)) calc(2 * var(--size)) var(--color),
+                calc(6 * var(--size)) calc(2 * var(--size)) var(--color),
+                calc(7 * var(--size)) calc(2 * var(--size)) var(--color),
+                
+                calc(-3 * var(--size)) calc(3 * var(--size)) var(--color),
+                calc(-2 * var(--size)) calc(3 * var(--size)) var(--color),
+                calc(-1 * var(--size)) calc(3 * var(--size)) var(--color),
+                calc(0 * var(--size)) calc(3 * var(--size)) var(--color),
+                calc(1 * var(--size)) calc(3 * var(--size)) var(--color),
+                calc(2 * var(--size)) calc(3 * var(--size)) var(--color),
+                calc(4 * var(--size)) calc(3 * var(--size)) var(--color),
+                calc(5 * var(--size)) calc(3 * var(--size)) var(--color),
+                calc(6 * var(--size)) calc(3 * var(--size)) var(--color),
+                
+                calc(-3 * var(--size)) calc(4 * var(--size)) var(--color),
+                calc(-2 * var(--size)) calc(4 * var(--size)) var(--color),
+                calc(-1 * var(--size)) calc(4 * var(--size)) var(--color),
+                calc(1 * var(--size)) calc(4 * var(--size)) var(--color),
+                calc(2 * var(--size)) calc(4 * var(--size)) var(--color),
+                calc(4 * var(--size)) calc(4 * var(--size)) var(--color),
+                calc(5 * var(--size)) calc(4 * var(--size)) var(--color),
+                
+                calc(-3 * var(--size)) calc(5 * var(--size)) var(--color),
+                calc(-1 * var(--size)) calc(5 * var(--size)) var(--color),
+                calc(2 * var(--size)) calc(5 * var(--size)) var(--color),
+                calc(5 * var(--size)) calc(5 * var(--size)) var(--color),
+                
+                calc(-3 * var(--size)) calc(6 * var(--size)) var(--color),
+                calc(-1 * var(--size)) calc(6 * var(--size)) var(--color),
+                calc(2 * var(--size)) calc(6 * var(--size)) var(--color),
+                calc(5 * var(--size)) calc(6 * var(--size)) var(--color),
+                
+                calc(-3 * var(--size)) calc(7 * var(--size)) var(--color),
+                calc(-1 * var(--size)) calc(7 * var(--size)) var(--color),
+                calc(2 * var(--size)) calc(7 * var(--size)) var(--color),
+                calc(5 * var(--size)) calc(7 * var(--size)) var(--color),
+                
+                calc(-4 * var(--size)) calc(8 * var(--size)) var(--color),
+                calc(-3 * var(--size)) calc(8 * var(--size)) var(--color),
+                calc(-2 * var(--size)) calc(8 * var(--size)) var(--color),
+                calc(-1 * var(--size)) calc(8 * var(--size)) var(--color),
+                calc(1 * var(--size)) calc(8 * var(--size)) var(--color),
+                calc(2 * var(--size)) calc(8 * var(--size)) var(--color),
+                calc(4 * var(--size)) calc(8 * var(--size)) var(--color),
+                calc(5 * var(--size)) calc(8 * var(--size)) var(--color);
+        }
+    </style>
+</head>
+<body>
+    <span class="cat"></span>
+</body>
+</html>
