@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Art</title>
+    <style>
+        body {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+.pixel-container {
+    position: relative;
+    width: 280px;  /* 原 140px * 2 */
+    height: 280px; /* 原 140px * 2 */
+    transform: scale(0.5); /* 放大 2 倍；改为 0.5 则缩小 */
+
+}
+        .pixel-art {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            background: transparent;
+            box-shadow: 80px 0px 0 0 #000000, 90px 0px 0 0 #000000, 80px 10px 0 0 #000000, 80px 20px 0 0 #000000, 90px 20px 0 0 #000000, 100px 20px 0 0 #000000, 110px 20px 0 0 #000000, 120px 20px 0 0 #000000, 130px 20px 0 0 #000000, 0px 30px 0 0 #000000, 40px 30px 0 0 #000000, 130px 30px 0 0 #000000, 0px 40px 0 0 #000000, 10px 40px 0 0 #000000, 30px 40px 0 0 #000000, 40px 40px 0 0 #000000, 70px 40px 0 0 #000000, 80px 40px 0 0 #000000, 90px 40px 0 0 #000000, 100px 40px 0 0 #000000, 130px 40px 0 0 #000000, 0px 50px 0 0 #000000, 10px 50px 0 0 #000000, 20px 50px 0 0 #000000, 30px 50px 0 0 #000000, 40px 50px 0 0 #000000, 60px 50px 0 0 #000000, 70px 50px 0 0 #000000, 80px 50px 0 0 #000000, 90px 50px 0 0 #000000, 100px 50px 0 0 #000000, 110px 50px 0 0 #000000, 120px 50px 0 0 #000000, 130px 50px 0 0 #000000, 0px 60px 0 0 #000000, 10px 60px 0 0 #ff0000, 20px 60px 0 0 #000000, 30px 60px 0 0 #ff0000, 40px 60px 0 0 #000000, 50px 60px 0 0 #000000, 60px 60px 0 0 #000000, 70px 60px 0 0 #000000, 80px 60px 0 0 #000000, 90px 60px 0 0 #000000, 100px 60px 0 0 #000000, 110px 60px 0 0 #000000, 120px 60px 0 0 #000000, 130px 60px 0 0 #000000, 0px 70px 0 0 #000000, 10px 70px 0 0 #000000, 20px 70px 0 0 #000000, 30px 70px 0 0 #000000, 40px 70px 0 0 #000000, 50px 70px 0 0 #000000, 60px 70px 0 0 #000000, 70px 70px 0 0 #000000, 80px 70px 0 0 #000000, 90px 70px 0 0 #000000, 100px 70px 0 0 #000000, 110px 70px 0 0 #000000, 120px 70px 0 0 #000000, 130px 70px 0 0 #000000, 10px 80px 0 0 #000000, 20px 80px 0 0 #000000, 30px 80px 0 0 #000000, 40px 80px 0 0 #000000, 50px 80px 0 0 #000000, 60px 80px 0 0 #000000, 70px 80px 0 0 #000000, 80px 80px 0 0 #000000, 90px 80px 0 0 #000000, 100px 80px 0 0 #000000, 110px 80px 0 0 #000000, 120px 80px 0 0 #000000, 130px 80px 0 0 #000000, 30px 90px 0 0 #000000, 40px 90px 0 0 #000000, 50px 90px 0 0 #000000, 60px 90px 0 0 #000000, 70px 90px 0 0 #000000, 80px 90px 0 0 #000000, 100px 90px 0 0 #000000, 110px 90px 0 0 #000000, 120px 90px 0 0 #000000, 30px 100px 0 0 #000000, 40px 100px 0 0 #000000, 50px 100px 0 0 #000000, 70px 100px 0 0 #000000, 80px 100px 0 0 #000000, 100px 100px 0 0 #000000, 110px 100px 0 0 #000000, 30px 110px 0 0 #000000, 50px 110px 0 0 #000000, 80px 110px 0 0 #000000, 110px 110px 0 0 #000000, 30px 120px 0 0 #000000, 50px 120px 0 0 #000000, 80px 120px 0 0 #000000, 110px 120px 0 0 #000000, 30px 130px 0 0 #000000, 50px 130px 0 0 #000000, 80px 130px 0 0 #000000, 110px 130px 0 0 #000000, 20px 140px 0 0 #000000, 30px 140px 0 0 #000000, 40px 140px 0 0 #000000, 50px 140px 0 0 #000000, 70px 140px 0 0 #000000, 80px 140px 0 0 #000000, 100px 140px 0 0 #000000, 110px 140px 0 0 #000000;
+        }
+    </style>
+</head>
+<body>
+    <div class="pixel-container">
+        <div class="pixel-art"></div>
+    </div>
+</body>
+</html>
