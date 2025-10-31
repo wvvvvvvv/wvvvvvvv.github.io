@@ -848,7 +848,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
 
                         <div id="page2" class="page">
                             <div class="profile-header">
-<img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/cat.JPG?w=300&h=300" alt="头像" class="profile-pic" onclick="triggerConfetti()" />
+<img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/cat.JPG?w=300&h=300" alt="头像" class="profile-pic" onclick="confetti({particleCount:150,spread:100})" />
                             </div>
                             <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3UkRfA9F62DYYDzqOskoov?si=MXIJN0wrQx24IS-qmyCUjg', '_blank')">
                                 <div class="spotify-left">
@@ -1708,22 +1708,23 @@ document.querySelectorAll('.day-toggle').forEach(button => {
         alert('复制失败,请手动输入 ' + wechatID);
         window.location.href = 'weixin://dl/scan';
     });
+
   
   function isMobile() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768; // 结合 userAgent 和屏幕宽度判断
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
 }
   
   function triggerConfetti() {
     if (isMobile()) {
-        // 移动端：小一点的效果（减少粒子和扩散）
-        confetti({ particleCount: 50, spread: 60 }); // 可以根据需要调整数字
+        confetti({
+            scalar: 0.3,
+        });
     } else {
-        // 桌面端：原效果
         confetti({ particleCount: 150, spread: 100 });
     }
 }
   
-</script>
+  </script>
 
 </body>
 </html>
