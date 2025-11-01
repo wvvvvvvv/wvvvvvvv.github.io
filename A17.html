@@ -379,15 +379,22 @@
     .custom-ul {
       padding-left: 5px;   /* 示例：缩小到5px */
     }
-    
-    .typing-container {
-  transform: translate3d(0, 0, 0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
-
   </style>
+  
+      <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            margin: 0;
+        }
+        #canvas {
+            width: 100%;
+            height: 50%;
+        }
+    </style>
+  
+  
 </head>
 <body>
   <!-- 首页 -->
@@ -1015,5 +1022,12 @@
     lightbox.init();
     console.log('PhotoSwipe已初始化：单击图片关闭，双击图片缩放');
   </script>
+  <canvas id="canvas" width="1194" height="2000"></canvas>
+
+
+<div style="text-align:center;clear:both;">
+</div>
+<script src="https://gcore.jsdelivr.net/gh/coder-lzh/picture@main/lib/effect/crowd-flow/gsap.min.js"></script>
+<script src="https://gcore.jsdelivr.net/gh/coder-lzh/picture@main/lib/effect/crowd-flow/script.js"></script>
 </body>
 </html>
