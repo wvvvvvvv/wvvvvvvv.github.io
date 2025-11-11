@@ -3,74 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 新增的 meta 标签 -->
-    <meta name="theme-color" content="#1a0f2a" id="themeColor">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>🌙🐈🌅</title>
     <style>
-:root {
-    --glow-sens: 30;
-    --dark: hsl(260, 25%, 10%);
-    --fg: black;
-    --h: 260;
-    --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
-    --blend: soft-light;
-    --glow-blend: plus-lighter;
-    --glow-color: 40deg 80% 80%;
-    --duration: 1s;
-    --ease-slider: cubic-bezier(0.4, 0, 0.2, 1);
-    --ease-timeline: cubic-bezier(0.71, 0.21, 0.3, 0.95);
-    --page-height: 498px;
-    --accent: hsl(260, 100%, 80%);
-    /* 新增主题颜色变量 */
-    --theme-color: #1a0f2a;
-    --theme-color-light: #f5f0ff;
-}
+        :root {
+            --glow-sens: 30;
+            --dark: hsl(260, 25%, 10%);
+            --fg: black;
+            --h: 260;
+            --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
+            --blend: soft-light;
+            --glow-blend: plus-lighter;
+            --glow-color: 40deg 80% 80%;
+            --duration: 1s;
+            --ease-slider: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-timeline: cubic-bezier(0.71, 0.21, 0.3, 0.95);
+            --page-height: 498px;
+            --accent: hsl(260, 100%, 80%);
+        }
 
-.light {
-    --card-bg: linear-gradient(8deg, color-mix(in hsl, hsl(260, 25%, 95%), var(--dark) 2.5%) 75%, hsl(260, 25%, 95%) 75.5%);
-    --blend: darken;
-    --glow-blend: luminosity;
-    --glow-color: 280deg 90% 95%;
-    --fg: black;
-    /* 浅色模式主题颜色 */
-    --theme-color: #f5f0ff;
-    --theme-color-light: #f5f0ff;
-    color: var(--fg);
-}
+        .light {
+            --card-bg: linear-gradient(8deg, color-mix(in hsl, hsl(260, 25%, 95%), var(--dark) 2.5%) 75%, hsl(260, 25%, 95%) 75.5%);
+            --blend: darken;
+            --glow-blend: luminosity;
+            --glow-color: 280deg 90% 95%;
+            --fg: black;
+            color: var(--fg);
+        }
 
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    background: url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Inter', sans-serif;
-    color: var(--fg);
-    overflow: hidden;
-    /* 新增：Safari 安全区域支持 */
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-    background-color: var(--theme-color); /* 添加背景色作为回退 */
-}
-
-/* 为 Safari 顶部状态栏添加颜色填充 */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: env(safe-area-inset-top);
-    background-color: var(--theme-color);
-    z-index: 9999;
-    pointer-events: none;
-}
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: url('https://splattacks.neocities.org/images/bg.png') center/cover fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            color: var(--fg);
+            overflow: hidden;
+        }
 
         body.light {
-            background: url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover fixed;
+            background: url('https://splattacks.neocities.org/images/bg.png') center/cover fixed;
             color: var(--fg);
         }
         
@@ -987,26 +961,16 @@ renderer.setClearColor(0x000000, 0); // 保证透明
             glowingCard.style.boxShadow = reducedBoxShadow;
         }
 
-window.onload = function() {
-    init();
-    preloadImages([
-        'https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg',
-        'https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/222.JPG',
-        'https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/111.JPG'
-    ]);
-    loadMusicPlayer();
-    switchPageTo(2);
-    
-    // 设置初始主题颜色
-    const themeColorMeta = document.getElementById('themeColor');
-    if (document.body.classList.contains('light')) {
-        themeColorMeta.content = '#f5f0ff';
-        document.documentElement.style.setProperty('--theme-color', '#f5f0ff');
-    } else {
-        themeColorMeta.content = '#1a0f2a';
-        document.documentElement.style.setProperty('--theme-color', '#1a0f2a');
-    }
-};
+        window.onload = function() {
+            init();
+            preloadImages([
+                'https://splattacks.neocities.org/images/bg.png',
+                'https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/222.JPG',
+                'https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/111.JPG'
+            ]);
+            loadMusicPlayer();
+            switchPageTo(2);
+        };
 
         function preloadImages(urls) {
             urls.forEach(url => {
@@ -1061,50 +1025,36 @@ window.onload = function() {
             }
         });
 
-function toggleTheme(theme) {
-    const canvas = document.getElementById('shuicheCanvas');
-    const themeColorMeta = document.getElementById('themeColor');
-    
-    if (theme === 'light') {
-        document.body.classList.add('light');
-        renderer.setClearColor(0x000000, 0);
-        document.body.style.background = '';
-        document.documentElement.style.setProperty('--fg', 'black');
-        canvas.style.display = 'block';
-        // 更新浅色模式主题颜色
-        themeColorMeta.content = '#f5f0ff';
-        document.documentElement.style.setProperty('--theme-color', '#f5f0ff');
-    } else {
-        document.body.classList.remove('light');
-        renderer.setClearColor(0x000000, 0);
-        document.body.style.background = 'black';
-        document.documentElement.style.setProperty('--fg', 'white');
-        canvas.style.display = 'block';
-        // 更新深色模式主题颜色
-        themeColorMeta.content = '#1a0f2a';
-        document.documentElement.style.setProperty('--theme-color', '#1a0f2a');
-    }
-    if (currentPage === 3) {
-        updateGlowingShadow();
-    }
-}
+        function toggleTheme(theme) {
+            const canvas = document.getElementById('shuicheCanvas');
+            if (theme === 'light') {
+                document.body.classList.add('light');
+                renderer.setClearColor(0x000000, 0);
+                document.body.style.background = '';
+                document.documentElement.style.setProperty('--fg', 'black');
+                canvas.style.display = 'block';
+            } else {
+                document.body.classList.remove('light');
+                renderer.setClearColor(0x000000, 0);
+                document.body.style.background = 'black';
+                document.documentElement.style.setProperty('--fg', 'white');
+                canvas.style.display = 'block';
+            }
+            if (currentPage === 3) {
+                updateGlowingShadow();
+            }
+        }
 
-function switchBackground(url) {
-    document.body.style.background = `url('${url}') center/cover fixed`;
-    document.body.classList.add('light');
-    renderer.setClearColor(0x000000, 0);
-    document.documentElement.style.setProperty('--fg', 'black');
-    document.getElementById('shuicheCanvas').style.display = 'block';
-    
-    // 更新主题颜色为浅色
-    const themeColorMeta = document.getElementById('themeColor');
-    themeColorMeta.content = '#f5f0ff';
-    document.documentElement.style.setProperty('--theme-color', '#f5f0ff');
-    
-    if (currentPage === 3) {
-        updateGlowingShadow();
-    }
-}
+        function switchBackground(url) {
+            document.body.style.background = `url('${url}') center/cover fixed`;
+            document.body.classList.add('light');
+            renderer.setClearColor(0x000000, 0);
+            document.documentElement.style.setProperty('--fg', 'black');
+            document.getElementById('shuicheCanvas').style.display = 'block';
+            if (currentPage === 3) {
+                updateGlowingShadow();
+            }
+        }
 
         function loadMusicPlayer() {
             let indexSong = 0;
