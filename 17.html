@@ -3,14 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- 改变 iPhone Safari 顶部和底部栏颜色 -->
-<meta name="theme-color" content="#b28ef8">
-
-<!-- 全屏与状态栏样式 -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- 添加这些 meta 标签来控制 Safari 地址栏和顶部颜色 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a0f2e" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)">
+    
     <title>🌙🐈🌅</title>
     <style>
+        /* 只在需要时添加顶部安全区域填充 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: env(safe-area-inset-top);
+            background: var(--status-bar-bg, transparent);
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        /* 更新原有的 body 样式，保留背景图片 */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            color: var(--fg);
+            overflow: hidden;
+        }
+
+        body.light {
+            background: url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover fixed;
+            color: var(--fg);
+            --status-bar-bg: #f5f5f5; /* 日间模式状态栏颜色 */
+        }
+
+        body:not(.light) {
+            --status-bar-bg: #1a0f2e; /* 夜间模式状态栏颜色 */
+        }
         :root {
             --glow-sens: 30;
             --dark: hsl(260, 25%, 10%);
@@ -95,7 +131,7 @@ body:not(.light) .link-card {
 }
 
         body:not(.light) .link-card {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.07);
 
         }
         
@@ -104,7 +140,7 @@ body:not(.light) .link-card {
         }
 
         body:not(.light) .spotify-card {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.07);
 
         }
 
@@ -211,7 +247,7 @@ body:not(.light) .link-card {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 0 25px 25px;
+            padding: 0 25px 25.3px;
             overflow: hidden;
         }
 
