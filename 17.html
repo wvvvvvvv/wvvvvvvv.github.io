@@ -3,50 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 添加这些 meta 标签来控制 Safari 地址栏和顶部颜色 -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#1a0f2e" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)">
-    
     <title>🌙🐈🌅</title>
     <style>
-        /* 只在需要时添加顶部安全区域填充 */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: env(safe-area-inset-top);
-            background: var(--status-bar-bg, transparent);
-            z-index: 9999;
-            pointer-events: none;
-        }
-
-        /* 更新原有的 body 样式，保留背景图片 */
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background: url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Inter', sans-serif;
-            color: var(--fg);
-            overflow: hidden;
-        }
-
-        body.light {
-            background: url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover fixed;
-            color: var(--fg);
-            --status-bar-bg: #f5f5f5; /* 日间模式状态栏颜色 */
-        }
-
-        body:not(.light) {
-            --status-bar-bg: #1a0f2e; /* 夜间模式状态栏颜色 */
-        }
         :root {
             --glow-sens: 30;
             --dark: hsl(260, 25%, 10%);
@@ -76,7 +34,8 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover fixed;
+            /* 修改这里：在背景图片底层添加一层颜色（渐变色示例，模拟 SVG 中的效果） */
+            background: linear-gradient(135deg, rgba(55, 113, 200, 0.8), rgba(96, 255, 0, 0.5)) url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover fixed;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -86,7 +45,8 @@
         }
 
         body.light {
-            background: url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover fixed;
+            /* 同样修改 light 模式的背景 */
+            background: linear-gradient(135deg, rgba(55, 113, 200, 0.8), rgba(96, 255, 0, 0.5)) url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover fixed;
             color: var(--fg);
         }
         
@@ -247,7 +207,7 @@ body:not(.light) .link-card {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 0 25px 25.3px;
+            padding: 0 25px 26px;
             overflow: hidden;
         }
 
