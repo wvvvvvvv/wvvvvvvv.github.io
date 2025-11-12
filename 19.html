@@ -230,7 +230,7 @@ body:not(.light) .link-card {
             text-decoration: none;
             color: var(--fg);
             transition: background 0.3s;
-            font-size: 36px;
+            font-size: 16px;
             font-style: italic;
             -webkit-tap-highlight-color: transparent;
             box-shadow: 0px 4px 3px #0001, 0 0 26px #fffa inset;
@@ -286,7 +286,6 @@ body:not(.light) .link-card {
         .link-scroll-container.scrolling::-webkit-scrollbar-thumb {
             opacity: 1;
         }
-
 
         .spotify-card {
             display: flex;
@@ -456,94 +455,6 @@ body:not(.light) .link-card {
             font-display: block;
         }
 
-   @font-face {
-    font-family: 'pxplus_ibm_vga8regular';
-    src: url('https://sdomi.pl/css/PxPlus_IBM_VGA8.ttf') format('woff');
-    src: url('https://sdomi.pl/css/PxPlus_IBM_VGA8.ttf') format('truetype');
-    font-weight: normal;
-}
-
-/* 夜间模式 - 浅灰色文字 + 深灰色阴影 */
-body:not(.light) .link-card .link-title,
-body:not(.light) .spotify-card .track-title,
-body:not(.light) .spotify-card .track-artist,
-body:not(.light) .play-btn {
-    font-family: 'pxplus_ibm_vga8regular', monospace !important;
-    font-weight: normal !important;
-    color: #ddd !important;
-    text-shadow: 2px 2px #555 !important;
-    line-height: 1.3;
-    letter-spacing: 0.5px;
-}
-
-/* 日间模式 - 深灰色文字 + 浅灰色阴影 */
-body.light .link-card .link-title,
-body.light .spotify-card .track-title,
-body.light .spotify-card .track-artist,
-body.light .play-btn {
-    font-family: 'pxplus_ibm_vga8regular', monospace !important;
-    font-weight: normal !important;
-    color: #333333 !important;
-    text-shadow: 2px 2px #cccccc !important;
-    line-height: 1.3;
-    letter-spacing: 0.5px;
-
-}
-/* 夜间模式 */
-body:not(.light) .link-card .link-title {
-    font-size: 22px !important; /* 链接卡片标题 */
-}
-
-body:not(.light) .spotify-card .track-title {
-    font-size: 18px !important; /* Spotify 歌曲标题 */
-}
-
-body:not(.light) .spotify-card .track-artist {
-    font-size: 15px !important; /* Spotify 艺术家名 */
-}
-
-body:not(.light) .play-btn {
-    font-size: 14px !important; /* 播放按钮 */
-}
-
-/* 日间模式 */
-body.light .link-card .link-title {
-    font-size: 22px !important;
-}
-
-body.light .spotify-card .track-title {
-    font-size: 16px !important;
-}
-
-body.light .spotify-card .track-artist {
-    font-size: 12px !important;
-}
-
-body.light .play-btn {
-    font-size: 14px !important;
-}
-      
-      
-/* 确保 Spotify 卡片中的文字容器也应用像素字体 */
-body:not(.light) .track-text,
-body.light .track-text {
-    font-family: 'pxplus_ibm_vga8regular', monospace !important;
-}
-
-/* 播放按钮特殊处理 */
-.play-btn {
-    font-family: 'pxplus_ibm_vga8regular', monospace !important;
-    font-weight: normal !important;
-    line-height: 1.3;
-    letter-spacing: 0.5px;
-}   
-      
-      
-      
-      
-      
-      
-      
         [class^="icon-"],
         [class*=" icon-"] {
             font-family: "icomoon" !important;
@@ -1126,7 +1037,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
                 document.body.classList.remove('light');
                 renderer.setClearColor(0x000000, 0);
                 document.body.style.background = 'black';
-                document.documentElement.style.setProperty('--fg', 'white');
+                document.documentElement.style.setProperty('--fg', '#bbb');
                 canvas.style.display = 'block';
             }
             if (currentPage === 3) {
