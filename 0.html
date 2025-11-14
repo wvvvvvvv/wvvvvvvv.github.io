@@ -175,13 +175,22 @@ body:not(.light) .link-card {
             position: relative;
         }
 
-        .profile-pic {
-            width: 200px;
-            height: 110px;
-            object-fit: cover;
-            margin: 0 auto;
-            display: block;
-        }
+.profile-pic {
+    width: 200px;
+    height: 110px;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
+    border-radius: 0;
+    /* 默认亮度正常 */
+    filter: brightness(0.9);
+    background: transparent !important; /* 确保背景透明 */
+}
+
+/* 只在夜间模式下减暗 */
+body:not(.light) .profile-pic {
+    filter: brightness(0.8);
+}
 
         .link-section {
             width: 100%;
