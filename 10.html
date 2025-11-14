@@ -1,1509 +1,1073 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💜💜💜</title>
-    <style>
-        :root {
-            /* 发光卡片变量 */
-            --glow-sens: 30;
-            --dark: hsl(260, 25%, 10%);
-            --fg: black;
-            --h: 260;
-            --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
-            --blend: soft-light;
-            --glow-blend: plus-lighter;
-            --glow-color: 40deg 80% 80%;
-            --duration: 1s;
-            --ease-slider: cubic-bezier(0.4, 0, 0.2, 1);
-            --ease-timeline: cubic-bezier(0.71, 0.21, 0.3, 0.95);
-            --page-height: 498px; /* 统一页面高度 */
-            --accent: hsl(260, 100%, 80%);
-            --link-card-bg: rgba(255,255,255,0.1);
-            --link-card-hover-bg: rgba(255,255,255,0.2);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Butterfly Typing Effect</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .light {
-            /* 日间模式变量 */
-            --card-bg: linear-gradient(8deg, color-mix(in hsl, hsl(260, 25%, 95%), var(--dark) 2.5%) 75%, hsl(260, 25%, 95%) 75.5%);
-            --blend: darken;
-            --glow-blend: luminosity;
-            --glow-color: 280deg 90% 95%;
-            --fg: black;
-            --link-card-bg: rgba(0,0,0,0.1);
-            --link-card-hover-bg: rgba(0,0,0,0.2);
-            color: var(--fg);
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
+    body {
+      font-family: "Poppins", sans-serif;
+      overflow-y: auto;
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)),
+        url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    /* 首页整体布局 */
+    .home-section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      padding: 0 20px;
+    }
+
+    /* 标题 */
+    h1 {
+      font-size: clamp(2em, 5vw, 3.5em);
+      margin-bottom: 0em;
+      letter-spacing: 1px;
+    }
+
+    /* 打字机容器 */
+    .typing-container {
+      height: 6.5em;
+      overflow: hidden;
+    }
+
+    .typed-text {
+      font-size: clamp(1em, 3vw, 1.5em);
+      font-weight: 300;
+      display: inline;
+      white-space: nowrap;
+    }
+
+    .typed-cursor {
+      display: inline;
+      font-weight: 300;
+      font-size: clamp(1em, 3vw, 1.5em);
+      color: #fff;
+      margin-left: 0.15em;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .blink {
+      animation: blink 0.7s infinite;
+    }
+
+    /* 向下滚动按钮（响应式） */
+    .scroll-down {
+      position: absolute;
+      bottom: 0vh;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      width: 100%;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 10px;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+
+    .scroll-down:hover {
+      opacity: 1;
+    }
+
+    .scroll-down i {
+      font-size: clamp(20px, 5vw, 20px);
+      color: #fff;
+      animation: float 1.5s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(25px); opacity: 0.6; }
+    }
+
+    /* 第二页样式（原blank-section，调整为自然高度） */
+    .blank-section {
+      min-height: 100vh; /* 改为min-height，便于内容扩展 */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      background: transparent;
+    }
+
+    /* ✅ 小屏微调 */
+    @media (max-width: 480px) {
+      .scroll-down {
+        bottom: 2vh;
+      }
+      .scroll-down i {
+        font-size: 16px; 
+        animation: floatMobile 1.5s infinite ease-in-out;
+      }
+      @keyframes floatMobile {
+        0%, 100% { transform: translateY(0); opacity: 1; }
+        50% { transform: translateY(25px); opacity: 0.6; }
+      }
+    }
+
+    /* 第二段代码的样式合并 */
+    body {
+      font-family: Arial, sans-serif; /* 覆盖以兼容第二段 */
+      line-height: 1.6;
+    }
+    
+    .split-layout {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      min-height: 100vh;
+    }
+    
+    .split-layout .left-panel {
+      width: 26%;
+      background-color: transparent; /* 修改为全透明 */
+      padding: 2rem;
+      box-sizing: border-box;
+      transition: transform 0.3s ease;
+    }
+    
+    .split-layout .right-panel {
+      flex: 1;
+      padding: 0rem 3rem;
+      box-sizing: border-box;
+    }
+    
+    /* 移动端样式 */
+    @media screen and (max-width: 1024px) {
+      .split-layout {
+        flex-direction: column;
+      }
+      
+      .split-layout .left-panel {
+        width: 100%;
+        height: auto;
+        padding: 2rem 2.5rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1000;
+        transform: translateX(-100%);
+        overflow-y: auto;
+        background-color: transparent; /* 移动端也改为透明 */
+      }
+      
+      .split-layout .left-panel.active {
+        transform: translateX(0);
+      }
+      
+      .split-layout .right-panel {
+        padding: 0rem 0.2rem;
+      }
+      
+      /* 移动端菜单按钮 */
+      .mobile-menu-btn {
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 10px;
+        z-index: 999;
+        background: rgba(255,255,255,0);
+        border: 0px solid #ddd;
+        border-radius: 4px;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      
+      /* 关闭按钮 */
+      .close-nav-btn {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 35px;
+        cursor: pointer;
+        color: #333;
+      }
+    }
+    
+    /* 桌面端隐藏移动端按钮 */
+    @media screen and (min-width: 1025px) {
+      .mobile-menu-btn, .close-nav-btn {
+        display: none;
+      }
+    }
+    
+    .content_padding {
+      padding-top: 5.8rem;
+      padding-left: 4.5rem;
+      padding-right: 4.5rem;
+      padding-bottom: 4rem;
+    }
+    
+    .page_content {
+      margin: 0 auto;
+      max-width: 1200px;
+    }
+    
+    .image-gallery {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: -1rem;
+      margin-right: -1rem;
+    }
+    
+    .image-gallery [image-gallery-pad] {
+      padding-left: 0.3rem;
+      padding-right: 0.7rem;
+      box-sizing: border-box;
+    }
+    
+    .gallery_card {
+      margin-bottom: 0.8rem;
+    }
+    
+    .gallery_card_image {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    
+    .gallery_card_image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .scroll-transition-fade {
+      transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
+    }
+    
+    .scroll-transition-fade.below-viewport {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    
+    @media (max-width: 768px) {
+      .image-gallery [image-gallery-pad] {
+        padding: 0.3rem;
+      }
+    }
+    
+    /* ===== 移动端图片画廊上下间距调整 ===== */
+    @media (max-width: 768px) {
+      .gallery_card {
+        margin-bottom: 0rem; /* 修改数值控制上下间距 */
+      }
+    }
+    
+    .gallery_card {
+      cursor: pointer;
+      touch-action: manipulation; /* 消除点击延迟 */
+      -webkit-tap-highlight-color: transparent; /* 移除点击高亮 */
+      -webkit-touch-callout: none; /* 禁用长按菜单 */
+      user-select: none; /* 防止文本选择 */
+      -webkit-user-select: none; /* Safari */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE/Edge */
+    }
+    
+    .gallery_card_image img {
+      pointer-events: none; /* 防止图片自身的事件干扰 */
+    }
+    
+    /* 确保链接元素也有触摸优化 */
+    a.gallery_card {
+      text-decoration: none; /* 移除链接下划线 */
+      color: inherit; /* 继承文字颜色 */
+      outline: none; /* 移除焦点轮廓 */
+    }
+    
+    .pswp__counter {
+      font-size: 18px !important;  /* 默认大小，适用于所有设备，包括移动端 */
+      font-weight: 0 !important;
+      color: #fff !important;
+      text-shadow: 0 2px 8px rgba(0,0,0,0) !important;
+      background: rgba(0,0,0,0) !important;
+      padding: 10px 16px !important;
+      border-radius: 20px !important;
+      backdrop-filter: blur(10px) !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    
+    /* ====== 使用绝对定位精确控制位置 ====== */
+    .pswp__top-bar {
+      position: relative !important;
+      z-index: 9999 !important;
+      padding: 0 !important;  /* 移除内边距，用绝对定位控制 */
+      height: auto !important;
+    }
+    
+    .pswp__counter {
+      position: absolute !important;
+      top: 15px !important;    /* 距离顶部15px */
+      left: 0px !important;   /* 距离左边15px */
+      z-index: 10000 !important;
+      margin: 0 !important;    /* 移除所有外边距 */
+    }
+    
+    /* 导航菜单样式 */
+    .nav-menu {
+      list-style: none;
+    }
+    
+    .nav-menu li {
+      margin-bottom: 1rem;
+    }
+    
+    .nav-menu a {
+      text-decoration: none;
+      color: #333;
+      font-size: 1.1rem;
+      transition: color 0.3s;
+    }
+    
+    .nav-menu a:hover {
+      color: #f00;
+    }
+    
+    
+    /* 针对特定ul的样式 */
+    ul {
+      padding-left: 10px;  /* 修改左侧间距为10px（默认约40px），调整这个值来改变间距 */
+      margin-left: 0;      /* 如果有外边距，可以设为0 */
+      list-style-position: outside;  /* 默认值，符号在外部；改成inside可将符号移入行内 */
+    }
+    
+    /* 如果想只影响这个特定的ul，可以用类或ID */
+    .custom-ul {
+      padding-left: 5px;   /* 示例：缩小到5px */
+    }
+  </style>
+  
+      <style>
+        html, body {
+            height: 100%;
+        }
         body {
             margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg'); /* 默认日间模式：自定义壁纸 */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Inter', sans-serif;
-            color: var(--fg);
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
-
-        body.light {
-            background-image: url('https://dogpan.com/f/qPPFX/000.jpeg'); /* 日间模式保持壁纸 */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            color: var(--fg);
+        #canvas {
+            width: 100%;
+            height: 50%;
         }
         
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: -1;
-        }
         
-        /* 发光卡片样式 */
-        .glowing-card {
-            --pads: 20px;
-            --color-sens: calc(var(--glow-sens) + 20);
-            position: relative;
-            width: 345px !important;
-            height: 510px !important;
-            min-width: 345px;
-            min-height: 510px;
-            max-width: 345px;
-            max-height: 510px;
-            border-radius: 20px;
-            isolation: isolate;
-            transform: translate3d(0, 0, 0.01px);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-            overflow: hidden; /* 防止溢出扩展卡片 */
-            text-align: center;
-            box-sizing: border-box;
-            border: 1px solid rgb(255 255 255 / 25%);
-        }
+.crt::after {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(18, 16, 16, 0.3);
+  opacity: 10%;
+  z-index: 2;
+  pointer-events: none;
+}
 
-        .glowing-card::before,
-        .glowing-card::after,
-        .glowing-card > .glow {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            transition: opacity 0.25s ease-out;
-            z-index: -1;
-        }
-         
-        .glowing-card:not(:hover):not(.animating)::before,
-        .glowing-card:not(:hover):not(.animating)::after,
-        .glowing-card:not(:hover):not(.animating) > .glow {
-            opacity: 0;
-            transition: opacity 0.75s ease-in-out;
-        }
+.crt::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+              linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+.blackbox {
+  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 
+               0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 
+               0 0 70px #e60073;
+}
         
-        .glowing-card::before {
-            border: 1px solid transparent;
-            background:
-                linear-gradient(var(--card-bg) 0 100%) padding-box,
-                linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
-                radial-gradient(at 80% 55%, hsla(268,100%,76%,1) 0px, transparent 50%) border-box,
-                radial-gradient(at 69% 34%, hsla(349,100%,74%,1) 0px, transparent 50%) border-box,
-                radial-gradient(at 8% 6%, hsla(136,100%,78%,1) 0px, transparent 50%) border-box,
-                radial-gradient(at 41% 38%, hsla(192,100%,64%,1) 0px, transparent 50%) border-box,
-                radial-gradient(at 86% 85%, hsla(186,100%,74%,1) 0px, transparent 50%) border-box,
-                radial-gradient(at 82% 18%, hsla(52,100%,65%,1) 0px, transparent 50%) border-box,
-                radial-gradient(at 51% 4%, hsla(12,100%,72%,1) 0px, transparent 50%) border-box,
-                linear-gradient(#c299ff 0 100%) border-box;
-            opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
-            mask-image: 
-                conic-gradient( 
-                    from var(--pointer-°) at center, black 25%, transparent 40%, transparent 60%, black 75%
-                );
-        }
         
-        .glowing-card::after {
-            border: 1px solid transparent;
-            background:
-                radial-gradient(at 80% 55%, hsla(268,100%,76%,1) 0px, transparent 50%) padding-box,
-                radial-gradient(at 69% 34%, hsla(349,100%,74%,1) 0px, transparent 50%) padding-box,
-                radial-gradient(at 8% 6%, hsla(136,100%,78%,1) 0px, transparent 50%) padding-box,
-                radial-gradient(at 41% 38%, hsla(192,100%,64%,1) 0px, transparent 50%) padding-box,
-                radial-gradient(at 86% 85%, hsla(186,100%,74%,1) 0px, transparent 50%) padding-box,
-                radial-gradient(at 82% 18%, hsla(52,100%,65%,1) 0px, transparent 50%) padding-box,
-                radial-gradient(at 51% 4%, hsla(12,100%,72%,1) 0px, transparent 50%) padding-box,
-                linear-gradient(#c299ff 0 100%) padding-box;
-            mask-image:
-                linear-gradient( to bottom, black, black ),
-                radial-gradient( ellipse at 50% 50%, black 40%, transparent 65% ),
-                radial-gradient( ellipse at 66% 66%, black 5%, transparent 40% ),
-                radial-gradient( ellipse at 33% 33%, black 5%, transparent 40% ),
-                radial-gradient( ellipse at 66% 33%, black 5%, transparent 40% ),
-                radial-gradient( ellipse at 33% 66%, black 5%, transparent 40% ),
-                conic-gradient( from var(--pointer-°) at center, transparent 5%, black 15%, black 85%, transparent 95% );
-            mask-composite: subtract,add,add,add,add,add;
-            opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
-            mix-blend-mode: var(--blend);
-        }
-        
-        .glowing-card > .glow {
-            --outset: var(--pads);
-            inset: calc(var(--outset) * -1);
-            pointer-events: none;
-            z-index: 1;
-            mask-image: 
-                conic-gradient( 
-                    from var(--pointer-°) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%
-                );
-            opacity: calc((var(--pointer-d) - var(--glow-sens)) / (100 - var(--glow-sens)));
-            mix-blend-mode: var(--glow-blend);
-        }
-
-        .glowing-card > .glow::before {
-            content: "";
-            position: absolute;
-            inset: var(--outset);
-            border-radius: inherit;
-            box-shadow: 
-                inset 0 0 0 1px hsl( var(--glow-color) / 100%),
-                inset 0 0 2px 2px hsl( var(--glow-color) / 90%),
-                inset 0 0 5px 1px hsl( var(--glow-color) / 75%),
-                inset 0 0 8px 1px hsl( var(--glow-color) / 66%),
-                inset 0 0 15px 0 hsl( var(--glow-color) / 50%),
-                inset 0 0 25px 2px hsl( var(--glow-color) / 30%),
-                inset 0 0 50px 2px hsl( var(--glow-color) / 10%),
-                0 0 2px 2px hsl( var(--glow-color) / 90%),
-                0 0 5px 1px hsl( var(--glow-color) / 75%),
-                0 0 8px 1px hsl( var(--glow-color) / 66%),
-                0 0 15px 0 hsl( var(--glow-color) / 50%),
-                0 0 25px 2px hsl( var(--glow-color) / 30%),
-                0 0 50px 2px hsl( var(--glow-color) / 10%);
-        }
-
-        /* 主题切换按钮样式 */
-        .theme-toggle {
-            position: absolute;
-            top: 12px;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            z-index: 10;
-            opacity: 0.5;
-            transition: opacity 0.3s;
-        }
-
-        .theme-toggle:hover {
-            opacity: 0.7;
-        }
-
-        .sun-toggle {
-            left: 12px;
-        }
-
-        .moon-toggle {
-            right: 12px;
-        }
-
-        /* 原有个人主页样式 */
-        .alist-widget-wrapper {
-            padding: 20px;
-            z-index: 1;
-            height: 100%; /* 填充卡片高度 */
-            box-sizing: border-box;
-        }
-
-        .profile-header {
-            padding: 15px 2px 12px; /* 增加顶部内边距为按钮留空间 */
-            position: relative;
-        }
-
-        .profile-pic {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto;
-            display: block;
-        }
-
-        .link-section {
-            width: 100%;
-            height: 100%; /* 填充卡片高度 */
-            overflow: hidden;
-            padding: 0;
-        }
-
-        .pages {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            height: 100%; /* 确保滑动容器填充 */
-            transform: translateX(-100%); /* 默认直接显示第二页 */
-        }
-
-        .page {
-            flex: 0 0 100%;
-            height: var(--page-height); /* 从 min-height 改为 height，锁定500px */
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 0 26px 20px;
-            overflow: hidden; /* 隐藏溢出内容，防止扩展 */
-        }
-
-        #page3 {
-            justify-content: center; /* 垂直居中 */
-            align-items: center; /* 水平居中 */
-            padding: 0; /* 移除padding，让音乐播放器margin控制间距 */
-        }
-
-        .link-card {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;              
-            width: 275px !important;
-            min-width: 275px;
-            max-width: 275px;
-            height: 35px;
-            background: var(--link-card-bg);
-            padding: 8px;
-            margin-bottom: 6px;
-            border-radius: 15px;
-            text-decoration: none;
-            color: var(--fg);
-            transition: background 0.3s;
-            font-size: 16px;
-            font-style: italic;
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
-        }
-
-        .link-card:hover {
-            background: var(--link-card-hover-bg);
-        }
-
-        .link-card:active {
-            background: var(--link-card-hover-bg);
-        }
-
-        .light .link-card:active {
-            background-color: transparent;
-        }
-
-        .link-icon {
-            width: 36px;
-            height: 36px;
-            margin-left: 16px;
-            margin-right: 18px;
-        }
-
-        .link-title {
-            text-align: center;
-            width: 100%;
-            font-size: 18px;
-            color: var(--fg);
-        }
-
-        /* 新增滚动容器样式，类似于歌单列表 */
-.link-scroll-container {
-    overflow-y: auto;
-
-}
-
-        .link-scroll-container::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
-
-        .link-scroll-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 100px;
-            opacity: 0; /* 默认隐藏 */
-            transition: opacity 0.3s ease;
-        }
-
-        .link-scroll-container.scrolling::-webkit-scrollbar-thumb {
-            opacity: 1; /* 滚动时显示 */
-        }
-
-        /* 修改后的 Spotify 卡片样式 */
-        .spotify-card {
-            display: flex;
-            justify-content: space-between;
-            width: 250px !important;
-            min-width: 250px;
-            max-width: 250px;
-            height: 100px;
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 8px 20px;
-            max-width: 100%;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            cursor: pointer;
-            position: relative;
-            margin-bottom: 10px;
-            flex-wrap: nowrap;
-            gap: 13px;
-        }
-
-        .spotify-left {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            height: auto;
-            flex: 1;
-            min-width: 0;
-            padding-right: 8px;
-            gap: 6px;
-        }
-
-        .spotify-meta {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .spotify-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 12px;
-            background-color: #1ed760;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .spotify-icon img {
-            width: 22px;
-            height: 22px;
-        }
-
-        .track-text {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-            gap: 2px;
-        }
-
-        .track-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin: 0;
-            color: var(--fg);
-            font-style: italic;
-        }
-
-        .track-artist {
-            font-size: 16px;
-            color: var(--fg);
-            font-style: italic;
-        }
-
-        .play-btn {
-            background-color: #3fd97a;
-            color: white;
-            border: none;
-            border-radius: 24px;
-            padding: 6px 24px;
-            font-size: 14px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            margin-top: 4px;
-            width: fit-content;
-        }
-
-        .play-btn svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .spotify-cover {
-            width: 80px;
-            height: 80px;
-            border-radius: 12px;
-            overflow: hidden;
-            flex-shrink: 0;
-            margin-left: 8px;
-        }
-
-        .spotify-cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-            
-            .play-btn {
-                width: fit-content;
-                justify-content: flex-start;
-            }
-        }
-
-        /* 新增鼠标特效画布样式 */
-        #shuicheCanvas {
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 2147483647;
-            pointer-events: none;
-        }
-
-        /* 分页器样式 */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            margin-top: -5px; /* 上间距 */
-            margin-bottom: 10px; /* 下间距 */
-
-        }
-
-        .bullet {
-            width: 85px;
-            height: 6px;
-            background: var(--fg);
-            opacity: 0.2;
-            border-radius:10%;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .bullet.active {
-            border-radius:10%;
-            opacity: 1;
-            background: #c299ff;
-            box-shadow: 0px 0px 20px rgba(194, 153, 255, 0);
-        }
-
-        /* 音乐播放器 CSS */
-        @font-face {
-            font-family: "icomoon";
-            src: url("https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/icomoon/fonts/icomoon.eot?u8ckod");
-            src: url("https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/icomoon/fonts/icomoon.eot?u8ckod#iefix") format("embedded-opentype"),
-                url("https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/icomoon/fonts/icomoon.ttf?u8ckod") format("truetype"),
-                url("https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/icomoon/fonts/icomoon.woff?u8ckod") format("woff"),
-                url("https://raw.githubusercontent.com/abxlfazl/music-player-widget/main/src/assets/icomoon/fonts/icomoon.svg?u8ckod#icomoon") format("svg");
-            font-weight: normal;
-            font-style: normal;
-            font-display: block;
-        }
-
-        [class^="icon-"],
-        [class*=" icon-"] {
-            font-family: "icomoon" !important;
-            speak: never;
-            font-style: normal;
-            font-weight: normal;
-            font-variant: normal;
-            text-transform: none;
-            line-height: 1;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        .icon-back:before { content: "\e900"; color: #827d7b; }
-        .icon-next:before { content: "\e901"; color: #827d7b; }
-        .icon-pause:before { content: "\e902"; color: #fff; }
-        .icon-play:before { content: "\e903"; color: #fff; }
-        .icon-playlist:before { content: "\e904"; color: #fff; }
-
-        /* 公共类 */
-        .img {
-            width: 100%;
-            flex-shrink: 0;
-            display: block;
-            object-fit: cover;
-        }
-        .list { margin: 0; padding: 0; list-style-type: none; }
-        .text_trsf-cap { text-transform: capitalize; }
-        .button { all: unset; cursor: pointer; }
-        .center { display: flex; align-items: center; justify-content: center; }
-        .flex-row { display: flex; }
-        .flex-column { display: flex; flex-direction: column; }
-        ._align_center { align-items: center; }
-        ._align_start { align-items: flex-start; }
-        ._align_end { align-items: flex-end; }
-        ._justify_center { justify-content: center; }
-        ._justify_start { justify-content: flex-start; }
-        ._justify_end { justify-content: flex-end; }
-        ._justify_space-btwn { justify-content: space-between; }
-        .text_overflow {
-            width: 66%;
-            overflow: hidden;
-            white-space: nowrap;
-            display: inline-block;
-            text-overflow: ellipsis;
-            margin-right: 60px;
-        }
-
-        /* 音乐播放器 */
-        .music-player {
-            --color-white: #fff;
-            --color-gray: #e5e7ea;
-            --color-blue: #78adfe;
-            --color-blue-dark: #5781bd;
-            --box-shadow: 0 2px 6px 1px #0000001f;
-            --color-text-1: var(--fg);
-            --color-text-2: #ffffff6b;
-            --cover-size: 4.2em;
-            --border-radius: 1.2em;
-            --music-player-height: calc(var(--page-height) - 50px); /* 已适配，保持 */
-            --offset-cover: 1em;
-            width: 100%;
-            max-width: 330px;
-            
-            user-select: none;
-            color: var(--color-text-1);
-            height: var(--music-player-height);
-            border-radius: var(--border-radius);
-            background-color: rgba(255, 255, 255, 0.1);
-            margin: 20px auto;
-            box-sizing: border-box;
-        }
-        .light .music-player {
-            --color-text-2: #0000006b;
-        }
-        .slider {
-            --shadow-opacity: 1;
-            z-index: 0;
-            flex-shrink: 0;
-            height: 6.8em;
-            position: relative;
-            border-radius: inherit;
-            transition: var(--duration) height var(--ease-timeline);
-        }
-        .slider.resize { --shadow-opacity: 0; height: var(--music-player-height); }
-        .slider::after {
-            top: 0; left: 0; right: 0; content: ""; width: 100%; z-index: -1;
-            height: 100%; position: absolute; pointer-events: none; border-radius: inherit;
-            box-shadow: var(--box-shadow); opacity: var(--shadow-opacity);
-            transition: var(--duration) opacity;
-        }
-        .slider__content {
-            top: 0; left: 0; overflow: hidden; position: absolute; border-radius: inherit;
-            width: var(--cover-size); height: var(--cover-size);
-            transition: transform, width, height;
-            transition-duration: var(--duration);
-            transition-timing-function: var(--ease-timeline);
-            transform: translate3d(var(--offset-cover), var(--offset-cover), 0);
-        }
-        .slider.resize .slider__content {
-            width: 100%; height: 22em;
-            transform: translate3d(0, 0, 0);
-        }
-        .slider__content .button { --size: 2.5em; z-index: 1; position: absolute; width: var(--size); height: var(--size); }
-        .slider__content i { position: absolute; pointer-events: none; font-size: var(--size); }
-        .music-player__playlist-button {
-            top: 5.5%; left: 5.5%; transform: scale(0); transition: calc(var(--duration) / 2) transform;
-        }
-        .slider.resize .music-player__playlist-button {
-            transform: scale(1);
-            transition: 0.30s var(--duration) transform cubic-bezier(0, 0.85, 0.11, 1.64);
-        }
-        .music-player__broadcast-guarantor .icon-pause,
-        .music-player__broadcast-guarantor.click .icon-play { opacity: 0; }
-        .music-player__broadcast-guarantor.click .icon-pause { opacity: 1; }
-        .slider__imgs {
-            width: 100%; height: 100%; filter: brightness(75%);
-            transform: translate3d(calc(var(--index) * 100%), 0, 0);
-            transition: var(--duration) transform var(--ease-slider);
-        }
-        .slider__imgs > img { pointer-events: none; }
-        .slider__controls {
-            --controls-y: 225%; --controls-x: 17.3%; --controls-width: 68.4%; --controls-resize-width: 88%;
-            gap: 0.375em 0; flex-wrap: wrap; position: absolute; align-items: center; padding-top: 0.375em;
-            width: var(--controls-width); transform: translate3d(var(--controls-x), 0, 0);
-            animation: var(--controls-animate, "down paused") var(--duration) var(--ease-timeline) forwards;
-        }
-        @keyframes down {
-            100% { width: var(--controls-resize-width); transform: translate3d(0, var(--controls-y), 0); }
-        }
-        @keyframes up {
-            0% { width: var(--controls-resize-width); transform: translate3d(0, var(--controls-y), 0); }
-            100% { width: var(--controls-width); transform: translate3d(var(--controls-x), 0, 0); }
-        }
-        .slider__switch-button { font-size: 2.5em; height: max-content; }
-        .music-player__info {
-            width: 56.3%; cursor: pointer; line-height: 1.6; overflow: hidden; font-weight: bold; padding: 0 0.0625em; white-space: nowrap;
-        }
-        .music-player__info > * { margin: 0 auto; pointer-events: none; }
-        .music-player__singer-name { font-size: 1.1em; width: max-content; }
-        .music-player__subtitle { font-size: 0.8em; font-weight: bold; color: var(--color-text-2); }
-        .slider__controls .music-player__subtitle { width: max-content; }
-        .music-player__singer-name.animate, .music-player__subtitle.animate {
-            --subtitle-gap: 1.2em;
-            display: flex; gap: 0 var(--subtitle-gap); animation: subtitle 12s 1.2s linear infinite;
-        }
-        @keyframes subtitle {
-            80%, 100% { transform: translate3d(calc((100% + var(--subtitle-gap)) / -2), 0, 0); }
-        }
-        .progress {
-            width: 90%; height: 1em; cursor: pointer; transition: var(--duration) width var(--ease-timeline);
-        }
-        .slider.resize .progress { width: 100%; }
-        .progress__wrapper {
-            width: 100%; height: 0.3em; position: relative; border-radius: 1em; background-color: var(--color-gray);
-        }
-        .progress__bar {
-            top: 0; left: 0; bottom: 0; position: absolute; width: var(--width); border-radius: inherit; background-color: var(--color-blue);
-        }
-        .progress__bar::after {
-            --size: 0.375em; left: 98%; content: ""; position: absolute; width: var(--size); height: var(--size);
-            border-radius: 100%; background-color: var(--color-blue-dark);
-        }
-        .music-player__playlist {
-            height: 100%; /* 填充剩余高度 */
-            overflow-y: auto; /* 如果播放列表过长，内部滚动而不扩展 */
-            padding: 1em 0.9em 0 var(--offset-cover);
-            box-sizing: border-box;
-        }
-        .music-player__song {
-            --gap: 0.5em; cursor: pointer; margin-bottom: var(--gap); padding-bottom: var(--gap); border-bottom: 0.8px solid #d8d8d859;
-        }
-        .music-player__song audio { display: none; }
-        .music-player__song-img {
-            width: var(--cover-size); height: var(--cover-size); border-radius: var(--border-radius);
-        }
-.music-player__playlist-info {
-    width: 100%;
-    overflow: hidden;
-    line-height: 1.2;
-    font-size: 1em;
-    margin-left: 1.2em;
-}
-
-/* 修改以下样式 */
-.music-player__playlist-info b {
-    display: block;
-    margin-left: 0;
-    padding-left: 0;
-    text-align: left;
-    width: calc(100% - 50px); /* 为时长留出空间 */
-}
-
-.flex-row._justify_space-btwn {
-    display: flex;
-    justify-content: space-between; /* 保持时长在右侧 */
-    align-items: center;
-    width: 100%;
-}
-
-.music-player__playlist-info .music-player__subtitle {
-    display: block;
-    text-align: left;
-    margin-left: 0;
-    padding-left: 0;
-    flex-grow: 1; /* 占据剩余空间 */
-}
-
-.music-player__song-duration {
-    flex-shrink: 0; /* 防止时长被压缩 */
-    margin-left: 10px; /* 与左侧内容保持间距 */
-}
-        .music-player__song-duration {
-            font-weight: bold; font-size: 0.8em; color: var(--color-text-2);
-        }
     </style>
+  
+  
 </head>
 <body>
-    <!-- 新增鼠标特效画布 -->
-    <canvas id="shuicheCanvas"></canvas>
+  
+   <div class="crt">
+  <!-- 首页 -->
+  <section class="home-section" id="home">
+    <h1>Butterfly</h1>
 
-    <!-- 原有3D粒子动画脚本 -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script>
-        const count = 5000;
-        let scene, camera, renderer;
-        let mouseX = 0, mouseY = 0;
-        let windowHalfX = window.innerWidth / 2;
-        let windowHalfY = window.innerHeight / 2;
-
-        let geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6 * count), 3));
-        geometry.setAttribute('velocity', new THREE.BufferAttribute(new Float32Array(2 * count), 1));
-
-        let position = geometry.getAttribute('position');
-        let positionArray = position.array;
-        let velocity = geometry.getAttribute('velocity');
-        let velocityArray = velocity.array;
-
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 500);
-            camera.position.z = 200;
-            
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
-            
-            for (let index = 0; index < count; index++) {
-                const x = Math.random() * 800 - 400;
-                const y = Math.random() * 800 - 400;
-                const z = Math.random() * 400 - 200;
-                const x2 = x;
-                const y2 = y;
-                const z2 = z;
-
-                positionArray[6 * index] = x;
-                positionArray[6 * index + 1] = y;
-                positionArray[6 * index + 2] = z;
-
-                positionArray[6 * index + 3] = x2;
-                positionArray[6 * index + 4] = y2;
-                positionArray[6 * index + 5] = z2;
-
-                velocityArray[2 * index] = 0;
-                velocityArray[2 * index + 1] = 0;
-            }
-            
-            let material = new THREE.LineBasicMaterial({ color: 0xffffff });
-            let lines = new THREE.LineSegments(geometry, material);
-            scene.add(lines);
-
-            window.addEventListener('resize', resize, false);
-            document.body.addEventListener('pointermove', onPointerMove);
-            
-            anime();
-        }
-        
-        function resize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-        }
-
-        function anime() {
-            for (let index = 0; index < count; index++) {
-                velocityArray[2 * index] += 0.015;
-                velocityArray[2 * index + 1] += 0.015;
-                positionArray[6 * index + 2] += velocityArray[2 * index] + 0.03;
-                positionArray[6 * index + 5] += velocityArray[2 * index + 1];
-
-                if(positionArray[6 * index + 2] > 200) {
-                    let z = Math.random() * 200 - 200;
-                    positionArray[6 * index + 2] = z;
-                    positionArray[6 * index + 5] = z;
-                    velocityArray[2 * index] = 0;
-                    velocityArray[2 * index + 1] = 0;
-                }
-            }
-
-            position.needsUpdate = true;
-            renderer.render(scene, camera);
-            requestAnimationFrame(anime);
-            render();
-        }
-
-        function onPointerMove(event) {
-            mouseX = event.clientX - windowHalfX;
-            mouseY = event.clientY - windowHalfY;
-        }
-
-        function render() {
-            camera.position.x += (-mouseX * 0.1 - camera.position.x) * 0.02;
-            camera.position.y += (-mouseY * 0.1 - camera.position.y) * 0.02;
-            camera.lookAt(scene.position);
-            renderer.render(scene, camera);
-        }
-
-        window.onload = init;
-    </script>
-
-    <!-- 发光卡片个人主页导航 -->
-    <div class="alist-widget-wrapper">
-        <div class="glowing-card">
-            <span class="glow"></span>
-            <div class="inner">
-                <!-- 主题切换按钮 -->
-                <svg class="theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light')">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                        <circle cx="12" cy="12" r="4"/>
-                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                    </g>
-                </svg>
-                
-                <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleTheme('dark')">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
-                </svg>
-                
-                <div class="link-section">
-                    <div class="pages">
-                        <div id="page1" class="page">
-                            <!-- 左边空白页 -->
-                            <div class="profile-header"></div>
-                            <div style="height: 100%; display: flex; justify-content: center; align-items: center; color: var(--fg); font-style: italic;">
-                                <!-- 可以添加占位文本或留空 -->
-                            </div>
-                        </div>
-
-                        <div id="page2" class="page">
-                            <div class="profile-header">
-                                <img src="https://creatorspace.imgix.net/users/cmdhqvgkl008foq017hf1esoe/Ed6pgE19Iw1tWWDN-IMG_1611.jpeg?w=300&h=300" alt="头像" class="profile-pic" />
-                            </div>
-                            <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3YDXGi7zxc5FWxK1mmcqXn?si=lpU5RfxUQduygh2rctjGbw', '_blank')">
-                                <div class="spotify-left">
-                                    <div class="spotify-meta">
-                                        <div class="spotify-icon">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" />
-                                        </div>
-                                        <div class="track-text">
-                                            <div class="track-title">Astral Chill</div>
-                                            <div class="track-artist">Virtual Mage</div>
-                                        </div>
-                                    </div>
-                                    <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
-                                        <svg viewBox="0 0 16 16" fill="white">
-                                            <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                                        </svg> Play
-                                    </button>
-                                </div>
-                                <div class="spotify-cover">
-                                    <img src="https://storage.googleapis.com/creatorspace-public/richdata%2Fspotify%2Fsong%2FaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2NzYxNmQwMDAwYjI3MzAxYTRjMjAxZDZiNTM2NmFiNGMyNDFjOA%3D%3D.jpeg?h=215" alt="封面" />
-                                </div>
-                                <audio id="audioPlayer" src="https://p.scdn.co/mp3-preview/a6412dd08bfdc35a011865054c5c84c99538c1c3"></audio>
-                            </div>
-
-                            <!-- 新增滚动容器，从Instagram开始 -->
-                            <div class="link-scroll-container">
-                                <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
-                                    <img src="https://dogpan.com/f/OVjUv/Instagram.png" alt="Instagram" class="link-icon" />
-                                    <span class="link-title">Instagram</span>
-                                </a>
-
-                                <a href="https://t.me/vvvvvwwv" class="link-card" target="_blank">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="link-icon" />
-                                    <span class="link-title">Telegram</span>
-                                </a>
-
-                                <a href="https://github.com/00000OO" class="link-card" target="_blank">
-                                    <img src="https://dogpan.com/f/Aj6SE/IMG_5829.png" alt="GitHub" class="link-icon" />
-                                    <span class="link-title">GitHub</span>
-                                </a>
-
-                                <a href="https://🩵.blogspot.com" class="link-card" target="_blank">
-                                    <img src="https://dogpan.com/f/Blps8/TikTok.PNG" alt="GitHub" class="link-icon" />
-                                    <span class="link-title">https://🦋.blogspot.com</span>
-                                </a>
-
-                                <!-- 新添加的社交链接，需要向下滚动显示 -->
-                                <a href="https://wa.me/message/SYDPTLQEHYE3P1?src=qr" class="link-card" target="_blank">
-                                    <img src="https://dogpan.com/f/Dp7C3/WhatsApp.png" alt="WhatsApp" class="link-icon" />
-                                    <span class="link-title">WhatsApp</span>
-                                </a>
-
-                                <a href="https://x.com/vwwvvvvvvv" class="link-card" target="_blank">
-                                    <img src="https://dogpan.com/f/Er2sp/X-.png" alt="X" class="link-icon" />
-                                    <span class="link-title">X</span>
-                                </a>
-
-                                <a href="https://pin.it/5TgH8TZkp" class="link-card" target="_blank">
-                                    <img src="https://dogpan.com/f/GyEcA/Pinterest.png" alt="Pinterest" class="link-icon" />
-                                    <span class="link-title">Pinterest</span>
-                                </a>
-
-<a href="javascript:void(0);" class="link-card" id="wechatBtn">
-    <img src="https://dogpan.com/f/JGrTK/WeChat%E2%80%93.png" alt="WeChat" class="link-icon" />
-    <span class="link-title">WeChat</span>
-</a>
-
-                            </div>
-                        </div>
-
-                        <div id="page3" class="page">
-                            <div class="profile-header"></div>
-                            <div id="root"></div>
-                        </div>
-                    </div>
-
-                    <div class="pagination">
-                        <div class="bullet" data-page="1" onclick="switchPageTo(1)"></div>
-                        <div class="bullet active" data-page="2" onclick="switchPageTo(2)"></div>
-                        <div class="bullet" data-page="3" onclick="switchPageTo(3)"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="typing-container">
+      <span class="typed-text"></span>
     </div>
 
-    <script>
-        // 分页逻辑
-        let currentPage = 2; // 默认显示中间页面
-        let musicPlayerLoaded = false; // Track if music player is loaded
+    <!-- 向下滚动按钮 -->
+    <div class="scroll-down" id="scrollButton">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
 
-        function switchPageTo(page) {
-            if (page < 1 || page > 3) return;
-            currentPage = page;
+  <!-- 第二页（原blank-section，现在包含第二段代码的内容） -->
+  <section class="blank-section" id="blank-page">
+    <!-- 移动端菜单按钮 -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">🐈</button>
+    
+    <!-- ================= 页面主体结构 ================= -->
+    <div class="split-layout split-responsive">
+      <!-- 左侧导航栏区域 -->
+      <div class="left-panel" id="leftPanel">
+        <!-- 移动端关闭按钮 -->
+        <button class="close-nav-btn" id="closeNavBtn">×</button>
+        
+        <!-- 导航菜单内容 -->
+        <nav>
+          <ul class="nav-menu">
+            <!-- 菜单为空白 -->
+          </ul>
+        </nav>
+      </div>
 
-            const pages = document.querySelector('.pages');
-            pages.style.transform = `translateX(-${(page - 1) * 100}%)`;
+      <!-- 右侧主要内容 -->
+      <div class="right-panel">
+        <bodycopy class="bodycopy content content_padding">
+          <div class="page_content clearfix" data-elementresizer data-resize-parent data-ce-host="true" data-resize-model-id="37160823">
+            <div style="text-align: right;">
+              <br><br>
+              <span style="color: #f00;">
+                <ul>
+                  <li>
+                    <i style="font-size: 2rem;"><b><small><span style="color: #f00;"><i>这片土地使我痊愈</i></span></small></b></i>
+                  </li>
+                </ul>
+              </span>
+            </div>
 
-            document.querySelectorAll('.bullet').forEach(b => b.classList.toggle('active', parseInt(b.dataset.page) === page));
+            <h2>
+              <div grid-row grid-pad="4" grid-gutter="8" grid-responsive>
+                <div grid-col="6" grid-pad="4" class=""><br></div>
+              </div>
+            </h2>
 
-            if (page === 3 && !musicPlayerLoaded) {
-                loadMusicPlayer();
-                musicPlayerLoaded = true; // Mark as loaded
-            }
-        }
+            <br><br>
 
-        // 音频播放控制
-        let isPlaying = false;
-        const audio = document.getElementById('audioPlayer');
+<!-- ====== 图片画廊区域 ====== -->
+<div class="image-gallery initialized" image-gallery="justify" image-gallery-row image-gallery-pad="1" image-gallery-gutter="2" id="gallery--test-padding">
 
-        function togglePlay(button) {
-            if (isPlaying) {
-                audio.pause();
-                button.classList.remove('playing');
-                button.innerHTML = `
-                    <svg viewBox="0 0 16 16" fill="white">
-                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                    </svg> Play`;
-            } else {
-                audio.play();
-                button.classList.add('playing');
-                button.innerHTML = `
-                    <svg viewBox="0 0 16 16" fill="white">
-                        <path d="M4 2H6V14H4V2ZM10 2H12V14H10V2Z"/>
-                    </svg> Pause`;
-            }
-            isPlaying = !isPlaying;
-        }
+  
+  <a href="https://freight.cargo.site/t/original/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg"
+     data-pswp-width="1600" data-pswp-height="2240"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="0" data-width="24.509" data-row="1" style="width: 25.1339%;">
+    <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 140%; transition-duration: initial;">
+      <img data-gallery-item-index="0" data-gallery-uid="147" width="1600" height="2240" src="//freight.cargo.site/w/500/q/75/i/30f222289127d968117b06e14c4ca15a5b5040dbd793dbfce6357c573a15fa3d/Restorative-Topophilia-S-291.jpg" data-mid="225397439" class="image-zoom">
+    </div>
+  </a>
 
-        audio.addEventListener('ended', () => {
-            isPlaying = false;
-            const btn = document.querySelector('.play-btn');
-            if (btn) {
-                btn.classList.remove('playing');
-                btn.innerHTML = `
-                    <svg viewBox="0 0 16 16" fill="white">
-                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                    </svg> Play`;
-            }
+  <a href="https://freight.cargo.site/t/original/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="1" data-width="27.45" data-row="1" style="width: 27.8667%;">
+    <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%; transition-duration: initial;">
+      <img data-gallery-item-index="1" data-gallery-uid="148" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/d741ff0116bbf9b00fb90c0a622f805a5b7753f5b6c8d0667693106ee41f849e/Restorative-Topophilia-S-75.jpg" data-mid="225397396" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/60a3246f9e1282e24171b0dfee7ddfad43889fc987fb818e6290dbbfbefb1b30/Restorative-Topophilia-S-43.jpg"
+     data-pswp-width="2240" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="2" data-width="48.039" data-row="1" style="width: 46.9975%;">
+    <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%; transition-duration: initial;">
+      <img data-gallery-item-index="2" data-gallery-uid="149" width="2240" height="1600" src="//freight.cargo.site/w/1000/q/75/i/60a3246f9e1282e24171b0dfee7ddfad43889fc987fb818e6290dbbfbefb1b30/Restorative-Topophilia-S-43.jpg" data-mid="225397383" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/a3ba8b128b378dc264dac136c659c2d39b5b7ac735d02e418dcf7dd82e872751/Restorative-Topophilia-S-252.jpg"
+     data-pswp-width="1600" data-pswp-height="2071"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="3" data-width="25.99" data-row="2" style="width: 26.5101%;">
+    <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 129.438%; transition-duration: initial;">
+      <img data-gallery-item-index="3" data-gallery-uid="150" width="1600" height="2071" src="//freight.cargo.site/w/600/q/75/i/a3ba8b128b378dc264dac136c659c2d39b5b7ac735d02e418dcf7dd82e872751/Restorative-Topophilia-S-252.jpg" data-mid="225397437" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/8aac933d14bb20b20cf352e336a2b10e82469eccf8ff73d126ad9b4f25627160/Restorative-Topophilia-S-156.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="4" data-width="26.912" data-row="2" style="width: 27.3668%;">
+    <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%; transition-duration: initial;">
+      <img data-gallery-item-index="4" data-gallery-uid="151" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/8aac933d14bb20b20cf352e336a2b10e82469eccf8ff73d126ad9b4f25627160/Restorative-Topophilia-S-156.jpg" data-mid="225397430" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/93c82f89ff3cfd2289555a480044f867fcedc85c4a438776a7a499eda371ee95/Restorative-Topophilia-S-96.jpg"
+     data-pswp-width="2240" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="5" data-width="47.097" data-row="2" style="width: 46.1223%;">
+    <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%; transition-duration: initial;">
+      <img data-gallery-item-index="5" data-gallery-uid="152" width="2240" height="1600" src="//freight.cargo.site/w/900/q/75/i/93c82f89ff3cfd2289555a480044f867fcedc85c4a438776a7a499eda371ee95/Restorative-Topophilia-S-96.jpg" data-mid="225397402" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/4fed32de1c77bf1c2878b495795871e162ab30ef38fbda85d28d87cddfe0f740/Restorative-Topophilia-S-95.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="6" data-width="33.333" data-row="3" style="width: 33.333%;">
+    <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%; transition-duration: initial;">
+      <img data-gallery-item-index="6" data-gallery-uid="153" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/4fed32de1c77bf1c2878b495795871e162ab30ef38fbda85d28d87cddfe0f740/Restorative-Topophilia-S-95.jpg" data-mid="225397401" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/cf174873e72aaa68c4f8b861ae1bfc532dc027463ed0c41f85540546483afbb2/Restorative-Topophilia-S-32.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="7" data-width="33.333" data-row="3" style="width: 33.333%;">
+    <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%; transition-duration: initial;">
+      <img data-gallery-item-index="7" data-gallery-uid="154" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/cf174873e72aaa68c4f8b861ae1bfc532dc027463ed0c41f85540546483afbb2/Restorative-Topophilia-S-32.jpg" data-mid="225397378" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/9669f9d36b2cb42569bddc7a2068cf510baa36c65075a9ad30133e9498848197/Restorative-Topophilia-S-31.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="8" data-width="33.333" data-row="3" style="width: 33.333%;">
+    <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%; transition-duration: initial;">
+      <img data-gallery-item-index="8" data-gallery-uid="155" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/9669f9d36b2cb42569bddc7a2068cf510baa36c65075a9ad30133e9498848197/Restorative-Topophilia-S-31.jpg" data-mid="225397377" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/cef0d160d570771cde76e07f99c6b7ab44fd6d8994ac2ab5e43fadd7629c8c2f/Restorative-Topophilia-S-141.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="9" data-width="33.333" data-row="4" style="width: 33.333%;">
+    <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="9" data-gallery-uid="156" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/cef0d160d570771cde76e07f99c6b7ab44fd6d8994ac2ab5e43fadd7629c8c2f/Restorative-Topophilia-S-141.jpg" data-mid="225397426" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/c7d6dbd38f82d709ca76140b39e07001f33b5aef2759ee77018dce331463a571/Restorative-Topophilia-S-52.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="10" data-width="33.333" data-row="4" style="width: 33.333%;">
+    <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="10" data-gallery-uid="157" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/c7d6dbd38f82d709ca76140b39e07001f33b5aef2759ee77018dce331463a571/Restorative-Topophilia-S-52.jpg" data-mid="225397388" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/f6b3dba05e1e3d75878b7010287e93a51c135b132761b050afe5f000bfc89e6d/Restorative-Topophilia-S-40.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="11" data-width="33.333" data-row="4" style="width: 33.333%;">
+    <div class="gallery_card_image scroll-transition-fade" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="11" data-gallery-uid="158" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/f6b3dba05e1e3d75878b7010287e93a51c135b132761b050afe5f000bfc89e6d/Restorative-Topophilia-S-40.jpg" data-mid="225397381" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/cef30ef94b45444ae2c32d5acfa6eeadbd7be205a042c342f007372df0faf446/Restorative-Topophilia-S-36.jpg"
+     data-pswp-width="1600" data-pswp-height="1778"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="12" data-width="29.029" data-row="5" style="width: 29.3338%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 111.125%;">
+      <img data-gallery-item-index="12" data-gallery-uid="159" width="1600" height="1778" src="//freight.cargo.site/w/600/q/75/i/cef30ef94b45444ae2c32d5acfa6eeadbd7be205a042c342f007372df0faf446/Restorative-Topophilia-S-36.jpg" data-mid="225397380" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/595eebcea7819130bd18d7ae984b9e89da44b47b666bd588e22a7a9d69b7b7a9/Restorative-Topophilia-S-42.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="13" data-width="25.807" data-row="5" style="width: 26.34%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="13" data-gallery-uid="160" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/595eebcea7819130bd18d7ae984b9e89da44b47b666bd588e22a7a9d69b7b7a9/Restorative-Topophilia-S-42.jpg" data-mid="225397382" class="image-zoom">
+    </div>
+  </a>
+
+  <a href="https://freight.cargo.site/t/original/i/03b6a912af1ce276a88355e7d8ec248d4a3ea0da6c1c56862b44c4b1672938ef/Restorative-Topophilia-S-98.jpg"
+     data-pswp-width="2240" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="14" data-width="45.162" data-row="5" style="width: 44.3243%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;">
+      <img data-gallery-item-index="14" data-gallery-uid="161" width="2240" height="1600" src="//freight.cargo.site/w/900/q/75/i/03b6a912af1ce276a88355e7d8ec248d4a3ea0da6c1c56862b44c4b1672938ef/Restorative-Topophilia-S-98.jpg" data-mid="225397403" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第16张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/5424a3750169492f3f79a7877c253350df4d49bca68efa645289715fe541c5af/Restorative-Topophilia-S-59.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="15" data-width="34.792" data-row="6" style="width: 35.51%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="15" data-gallery-uid="162" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/5424a3750169492f3f79a7877c253350df4d49bca68efa645289715fe541c5af/Restorative-Topophilia-S-59.jpg" data-mid="225397390" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第17张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/347518b7c5fe4b3e14cefb6a84472e0c682fa7845c61a41d9d426aea522ea59d/Restorative-Topophilia-S-200.jpg"
+     data-pswp-width="2399" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="16" data-width="65.207" data-row="6" style="width: 64.489%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 66.6945%;">
+      <img data-gallery-item-index="16" data-gallery-uid="163" width="2399" height="1600" src="//freight.cargo.site/w/1500/q/75/i/347518b7c5fe4b3e14cefb6a84472e0c682fa7845c61a41d9d426aea522ea59d/Restorative-Topophilia-S-200.jpg" data-mid="225397432" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第18张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/3e7b8d5ad9557f130dd4ed50df8b0b398f763834a6afc6d00c1e84e6749195bf/Restorative-Topophilia-S-49.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="17" data-width="36.363" data-row="7" style="width: 37.0069%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="17" data-gallery-uid="164" width="1600" height="2000" src="//freight.cargo.site/w/800/q/75/i/3e7b8d5ad9557f130dd4ed50df8b0b398f763834a6afc6d00c1e84e6749195bf/Restorative-Topophilia-S-49.jpg" data-mid="225397385" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第19张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/dda4eeb94f9c6a9a5731568ec141826588faaeb19670131711ccab2973a4a629/Restorative-Topophilia-S-138.jpg"
+     data-pswp-width="2240" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="18" data-width="63.636" data-row="7" style="width: 62.9922%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;">
+      <img data-gallery-item-index="18" data-gallery-uid="165" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/dda4eeb94f9c6a9a5731568ec141826588faaeb19670131711ccab2973a4a629/Restorative-Topophilia-S-138.jpg" data-mid="225397424" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第20张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/debbcb8e312b98d971b07d58c4990ce9f5f18049b569e123c53d46d881e078cf/Restorative-Topophilia-S-232.jpg"
+     data-pswp-width="2240" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="19" data-width="63.636" data-row="8" style="width: 62.9922%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;">
+      <img data-gallery-item-index="19" data-gallery-uid="166" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/debbcb8e312b98d971b07d58c4990ce9f5f18049b569e123c53d46d881e078cf/Restorative-Topophilia-S-232.jpg" data-mid="225397434" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第21张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/cb50b8c1f6502c738bf274b197c15b8f6274070e25177493d82afb1987259437/Restorative-Topophilia-S-112.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="20" data-width="36.363" data-row="8" style="width: 37.0069%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="20" data-gallery-uid="167" width="1600" height="2000" src="//freight.cargo.site/w/800/q/75/i/cb50b8c1f6502c738bf274b197c15b8f6274070e25177493d82afb1987259437/Restorative-Topophilia-S-112.jpg" data-mid="225397411" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第22张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/7bc6fdf3a4b9990b5e21e57111cb5be208efe3de6c4c1ea7ddb27c07e13d47ad/Restorative-Topophilia-S-50.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="21" data-width="25.811" data-row="9" style="width: 26.3437%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="21" data-gallery-uid="168" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/7bc6fdf3a4b9990b5e21e57111cb5be208efe3de6c4c1ea7ddb27c07e13d47ad/Restorative-Topophilia-S-50.jpg" data-mid="225397386" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第23张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/bad87710e7d4e7e5af2a3ca54b0b05220008b518865ee4821a67df6fbfc34dd9/Restorative-Topophilia-S-44.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="22" data-width="25.811" data-row="9" style="width: 26.3437%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="22" data-gallery-uid="169" width="1600" height="2000" src="//freight.cargo.site/w/600/q/75/i/bad87710e7d4e7e5af2a3ca54b0b05220008b518865ee4821a67df6fbfc34dd9/Restorative-Topophilia-S-44.jpg" data-mid="225397384" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第24张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/07e6c93df5b8c0d174ac59f9973458df92307d44ff0c77c0dc425fcdcc573562/Restorative-Topophilia-S-51.jpg"
+     data-pswp-width="2399" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="23" data-width="48.376" data-row="9" style="width: 47.3107%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 66.6945%;">
+      <img data-gallery-item-index="23" data-gallery-uid="170" width="2399" height="1600" src="//freight.cargo.site/w/1000/q/75/i/07e6c93df5b8c0d174ac59f9973458df92307d44ff0c77c0dc425fcdcc573562/Restorative-Topophilia-S-51.jpg" data-mid="225397387" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第25张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/834470ecf929d5b9460f830154ad53d57c7a5fe85b5a03d48c43531428e86334/Restorative-Topophilia-S-221.jpg"
+     data-pswp-width="2240" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="24" data-width="63.636" data-row="10" style="width: 62.9922%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;">
+      <img data-gallery-item-index="24" data-gallery-uid="171" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/834470ecf929d5b9460f830154ad53d57c7a5fe85b5a03d48c43531428e86334/Restorative-Topophilia-S-221.jpg" data-mid="225397433" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第26张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/ef70cfe86db3154e332e9aae6dd0fcee088372b86532826263cbcc5df54df32b/Restorative-Topophilia-S-55.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="25" data-width="36.363" data-row="10" style="width: 37.0069%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="25" data-gallery-uid="172" width="1600" height="2000" src="//freight.cargo.site/w/800/q/75/i/ef70cfe86db3154e332e9aae6dd0fcee088372b86532826263cbcc5df54df32b/Restorative-Topophilia-S-55.jpg" data-mid="225397389" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第27张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/3e5e696524fdf4021dc60a6932ba3b44af7a96e26a001c2587afba925306938b/Restorative-Topophilia-S-64.jpg"
+     data-pswp-width="1600" data-pswp-height="2399"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="26" data-width="29.78" data-row="11" style="width: 30.0316%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 149.938%;">
+      <img data-gallery-item-index="26" data-gallery-uid="173" width="1600" height="2399" src="//freight.cargo.site/w/600/q/75/i/3e5e696524fdf4021dc60a6932ba3b44af7a96e26a001c2587afba925306938b/Restorative-Topophilia-S-64.jpg" data-mid="225397392" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第28张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/515fb3da72dd707a27a629a22fc8782f327407e345e8cf32afd6574504ceefe1/Restorative-Topophilia-S-240.jpg"
+     data-pswp-width="1600" data-pswp-height="2071"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="27" data-width="34.497" data-row="11" style="width: 34.4146%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 129.438%;">
+      <img data-gallery-item-index="27" data-gallery-uid="174" width="1600" height="2071" src="//freight.cargo.site/w/700/q/75/i/515fb3da72dd707a27a629a22fc8782f327407e345e8cf32afd6574504ceefe1/Restorative-Topophilia-S-240.jpg" data-mid="225397435" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第29张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/d6daaf9ebb8fda43749156e24dce9f5267d159659320280e1abf7c72fb75878b/Restorative-Topophilia-S-106.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="28" data-width="35.721" data-row="11" style="width: 35.5519%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="28" data-gallery-uid="175" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/d6daaf9ebb8fda43749156e24dce9f5267d159659320280e1abf7c72fb75878b/Restorative-Topophilia-S-106.jpg" data-mid="225397408" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第30张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/a20d4a3afa8bef727107fee397916ddaec5de1d9eabdee278e880834a2fba0d3/Restorative-Topophilia-S-65.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="29" data-width="33.333" data-row="12" style="width: 33.333%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="29" data-gallery-uid="176" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/a20d4a3afa8bef727107fee397916ddaec5de1d9eabdee278e880834a2fba0d3/Restorative-Topophilia-S-65.jpg" data-mid="225397393" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第31张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/7e22dd07593d3e2ffc1e6ecc0d5ccbe657098d747c0f314a59cb8cfe23065914/Restorative-Topophilia-S-94.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="30" data-width="33.333" data-row="12" style="width: 33.333%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="30" data-gallery-uid="177" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/7e22dd07593d3e2ffc1e6ecc0d5ccbe657098d747c0f314a59cb8cfe23065914/Restorative-Topophilia-S-94.jpg" data-mid="225397400" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第32张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/9b2d90c4ad4177513b4b80e26c5854c07a92f1f2311d0f7a61cbc200fcdb41ce/Restorative-Topophilia-S-70.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="31" data-width="33.333" data-row="12" style="width: 33.333%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="31" data-gallery-uid="178" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/9b2d90c4ad4177513b4b80e26c5854c07a92f1f2311d0f7a61cbc200fcdb41ce/Restorative-Topophilia-S-70.jpg" data-mid="225397394" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第33张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/3656516a84ba5ec308dc48fd515d04866330f355762cdeb22c6365f48665f5d2/Restorative-Topophilia-S-89.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="32" data-width="36.363" data-row="13" style="width: 37.0069%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="32" data-gallery-uid="179" width="1600" height="2000" src="//freight.cargo.site/w/800/q/75/i/3656516a84ba5ec308dc48fd515d04866330f355762cdeb22c6365f48665f5d2/Restorative-Topophilia-S-89.jpg" data-mid="225397399" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第34张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/4febe28969b8f964c4358a5bd2b0f56c87dcafb60fd91190deab5e0198d3bb9a/Restorative-Topophilia-S-99.jpg"
+     data-pswp-width="2240" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="33" data-width="63.636" data-row="13" style="width: 62.9922%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;">
+      <img data-gallery-item-index="33" data-gallery-uid="180" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/4febe28969b8f964c4358a5bd2b0f56c87dcafb60fd91190deab5e0198d3bb9a/Restorative-Topophilia-S-99.jpg" data-mid="225397404" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第35张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/17fcbbc52df709425ed3b71ffb45844e23afb5abf9e5c5b6ec92bbcd2483ea80/Restorative-Topophilia-S-251.jpg"
+     data-pswp-width="1600" data-pswp-height="2071"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="34" data-width="35.56" data-row="14" style="width: 36.2418%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 129.438%;">
+      <img data-gallery-item-index="34" data-gallery-uid="181" width="1600" height="2071" src="//freight.cargo.site/w/700/q/75/i/17fcbbc52df709425ed3b71ffb45844e23afb5abf9e5c5b6ec92bbcd2483ea80/Restorative-Topophilia-S-251.jpg" data-mid="225397436" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第36张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/bd40e31534fe12eb910fcaabd0e5a499ed6b9412bd9f3c76490fabcb2b98d816/Restorative-Topophilia-S-109.jpg"
+     data-pswp-width="2240" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="35" data-width="64.439" data-row="14" style="width: 63.7573%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;">
+      <img data-gallery-item-index="35" data-gallery-uid="182" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/bd40e31534fe12eb910fcaabd0e5a499ed6b9412bd9f3c76490fabcb2b98d816/Restorative-Topophilia-S-109.jpg" data-mid="225397409" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第37张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/5514e559855cdce2b0421b63e62e078c51dc42b776f7e5d48ce337c74c4249d4/Restorative-Topophilia-S-116.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="36" data-width="33.333" data-row="15" style="width: 33.333%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="36" data-gallery-uid="183" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/5514e559855cdce2b0421b63e62e078c51dc42b776f7e5d48ce337c74c4249d4/Restorative-Topophilia-S-116.jpg" data-mid="225397412" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第38张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/c1f4bdb84dc91b2c44d54ee75369b13fa11aee4a93f356bd34023a2fdf4a2b60/Restorative-Topophilia-S-120.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="37" data-width="33.333" data-row="15" style="width: 33.333%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="37" data-gallery-uid="184" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/c1f4bdb84dc91b2c44d54ee75369b13fa11aee4a93f356bd34023a2fdf4a2b60/Restorative-Topophilia-S-120.jpg" data-mid="225397415" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第39张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/cedb0b8374252b01ef863163c5ccafc44427ca0026eb43d1f03354edae76ff46/Restorative-Topophilia-S-119.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="38" data-width="33.333" data-row="15" style="width: 33.333%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="38" data-gallery-uid="185" width="1600" height="2000" src="//freight.cargo.site/w/700/q/75/i/cedb0b8374252b01ef863163c5ccafc44427ca0026eb43d1f03354edae76ff46/Restorative-Topophilia-S-119.jpg" data-mid="225397414" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第40张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/039f9df48343cd93e14b1ac54126fb39637fb3e1c6dba25ad1107056d5006b86/Restorative-Topophilia-S-124.jpg"
+     data-pswp-width="2240" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="39" data-width="50" data-row="16" style="width: 50%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;">
+      <img data-gallery-item-index="39" data-gallery-uid="186" width="2240" height="1600" src="//freight.cargo.site/w/1000/q/75/i/039f9df48343cd93e14b1ac54126fb39637fb3e1c6dba25ad1107056d5006b86/Restorative-Topophilia-S-124.jpg" data-mid="225397417" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第41张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/35552e1f31434e60c69c3c07180c8a81840169f8f6a415f0ce5556719f5bf95b/Restorative-Topophilia-S-133.jpg"
+     data-pswp-width="2240" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="40" data-width="50" data-row="16" style="width: 50%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;">
+      <img data-gallery-item-index="40" data-gallery-uid="187" width="2240" height="1600" src="//freight.cargo.site/w/1000/q/75/i/35552e1f31434e60c69c3c07180c8a81840169f8f6a415f0ce5556719f5bf95b/Restorative-Topophilia-S-133.jpg" data-mid="225397422" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第42张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/db2b0fde1f29333237ea2ec962078705da4464925a8419591fb3e018c9d58dfb/Restorative-Topophilia-S-129.jpg"
+     data-pswp-width="1600" data-pswp-height="2000"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="41" data-width="36.363" data-row="17" style="width: 37.0069%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 125%;">
+      <img data-gallery-item-index="41" data-gallery-uid="188" width="1600" height="2000" src="//freight.cargo.site/w/800/q/75/i/db2b0fde1f29333237ea2ec962078705da4464925a8419591fb3e018c9d58dfb/Restorative-Topophilia-S-129.jpg" data-mid="225397420" class="image-zoom">
+    </div>
+  </a>
+
+  <!-- 第43张图片 -->
+  <a href="https://freight.cargo.site/t/original/i/d9bdf7e44d86686853d8c39c083728f889da0ac017dbd71d34dbddd14d0d3ccd/Restorative-Topophilia-S-132.jpg"
+     data-pswp-width="2240" data-pswp-height="1600"
+     class="gallery_card" image-gallery-pad="1" image-gallery-col="" data-gallery-item-id="42" data-width="63.636" data-row="17" style="width: 62.9922%;">
+    <div class="gallery_card_image scroll-transition-fade below-viewport" data-elementresizer-no-resize="" data-elementresizer-no-centering="" style="height: 0px; padding-bottom: 71.4286%;">
+      <img data-gallery-item-index="42" data-gallery-uid="189" width="2240" height="1600" src="//freight.cargo.site/w/1500/q/75/i/d9bdf7e44d86686853d8c39c083728f889da0ac017dbd71d34dbddd14d0d3ccd/Restorative-Topophilia-S-132.jpg" data-mid="225397421" class="image-zoom">
+    </div>
+  </a>
+
+            </div>
+
+          </div>
+
+          <br><br><small></small>
+        </bodycopy>
+      </div>
+    </div>
+  </section>
+
+  <!-- 打字机脚本 -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script>
+    const cursor = document.createElement("span");
+    cursor.classList.add("typed-cursor");
+    cursor.textContent = "|";
+    document.querySelector(".typing-container").appendChild(cursor);
+
+    const typed = new Typed(".typed-text", {
+      strings: [
+        "Never put off till tomorrow",
+        "Stay hungry, stay foolish",
+        "Keep moving forward"
+      ],
+      typeSpeed: 80,
+      backSpeed: 50,
+      backDelay: 2000,
+      loop: true,
+      showCursor: false,
+      preStringTyped: () => cursor.classList.remove('blink'),
+      onTypingResumed: () => cursor.classList.remove('blink'),
+      onStringTyped: (pos, self) => {
+        cursor.classList.add('blink');
+        setTimeout(() => cursor.classList.remove('blink'), self.backDelay);
+      }
+    });
+
+    // 点击滚动到空白页
+    document.getElementById('scrollButton').addEventListener('click', function() {
+      document.getElementById('blank-page').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // 点击反馈
+    const scrollBtn = document.getElementById('scrollButton');
+    scrollBtn.addEventListener('mousedown', () => scrollBtn.style.opacity = '0.6');
+    scrollBtn.addEventListener('mouseup', () => scrollBtn.style.opacity = '0.8');
+    scrollBtn.addEventListener('mouseleave', () => scrollBtn.style.opacity = '0.8');
+  </script>
+
+  <!-- 第二段脚本合并 -->
+  <script>
+    // 初始化FastClick来消除移动端点击延迟
+    document.addEventListener('DOMContentLoaded', function() {
+      // 初始化 FastClick
+      if ('addEventListener' in document && FastClick) {
+        FastClick.attach(document.body);
+      }
+      
+      // 导航菜单控制
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const closeNavBtn = document.getElementById('closeNavBtn');
+      const leftPanel = document.getElementById('leftPanel');
+      
+      if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function() {
+          leftPanel.classList.add('active');
         });
+      }
+      
+      if (closeNavBtn) {
+        closeNavBtn.addEventListener('click', function() {
+          leftPanel.classList.remove('active');
+        });
+      }
+      
+      // 原有的滚动动画代码
+      const fadeElements = document.querySelectorAll('.scroll-transition-fade');
+      let lastScrollTop = 0;
+      
+      const elementLastTriggerPos = new Map();
 
-        // 主题切换功能
-        function toggleTheme(theme) {
-            if (theme === 'light') {
-                document.body.classList.add('light');
-                renderer.setClearColor(0x000000, 0);
-                document.body.style.background = '';
-                document.documentElement.style.setProperty('--fg', 'black');
-            } else {
-                document.body.classList.remove('light');
-                renderer.setClearColor(0x000000, 1);
-                document.body.style.background = '#000000';
-                document.documentElement.style.setProperty('--fg', 'white');
+      function checkScroll() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const isScrollingDown = scrollTop > lastScrollTop;
+        
+        fadeElements.forEach(element => {
+          const rect = element.getBoundingClientRect();
+          const elementTop = rect.top;
+          const viewportHeight = window.innerHeight;
+          
+          const triggerPoint = viewportHeight * 0.8;
+          const isVisible = elementTop < triggerPoint && elementTop > 0;
+          
+          const lastTriggerPos = elementLastTriggerPos.get(element) || 0;
+          
+          if (isScrollingDown && isVisible) {
+            if (scrollTop > lastTriggerPos) {
+              element.classList.remove('below-viewport');
+              elementLastTriggerPos.set(element, scrollTop);
             }
+          } else if (!isScrollingDown && !isVisible) {
+            if (elementTop > viewportHeight) {
+              element.classList.add('below-viewport');
+              elementLastTriggerPos.set(element, 0);
+            }
+          }
+        });
+        
+        lastScrollTop = scrollTop;
+      }
+
+      let scrollTimeout;
+      function handleScroll() {
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
         }
+        scrollTimeout = setTimeout(checkScroll, 16);
+      }
 
-        // 发光卡片交互效果
-        const $card = document.querySelector(".glowing-card");
+      window.addEventListener('scroll', handleScroll);
+      checkScroll();
+    });
+  </script>
 
-        const cardUpdate = (e) => {
-            const position = pointerPositionRelativeToElement($card, e);
-            const [px,py] = position.pixels;
-            const [perx, pery] = position.percent;
-            const [dx,dy] = distanceFromCenter($card, px, py);
-            const edge = closenessToEdge($card, px, py);
-            const angle = angleFromPointerEvent($card, dx, dy);
+  <!-- ====== PhotoSwipe 初始化 ====== -->
+  <script type="module">
+    import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
 
-            $card.style.setProperty('--pointer-x', `${round(perx)}%`);
-            $card.style.setProperty('--pointer-y', `${round(pery)}%`);
-            $card.style.setProperty('--pointer-°', `${round(angle)}deg`);
-            $card.style.setProperty('--pointer-d', `${round(edge * 100)}`);
-            
-            $card.classList.remove('animating');
+    const lightbox = new PhotoSwipeLightbox({
+      gallery: '#gallery--test-padding',
+      children: 'a',
+      pswpModule: () => import('https://unpkg.com/photoswipe@5.4.4/dist/photoswipe.esm.js'),
+      padding: { top: 20, bottom: 20, left: 20, right: 20 },
+      close: false,
+      zoom: false,
+      
+      // 修复：正确的点击行为配置
+      // 单击图片区域关闭预览（无论是否缩放）
+      imageClickAction: 'close',
+      // 单击背景关闭预览
+      bgClickAction: 'close',
+      // 点击非缩放区域关闭
+      clickToCloseNonZoomable: true,
+      // 触摸动作
+      tapAction: 'close',
+      tapToClose: true,
+      
+      // 双击行为：双击缩放
+      doubleTapAction: 'zoom',
+      
+      // 修复：恢复平滑的动画
+      showHideAnimationType: 'zoom',
+      showAnimationDuration: 333,
+      hideAnimationDuration: 333,
+      zoomAnimationDuration: 333,
+      
+      // 背景透明度设置
+      bgOpacity: 1,
+      
+      // 性能优化配置
+      getViewportSize: function(options) {
+        return {
+          x: document.documentElement.clientWidth,
+          y: document.documentElement.clientHeight
         };
-
-        $card.addEventListener("pointermove", cardUpdate);
-
-        // 辅助函数
-        const centerOfElement = ($el) => {
-            const { left, top, width, height } = $el.getBoundingClientRect();
-            return [ width/2, height/2 ];
-        }
-
-        const pointerPositionRelativeToElement = ($el, e) => {
-            const pos = [e.clientX, e.clientY];
-            const { left, top, width, height } = $el.getBoundingClientRect();
-            const x = pos[0] - left;
-            const y = pos[1] - top;
-            const px = clamp((100 / width) * x);
-            const py = clamp((100 / height) * y);
-            return { pixels: [x,y], percent: [px,py] }
-        }
-
-        const angleFromPointerEvent = ($el, dx, dy ) => {
-            let angleRadians = Math.atan2(dy, dx);
-            let angleDegrees = angleRadians * (180 / Math.PI) + 90;
-            if (angleDegrees < 0) angleDegrees += 360;
-            return angleDegrees;
-        }
-
-        const distanceFromCenter = ($card, x, y) => {
-            const [cx,cy] = centerOfElement($card);
-            return [ x - cx, y - cy ];
-        }
-
-        const closenessToEdge = ($card, x, y) => {
-            const [cx,cy] = centerOfElement($card);
-            const [dx,dy] = distanceFromCenter($card, x, y);
-            let k_x = dx !== 0 ? cx / Math.abs(dx) : Infinity;
-            let k_y = dy !== 0 ? cy / Math.abs(dy) : Infinity;
-            return clamp((1 / Math.min(k_x, k_y)), 0, 1);
-        }
-
-        const round = (value, precision = 3) => parseFloat(value.toFixed(precision));
-        const clamp = (value, min = 0, max = 100) => Math.min(Math.max(value, min), max);
-
-        // 开场动画
-        const playAnimation = () => {
-            const angleStart = 310;
-            const angleEnd = 525;
-
-            $card.style.setProperty('--pointer-°', `${angleStart}deg`);
-            $card.classList.add('animating');
-
-            animateNumber({
-                ease: easeOutCubic,
-                duration: 500,
-                onUpdate: (v) => {
-                    $card.style.setProperty('--pointer-d', v);
-                }
-            });
-
-            animateNumber({
-                ease: easeInCubic,
-                duration: 1500,
-                endValue: 50,
-                onUpdate: (v) => {
-                    const d = (angleEnd - angleStart) * (v / 100) + angleStart;
-                    $card.style.setProperty('--pointer-°', `${d}deg`);
-                }
-            }); 
-
-            animateNumber({
-                ease: easeOutCubic,
-                duration: 2250,
-                delay: 1500,
-                startValue: 50,
-                endValue: 100,
-                onUpdate: (v) => {
-                    const d = (angleEnd - angleStart) * (v / 100) + angleStart;
-                    $card.style.setProperty('--pointer-°', `${d}deg`);
-                }
-            });
-
-            animateNumber({
-                ease: easeInCubic,
-                duration: 1500,
-                delay: 2500,
-                startValue: 100,
-                endValue: 0,
-                onUpdate: (v) => {
-                    $card.style.setProperty('--pointer-d', v);
-                },
-                onEnd: () => {
-                    $card.classList.remove('animating');
-                }
-            });
-        }
-
-        // 动画辅助函数
-        function easeOutCubic(x) { return 1 - Math.pow(1 - x, 3); }
-        function easeInCubic(x) { return x * x * x; } 
-
-        function animateNumber(options) {
-            const {
-                startValue = 0,
-                endValue = 100,
-                duration = 1000,
-                delay = 0,
-                onUpdate = () => {},
-                ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
-                onStart = () => {},
-                onEnd = () => {},
-            } = options;
-
-            const startTime = performance.now() + delay;
-
-            function update() {
-                const currentTime = performance.now();
-                const elapsed = currentTime - startTime;
-                const t = Math.min(elapsed / duration, 1);
-                const easedValue = startValue + (endValue - startValue) * ease(t);
-
-                onUpdate(easedValue);
-
-                if (t < 1) {
-                    requestAnimationFrame(update);
-                } else if (t >= 1) {
-                    onEnd();
-                }
-            }
-            
-            setTimeout(() => {
-                onStart();
-                requestAnimationFrame(update);
-            }, delay);
-        }
-
-        // 启动开场动画
-        setTimeout(() => {
-            playAnimation();
-        }, 500);
-
-        // 初始化时默认设置为暗色模式
-        toggleTheme('dark');
-
-        // 动态加载音乐播放器
-        function loadMusicPlayer() {
-            /** @jsx dom */
-            let indexSong = 0;
-            let isLocked = false;
-            let songsLength = null;
-            let selectedSong = null;
-            let songIsPlayed = false;
-            let progress_elmnt = null;
-            let songName_elmnt = null;
-            let sliderImgs_elmnt = null;
-            let singerName_elmnt = null;
-            let progressBar_elmnt = null;
-            let playlistSongs_elmnt = [];
-            let musicPlayerInfo_elmnt = null;
-            let progressBarIsUpdating = false;
-            let broadcastGuarantor_elmnt = null;
-            const root = document.querySelector("#root");
-
-            // Clear existing content in #root to prevent duplicates
-            while (root.firstChild) {
-                root.removeChild(root.firstChild);
-            }
-
-            function App({ songs }) {
-                function handleChangeMusic({ isPrev = false, playListIndex = null }) {
-                    if (isLocked || indexSong === playListIndex) return;
-                    if (playListIndex || playListIndex === 0) {
-                        indexSong = playListIndex;
-                    } else {
-                        indexSong = isPrev ? (indexSong -= 1) : (indexSong += 1);
-                    }
-                    if (indexSong < 0) { indexSong = 0; return; }
-                    else if (indexSong > songsLength) { indexSong = songsLength; return; }
-                    selectedSong.pause();
-                    selectedSong.currentTime = 0;
-                    progressBarIsUpdating = false;
-                    selectedSong = playlistSongs_elmnt[indexSong];
-                    if (selectedSong.paused && songIsPlayed) selectedSong.play();
-                    else selectedSong.pause();
-                    setProperty(sliderImgs_elmnt, "--index", -indexSong);
-                    updateInfo(singerName_elmnt, songs[indexSong].artist);
-                    updateInfo(songName_elmnt, songs[indexSong].songName);
-                }
-                return (
-                    dom("div", { class: "music-player flex-column" },
-                        Slider({ slides: songs, handleChangeMusic }),
-                        Playlist({ list: songs, handleChangeMusic })
-                    )
-                );
-            }
-
-            function Slider({ slides, handleChangeMusic }) {
-                function handleResizeSlider({ target }) {
-                    if (isLocked) return;
-                    else if (target.classList.contains("music-player__info")) {
-                        this.classList.add("resize");
-                        setProperty(this, "--controls-animate", "down running");
-                        return;
-                    } else if (target.classList.contains("music-player__playlist-button")) {
-                        this.classList.remove("resize");
-                        setProperty(this, "--controls-animate", "up running");
-                        return;
-                    }
-                }
-                function handlePlayMusic() {
-                    if (selectedSong.currentTime === selectedSong.duration) {
-                        handleChangeMusic({});
-                    }
-                    this.classList.toggle("click");
-                    songIsPlayed = !songIsPlayed;
-                    selectedSong.paused ? selectedSong.play() : selectedSong.pause();
-                }
-                return (
-                    dom("div", { class: "slider center", onclick: handleResizeSlider },
-                        dom("div", { class: "slider__content center" },
-                            dom("button", { class: "music-player__playlist-button center button" },
-                                dom("i", { class: "icon-playlist" })
-                            ),
-                            dom("button", { class: "music-player__broadcast-guarantor center button", onclick: handlePlayMusic },
-                                dom("i", { class: "icon-play" }),
-                                dom("i", { class: "icon-pause" })
-                            ),
-                            dom("div", { class: "slider__imgs flex-row" },
-                                slides.map(({ songName, files: { cover } }) =>
-                                    dom("img", { src: cover, class: "img", alt: songName })
-                                )
-                            )
-                        ),
-                        dom("div", { class: "slider__controls center" },
-                            dom("button", { class: "slider__switch-button flex-row button", onclick: () => handleChangeMusic({ isPrev: true }) },
-                                dom("i", { class: "icon-back" })
-                            ),
-                            dom("div", { class: "music-player__info text_trsf-cap" },
-                                dom("div", null,
-                                    dom("div", { class: "music-player__singer-name" },
-                                        dom("div", null, slides[0].artist)
-                                    )
-                                ),
-                                dom("div", null,
-                                    dom("div", { class: "music-player__subtitle" },
-                                        dom("div", null, slides[0].songName)
-                                    )
-                                )
-                            ),
-                            dom("button", { class: "slider__switch-button flex-row button", onclick: () => handleChangeMusic({ isPrev: false }) },
-                                dom("i", { class: "icon-next" })
-                            ),
-                            dom("div", { class: "progress center", onpointerdown: (e) => { handleScrub(e); progressBarIsUpdating = true; } },
-                                dom("div", { class: "progress__wrapper" },
-                                    dom("div", { class: "progress__bar center" })
-                                )
-                            )
-                        )
-                    )
-                );
-            }
-
-            function Playlist({ list, handleChangeMusic }) {
-                function loadedAudio() {
-                    const duration = this.duration;
-                    const target = this.parentElement.querySelector(".music-player__song-duration");
-                    let min = parseInt(duration / 60); if (min < 10) min = "0" + min;
-                    let sec = parseInt(duration % 60); if (sec < 10) sec = "0" + sec;
-                    target.appendChild(document.createTextNode(`${min}:${sec}`));
-                }
-                function updateTheProgressBar() {
-                    const duration = this.duration;
-                    const currentTime = this.currentTime;
-                    const progressBarWidth = (currentTime / duration) * 100;
-                    setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
-                    if (songIsPlayed && currentTime === duration) {
-                        handleChangeMusic({});
-                    }
-                    if (indexSong === songsLength && this === selectedSong && currentTime === duration) {
-                        songIsPlayed = false;
-                        broadcastGuarantor_elmnt.classList.remove("click");
-                    }
-                }
-                return (
-                    dom("ul", { class: "music-player__playlist list" },
-                        list.map(({ songName, artist, files: { cover, song } }, index) =>
-                            dom("li", { class: "music-player__song", onclick: () => handleChangeMusic({ isPrev: false, playListIndex: index }) },
-                                dom("div", { class: "flex-row _align_center" },
-                                    dom("img", { src: cover, class: "img music-player__song-img" }),
-                                    dom("div", { class: "music-player__playlist-info text_trsf-cap" },
-                                        dom("b", { class: "text_overflow" }, songName),
-                                        dom("div", { class: "flex-row _justify_space-btwn" },
-                                            dom("span", { class: "music-player__subtitle" }, artist),
-                                            dom("span", { class: "music-player__song-duration" })
-                                        )
-                                    )
-                                ),
-                                dom("audio", { src: song, onloadeddata: loadedAudio, ontimeupdate: updateTheProgressBar })
-                            )
-                        )
-                    )
-                );
-            }
-
-            function dom(tag, props, ...children) {
-                if (typeof tag === "function") return tag(props, ...children);
-                const element = document.createElement(tag);
-                Object.entries(props || {}).forEach(([name, value]) => {
-                    if (name.startsWith("on") && name.toLowerCase() in window) {
-                        element[name.toLowerCase()] = value;
-                    } else if (name === "style") {
-                        Object.entries(value).forEach(([styleProp, styleValue]) => {
-                            element.style[styleProp] = styleValue;
-                        });
-                    } else {
-                        element.setAttribute(name, value.toString());
-                    }
-                });
-                children.forEach((child) => {
-                    if (Array.isArray(child)) {
-                        child.forEach((nestedChild) => element.appendChild(
-                            nestedChild.nodeType ? nestedChild : document.createTextNode(nestedChild.toString())
-                        ));
-                    } else {
-                        element.appendChild(
-                            child.nodeType ? child : document.createTextNode(child.toString())
-                        );
-                    }
-                });
-                return element;
-            }
-
-            fetch("https://gist.githubusercontent.com/abxlfazl/37404417d17230a629683eb3f2f0a88a/raw/366ad64df645e94592847283a306fe2276de458e/music-info.json")
-                .then((response) => response.json())
-                .then((result) => {
-                    const songs = result.songs;
-                    function downloadTheFiles(media, input) {
-                        return Promise.all(
-                            input.map((song) => {
-                                const promise = new Promise((resolve) => {
-                                    const url = song.files[media];
-                                    const req = new XMLHttpRequest();
-                                    req.open("GET", url, true);
-                                    req.responseType = "blob";
-                                    req.send();
-                                    req.onreadystatechange = () => {
-                                        if (req.readyState === 4 && req.status === 200) {
-                                            const blob = req.response;
-                                            const file = URL.createObjectURL(blob);
-                                            song.files[media] = file;
-                                            resolve(song);
-                                        }
-                                    };
-                                });
-                                return promise;
-                            })
-                        );
-                    }
-                    downloadTheFiles("cover", songs).then((response) => {
-                        downloadTheFiles("song", response).then((data) => {
-                            root.appendChild(App({ songs: data }));
-                            songsLength = data.length - 1;
-                            progress_elmnt = document.querySelector(".progress");
-                            playlistSongs_elmnt = document.querySelectorAll("audio");
-                            sliderImgs_elmnt = document.querySelector(".slider__imgs");
-                            songName_elmnt = document.querySelector(".music-player__subtitle");
-                            musicPlayerInfo_elmnt = document.querySelector(".music-player__info");
-                            singerName_elmnt = document.querySelector(".music-player__singer-name");
-                            selectedSong = playlistSongs_elmnt[indexSong];
-                            progressBar_elmnt = document.querySelector(".progress__bar");
-                            broadcastGuarantor_elmnt = document.querySelector(".music-player__broadcast-guarantor");
-                            controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
-                            controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
-                        });
-                    });
-                });
-
-            function controlSubtitleAnimation(parent, child) {
-                if (child.classList.contains("animate")) return;
-                const element = child.firstChild;
-                if (child.clientWidth > parent.clientWidth) {
-                    child.appendChild(element.cloneNode(true));
-                    child.classList.add("animate");
-                }
-                setProperty(child.parentElement, "width", `${element.clientWidth}px`);
-            }
-            function handleResize() {
-                const vH = window.innerHeight * 0.01;
-                setProperty(document.documentElement, "--vH", `${vH}px`);
-            }
-            function setProperty(target, prop, value = "") { target.style.setProperty(prop, value); }
-            function updateInfo(target, value) {
-                while (target.firstChild) { target.removeChild(target.firstChild); }
-                const targetChild_elmnt = document.createElement("div");
-                targetChild_elmnt.appendChild(document.createTextNode(value));
-                target.appendChild(targetChild_elmnt);
-                target.classList.remove("animate");
-                controlSubtitleAnimation(musicPlayerInfo_elmnt, target);
-            }
-            function handleScrub(e) {
-                const progressOffsetLeft = progress_elmnt.getBoundingClientRect().left;
-                const progressWidth = progress_elmnt.offsetWidth;
-                const duration = selectedSong.duration;
-                const currentTime = (e.clientX - progressOffsetLeft) / progressWidth;
-                selectedSong.currentTime = currentTime * duration;
-            }
-
-            handleResize();
-            window.addEventListener("resize", handleResize);
-            window.addEventListener("orientationchange", handleResize);
-            window.addEventListener("transitionstart", ({ target }) => {
-                if (target === sliderImgs_elmnt) {
-                    isLocked = true;
-                    setProperty(sliderImgs_elmnt, "will-change", "transform");
-                }
-            });
-            window.addEventListener("transitionend", ({ target, propertyName }) => {
-                if (target === sliderImgs_elmnt) {
-                    isLocked = false;
-                    setProperty(sliderImgs_elmnt, "will-change", "auto");
-                }
-                if (target.classList.contains("slider") && propertyName === "height") {
-                    controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
-                    controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
-                }
-            });
-            window.addEventListener("pointerup", () => {
-                if (progressBarIsUpdating) {
-                    selectedSong.muted = false;
-                    progressBarIsUpdating = false;
-                }
-            });
-            window.addEventListener("pointermove", (e) => {
-                if (progressBarIsUpdating) {
-                    handleScrub(e);
-                    selectedSong.muted = true;
-                }
-            });
-        }
-
-        // 初始化默认页面
-        switchPageTo(2);
-
-        // 新增：动态控制链接滚动容器的滚动条显示/隐藏
-        const scrollContainer = document.querySelector('.link-scroll-container');
-        let scrollTimeout;
-        if (scrollContainer) {
-            scrollContainer.addEventListener('scroll', () => {
-                scrollContainer.classList.add('scrolling');
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    scrollContainer.classList.remove('scrolling');
-                }, 1500); // 停止滚动1秒后隐藏
-            });
-        }
-    </script>
-<!-- 引入 clipboard.js -->
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
-<script>
-    // 设置微信号
-    const wechatID = "lllIIllIIlIII"; 
-
-    // 创建 Clipboard 实例
-    var clipboard = new ClipboardJS('#wechatBtn', {
-        text: function() {
-            return wechatID;
-        }
+      },
+      
+      // 缩放配置
+      initialZoomLevel: 'fit',
+      secondaryZoomLevel: 2,
+      maxZoomLevel: 4,
+      minZoomLevel: 0.1,
+      
+      // 手势配置
+      pinchToClose: true,
+      closeOnVerticalDrag: true
     });
 
-    clipboard.on('success', function(e) {
-        alert('👉微信号复制成功,即将前往微信！');
-        window.location.href = 'weixin://';
+    lightbox.on('beforeOpen', () => {
+      const isMobile = window.innerWidth <= 768;
+      console.log('设备类型:', isMobile ? '移动端' : '桌面端');
     });
 
-    clipboard.on('error', function(e) {
-        alert('复制失败,请手动输入 ' + wechatID);
-        window.location.href = 'weixin://dl/scan';
+    // 监听图片点击事件，确保关闭行为
+    lightbox.on('bindEvents', () => {
+      // 确保图片点击总是关闭
+      console.log('PhotoSwipe事件已绑定，单击图片将关闭预览');
     });
-</script>
 
+    lightbox.init();
+    console.log('PhotoSwipe已初始化：单击图片关闭，双击图片缩放');
+  </script>
+  <canvas id="canvas" width="1194" height="2000"></canvas>
+
+
+<div style="text-align:center;clear:both;">
+</div>
+<script src="https://gcore.jsdelivr.net/gh/coder-lzh/picture@main/lib/effect/crowd-flow/gsap.min.js"></script>
+<script src="https://gcore.jsdelivr.net/gh/coder-lzh/picture@main/lib/effect/crowd-flow/script.js"></script>
 </body>
 </html>
