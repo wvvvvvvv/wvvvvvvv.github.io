@@ -439,51 +439,58 @@
             box-shadow: 0px 0px 20px rgba(194, 153, 255, 0);
         }
 
-      
-body:not(.light) .crt::before {
-  content: " ";
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: 
-    /* RGB颜色条纹 */
-    linear-gradient(90deg, 
-      rgba(255, 0, 0, 0.03), 
-      rgba(0, 255, 0, 0.01), 
-      rgba(0, 0, 255, 0.03)),
-    /* 轻微暗色层 - 降低亮度 */
-    rgba(0, 0, 0, 0.05);
-  z-index: 2;
-  background-size: 3px 100%;
-  pointer-events: none;
-  mix-blend-mode: overlay;
+
+
+
+:root {
+  --crt-darkness: 0;          /* 暗角 */
+  --crt-scanline: 0.10;       /* 扫描线强度（不要填 2） */
+  --crt-rgb-split: 0.06;      /* RGB 分色纹理强度 */
+
+  --crt-night-brightness: 1; /* 夜间亮度增强 */
 }
 
-body:not(.light) .crt::after {
-  content: " ";
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 1px,
-    rgba(255, 255, 255, 0.5) 1px,
-    rgba(255, 255, 255, 0.02) 2px
-  );
-  z-index: 2;
-  pointer-events: none;
-  mix-blend-mode: overlay;
+/* 仅夜间模式提亮 */
+body:not(.light) .crt {
+  filter: brightness(var(--crt-night-brightness));
 }
-      
-      
-      
+
+
+
+/* CRT 效果 - 可独立调节亮度 / 扫描线 / RGB 分色 */
+body:not(.light) .crt::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+
+  background: rgba(0, 0, 0, var(--crt-darkness));
+}
+
+body:not(.light) .crt::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+
+  background:
+      /* 扫描线（压暗） */
+      linear-gradient(
+          rgba(0,0,0,0) 50%,
+          rgba(0,0,0,var(--crt-scanline)) 100%
+      ),
+      /* RGB 像素纹理 */
+      linear-gradient(
+          90deg,
+          rgba(255, 0, 0, var(--crt-rgb-split)),
+          rgba(0, 255, 0, calc(var(--crt-rgb-split) * 0.3)),
+          rgba(0, 0, 255, var(--crt-rgb-split))
+      );
+
+  background-size: 100% 2px, 3px 100%;
+}
         @font-face {
             font-family: "icomoon";
             src: url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.eot?u8ckod");
