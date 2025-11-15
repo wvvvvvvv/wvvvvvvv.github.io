@@ -34,7 +34,7 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover fixed;
+            background: url('https://splattacks.neocities.org/images/bg.png') center/cover fixed;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -44,7 +44,7 @@
         }
 
         body.light {
-            background: url('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg') center/cover fixed;
+            background: url('https://splattacks.neocities.org/images/bg.png') center/cover fixed;
             color: var(--fg);
         }
         
@@ -440,7 +440,7 @@
         }
 
 
-.crt::after {
+body:not(.light) .crt::after {
   content: " ";
   display: block;
   position: fixed;
@@ -448,13 +448,13 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background: rgba(18, 16, 16, 0.1);
-  opacity: 30%;
+  background: rgba(18, 16, 16, 0);
+  opacity: 0%;
   z-index: 2;
   pointer-events: none;
 }
 
-.crt::before {
+body:not(.light) .crt::before {
   content: " ";
   display: block;
   position: fixed;
@@ -1003,7 +1003,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
         window.onload = function() {
             init();
             preloadImages([
-                'https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/000.jpg',
+                'https://splattacks.neocities.org/images/bg.png',
                 'https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/222.JPG',
                 'https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/111.JPG'
             ]);
@@ -1070,13 +1070,13 @@ renderer.setClearColor(0x000000, 0); // 保证透明
                 document.body.classList.add('light');
                 renderer.setClearColor(0x000000, 0);
                 document.body.style.background = '';
-                document.documentElement.style.setProperty('--fg', 'black');
+                document.documentElement.style.setProperty('--fg', 'block');
                 canvas.style.display = 'block';
             } else {
                 document.body.classList.remove('light');
                 renderer.setClearColor(0x000000, 0);
                 document.body.style.background = 'black';
-                document.documentElement.style.setProperty('--fg', 'white');
+                document.documentElement.style.setProperty('--fg', '#f0f0f0');
                 canvas.style.display = 'block';
             }
             if (currentPage === 3) {
