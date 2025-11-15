@@ -889,7 +889,10 @@ renderer.setClearColor(0x000000, 0); // 保证透明
 
                         <div id="page2" class="page">
                             <div class="profile-header">
-<img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/cat.JPG?w=300&h=300" alt="头像" class="profile-pic" onclick="confetti({particleCount:150,spread:100})" />
+<img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/cat.JPG?w=300&h=300"
+     alt="头像"
+     class="profile-pic"
+     onclick="confetti({particleCount:150,spread:100}); avatarSound.play();" />
                             </div>
                             <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3UkRfA9F62DYYDzqOskoov?si=MXIJN0wrQx24IS-qmyCUjg', '_blank')">
                                 <div class="spotify-left">
@@ -2237,8 +2240,10 @@ document.querySelectorAll('.day-toggle').forEach(button => {
   }
 })();
       
-      
-      
+
+const avatarSound = new Audio("https://files.catbox.moe/6he0qc.wav");
+avatarSound.volume = 0.35;
+
       
       
       
