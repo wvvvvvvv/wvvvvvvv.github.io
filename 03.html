@@ -1,2340 +1,2373 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!DOCTYPE HTML>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌙🐈🌅</title>
+    <title>✨进入猫次元🐈</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light only"/>
+    <meta name="description" content="✨进入猫次元🐈"/>
+    <meta property="og:site_name" content="✨进入猫次元🐈"/>
+    <meta property="og:title" content="✨进入猫次元🐈"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="✨进入猫次元🐈"/>
+    <meta property="og:image" content="https://l2345.carrd.co/assets/images/card.jpg?v=ddd402cd"/>
+    <meta property="og:image:type" content="image/jpeg"/>
+    <meta property="og:image:width" content="1280"/>
+    <meta property="og:image:height" content="800"/>
+    <meta property="og:url" content="https://l2345.carrd.co"/>
+    <meta property="twitter:card" content="summary_large_image"/>
+    <link rel="canonical" href="https://l2345.carrd.co"/>
+    <link href="https://fonts.googleapis.com/css2?display=swap&family=Inter:ital,wght@0,700;1,700" rel="stylesheet" type="text/css"/>
     <style>
-        :root {
-            --glow-sens: 30;
-            --dark: hsl(260, 25%, 10%);
-            --fg: black;
-            --h: 260;
-            --card-bg: linear-gradient(8deg, var(--dark) 75%, color-mix(in hsl, var(--dark), white 2.5%) 75.5%);
-            --blend: soft-light;
-            --glow-blend: plus-lighter;
-            --glow-color: 40deg 80% 80%;
-            --duration: 1s;
-            --ease-slider: cubic-bezier(0.4, 0, 0.2, 1);
-            --ease-timeline: cubic-bezier(0.71, 0.21, 0.3, 0.95);
-            --page-height: 498px;
-            --accent: hsl(260, 100%, 80%);
+    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+    }
+
+    article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+        display: block;
+    }
+
+    body {
+        line-height: 1;
+    }
+
+    ol, ul {
+        list-style: none;
+    }
+
+    blockquote, q {
+        quotes: none;
+    }
+
+    blockquote::before, blockquote::after, q::before, q::after {
+        content: '';
+        content: none;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    body {
+        -webkit-text-size-adjust:none
+    }
+
+    mark {
+        background-color: transparent;
+        color:inherit
+    }
+
+    input::-moz-focus-inner {
+        border: 0;
+        padding: 0
+    }
+
+    input[type="text"], input[type="email"], select, textarea {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        -ms-appearance: none;
+        appearance:none
+    }
+
+    *, * ::before, * ::after {
+        box-sizing: border-box;
+    }
+
+    body {
+        line-height: 1.0;
+        min-height: var(--viewport-height);
+        min-width: 320px;
+        overflow-x: hidden;
+        word-wrap: break-word;
+        background-color: #B774ED;
+    }
+
+    body::before {
+        content: '';
+        display: block;
+        background-attachment: scroll;
+        height: var(--background-height);
+        left: 0;
+        pointer-events: none;
+        position: fixed;
+        top: 0;
+        transform: scale(1);
+        width: 100vw;
+        z-index: 0;
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg%20viewBox%3D%220%200%20512%20512%22%20width%3D%22512%22%20height%3D%22512%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%20%3Cfilter%20id%3D%22noise%22%3E%20%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.875%22%20result%3D%22noise%22%20%2F%3E%20%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220.03515625%200%200%200%200%200%200.03515625%200%200%200%200%200%200.0390625%200%200%200%200%200%201%200%22%20%2F%3E%20%3C%2Ffilter%3E%20%3Crect%20filter%3D%22url%28%23noise%29%22%20x%3D%220%22%20y%3D%220%22%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22transparent%22%20opacity%3D%221%22%20%2F%3E%3C%2Fsvg%3E'), url('https://l2345.carrd.co/assets/images/bg.gif?v=ddd402cd');
+        background-size: 512px, 100% 100%;
+        background-position: center, center;
+        background-repeat: repeat, no-repeat;
+    }
+
+    body::after {
+        background-color: #272729;
+        content: '';
+        display: block;
+        pointer-events: none;
+        position: fixed;
+        transform: scale(1);
+        z-index: 1;
+        height: 100%;
+        left: 0;
+        opacity: 0;
+        top: 0;
+        transition: opacity 1s ease-in-out 0s, visibility 1s 0s;
+        visibility: hidden;
+        width: 100%;
+    }
+
+    body.is-loading::after {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    :root {
+        --background-height: 100vh;
+        --site-language-alignment: left;
+        --site-language-direction: ltr;
+        --site-language-flex-alignment: flex-start;
+        --site-language-indent-left: 1;
+        --site-language-indent-right: 0;
+        --site-language-margin-left: 0;
+        --site-language-margin-right: auto;
+        --viewport-height: 100vh;
+    }
+
+    html {
+        font-size: 18pt;
+    }
+
+    u {
+        text-decoration: underline;
+    }
+
+    strong {
+        color: inherit;
+        font-weight: bolder;
+    }
+
+    em {
+        font-style: italic;
+    }
+
+    code {
+        background-color: rgba(144, 144, 144, 0.25);
+        border-radius: 0.25em;
+        font-family: 'Lucida Console', 'Courier New', monospace;
+        font-size: 0.9em;
+        font-weight: normal;
+        letter-spacing: 0;
+        margin: 0 0.25em;
+        padding: 0.25em 0.5em;
+        text-indent: 0;
+    }
+
+    mark {
+        background-color: rgba(144, 144, 144, 0.25);
+    }
+
+    spoiler-text {
+        -webkit-text-stroke: 0;
+        background-color: rgba(32, 32, 32, 0.75);
+        text-shadow: none;
+        text-stroke: 0;
+        color: transparent;
+        cursor: pointer;
+        transition: color 0.1s ease-in-out;
+    }
+
+    spoiler-text.active {
+        color: #FFFFFF;
+        cursor: text;
+    }
+
+    s {
+        text-decoration: line-through;
+    }
+
+    sub {
+        font-size: smaller;
+        vertical-align: sub;
+    }
+
+    sup {
+        font-size: smaller;
+        vertical-align: super;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: underline;
+        transition: color 0.25s ease;
+    }
+
+    a[onclick]:not([href]) {
+        cursor: pointer;
+    }
+
+    unloaded-script {
+        display: none;
+    }
+
+    .site-wrapper {
+        -webkit-overflow-scrolling: touch;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: var(--viewport-height);
+        overflow: hidden;
+        position: relative;
+        z-index: 2;
+    }
+
+    .site-main {
+        --alignment: center;
+        --flex-alignment: center;
+        --indent-left: 1;
+        --indent-right: 1;
+        --margin-left: auto;
+        --margin-right: auto;
+        --border-radius-tl: 0;
+        --border-radius-tr: 0;
+        --border-radius-br: 0;
+        --border-radius-bl: 0;
+        align-items: center;
+        display: flex;
+        flex-grow: 0;
+        flex-shrink: 0;
+        justify-content: center;
+        max-width: 100%;
+        position: relative;
+        text-align: var(--alignment);
+        z-index: 1;
+    }
+
+    .site-main > .inner {
+        --padding-horizontal: 3rem;
+        --padding-vertical: 0rem;
+        --spacing: 1.5rem;
+        --width: 65rem;
+        border-radius: var(--border-radius-tl) var(--border-radius-tr) var(--border-radius-br) var(--border-radius-bl);
+        max-width: 100%;
+        position: relative;
+        width: var(--width);
+        z-index: 1;
+        padding: var(--padding-vertical) var(--padding-horizontal);
+    }
+
+    .site-main > .inner > * {
+        margin-top: var(--spacing);
+        margin-bottom: var(--spacing);
+    }
+
+    .site-main > .inner > :first-child {
+        margin-top: 0 !important;
+    }
+
+    .site-main > .inner > :last-child {
+        margin-bottom: 1.5rem !important;
+    }
+
+    .site-main > .inner > .full {
+        margin-left: calc(var(--padding-horizontal) * -1);
+        max-width: calc(100% + calc(var(--padding-horizontal) * 2) + 0.4725px);
+        width: calc(100% + calc(var(--padding-horizontal) * 2) + 0.4725px);
+    }
+
+    .site-main > .inner > .full:first-child {
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+        margin-top: calc(var(--padding-vertical) * -1) !important;
+    }
+
+    .site-main > .inner > .full:last-child {
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+        margin-bottom: calc(var(--padding-vertical) * -1) !important;
+    }
+
+    .site-main > .inner > .full.screen {
+        border-radius: 0 !important;
+        max-width: 100vw;
+        position: relative;
+        width: 100vw;
+        left: 50%;
+        margin-left: -50vw;
+        right: auto;
+    }
+
+    body.is-instant .site-main, body.is-instant .site-main > .inner > *, body.is-instant .site-main > .inner > section > * {
+        transition: none !important;
+    }
+
+    body.is-instant::after {
+        display: none !important;
+        transition: none !important;
+    }
+
+    .container-component {
+        position: relative;
+    }
+
+    .container-component > .wrapper {
+        vertical-align: top;
+        position: relative;
+        max-width: 100%;
+        border-radius: inherit;
+    }
+
+    .container-component > .wrapper > .inner {
+        vertical-align: top;
+        position: relative;
+        max-width: 100%;
+        border-radius: inherit;
+        text-align: var(--alignment);
+    }
+
+    .container-component.full:first-child > .wrapper {
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+    }
+
+    .container-component.full:last-child > .wrapper {
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+    }
+
+    .container-component.full:first-child > .wrapper > .inner {
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+    }
+
+    .container-component.full:last-child > .wrapper > .inner {
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+    }
+
+    .container-component.instance-1 {
+        display: flex;
+        width: 100%;
+        min-height: 40rem;
+        align-items: flex-end;
+        justify-content: flex-start;
+        background-attachment: scroll;
+        border-radius: 1.5rem;
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg%20viewBox%3D%220%200%20512%20512%22%20width%3D%22512%22%20height%3D%22512%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%20%3Cfilter%20id%3D%22noise%22%3E%20%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.875%22%20result%3D%22noise%22%20%2F%3E%20%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220.03515625%200%200%200%200%200%200.03515625%200%200%200%200%200%200.0390625%200%200%200%200%200%200.30859375%200%22%20%2F%3E%20%3C%2Ffilter%3E%20%3Crect%20filter%3D%22url%28%23noise%29%22%20x%3D%220%22%20y%3D%220%22%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22transparent%22%20opacity%3D%221%22%20%2F%3E%3C%2Fsvg%3E'), linear-gradient(180deg, transparent 51%, transparent 100%), url('https://l2345.carrd.co/assets/images/container01.gif?v=ddd402cd');
+        background-size: 512px, cover, 25rem;
+        background-position: center, 0% 0%, 50% 50%;
+        background-repeat: repeat, repeat, no-repeat;
+    }
+
+    .container-component.instance-1 > .wrapper > .inner {
+        --gutters: 2rem;
+        --padding-horizontal: 3rem;
+        --padding-vertical: 3rem;
+        --spacing: 0.75rem;
+        padding: var(--padding-vertical) var(--padding-horizontal);
+        border-radius: calc(1.5rem - 0px);
+    }
+
+    .container-component.instance-1 > .wrapper {
+        max-width: var(--width);
+        width: 100%;
+    }
+
+    .container-component.instance-1.default > .wrapper > .inner > * {
+        margin-bottom: var(--spacing);
+        margin-top: var(--spacing);
+    }
+
+    .container-component.instance-1.default > .wrapper > .inner > * :first-child {
+        margin-top: 0 !important;
+    }
+
+    .container-component.instance-1.default > .wrapper > .inner > * :last-child {
+        margin-bottom: 0 !important;
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner {
+        flex-wrap: wrap;
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > * {
+        flex-grow: 0;
+        flex-shrink: 0;
+        max-width: 100%;
+        text-align: var(--alignment);
+        padding: 0 0 0 var(--gutters);
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > * > * {
+        margin-bottom: var(--spacing);
+        margin-top: var(--spacing);
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > * > * :first-child {
+        margin-top: 0 !important;
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > * > * :last-child {
+        margin-bottom: 0 !important;
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > * :first-child {
+        margin-left: calc(var(--gutters) * -1);
+    }
+
+    .container-component.instance-1.default > .wrapper > .inner > .full {
+        margin-left: calc(var(--padding-horizontal) * -1);
+        max-width: none !important;
+        width: calc(100% +(var(--padding-horizontal) * 2) + 0.4725px);
+    }
+
+    .container-component.instance-1.default > .wrapper > .inner > .full:first-child {
+        margin-top: calc(var(--padding-vertical) * -1) !important;
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+    }
+
+    .container-component.instance-1.default > .wrapper > .inner > .full:last-child {
+        margin-bottom: calc(var(--padding-vertical) * -1) !important;
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > div > .full {
+        margin-left: calc(var(--gutters) * -0.5);
+        max-width: none !important;
+        width: calc(100% + var(--gutters) + 0.4725px);
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > div:first-child > .full {
+        margin-left: calc(var(--padding-horizontal) * -1);
+        width: calc(100% + var(--padding-horizontal) + calc(var(--gutters) * 0.5) + 0.4725px);
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > div:last-child > .full {
+        width: calc(100% + var(--padding-horizontal) + calc(var(--gutters) * 0.5) + 0.4725px);
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > div > .full:first-child {
+        margin-top: calc(var(--padding-vertical) * -1) !important;
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > div > .full:last-child {
+        margin-bottom: calc(var(--padding-vertical) * -1) !important;
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > div:first-child, .container-component.instance-1.columns > .wrapper > .inner > div:first-child > .full:last-child {
+        border-bottom-left-radius: inherit;
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > div:last-child, .container-component.instance-1.columns > .wrapper > .inner > div:last-child > .full:last-child {
+        border-bottom-right-radius: inherit;
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > .full {
+        align-self: stretch;
+        min-height: calc(40rem -(var(--padding-vertical) * 2));
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > .full:first-child {
+        border-bottom-left-radius: inherit;
+        border-top-left-radius: inherit;
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > .full:last-child {
+        border-bottom-right-radius: inherit;
+        border-top-right-radius: inherit;
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > .full > .full:first-child:last-child {
+        border-radius: inherit;
+        height: calc(100% +(var(--padding-vertical) * 2));
+    }
+
+    .container-component.instance-1.columns > .wrapper > .inner > .full > .full:first-child:last-child > * {
+        border-radius: inherit;
+        height: 100%;
+        position: absolute;
+        width: 100%;
+    }
+
+    .container-component.instance-1 > .wrapper > .inner > :nth-child(1) {
+        width: calc(55% +(var(--gutters) / 2));
+        --alignment: left;
+        --flex-alignment: flex-start;
+        --indent-left: 1;
+        --indent-right: 0;
+        --margin-left: 0;
+        --margin-right: auto;
+    }
+
+    .container-component.instance-1 > .wrapper > .inner > :nth-child(2) {
+        width: calc(45% +(var(--gutters) / 2));
+        --alignment: right;
+        --flex-alignment: flex-end;
+        --indent-left: 0;
+        --indent-right: 1;
+        --margin-left: auto;
+        --margin-right: 0;
+    }
+
+    .text-component {
+        direction: var(--site-language-direction);
+        position: relative;
+    }
+
+    .text-component span.p {
+        display: block;
+        position: relative;
+    }
+
+    .text-component span[style], .text-component strong, .text-component a, .text-component code, .text-component mark, .text-component spoiler-text {
+        -webkit-text-fill-color: currentcolor;
+    }
+
+    .text-component.instance-2 {
+        color: #FFFFFF;
+        font-family: 'Inter', sans-serif;
+        font-size: 3em;
+        line-height: 1;
+        font-weight: 700;
+    }
+
+    .text-component.instance-2 a {
+        text-decoration: underline;
+    }
+
+    .text-component.instance-2 a:hover {
+        text-decoration: none;
+    }
+
+    .text-component.instance-2 span.p:nth-child(n + 2) {
+        margin-top: 1rem;
+    }
+
+    .icons-component {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: var(--flex-alignment);
+        letter-spacing: 0;
+        padding: 0;
+    }
+
+    .icons-component > li {
+        position: relative;
+        z-index: 1;
+    }
+
+    .icons-component > li > a {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .icons-component > li > a > svg {
+        display: block;
+        pointer-events: none;
+        position: relative;
+    }
+
+    .icons-component > li > a + svg {
+        display: block;
+        height: 100%;
+        left: 0;
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: -1;
+    }
+
+    .icons-component > li > a > .label {
+        display: none;
+    }
+
+    .icons-component.style-1 {
+        font-size: 1.625em;
+        gap: 1rem;
+    }
+
+    .icons-component.style-1 > li > a {
+        border-radius: 100%;
+        height: 2em;
+        width: 2em;
+        background-color: rgba(255, 255, 255, 0.059);
+        transition: transform 0.25s ease, color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .icons-component.style-1 > li > a > svg {
+        height: 60%;
+        width: 60%;
+        fill: #FFFFFF;
+        transition: fill 0.25s ease;
+    }
+
+    .icons-component.style-1 > li > a:hover {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        transform: scale(1.2);
+    }
+
+    .icons-component.style-1 > li > a + svg {
+        transition: transform 0.25s ease, fill 0.25s ease, stroke 0.25s ease;
+    }
+
+    .icons-component.style-1 > li > a:hover + svg {
+        transform: scale(1.2);
+    }
+
+    #credits {
+        display: block;
+        opacity: 1 !important;
+        position: relative;
+        transition-delay: 0s !important;
+    }
+
+    #credits span {
+        border-radius: 24px;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        letter-spacing: 0;
+        line-height: 1;
+        position: relative;
+        text-decoration: none;
+        width: auto;
+        background-color: rgba(80, 80, 80, 0.5);
+        color: rgba(224, 224, 224, 0.75);
+        margin-top: 1.5rem !important;
+        text-transform: lowercase;
+    }
+
+    #credits span a {
+        display: inline-block;
+        padding: 0.5em 0.375em;
+        position: relative;
+        text-decoration: none;
+        transition: color 0.25s ease, transform 0.25s ease;
+        z-index: 1;
+    }
+
+    #credits span a::before {
+        content: '( ';
+        opacity: 0;
+        transition: opacity 0.25s ease;
+    }
+
+    #credits span a::after {
+        content: ' )';
+        opacity: 0;
+        transition: opacity 0.25s ease;
+    }
+
+    #credits span::after {
+        background-image: linear-gradient(30deg, #A464A1 15%, #3B5DAD 85%);
+        border-radius: inherit;
+        box-shadow: 0 0.25em 1.25em 0 rgba(0, 0, 0, 0.25);
+        content: '';
+        display: block;
+        height: calc(100% + 2px);
+        left: -1px;
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        top: -1px;
+        transition: opacity 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+        width: calc(100% + 2px);
+    }
+
+    #credits span:hover {
+        text-transform: none !important;
+    }
+
+    #credits span:hover a {
+        color: #ffffff !important;
+        transform: scale(1.1) translateY(-0.05rem);
+    }
+
+    #credits span:hover a::before {
+        opacity: 0;
+    }
+
+    #credits span:hover a::after {
+        opacity: 0;
+    }
+
+    #credits span:hover::after {
+        opacity: 1;
+        transform: scale(1.1) translateY(-0.05rem);
+    }
+
+    @media (max-width: 1920px) {
+    }
+
+    @media (max-width: 1680px) {
+        html {
+            font-size: 13pt;
+        }
+    }
+
+    @media (max-width: 1280px) {
+        html {
+            font-size: 13pt;
+        }
+    }
+
+    @media (max-width: 1024px) {
+    }
+
+    @media (max-width: 980px) {
+        html {
+            font-size: 11pt;
+        }
+    }
+
+    @media (max-width: 736px) {
+        html {
+            font-size: 11pt;
         }
 
-        .light {
-            --card-bg: linear-gradient(8deg, color-mix(in hsl, hsl(260, 25%, 95%), var(--dark) 2.5%) 75%, hsl(260, 25%, 95%) 75.5%);
-            --blend: darken;
-            --glow-blend: luminosity;
-            --glow-color: 280deg 90% 95%;
-            --fg: black;
-            color: var(--fg);
+        .site-main > .inner {
+            --padding-horizontal: 1.25rem;
+            --padding-vertical: 1.25rem;
+            --spacing: 1.5rem;
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background: url('https://splattacks.neocities.org/images/bg.png') center/cover fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Inter', sans-serif;
-            color: var(--fg);
-            overflow: hidden;
+        .container-component.instance-1 {
+            --alignment: center;
+            --flex-alignment: center;
+            --indent-left: 1;
+            --indent-right: 1;
+            --margin-left: auto;
+            --margin-right: auto;
+            min-height: 38rem;
         }
 
-        body.light {
-            background: url('https://splattacks.neocities.org/images/bg.png') center/cover fixed;
-            color: var(--fg);
-        }
-        
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: -1;
-        }
-        
-        .glowing-card {
-            --pads: 20px;
-            --color-sens: calc(var(--glow-sens) + 20);
-            position: relative;
-            width: 345px !important;
-            height: 510px !important;
-            min-width: 345px;
-            min-height: 510px;
-            max-width: 345px;
-            max-height: 510px;
-            border-radius: 20px;
-            isolation: isolate;
-            transform: translate3d(0, 0, 0.01px);
-            background: #fff2;
-            box-shadow:  0px 10px 15px rgba(0, 0, 0, 0), 0 0 56px #fff inset;
-            overflow: hidden;
-            text-align: center;
-            box-sizing: border-box;
-            border: none;
-            backdrop-filter:blur(5px);
+        .container-component.instance-1 > .wrapper > .inner {
+            --gutters: 12rem;
+            --padding-horizontal: 2rem;
+            --padding-vertical: 2rem;
+            --spacing: 1rem;
         }
 
-        body:not(.light) .glowing-card {
-            backdrop-filter: none;
-            background: rgba(255,255,255,0.15);
-
-            border: 1px solid rgb(255 255 255 / 25%);
+        .container-component.instance-1.columns > .wrapper > .inner {
+            flex-direction: column !important;
+            flex-wrap: nowrap !important;
         }
 
-        body:not(.light) .link-card {
-            background: rgba(255,255,255,0.07);
-
-        }
-        
-        body:not(.light) .link-card:hover {
-            background: rgba(255,255,255,0.2); 
-        }
-
-        body:not(.light) .spotify-card {
-            background: rgba(255,255,255,0.09);
-
-        }
-
-        body:not(.light) .music-player {
-            background: rgba(255,255,255,0.15);
-            box-shadow: none;
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 6px;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            z-index: 10;
-            opacity: 0.5;
-            transition: opacity 0.3s;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .theme-toggle:hover {
-            opacity: 0.7;
-        }
-
-        .sun-toggle {
-            left: 6px;
-            transition: transform 0.1s ease;
-        }
-      .sun-toggle:hover {
-    transform: scale(1.2);
-}
-
-        .moon-toggle {
-            right: 6px;
-        }
-
-        .day-toggle {
-            position: absolute;
-            bottom: 5px;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            z-index: 10;
-            opacity: 0.5;
-            transition: opacity 0.3s;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .day-toggle:hover {
-            opacity: 0.7;
-        }
-
-        .day-toggle-left {
-            left: 6px;
-            transition: transform 0.1s ease;
-        }
-        .day-toggle-left:hover {
-    transform: scale(1.2);
-}
-
-        .day-toggle-right {
-            right: 6px;
-        }
-
-        .alist-widget-wrapper {
-            padding: 20px;
-            z-index: 1;
-            height: 100%;
-            box-sizing: border-box;
-        }
-
-        .profile-header {
-            padding: 15px 2px 12px;
-            position: relative;
-        }
-
-        .profile-pic {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto;
-            display: block;
-        }
-
-        .link-section {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            padding: 0;
-        }
-
-        .pages {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            height: 100%;
-            transform: translateX(-100%);
-        }
-
-        .page {
-            flex: 0 0 100%;
-            height: var(--page-height);
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 0 27px 26.2px;
-            overflow: hidden;
-        }
-
-        #page3 {
-            justify-content: center;
-            align-items: center;
-            padding: 0;
-        }
-
-        .link-card {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;              
-            width: 275px !important;
-            min-width: 275px;
-            max-width: 275px;
-            height: 35px;
-            background: #fff1;
-            padding: 8px;
-            margin-bottom: 6px;
-            border-radius: 15px;
-            text-decoration: none;
-            color: var(--fg);
-            transition: background 0.3s;
-            font-size: 16px;
-            font-style: italic;
-            -webkit-tap-highlight-color: transparent;
-            box-shadow: 0px 4px 3px #0001, 0 0 26px #fffa inset;
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.2s ease;
-        }
-
-        .link-card:hover {
-            background: rgba(255,255,255,0.3);
-            color: #333;
-        }
-
-        .link-icon {
-            width: 36px;
-            height: 36px;
-            margin-left: 16px;
-            margin-right: 18px;
-        }
-
-        .link-title {
-            text-align: center;
-            width: 100%;
-            font-size: 18px;
-            color: var(--fg);
-        }
-
-        .link-scroll-container {
-            overflow-y: scroll;  /* 修改为 scroll，确保滚动条始终可见（测试用，可改回 auto） */
-    position: relative;  /* 新增：相对定位，便于自定义滚动条位置 */
-    width: calc(284px + 10px);  /* 新增：容器宽度略宽于卡片（275px + 滚动条宽度），让滚动条“溢出”到右边外面 */
-    margin-right: -10px;  /* 新增：负 margin 补偿宽度，让容器不挤压页面布局 */
-        }
-
-        .link-scroll-container::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
-      
-      .link-scroll-container::-webkit-scrollbar-track {
-    background: transparent;  /* 轨道完全透明，让它不占内部空间 */
-    border-right: 0px solid transparent;  /* 新增：右侧透明 border“推”thumb到外面，模拟边框外效果 */
-}
-        .link-scroll-container::-webkit-scrollbar-thumb {
-            background: rgba(200, 200, 200, 0.3);
-            border-radius: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.1);  /* 新增：thumb 边框，增强“外面”视觉 */
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .link-scroll-container.scrolling::-webkit-scrollbar-thumb {
-            opacity: 1;
-        }
-
-        .spotify-card {
-            display: flex;
-            justify-content: space-between;
-            width: 251px !important;
-            min-width: 251px;
-            max-width: 251px;
-            height: 100px;
-            align-items: center;
-            background: #fff1;
-            border-radius: 20px;
-            padding: 10.8px 20px;
-            max-width: 100%;
-            box-shadow: 0px 4px 3px #0001, 0 0 26px #fffa inset;
-            cursor: pointer;
-            position: relative;
-            margin-bottom: 10px;
-            flex-wrap: nowrap;
-            gap: 16px;
-            user-select: none;
-            transition: all 0.2s ease;
-        }
-
-        .spotify-left {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            height: auto;
-            flex: 1;
-            min-width: 0;
-            padding-right: 8px;
-            gap: 6px;
-        }
-
-        .spotify-meta {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .spotify-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 12px;
-            background-color: #1ed760;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .spotify-icon img {
-            width: 22px;
-            height: 22px;
-        }
-
-        .track-text {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-            gap: 1px;
-        }
-
-        .track-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin: 0;
-            color: var(--fg);
-            font-style: italic;
-        }
-
-        .track-artist {
-            font-size: 11.7870px;
-            color: var(--fg);
-            font-style: italic;
-        }
-
-        .play-btn {
-            background-color: #3fd97a;
-            color: white;
-            border: none;
-            border-radius: 24px;
-            padding: 6px 36px;
-            font-size: 14px;
-            font-weight:  bold;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            margin-top: 1px;
-            width: fit-content;
-            font-style: italic;
-            transition: transform 0.1s ease;
-        }
-        .play-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .play-btn svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .spotify-cover {
-            width: 75px;
-            height: 75px;
-            border-radius: 12px;
-            overflow: hidden;
-            flex-shrink: 0;
-            margin-left: 8px;
-        }
-
-        .spotify-cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-            
-        .play-btn {
-            width: fit-content;
-            justify-content: flex-start;
-        }
-
-        #shuicheCanvas {
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 2147483647;
+        .container-component.instance-1.columns > .wrapper > .inner > span {
+            height: 0;
+            margin-top: calc(var(--gutters) * -1);
             pointer-events: none;
+            visibility: hidden;
         }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            margin-top: -8px;
-            margin-bottom: 10px;
+        .container-component.instance-1.columns > .wrapper > .inner > * :first-child {
+            margin-left: 0 !important;
+            padding-top: 0 !important;
         }
 
-        .bullet {
-            width: 85px;
-            height: 6px;
-            background: var(--fg);
-            opacity: 0.2;
-            border-radius:10%;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-.bullet {
-    position: relative;
-}
-
-.bullet::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: -20px;      /* ↑ 扩大触控区域 */
-    bottom: -20px;   /* ↓ 扩大触控区域 */
-    cursor: pointer;
-}
-        .bullet.active {
-            border-radius:10%;
-            opacity: 1;
-            background: #c299ff;
-            box-shadow: 0px 0px 20px rgba(194, 153, 255, 0);
-        }
- body:not(.light) .crt::after {
-  content: " ";
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(18, 16, 16, 0);
-  opacity: 0%;
-  z-index: 2;
-  pointer-events: none;
-}
-
-body:not(.light) .crt::before {
-  content: " ";
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 100%), 
-              linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  z-index: 2;
-  background-size: 100% 2px, 3px 100%;
-  pointer-events: none;
-}
-      
-      
-      
-      .ios-slider {
-    position: absolute;
-    bottom: 18px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 70px;
-    height: 6px;
-    background: rgba(255,255,255,0.35);
-    backdrop-filter: blur(10px);
-    border-radius: 999px;
-    transition: all 0.25s ease;
-    z-index: 999;
-    cursor: pointer;
-}
-
-/* 长按开始 → 水滴效果 */
-.ios-slider.hold {
-    height: 12px;
-    width: 95px;
-    background: rgba(255,255,255,0.45);
-    backdrop-filter: blur(12px);
-}
-
-/* 左右拖动 → 水滴拉伸跟随手指 */
-.ios-slider.drag {
-    transition: none;
-}
-        @font-face {
-            font-family: "icomoon";
-            src: url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.eot?u8ckod");
-            src: url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.eot?u8ckod#iefix") format("embedded-opentype"),
-                url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.ttf?u8ckod") format("truetype"),
-                url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.woff?u8ckod") format("woff"),
-                url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.svg?u8ckod#icomoon") format("svg");
-            font-weight: normal;
-            font-style: normal;
-            font-display: block;
+        .container-component.instance-1.columns > .wrapper > .inner > * {
+            padding: calc(var(--gutters) * 0.5) 0 !important;
         }
 
-        [class^="icon-"],
-        [class*=" icon-"] {
-            font-family: "icomoon" !important;
-            speak: never;
-            font-style: normal;
-            font-weight: normal;
-            font-variant: normal;
-            text-transform: none;
-            line-height: 1;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+        .container-component.instance-1.columns > .wrapper > .inner > * :last-child {
+            padding-bottom: 0 !important;
         }
 
-        .icon-back:before { content: "\e900"; color: #827d7b; }
-        .icon-next:before { content: "\e901"; color: #827d7b; }
-        .icon-pause:before { content: "\e902"; color: #fff; }
-        .icon-play:before { content: "\e903"; color: #fff; }
-        .icon-playlist:before { content: "\e904"; color: #fff; }
-
-        .img { width: 100%; flex-shrink: 0; display: block; object-fit: cover; }
-        .list { margin: 0; padding: 0; list-style-type: none; }
-        .text_trsf-cap { text-transform: capitalize; }
-        .button { all: unset; cursor: pointer; }
-        .center { display: flex; align-items: center; justify-content: center; }
-        .flex-row { display: flex; }
-        .flex-column { display: flex; flex-direction: column; }
-        ._align_center { align-items: center; }
-        ._align_start { align-items: flex-start; }
-        ._align_end { align-items: flex-end; }
-        ._justify_center { justify-content: center; }
-        ._justify_start { justify-content: flex-start; }
-        ._justify_end { justify-content: flex-end; }
-        ._justify_space-btwn { justify-content: space-between; }
-        .text_overflow {
-            width: 66%;
-            overflow: hidden;
-            white-space: nowrap;
-            display: inline-block;
-            text-overflow: ellipsis;
-            margin-right: 60px;
+        .container-component.instance-1.columns > .wrapper > .inner > div > .full {
+            margin-left: calc(var(--padding-horizontal) * -1);
+            width: calc(100% +(var(--padding-horizontal) * 2) + 0.4725px);
         }
 
-        .music-player {
-            --color-white: #fff;
-            --color-gray: #e5e7ea;
-            --color-blue: #78adfe;
-            --color-blue-dark: #5781bd;
-            --box-shadow: 0 2px 6px 1px #0000001f;
-            --color-text-1: var(--fg);
-            --color-text-2: #ffffff6b;
-            --cover-size: 4.2em;
-            --border-radius: 1.2em;
-            --music-player-height: calc(var(--page-height) - 0px);
-            --offset-cover: 1em;
-            width: 335px !important;
-            height: 445px !important;
-            user-select: none;
-            color: var(--color-text-1);
-            height: var(--music-player-height);
-            border-radius: var(--border-radius);
-            background-color: rgba(255, 255, 255, 0.1);
-            margin-top: -15px;
-            margin-right: auto;
-            margin-bottom: -0px;
-            margin-left: auto;
-            box-sizing: border-box;
+        .container-component.instance-1.columns > .wrapper > .inner > div:first-of-type > .full {
+            margin-left: calc(var(--padding-horizontal) * -1);
+            width: calc(100% +(var(--padding-horizontal) * 2) + 0.4725px);
         }
-        .light .music-player {
-            --color-text-2: #0000006b;
+
+        .container-component.instance-1.columns > .wrapper > .inner > div:last-of-type > .full {
+            margin-left: calc(var(--padding-horizontal) * -1);
+            width: calc(100% +(var(--padding-horizontal) * 2) + 0.4725px);
         }
-        .slider {
-            --shadow-opacity: 1;
-            z-index: 0;
-            flex-shrink: 0;
-            height: 6.8em;
+
+        .container-component.instance-1.columns > .wrapper > .inner > div > .full:first-child {
+            margin-top: calc(var(--gutters) * -0.5) !important;
+        }
+
+        .container-component.instance-1.columns > .wrapper > .inner > div > .full:last-child {
+            margin-bottom: calc(var(--gutters) * -0.5) !important;
+        }
+
+        .container-component.instance-1.columns > .wrapper > .inner > div:first-of-type > .full:first-child {
+            margin-top: calc(var(--padding-vertical) * -1) !important;
+        }
+
+        .container-component.instance-1.columns > .wrapper > .inner > div:last-of-type > .full:last-child {
+            margin-bottom: calc(var(--padding-vertical) * -1) !important;
+        }
+
+        .container-component.instance-1.columns > .wrapper > .inner > div:first-of-type, .container-component.instance-1.columns > .wrapper > .inner > div:first-of-type > .full:first-child {
+            border-top-left-radius: inherit;
+            border-top-right-radius: inherit;
+        }
+
+        .container-component.instance-1.columns > .wrapper > .inner > div:last-of-type, .container-component.instance-1.columns > .wrapper > .inner > div:last-of-type > .full:last-child {
+            border-bottom-left-radius: inherit;
+            border-bottom-right-radius: inherit;
+        }
+
+        .container-component.instance-1.columns > .wrapper > .inner > div:first-of-type, .container-component.instance-1.columns > .wrapper > .inner > div:first-of-type > .full:last-child {
+            border-bottom-left-radius: 0 !important;
+        }
+
+        .container-component.instance-1.columns > .wrapper > .inner > div:last-of-type, .container-component.instance-1.columns > .wrapper > .inner > div:last-of-type > .full:first-child {
+            border-top-right-radius: 0 !important;
+        }
+
+        .container-component.instance-1.columns > .wrapper > .inner > .full {
+            min-height: calc(38rem -(var(--padding-vertical) * 2));
+        }
+
+        .container-component.instance-1.columns > .wrapper > .inner > .full > .full:first-child:last-child {
+            height: auto;
+        }
+
+        .container-component.instance-1.columns > .wrapper > .inner > .full > .full:first-child:last-child > * {
+            height: auto;
             position: relative;
-            border-radius: inherit;
-            transition: var(--duration) height var(--ease-timeline);
+            width: auto;
         }
-        .slider.resize { --shadow-opacity: 0; height: var(--music-player-height); }
-        .slider::after {
-            top: 0; left: 0; right: 0; content: ""; width: 100%; z-index: -1;
-            height: 100%; position: absolute; pointer-events: none; border-radius: inherit;
-            box-shadow: var(--box-shadow); opacity: var(--shadow-opacity);
-            transition: var(--duration) opacity;
+
+        .container-component.instance-1 > .wrapper > .inner > :nth-child(1) {
+            --alignment: center;
+            --flex-alignment: center;
+            --indent-left: 1;
+            --indent-right: 1;
+            --margin-left: auto;
+            --margin-right: auto;
+            min-height: 100% !important;
+            width: 100% !important;
         }
-        .slider__content {
-            top: 0; left: 0; overflow: hidden; position: absolute; border-radius: inherit;
-            width: var(--cover-size); height: var(--cover-size);
-            transition: transform, width, height;
-            transition-duration: var(--duration);
-            transition-timing-function: var(--ease-timeline);
-            transform: translate3d(var(--offset-cover), var(--offset-cover), 0);
+
+        .container-component.instance-1 > .wrapper > .inner > :nth-child(2) {
+            --alignment: center;
+            --flex-alignment: center;
+            --indent-left: 1;
+            --indent-right: 1;
+            --margin-left: auto;
+            --margin-right: auto;
+            min-height: 100% !important;
+            width: 100% !important;
         }
-        .slider.resize .slider__content {
-            width: 100%; height: 22em;
-            transform: translate3d(0, 0, 0);
-        }
-        .slider__content .button { --size: 2.5em; z-index: 1; position: absolute; width: var(--size); height: var(--size); }
-        .slider__content i { position: absolute; pointer-events: none; font-size: var(--size); }
-        .music-player__playlist-button {
-            top: 5.5%;
-            left: 5.5%;
-            transform: scale(0);
-            transition: calc(var(--duration) / 2) transform;
-        }
-        .slider.resize .music-player__playlist-button {
-            transform: scale(1);
-            transition: 0.30s var(--duration) transform cubic-bezier(0, 0.85, 0.11, 1.64);
-        }
-        .music-player__broadcast-guarantor {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .music-player__broadcast-guarantor .icon-pause,
-        .music-player__broadcast-guarantor.click .icon-play { opacity: 0; }
-        .music-player__broadcast-guarantor.click .icon-pause { opacity: 1; }
-        .slider__imgs {
-            width: 100%; height: 100%; filter: brightness(75%);
-            transform: translate3d(calc(var(--index) * 100%), 0, 0);
-            transition: var(--duration) transform var(--ease-slider);
-        }
-        .slider__imgs > img { pointer-events: none; }
-        .slider__controls {
-            --controls-y: 210%; --controls-x: 17.3%; --controls-width: 68.4%; --controls-resize-width: 88%;
-            gap: 0.375em 0; flex-wrap: wrap; position: absolute; align-items: center; padding-top: 0.375em;
-            width: var(--controls-width); transform: translate3d(var(--controls-x), 0, 0);
-            animation: var(--controls-animate, "down paused") var(--duration) var(--ease-timeline) forwards;
-        }
-        @keyframes down {
-            100% { width: var(--controls-resize-width); transform: translate3d(0, var(--controls-y), 0); }
-        }
-        @keyframes up {
-            0% { width: var(--controls-resize-width); transform: translate3d(0, var(--controls-y), 0); }
-            100% { width: var(--controls-width); transform: translate3d(var(--controls-x), 0, 0); }
-        }
-        .slider__switch-button { font-size: 2.5em; height: max-content; }
-        .music-player__info {
-            width: 56.3%; cursor: pointer; line-height: 1.45; overflow: hidden; font-weight: bold; padding: 0 0.0625em; white-space: nowrap;
-        }
-        .music-player__info > * { margin: 0 auto; pointer-events: none; }
-        .music-player__singer-name { font-size: 1.1em; width: max-content; }
-        .music-player__subtitle { font-size: 0.8em; font-weight: bold; color: var(--color-text-2); }
-        .slider__controls .music-player__subtitle { width: max-content; }
-        .music-player__singer-name.animate, .music-player__subtitle.animate {
-            --subtitle-gap: 1.2em;
-            display: flex; gap: 0 var(--subtitle-gap); animation: subtitle 12s 1.2s linear infinite;
-        }
-        @keyframes subtitle {
-            80%, 100% { transform: translate3d(calc((100% + var(--subtitle-gap)) / -2), 0, 0); }
-        }
-        .progress {
-            width: 90%; height: 0.6em; cursor: pointer; transition: var(--duration) width var(--ease-timeline); position: relative; top: 8px;
-        }
-        .slider.resize .progress { width: 100%; }
-        .progress__wrapper {
-            width: 100%; height: 0.35em; position: relative; border-radius: 1em; background-color: var(--color-gray);
-        }
-        .progress__bar {
-            top: 0; left: 0; bottom: 0; position: absolute; width: var(--width); border-radius: inherit; background-color: var(--color-blue);
-        }
-        .progress__bar::after {
-            --size: 0.375em; left: 98%; content: ""; position: absolute; width: var(--size); height: var(--size);
-            border-radius: 100%; background-color: var(--color-blue-dark);
-        }
-        .music-player__playlist {
-            height: 100%;
-            overflow-y: auto;
-            padding: 1em 0.9em 0 var(--offset-cover);
-            box-sizing: border-box;
-        }
-        .music-player__playlist::-webkit-scrollbar {
-            width: 4px;
-            background: transparent;
-        }
-        .music-player__playlist::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .music-player__playlist::-webkit-scrollbar-thumb {
-            background: rgba(200, 200, 200, 0.3);
-            border-radius: 2px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .music-player__playlist.scrolling::-webkit-scrollbar-thumb {
-            opacity: 1;
-        }
-        .music-player__song {
-            --gap: 0.5em; cursor: pointer; margin-bottom: var(--gap); padding-bottom: var(--gap); border-bottom: 0.8px solid #d8d8d859;
-        }
-        .music-player__song audio { display: none; }
-        .music-player__song-img {
-            width: var(--cover-size); height: var(--cover-size); border-radius: var(--border-radius);
-        }
-        .music-player__playlist-info {
+
+        .text-component.instance-2 {
+            letter-spacing: 0rem;
             width: 100%;
-            overflow: hidden;
-            line-height: 1.2;
-            font-size: 1em;
-            margin-left: 1.2em;
+            font-size: 2.25em;
+            line-height: 1.125;
         }
 
-        .music-player__playlist-info b {
-            display: block;
-            margin-left: 0;
-            padding-left: 0;
-            text-align: left;
-            width: calc(100% - 50px);
+        .icons-component.style-1 {
+            font-size: 1.5em;
+            gap: 0.75rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .site-main > .inner {
+            --spacing: 1.3125rem;
         }
 
-        .flex-row._justify_space-btwn {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
+        .container-component.instance-1 > .wrapper > .inner {
+            --spacing: 1rem;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .site-main > .inner {
+            --padding-horizontal: 0.9375rem;
+            --padding-vertical: 0.9375rem;
+            --spacing: 1.125rem;
         }
 
-        .music-player__playlist-info .music-player__subtitle {
-            display: block;
-            text-align: left;
-            margin-left: 0;
-            padding-left: 0;
-            flex-grow: 1;
+        .container-component.instance-1 > .wrapper > .inner {
+            --gutters: 12rem;
+            --padding-horizontal: 1.5rem;
+            --padding-vertical: 1.5rem;
+            --spacing: 0.875rem;
         }
 
-        .music-player__song-duration {
-            flex-shrink: 0;
-            margin-left: 10px;
-        }
-        .music-player__song-duration {
-            font-weight: bold; font-size: 0.8em; color: var(--color-text-2);
+        .container-component.instance-1 {
+            min-height: 28.5rem;
         }
 
-        .loading-spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--fg);
-            animation: spin 1s ease-in-out infinite;
+        .container-component.instance-1.columns > .wrapper > .inner > .full {
+            min-height: calc(28.5rem -(var(--padding-vertical) * 2));
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .text-component.instance-2 {
+            font-size: 2.25em;
         }
 
-        .loading-text {
-            margin-top: 10px;
-            font-size: 16px;
-            color: var(--fg);
+        .icons-component.style-1 {
+            gap: 0.5625rem;
         }
+    }
     </style>
+    <noscript>
+        <style>
+        body {
+            overflow: auto !important;
+        }
+
+        body::after {
+            display: none !important;
+        }
+
+        .site-main > .inner {
+            opacity: 1.0 !important;
+        }
+        </style>
+    </noscript>
 </head>
-<body class="light">
-    <canvas id="shuicheCanvas"></canvas>
-    
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-    <script>
-        const count = 5000;
-        let scene, camera, renderer;
-        let mouseX = 0, mouseY = 0;
-        let windowHalfX = window.innerWidth / 2;
-        let windowHalfY = window.innerHeight / 2;
-
-        let geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6 * count), 3));
-        geometry.setAttribute('velocity', new THREE.BufferAttribute(new Float32Array(2 * count), 1));
-
-        let position = geometry.getAttribute('position');
-        let positionArray = position.array;
-        let velocity = geometry.getAttribute('velocity');
-        let velocityArray = velocity.array;
-
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 500);
-            camera.position.z = 200;
-            
-const canvas = document.getElementById('shuicheCanvas');
-renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight, false); // false 避免自动更改样式宽高
-renderer.setClearColor(0x000000, 0); // 保证透明
-            
-            for (let index = 0, len = count; index < len; index++) {
-                const x = Math.random() * 800 - 400;
-                const y = Math.random() * 800 - 400;
-                const z = Math.random() * 400 - 200;
-                const x2 = x;
-                const y2 = y;
-                const z2 = z;
-
-                positionArray[6 * index] = x;
-                positionArray[6 * index + 1] = y;
-                positionArray[6 * index + 2] = z;
-
-                positionArray[6 * index + 3] = x2;
-                positionArray[6 * index + 4] = y2;
-                positionArray[6 * index + 5] = z2;
-
-                velocityArray[2 * index] = 0;
-                velocityArray[2 * index + 1] = 0;
-            }
-            
-            let material = new THREE.LineBasicMaterial({ color: 0xffffff });
-            let lines = new THREE.LineSegments(geometry, material);
-            scene.add(lines);
-
-            window.addEventListener('resize', resize, false);
-            document.body.addEventListener('pointermove', onPointerMove);
-            
-            anime();
-        }
-        
-        function resize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-        }
-
-        function anime() {
-            for (let index = 0, len = count; index < len; index++) {
-                velocityArray[2 * index] += 0.015;
-                velocityArray[2 * index + 1] += 0.015;
-                positionArray[6 * index + 2] += velocityArray[2 * index] + 0.03;
-                positionArray[6 * index + 5] += velocityArray[2 * index + 1];
-
-                if(positionArray[6 * index + 2] > 200) {
-                    let z = Math.random() * 200 - 200;
-                    positionArray[6 * index + 2] = z;
-                    positionArray[6 * index + 5] = z;
-                    velocityArray[2 * index] = 0;
-                    velocityArray[2 * index + 1] = 0;
-                }
-            }
-
-            position.needsUpdate = true;
-            renderer.render(scene, camera);
-            requestAnimationFrame(anime);
-            render();
-        }
-
-        function onPointerMove(event) {
-            mouseX = event.clientX - windowHalfX;
-            mouseY = event.clientY - windowHalfY;
-        }
-
-        function render() {
-            camera.position.x += (-mouseX * 0.1 - camera.position.x) * 0.02;
-            camera.position.y += (-mouseY * 0.1 - camera.position.y) * 0.02;
-            camera.lookAt(scene.position);
-            renderer.render(scene, camera);
-        }
-    </script>
-    <div class="crt">
-    <div class="alist-widget-wrapper">
-        <div class="glowing-card">
+<body class="is-loading">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40" display="none" width="0" height="0">
+        <symbol id="icon-9570a68733e3ff2abd643efda8a53b3c" viewBox="0 0 40 40">
+            <path d="M25.9,38.5h-11.8c-2.8,0-5-2.2-5-5V6.5c0-2.8,2.2-5,5-5h11.8c2.8,0,5,2.2,5,5v27c0,2.8-2.2,5-5,5ZM28.5,6.5c0-1.4-1.2-2.6-2.6-2.6h-11.8c-1.4,0-2.6,1.2-2.6,2.6v27c0,1.4,1.2,2.6,2.6,2.6h11.8c1.4,0,2.6-1.2,2.6-2.6V6.5ZM23.5,8.3h-6.9c-.5,0-.9-.4-.9-.9s.4-.9.9-.9h6.9c.5,0,.9.4.9.9s-.4.9-.9.9Z"/>
+        </symbol>
+        <symbol id="icon-96fc68818d10374399c6dcf28fe98f75" viewBox="0 0 40 40">
+            <path d="M2.3,18.6c9.1-4,15.2-6.6,18.2-7.9c8.7-3.6,10.5-4.2,11.7-4.3 c0.3,0,0.8,0.1,1.2,0.4c0.3,0.3,0.4,0.6,0.4,0.9C34,7.9,34,8.4,34,8.9c-0.5,5-2.5,17-3.5,22.5c-0.4,2.3-1.3,3.1-2.1,3.2 c-1.8,0.2-3.2-1.2-5-2.3c-2.8-1.8-4.3-2.9-7-4.7c-3.1-2-1.1-3.2,0.7-5c0.5-0.5,8.5-7.8,8.6-8.4c0-0.1,0-0.4-0.2-0.5 c-0.2-0.2-0.4-0.1-0.7-0.1c-0.3,0.1-4.7,3-13.2,8.7c-1.3,0.9-2.4,1.3-3.4,1.3c-1.1,0-3.3-0.6-4.9-1.1c-2-0.6-3.5-1-3.4-2.1 C0.1,19.7,0.9,19.2,2.3,18.6z"/>
+        </symbol>
+        <symbol id="icon-85976685de3e4af37529a1ce5d57d2a7" viewBox="0 0 40 40">
+            <path d="M20,7c4.2,0,4.7,0,6.3,0.1c1.5,0.1,2.3,0.3,3,0.5C30,8,30.5,8.3,31.1,8.9c0.5,0.5,0.9,1.1,1.2,1.8c0.2,0.5,0.5,1.4,0.5,3 C33,15.3,33,15.8,33,20s0,4.7-0.1,6.3c-0.1,1.5-0.3,2.3-0.5,3c-0.3,0.7-0.6,1.2-1.2,1.8c-0.5,0.5-1.1,0.9-1.8,1.2 c-0.5,0.2-1.4,0.5-3,0.5C24.7,33,24.2,33,20,33s-4.7,0-6.3-0.1c-1.5-0.1-2.3-0.3-3-0.5C10,32,9.5,31.7,8.9,31.1 C8.4,30.6,8,30,7.7,29.3c-0.2-0.5-0.5-1.4-0.5-3C7,24.7,7,24.2,7,20s0-4.7,0.1-6.3c0.1-1.5,0.3-2.3,0.5-3C8,10,8.3,9.5,8.9,8.9 C9.4,8.4,10,8,10.7,7.7c0.5-0.2,1.4-0.5,3-0.5C15.3,7.1,15.8,7,20,7z M20,4.3c-4.3,0-4.8,0-6.5,0.1c-1.6,0-2.8,0.3-3.8,0.7 C8.7,5.5,7.8,6,6.9,6.9C6,7.8,5.5,8.7,5.1,9.7c-0.4,1-0.6,2.1-0.7,3.8c-0.1,1.7-0.1,2.2-0.1,6.5s0,4.8,0.1,6.5 c0,1.6,0.3,2.8,0.7,3.8c0.4,1,0.9,1.9,1.8,2.8c0.9,0.9,1.7,1.4,2.8,1.8c1,0.4,2.1,0.6,3.8,0.7c1.6,0.1,2.2,0.1,6.5,0.1 s4.8,0,6.5-0.1c1.6-0.1,2.9-0.3,3.8-0.7c1-0.4,1.9-0.9,2.8-1.8c0.9-0.9,1.4-1.7,1.8-2.8c0.4-1,0.6-2.1,0.7-3.8 c0.1-1.6,0.1-2.2,0.1-6.5s0-4.8-0.1-6.5c-0.1-1.6-0.3-2.9-0.7-3.8c-0.4-1-0.9-1.9-1.8-2.8c-0.9-0.9-1.7-1.4-2.8-1.8 c-1-0.4-2.1-0.6-3.8-0.7C24.8,4.3,24.3,4.3,20,4.3L20,4.3L20,4.3z"/>
+            <path d="M20,11.9c-4.5,0-8.1,3.7-8.1,8.1s3.7,8.1,8.1,8.1s8.1-3.7,8.1-8.1S24.5,11.9,20,11.9z M20,25.2c-2.9,0-5.2-2.3-5.2-5.2 s2.3-5.2,5.2-5.2s5.2,2.3,5.2,5.2S22.9,25.2,20,25.2z"/>
+            <path d="M30.6,11.6c0,1-0.8,1.9-1.9,1.9c-1,0-1.9-0.8-1.9-1.9s0.8-1.9,1.9-1.9C29.8,9.7,30.6,10.5,30.6,11.6z"/>
+        </symbol>
+        <symbol id="icon-c0646d28bbeb18e39eb973f96b44bd0f" viewBox="0 0 40 40">
+            <path d="M38,13.8v16.8c0,1.4-1.1,2.5-2.5,2.5H4.5c-1.4,0-2.5-1.1-2.5-2.5V13.8h0v-3.4c0-1.4,1.1-2.5,2.5-2.5h31c1.4,0,2.5,1.1,2.5,2.5v3.4h0ZM4.5,30.8h31c0,0,.2,0,.2-.2v-14.6l-15,10.2c-.2.1-.4.2-.7.2s-.5,0-.7-.2L4.4,16v14.6c0,0,0,.2.2.2ZM35.5,10.2H4.5c0,0-.2,0-.2.2v2.7l15.6,10.6,15.6-10.6v-2.7c0,0,0-.2-.2-.2Z"/>
+        </symbol>
+        <symbol id="icon-694b338299bf630d8d2ec9bd42d31dbe" viewBox="0 0 40 40">
+            <path d="M36.1,11.7v5c-3.3,0-6.3-1-8.8-2.8v12.9c0,6.5-5.2,11.7-11.7,11.7c-2.4,0-4.6-0.7-6.5-2c0,0,0,0,0,0 c-3.1-2.1-5.2-5.7-5.2-9.7c0-6.5,5.2-11.7,11.7-11.7c0.5,0,1.1,0,1.6,0.1v1.4c0,0,0,0,0,0v5c-0.5-0.2-1.1-0.3-1.6-0.3 c-2.9,0-5.3,2.4-5.3,5.4c0,2.1,1.2,3.9,2.9,4.8c0.7,0.4,1.5,0.6,2.4,0.6c2.9,0,5.3-2.4,5.3-5.3V1.5h6.3v0.8c0,0.2,0.1,0.5,0.1,0.7 c0.4,2.5,1.9,4.7,4,6c0,0,0.1,0.1,0.1,0.1c0,0-0.1-0.1-0.1-0.1c1.4,0.9,3,1.3,4.7,1.3V11.7"/>
+        </symbol>
+    </svg>
+    <div class="site-wrapper">
+        <div class="site-main">
             <div class="inner">
-                <svg class="theme-toggle sun-toggle" viewBox="0 0 24 24" onclick="toggleTheme('light')">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                        <circle cx="12" cy="12" r="4"/>
-                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                    </g>
-                </svg>
-                
-               <svg class="theme-toggle moon-toggle" viewBox="0 0 24 24" onclick="toggleTheme('dark')">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>
-                </svg>
-                
-                <svg class="day-toggle day-toggle-left" viewBox="0 0 24 24" onclick="switchBackground('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/222.JPG')">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                        <circle cx="12" cy="12" r="4"/>
-                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                    </g>
-                </svg>
-
-                <svg class="day-toggle day-toggle-right" viewBox="0 0 24 24" onclick="switchBackground('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/111.JPG')">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                        <circle cx="12" cy="12" r="4"/>
-                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                    </g>
-                </svg>
-                
-                <div class="link-section">
-                    <div class="pages">
-<div id="page1" class="page">
-    <div class="profile-header"></div>
-    <div style="height: 100%; display: flex; justify-content: center; align-items: center; color: var(--fg); font-style: italic;">
-        <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/Neko.GIF" alt="GIF动图" style="max-width: 118%; max-height: 100%; border-radius: 18px; margin-top: -55px;">
-    </div>
-                        </div>
-
-                        <div id="page2" class="page">
-                            <div class="profile-header">
-<img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/cat.JPG?w=300&h=300"
-     alt="头像"
-     class="profile-pic"
-     onclick="confetti({particleCount:150,spread:100}); avatarSound.play();" />
+                <div id="container01" class="container-component instance-1 columns">
+                    <div class="wrapper">
+                        <div class="inner">
+                            <div>
+                                <h3 id="text02" class="text-component instance-2">✨进入猫次元🐈</h3>
                             </div>
-                            <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3UkRfA9F62DYYDzqOskoov?si=MXIJN0wrQx24IS-qmyCUjg', '_blank')">
-                                <div class="spotify-left">
-                                    <div class="spotify-meta">
-                                        <div class="spotify-icon">
-                                            <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/Spotify.svg" alt="Spotify" />
-                                        </div>
-                                        <div class="track-text">
-                                            <div class="track-title">Signals</div>
-                                            <div class="track-artist">Lazer Boomerang</div>
-                                        </div>
-                                    </div>
-                                    <button class="play-btn" onclick="event.stopPropagation(); togglePlay(this)">
-                                        <svg viewBox="0 0 16 16" fill="white">
-                                            <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                                        </svg> Play
-                                    </button>
-                                </div>
-                                <div class="spotify-cover">
-                                    <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/Signals.jpg" alt="封面" />
-                                </div>
-                                <audio id="audioPlayer" src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/Signals.mp3"></audio>
-                            </div>
-
-                            <div class="link-scroll-container">
-                                <a href="https://www.instagram.com/ol234566" class="link-card" target="_blank">
-                                    <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/Instagram.svg" alt="Instagram" class="link-icon" />
-                                    <span class="link-title">Instagram</span>
-                                </a>
-
-                                <a href="https://t.me/OOl23456" class="link-card" target="_blank">
-                                    <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/Telegram.svg" alt="Telegram" class="link-icon" />
-                                    <span class="link-title">Telegram</span>
-                                </a>
-
-                                <a href="https://www.tiktok.com/@ooooocco" class="link-card" target="_blank">
-                                    <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/TikTok.PNG" alt="GitHub" class="link-icon" />
-                                    <span class="link-title">TikTok</span>
-                                </a>
-
-                                <a href="https://🦋.blogspot.com" class="link-card" target="_blank">
-                                    <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/Emoji.PNG" alt="GitHub" class="link-icon" />
-                                    <span class="link-title">Blog 🐈</span>
-                                </a>
-
-                                <a href="https://wa.me/message/SYDPTLQEHYE3P1?src=qr" class="link-card" target="_blank">
-                                    <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/WhatsApp.png" alt="WhatsApp" class="link-icon" />
-                                    <span class="link-title">WhatsApp</span>
-                                </a>
-
-                                <a href="https://x.com/vwwvvvvvvv" class="link-card" target="_blank">
-                                    <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/X.PNG" alt="X" class="link-icon" />
-                                    <span class="link-title">X</span>
-                                </a>
-
-                                <a href="https://pin.it/5TgH8TZkp" class="link-card" target="_blank">
-                                    <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/Pinterest.png" alt="Pinterest" class="link-icon" />
-                                    <span class="link-title">Pinterest</span>
-                                </a>
-
-                                <a href="javascript:void(0);" class="link-card" id="wechatBtn">
-                                    <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/WeChat.png" alt="WeChat" class="link-icon" />
-                                    <span class="link-title">WeChat</span>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div id="page3" class="page">
-                            <div class="profile-header"></div>
-                            <audio id="mainAudio" preload="auto"></audio>
-                            <div id="root">
-                                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-                                    <div class="loading-spinner"></div>
-                                    <div class="loading-text">加载音乐播放器...</div>
-                                </div>
+                            <div>
+                                <ul id="icons01" class="icons-component instance-1 style-1">
+                                    <li>
+                                        <a class="n01" href="#" role="button">
+                                            <svg aria-labelledby="icons01-icon-1-title">
+                                                <title id="icons01-icon-1-title">Mobile</title>
+                                                <use xlink:href="#icon-9570a68733e3ff2abd643efda8a53b3c"></use>
+                                            </svg>
+                                            <span class="label">Mobile</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="n02" href="https://www.tiktok.com/@ooooocco" role="button">
+                                            <svg aria-labelledby="icons01-icon-2-title">
+                                                <title id="icons01-icon-2-title">Telegram</title>
+                                                <use xlink:href="#icon-96fc68818d10374399c6dcf28fe98f75"></use>
+                                            </svg>
+                                            <span class="label">Telegram</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="n03" href="#" role="button">
+                                            <svg aria-labelledby="icons01-icon-3-title">
+                                                <title id="icons01-icon-3-title">Instagram</title>
+                                                <use xlink:href="#icon-85976685de3e4af37529a1ce5d57d2a7"></use>
+                                            </svg>
+                                            <span class="label">Instagram</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="n04" href="/cdn-cgi/l/email-protection#b7c2c4d2c5f7d3d8dad6ded999d2cfc3" role="button">
+                                            <svg aria-labelledby="icons01-icon-4-title">
+                                                <title id="icons01-icon-4-title">Email</title>
+                                                <use xlink:href="#icon-c0646d28bbeb18e39eb973f96b44bd0f"></use>
+                                            </svg>
+                                            <span class="label">Email</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="n05" href="#" role="button">
+                                            <svg aria-labelledby="icons01-icon-5-title">
+                                                <title id="icons01-icon-5-title">TikTok</title>
+                                                <use xlink:href="#icon-694b338299bf630d8d2ec9bd42d31dbe"></use>
+                                            </svg>
+                                            <span class="label">TikTok</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-
-                    <div class="pagination">
-                        <div class="bullet" data-page="1" onclick="switchPageTo(1)"></div>
-                        <div class="bullet active" data-page="2" onclick="switchPageTo(2)"></div>
-                        <div class="bullet" data-page="3" onclick="switchPageTo(3)"></div>
-                        <div class="ios-slider" id="iosSlider"></div>
-                    </div>
+                </div>
+                <div id="credits">
+                    <span>
+                        <a href="https://carrd.co/build?ref=auto">Made with Carrd</a>
+                    </span>
                 </div>
             </div>
         </div>
     </div>
-
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script>
-        let currentPage = 2;
-        let musicPlayerLoaded = false;
-        const glowingCard = document.querySelector('.glowing-card');
-        const originalBoxShadow = '0px 10px 15px rgba(0, 0, 0, 0), 0 0 56px #fff inset';
-
-        function updateGlowingShadow() {
-            if (currentPage !== 3) {
-                glowingCard.style.boxShadow = originalBoxShadow;
-                return;
-            }
-            const isLight = document.body.classList.contains('light');
-            const reducedBoxShadow = isLight 
-                ? '0px 10px 15px rgba(0, 0, 0, 0), 0 0 56px #fff inset' 
-                : '0px 10px 15px rgba(0, 0, 0, 0), 0 0 56px #fff inset';
-            glowingCard.style.boxShadow = reducedBoxShadow;
-        }
-
-        window.onload = function() {
-            init();
-            preloadImages([
-                'https://splattacks.neocities.org/images/bg.png',
-                'https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/222.JPG',
-                'https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/111.JPG'
-            ]);
-            loadMusicPlayer();
-            switchPageTo(2);
-        };
-
-        function preloadImages(urls) {
-            urls.forEach(url => {
-                const img = new Image();
-                img.src = url;
-            });
-        }
-
-        function switchPageTo(page) {
-            if (page < 1 || page > 3) return;
-            currentPage = page;
-
-            const pages = document.querySelector('.pages');
-            pages.style.transform = `translateX(-${(page - 1) * 100}%)`;
-
-            document.querySelectorAll('.bullet').forEach(b => b.classList.toggle('active', parseInt(b.dataset.page) === page));
-
-            updateGlowingShadow();
-        }
-
-        let isPlaying = false;
-        const audio = document.getElementById('audioPlayer');
-
-        function togglePlay(button) {
-            if (isPlaying) {
-                audio.pause();
-                button.classList.remove('playing');
-                button.innerHTML = `
-                    <svg viewBox="0 0 16 16" fill="white">
-                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                    </svg> Play`;
-            } else {
-                audio.play();
-                button.classList.add('playing');
-                button.innerHTML = `
-                    <svg viewBox="0 0 16 16" fill="white">
-                        <path d="M4 2H6V14H4V2ZM10 2H12V14H10V2Z"/>
-                    </svg> Pause`;
-            }
-            isPlaying = !isPlaying;
-        }
-
-        audio.addEventListener('ended', () => {
-            isPlaying = false;
-            const btn = document.querySelector('.play-btn');
-            if (btn) {
-                btn.classList.remove('playing');
-                btn.innerHTML = `
-                    <svg viewBox="0 0 16 16" fill="white">
-                        <path d="M3 13.1231V2.87688C3 1.42024 4.55203 0.520516 5.77196 1.26995L14.1114 6.39307C15.2962 7.12093 15.2962 8.87907 14.1114 9.60693L5.77196 14.73C4.55203 15.4795 3 14.5798 3 13.1231Z"/>
-                    </svg> Play`;
-            }
-        });
-
-        function toggleTheme(theme) {
-            const canvas = document.getElementById('shuicheCanvas');
-            if (theme === 'light') {
-                document.body.classList.add('light');
-                renderer.setClearColor(0x000000, 0);
-                document.body.style.background = '';
-                document.documentElement.style.setProperty('--fg', 'block');
-                canvas.style.display = 'block';
-            } else {
-                document.body.classList.remove('light');
-                renderer.setClearColor(0x000000, 0);
-                document.body.style.background = 'black';
-                document.documentElement.style.setProperty('--fg', '#f0f0f0');
-                canvas.style.display = 'block';
-            }
-            if (currentPage === 3) {
-                updateGlowingShadow();
-            }
-        }
-
-        function switchBackground(url) {
-            document.body.style.background = `url('${url}') center/cover fixed`;
-            document.body.classList.add('light');
-            renderer.setClearColor(0x000000, 0);
-            document.documentElement.style.setProperty('--fg', 'black');
-            document.getElementById('shuicheCanvas').style.display = 'block';
-            if (currentPage === 3) {
-                updateGlowingShadow();
-            }
-        }
-
-        function loadMusicPlayer() {
-            let indexSong = 0;
-            let isLocked = false;
-            let songsLength = null;
-            let selectedSong = null;
-            let songIsPlayed = false;
-            let progress_elmnt = null;
-            let songName_elmnt = null;
-            let sliderImgs_elmnt = null;
-            let singerName_elmnt = null;
-            let progressBar_elmnt = null;
-            let musicPlayerInfo_elmnt = null;
-            let progressBarIsUpdating = false;
-            let broadcastGuarantor_elmnt = null;
-            const root = document.querySelector("#root");
-            const mainAudio = document.getElementById('mainAudio');
-
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'hidden') {
-                    savePlaybackState();
+    (function() {
+        var on = addEventListener,
+            off = removeEventListener,
+            $ = function(q) {
+                return document.querySelector(q)
+            },
+            $$ = function(q) {
+                return document.querySelectorAll(q)
+            },
+            $body = document.body,
+            $inner = $('.inner'),
+            client = (function() {
+                var o = {
+                        browser: 'other',
+                        browserVersion: 0,
+                        os: 'other',
+                        osVersion: 0,
+                        mobile: false,
+                        canUse: null,
+                        flags: {
+                            lsdUnits: false,
+                        },
+                    },
+                    ua = navigator.userAgent,
+                    a,
+                    i;
+                a = [['firefox', /Firefox\/([0-9\.]+)/, null], ['edge', /Edge\/([0-9\.]+)/, null], ['safari', /Version\/([0-9\.]+).+Safari/, null], ['chrome', /Chrome\/([0-9\.]+)/, null], ['chrome', /CriOS\/([0-9\.]+)/, null], ['ie', /Trident\/.+rv:([0-9]+)/, null], ['safari', /iPhone OS ([0-9_]+)/, function(v) {
+                    return v.replace('_', '.').replace('_', '');
+                }]];
+                for (i = 0; i < a.length; i++) {
+                    if (ua.match(a[i][1])) {
+                        o.browser = a[i][0];
+                        o.browserVersion = parseFloat(a[i][2] ? (a[i][2])(RegExp.$1) : RegExp.$1);
+                        break;
+                    }
                 }
-            });
-
-            function savePlaybackState() {
-                if (!selectedSong) return;
-                
-                const playbackState = {
-                    currentSongIndex: indexSong,
-                    isPlaying: !selectedSong.paused,
-                    volume: selectedSong.volume,
-                    currentTime: selectedSong.currentTime
+                a = [['ios', /([0-9_]+) like Mac OS X/, function(v) {
+                    return v.replace('_', '.').replace('_', '');
+                }], ['ios', /CPU like Mac OS X/, function(v) {
+                    return 0
+                }], ['ios', /iPad; CPU/, function(v) {
+                    return 0
+                }], ['android', /Android ([0-9\.]+)/, null], ['mac', /Macintosh.+Mac OS X ([0-9_]+)/, function(v) {
+                    return v.replace('_', '.').replace('_', '');
+                }], ['windows', /Windows NT ([0-9\.]+)/, null], ['undefined', /Undefined/, null]];
+                for (i = 0; i < a.length; i++) {
+                    if (ua.match(a[i][1])) {
+                        o.os = a[i][0];
+                        o.osVersion = parseFloat(a[i][2] ? (a[i][2])(RegExp.$1) : RegExp.$1);
+                        break;
+                    }
+                }
+                if (o.os == 'mac' && ('ontouchstart' in window) && ((screen.width == 1024 && screen.height == 1366) || (screen.width == 834 && screen.height == 1112) || (screen.width == 810 && screen.height == 1080) || (screen.width == 768 && screen.height == 1024)))
+                    o.os = 'ios';
+                o.mobile = (o.os == 'android' || o.os == 'ios');
+                var _canUse = document.createElement('div');
+                o.canUse = function(property, value) {
+                    var style;
+                    style = _canUse.style;
+                    if (!(property in style))
+                        return false;
+                    if (typeof value !== 'undefined') {
+                        style[property] = value;
+                        if (style[property] == '')
+                            return false;
+                    }
+                    return true;
                 };
-                
-                localStorage.setItem('musicPlayerState', JSON.stringify(playbackState));
-            }
-
-            function restorePlaybackState() {
-                try {
-                    const savedState = localStorage.getItem('musicPlayerState');
-                    if (!savedState) return;
-                    
-                    const playbackState = JSON.parse(savedState);
-                    
-                    if (playbackState.currentSongIndex !== undefined && 
-                        playbackState.currentSongIndex >= 0 && 
-                        playbackState.currentSongIndex <= songsLength) {
-                        
-                        indexSong = playbackState.currentSongIndex;
-                        
-                        mainAudio.src = songs[indexSong].files.song;
-                        mainAudio.load();
-                        
-                        mainAudio.addEventListener('loadedmetadata', () => {
-                            if (playbackState.currentTime !== undefined) {
-                                mainAudio.currentTime = playbackState.currentTime;
-                            }
-                            if (playbackState.volume !== undefined) {
-                                mainAudio.volume = playbackState.volume;
-                            }
-                            
-                            // 强制设置为未播放状态
-                            mainAudio.pause();
-                            broadcastGuarantor_elmnt.classList.remove("click");
-                            songIsPlayed = false;
-                            
-                            updateInfo(songName_elmnt, songs[indexSong].songName);
-                            updateInfo(singerName_elmnt, songs[indexSong].artist);
-                            setProperty(sliderImgs_elmnt, "--index", -indexSong);
-                            
-                            if ('mediaSession' in navigator) {
-                                navigator.mediaSession.metadata = new MediaMetadata({
-                                    title: songs[indexSong].songName,
-                                    artist: songs[indexSong].artist,
-                                    artwork: getArtwork(songs[indexSong].files.cover)
-                                });
-                                navigator.mediaSession.setPositionState({
-                                    duration: mainAudio.duration,
-                                    playbackRate: mainAudio.playbackRate,
-                                    position: mainAudio.currentTime
-                                });
-                            }
-                        }, { once: true });
-                    }
-                } catch (e) {
-                    console.error("Error restoring playback state:", e);
-                }
-            }
-
-            window.addEventListener('beforeunload', savePlaybackState);
-            setInterval(savePlaybackState, 5000);
-
-            function getArtwork(coverUrl) {
-                return [
-                    { src: coverUrl, sizes: '96x96', type: 'image/jpeg' },
-                    { src: coverUrl, sizes: '128x128', type: 'image/jpeg' },
-                    { src: coverUrl, sizes: '192x192', type: 'image/jpeg' },
-                    { src: coverUrl, sizes: '256x256', type: 'image/jpeg' },
-                    { src: coverUrl, sizes: '384x384', type: 'image/jpeg' },
-                    { src: coverUrl, sizes: '512x512', type: 'image/jpeg' }
-                ];
-            }
-
-            function handleChangeMusic({ isPrev = false, playListIndex = null }) {
-                if (isLocked) return;
-                let newIndex;
-                if (playListIndex || playListIndex === 0) {
-                    newIndex = playListIndex;
-                } else {
-                    newIndex = isPrev ? (indexSong - 1) : (indexSong + 1);
-                }
-                if (newIndex < 0) { newIndex = songsLength; }
-                else if (newIndex > songsLength) { newIndex = 0; }
-                if (newIndex === indexSong) return;
-
-                mainAudio.pause();
-                indexSong = newIndex;
-                mainAudio.src = songs[indexSong].files.song;
-                mainAudio.load();
-
-                mainAudio.addEventListener('loadedmetadata', () => {
-                    if (songIsPlayed) {
-                        mainAudio.play().catch(e => console.log("Play failed:", e));
-                    }
-                    savePlaybackState();
-                }, { once: true });
-
-                setProperty(sliderImgs_elmnt, "--index", -indexSong);
-                updateInfo(songName_elmnt, songs[indexSong].songName);
-                updateInfo(singerName_elmnt, songs[indexSong].artist);
-
-                if ('mediaSession' in navigator) {
-                    navigator.mediaSession.metadata = new MediaMetadata({
-                        title: songs[indexSong].songName,
-                        artist: songs[indexSong].artist,
-                        artwork: getArtwork(songs[indexSong].files.cover)
+                o.flags.lsdUnits = o.canUse('width', '100dvw');
+                return o;
+            }()),
+            ready = {
+                list: [],
+                add: function(f) {
+                    this.list.push(f);
+                },
+                run: function() {
+                    this.list.forEach((f) => {
+                        f();
                     });
+                },
+            },
+            trigger = function(t) {
+                dispatchEvent(new Event(t));
+            },
+            cssRules = function(selectorText) {
+                var ss = document.styleSheets,
+                    a = [],
+                    f = function(s) {
+                        var r = s.cssRules,
+                            i;
+                        for (i = 0; i < r.length; i++) {
+                            if (r[i] instanceof CSSMediaRule && matchMedia(r[i].conditionText).matches)
+                                (f)(r[i]);
+                            else if (r[i] instanceof CSSStyleRule && r[i].selectorText == selectorText)
+                                a.push(r[i]);
+                        }
+                    },
+                    x,
+                    i;
+                for (i = 0; i < ss.length; i++)
+                    f(ss[i]);
+                return a;
+            },
+            escapeHtml = function(s) {
+                if (s === '' || s === null || s === undefined)
+                    return '';
+                var a = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;',
+                };
+                s = s.replace(/[&<>"']/g, function(x) {
+                    return a[x];
+                });
+                return s;
+            },
+            thisHash = function() {
+                var h = location.hash ? location.hash.substring(1) : null,
+                    a;
+                if (!h)
+                    return null;
+                if (h.match(/\?/)) {
+                    a = h.split('?');
+                    h = a[0];
+                    history.replaceState(undefined, undefined, '#' + h);
+                    window.location.search = a[1];
                 }
-            }
-
-            function handleResizeSlider({ target }) {
-                if (isLocked) return;
-                else if (target.classList.contains("music-player__info")) {
-                    this.classList.add("resize");
-                    setProperty(this, "--controls-animate", "down running");
-                    return;
-                } else if (target.classList.contains("music-player__playlist-button")) {
-                    this.classList.remove("resize");
-                    setProperty(this, "--controls-animate", "up running");
+                if (h.length > 0 && !h.match(/^[a-zA-Z]/))
+                    h = 'x' + h;
+                if (typeof h == 'string')
+                    h = h.toLowerCase();
+                return h;
+            },
+            scrollToElement = function(e, style, duration) {
+                var y,
+                    cy,
+                    dy,
+                    start,
+                    easing,
+                    offset,
+                    f;
+                if (!e)
+                    y = 0;
+                else {
+                    offset = (e.dataset.scrollOffset ? parseInt(e.dataset.scrollOffset) : 0) * parseFloat(getComputedStyle(document.documentElement).fontSize);
+                    switch (e.dataset.scrollBehavior ? e.dataset.scrollBehavior : 'default') {
+                    case 'default':
+                    default:
+                        y = e.offsetTop + offset;
+                        break;
+                    case 'center':
+                        if (e.offsetHeight < window.innerHeight)
+                            y = e.offsetTop - ((window.innerHeight - e.offsetHeight) / 2) + offset;
+                        else
+                            y = e.offsetTop - offset;
+                        break;
+                    case 'previous':
+                        if (e.previousElementSibling)
+                            y = e.previousElementSibling.offsetTop + e.previousElementSibling.offsetHeight + offset;
+                        else
+                            y = e.offsetTop + offset;
+                        break;
+                    }
+                }
+                if (!style)
+                    style = 'smooth';
+                if (!duration)
+                    duration = 750;
+                if (style == 'instant') {
+                    window.scrollTo(0, y);
                     return;
                 }
-            }
-
-            function handlePlayMusic() {
-                if (mainAudio.currentTime === mainAudio.duration) {
-                    handleChangeMusic({});
+                start = Date.now();
+                cy = window.scrollY;
+                dy = y - cy;
+                switch (style) {
+                case 'linear':
+                    easing = function(t) {
+                        return t
+                    };
+                    break;
+                case 'smooth':
+                    easing = function(t) {
+                        return t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
+                    };
+                    break;
                 }
-                this.classList.toggle("click");
-                songIsPlayed = !songIsPlayed;
-                mainAudio.paused ? mainAudio.play() : mainAudio.pause();
-                savePlaybackState();
-            }
-
-            function updateTheProgressBar() {
-                const duration = this.duration;
-                const currentTime = this.currentTime;
-                const progressBarWidth = (currentTime / duration) * 100;
-                setProperty(progressBar_elmnt, "--width", `${progressBarWidth}%`);
-                if ('mediaSession' in navigator) {
-                    navigator.mediaSession.setPositionState({
-                        duration: this.duration,
-                        playbackRate: this.playbackRate,
-                        position: this.currentTime
-                    });
+                f = function() {
+                    var t = Date.now() - start;
+                    if (t >= duration)
+                        window.scroll(0, y);
+                    else {
+                        window.scroll(0, cy + (dy * easing(t / duration)));
+                        requestAnimationFrame(f);
+                    }
+                };
+                f();
+            },
+            scrollToTop = function() {
+                scrollToElement(null);
+            },
+            loadElements = function(parent) {
+                var a,
+                    e,
+                    x,
+                    i;
+                $body.dispatchEvent(new CustomEvent('startComponents', {
+                    detail: {
+                        parent: parent
+                    }
+                }));
+                a = parent.querySelectorAll('iframe[data-src]:not([data-src=""])');
+                for (i = 0; i < a.length; i++) {
+                    a[i].contentWindow.location.replace(a[i].dataset.src);
+                    a[i].dataset.initialSrc = a[i].dataset.src;
+                    a[i].dataset.src = '';
                 }
-            }
-
-            function handleSongEnded() {
-                if (songIsPlayed) {
-                    handleChangeMusic({});
+                a = parent.querySelectorAll('video[autoplay]');
+                for (i = 0; i < a.length; i++) {
+                    if (a[i].paused)
+                        a[i].play();
                 }
-            }
-
-            function handleScrub(e) {
-                e.preventDefault();
-                let clientX = e.clientX;
-                if (e.touches && e.touches.length > 0) {
-                    clientX = e.touches[0].clientX;
+                e = parent.querySelector('[data-autofocus="1"]');
+                x = e ? e.tagName : null;
+                switch (x) {
+                case 'FORM':
+                    e = e.querySelector('.field input, .field select, .field textarea');
+                    if (e)
+                        e.focus();
+                    break;
+                default:
+                    break;
                 }
-                const progressOffsetLeft = progress_elmnt.getBoundingClientRect().left;
-                const progressWidth = progress_elmnt.offsetWidth;
-                const duration = selectedSong.duration;
-                const currentTime = (clientX - progressOffsetLeft) / progressWidth;
-                selectedSong.currentTime = currentTime * duration;
-            }
-
-            const songs = [
-                {
-                    "bg": "#c9bea28f",
-                    "artist": "sickick",
-                    "songName": "talking to the moon (bruno mars remix)",
-                    "files": {
-                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/1/song.mp3",
-                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/1/img.jpg"
-                    }
-                },
-                {
-                    "bg": "#0896eba1",
-                    "artist": "bless you",
-                    "songName": "driving",
-                    "files": {
-                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/2/song.mp3",
-                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/2/img.jpg"
-                    }
-                },
-                {
-                    "bg": "#ebbe03",
-                    "artist": "lil uzi vert",
-                    "songName": "demon high",
-                    "files": {
-                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/3/song.mp3",
-                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/3/img.jpg"
-                    }
-                },
-                {
-                    "bg": "#ffc382",
-                    "artist": "travis scott",
-                    "songName": "a man",
-                    "files": {
-                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/4/song.mp3",
-                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/4/img.jpg"
-                    }
-                },
-                {
-                    "bg": "#ffcbdc",
-                    "songName": "Memory Reboot",
-                    "artist": "VØJ/Narvent",
-                    "files": {
-                        "song": "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Memory%20Reboot.mp3",
-                        "cover": "https://pub-7d6ff78812184894b60e0bc5a7673696.r2.dev/Memory%20Reboot.jpg"
-                    }
-                },
-                {
-                    "bg": "#44c16fb5",
-                    "artist": "tritonal",
-                    "songName": "diamonds (feat. rose darling)",
-                    "files": {
-                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/6/song.mp3",
-                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/6/img.jpg"
-                    }
-                },
-                {
-                    "bg": "#ff4545",
-                    "artist": "the weeknd",
-                    "songName": "blinding lights",
-                    "files": {
-                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/7/song.mp3",
-                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/7/img.jpg"
-                    }
-                },
-                {
-                    "bg": "#e5e7e9",
-                    "artist": "arizona zervas",
-                    "songName": "no i in team",
-                    "files": {
-                        "song": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/8/song.mp3",
-                        "cover": "https://cdn.jsdelivr.net/gh/abxlfazl/music-player-widget@main/src/assets/media/songs/8/img.jpg"
-                    }
+                a = parent.querySelectorAll('unloaded-script');
+                for (i = 0; i < a.length; i++) {
+                    x = document.createElement('script');
+                    x.setAttribute('data-loaded', '');
+                    if (a[i].getAttribute('src'))
+                        x.setAttribute('src', a[i].getAttribute('src'));
+                    if (a[i].textContent)
+                        x.textContent = a[i].textContent;
+                    a[i].replaceWith(x);
                 }
-            ];
-
-            const musicPlayer = document.createElement("div");
-            musicPlayer.className = "music-player flex-column";
-            
-            const slider = document.createElement("div");
-            slider.className = "slider center";
-            slider.onclick = handleResizeSlider;
-            
-            const sliderContent = document.createElement("div");
-            sliderContent.className = "slider__content center";
-            
-            const playlistButton = document.createElement("button");
-            playlistButton.className = "music-player__playlist-button center button";
-            const playlistIcon = document.createElement("i");
-            playlistIcon.className = "icon-playlist";
-            playlistButton.appendChild(playlistIcon);
-            
-            const broadcastGuarantor = document.createElement("button");
-            broadcastGuarantor.className = "music-player__broadcast-guarantor center button";
-            broadcastGuarantor.onclick = handlePlayMusic;
-            const playIcon = document.createElement("i");
-            playIcon.className = "icon-play";
-            const pauseIcon = document.createElement("i");
-            pauseIcon.className = "icon-pause";
-            broadcastGuarantor.appendChild(playIcon);
-            broadcastGuarantor.appendChild(pauseIcon);
-            
-            const sliderImgs = document.createElement("div");
-            sliderImgs.className = "slider__imgs flex-row";
-            songs.forEach(({ files: { cover }, songName }) => {
-                const img = document.createElement("img");
-                img.src = cover;
-                img.className = "img";
-                img.alt = songName;
-                sliderImgs.appendChild(img);
-            });
-            
-            sliderContent.appendChild(playlistButton);
-            sliderContent.appendChild(broadcastGuarantor);
-            sliderContent.appendChild(sliderImgs);
-            
-            const sliderControls = document.createElement("div");
-            sliderControls.className = "slider__controls center";
-            
-            const prevButton = document.createElement("button");
-            prevButton.className = "slider__switch-button flex-row button";
-            prevButton.onclick = () => handleChangeMusic({ isPrev: true });
-            const prevIcon = document.createElement("i");
-            prevIcon.className = "icon-back";
-            prevButton.appendChild(prevIcon);
-            
-            const musicInfo = document.createElement("div");
-            musicInfo.className = "music-player__info text_trsf-cap";
-            
-            const songNameDiv = document.createElement("div");
-            const singerNameDiv = document.createElement("div");
-            singerNameDiv.className = "music-player__singer-name";
-            singerNameDiv.innerHTML = `<div>${songs[0].songName}</div>`;
-            
-            const subtitleDiv = document.createElement("div");
-            const subtitle = document.createElement("div");
-            subtitle.className = "music-player__subtitle";
-            subtitle.innerHTML = `<div>${songs[0].artist}</div>`;
-            subtitleDiv.appendChild(subtitle);
-            
-            songNameDiv.appendChild(singerNameDiv);
-            musicInfo.appendChild(songNameDiv);
-            musicInfo.appendChild(subtitleDiv);
-            
-            const nextButton = document.createElement("button");
-            nextButton.className = "slider__switch-button flex-row button";
-            nextButton.onclick = () => handleChangeMusic({ isPrev: false });
-            const nextIcon = document.createElement("i");
-            nextIcon.className = "icon-next";
-            nextButton.appendChild(nextIcon);
-            
-            const progress = document.createElement("div");
-            progress.className = "progress center";
-            progress.onpointerdown = (e) => { 
-                e.preventDefault(); 
-                handleScrub(e); 
-                progressBarIsUpdating = true; 
+                x = new Event('loadelements');
+                a = parent.querySelectorAll('[data-unloaded]');
+                a.forEach((element) => {
+                    element.removeAttribute('data-unloaded');
+                    element.dispatchEvent(x);
+                });
+            },
+            unloadElements = function(parent) {
+                var a,
+                    e,
+                    x,
+                    i;
+                $body.dispatchEvent(new CustomEvent('stopComponents', {
+                    detail: {
+                        parent: parent
+                    }
+                }));
+                a = parent.querySelectorAll('iframe[data-src=""]');
+                for (i = 0; i < a.length; i++) {
+                    if (a[i].dataset.srcUnload === '0')
+                        continue;
+                    if ('initialSrc' in a[i].dataset)
+                        a[i].dataset.src = a[i].dataset.initialSrc;
+                    else
+                        a[i].dataset.src = a[i].src;
+                    a[i].contentWindow.location.replace('about:blank');
+                }
+                a = parent.querySelectorAll('video');
+                for (i = 0; i < a.length; i++) {
+                    if (!a[i].paused)
+                        a[i].pause();
+                }
+                e = $(':focus');
+                if (e)
+                    e.blur();
             };
-            
-            const progressWrapper = document.createElement("div");
-            progressWrapper.className = "progress__wrapper";
-            
-            const progressBar = document.createElement("div");
-            progressBar.className = "progress__bar center";
-            
-            progressWrapper.appendChild(progressBar);
-            progress.appendChild(progressWrapper);
-            
-            sliderControls.appendChild(prevButton);
-            sliderControls.appendChild(musicInfo);
-            sliderControls.appendChild(nextButton);
-            sliderControls.appendChild(progress);
-            
-            slider.appendChild(sliderContent);
-            slider.appendChild(sliderControls);
-            
-            const playlist = document.createElement("ul");
-            playlist.className = "music-player__playlist list";
-            
-            songs.forEach(({ songName, artist, files: { cover } }, index) => {
-                const listItem = document.createElement("li");
-                listItem.className = "music-player__song";
-                listItem.onclick = () => handleChangeMusic({ playListIndex: index });
-                
-                const flexRow = document.createElement("div");
-                flexRow.className = "flex-row _align_center";
-                
-                const songImg = document.createElement("img");
-                songImg.src = cover;
-                songImg.className = "img music-player__song-img";
-                
-                const playlistInfo = document.createElement("div");
-                playlistInfo.className = "music-player__playlist-info text_trsf-cap";
-                
-                const songTitle = document.createElement("b");
-                songTitle.className = "text_overflow";
-                songTitle.textContent = songName;
-                
-                const flexRowInfo = document.createElement("div");
-                flexRowInfo.className = "flex-row _justify_space-btwn";
-                
-                const artistName = document.createElement("span");
-                artistName.className = "music-player__subtitle";
-                artistName.textContent = artist;
-                
-                const songDuration = document.createElement("span");
-                songDuration.className = "music-player__song-duration";
-                
-                flexRowInfo.appendChild(artistName);
-                flexRowInfo.appendChild(songDuration);
-                
-                playlistInfo.appendChild(songTitle);
-                playlistInfo.appendChild(flexRowInfo);
-                
-                flexRow.appendChild(songImg);
-                flexRow.appendChild(playlistInfo);
-                
-                listItem.appendChild(flexRow);
-                
-                playlist.appendChild(listItem);
-            });
-            
-            musicPlayer.appendChild(slider);
-            musicPlayer.appendChild(playlist);
-            
-            root.innerHTML = '';
-            root.appendChild(musicPlayer);
-            
-            songsLength = songs.length - 1;
-            progress_elmnt = document.querySelector(".progress");
-            sliderImgs_elmnt = document.querySelector(".slider__imgs");
-            songName_elmnt = document.querySelector(".music-player__singer-name");
-            musicPlayerInfo_elmnt = document.querySelector(".music-player__info");
-            singerName_elmnt = document.querySelector(".music-player__subtitle");
-            progressBar_elmnt = document.querySelector(".progress__bar");
-            broadcastGuarantor_elmnt = document.querySelector(".music-player__broadcast-guarantor");
-            selectedSong = mainAudio;
-
-            // 预加载所有歌曲的duration
-            const durationElements = document.querySelectorAll(".music-player__song-duration");
-            songs.forEach((song, i) => {
-                const tempAudio = new Audio(song.files.song);
-                tempAudio.addEventListener('loadedmetadata', () => {
-                    const duration = tempAudio.duration;
-                    let min = parseInt(duration / 60); if (min < 10) min = "0" + min;
-                    let sec = parseInt(duration % 60); if (sec < 10) sec = "0" + sec;
-                    durationElements[i].textContent = `${min}:${sec}`;
+        window._scrollToTop = scrollToTop;
+        var thisUrl = function() {
+            return window.location.href.replace(window.location.search, '').replace(/#$/, '');
+        };
+        var getVar = function(name) {
+            var a = window.location.search.substring(1).split('&'),
+                b,
+                k;
+            for (k in a) {
+                b = a[k].split('=');
+                if (b[0] == name)
+                    return b[1];
+            }
+            return null;
+        };
+        var errors = {
+            handle: function(handler) {
+                window.onerror = function(message, url, line, column, error) {
+                    (handler)(error.message);
+                    return true;
+                };
+            },
+            unhandle: function() {
+                window.onerror = null;
+            }
+        };
+        var loadHandler = function() {
+            setTimeout(function() {
+                $body.classList.remove('is-loading');
+                $body.classList.add('is-playing');
+                setTimeout(function() {
+                    $body.classList.remove('is-playing');
+                    $body.classList.add('is-ready');
+                }, 1000);
+            }, 100);
+        };
+        on('load', loadHandler);
+        loadElements(document.body);
+        var style,
+            sheet,
+            rule;
+        style = document.createElement('style');
+        style.appendChild(document.createTextNode(''));
+        document.head.appendChild(style);
+        sheet = style.sheet;
+        if (client.mobile) {
+            (function() {
+                if (client.flags.lsdUnits) {
+                    document.documentElement.style.setProperty('--viewport-height', '100svh');
+                    document.documentElement.style.setProperty('--background-height', '100lvh');
+                } else {
+                    var f = function() {
+                        document.documentElement.style.setProperty('--viewport-height', window.innerHeight + 'px');
+                        document.documentElement.style.setProperty('--background-height', (window.innerHeight + 250) + 'px');
+                    };
+                    on('load', f);
+                    on('orientationchange', function() {
+                        setTimeout(function() {
+                            (f)();
+                        }, 100);
+                    });
+                }
+            })();
+        }
+        if (client.os == 'android') {
+            (function() {
+                sheet.insertRule('body::after { }', 0);
+                rule = sheet.cssRules[0];
+                var f = function() {
+                    rule.style.cssText = 'height: ' + (Math.max(screen.width, screen.height)) + 'px';
+                };
+                on('load', f);
+                on('orientationchange', f);
+                on('touchmove', f);
+            })();
+            $body.classList.add('touch');
+        } else if (client.os == 'ios') {
+            if (client.osVersion <= 11)
+                (function() {
+                    sheet.insertRule('body::after { }', 0);
+                    rule = sheet.cssRules[0];
+                    rule.style.cssText = '-webkit-transform: scale(1.0)';
+                })();
+            if (client.osVersion <= 11)
+                (function() {
+                    sheet.insertRule('body.ios-focus-fix::before { }', 0);
+                    rule = sheet.cssRules[0];
+                    rule.style.cssText = 'height: calc(100% + 60px)';
+                    on('focus', function(event) {
+                        $body.classList.add('ios-focus-fix');
+                    }, true);
+                    on('blur', function(event) {
+                        $body.classList.remove('ios-focus-fix');
+                    }, true);
+                })();
+            $body.classList.add('touch');
+        }
+        var scrollEvents = {
+            items: [],
+            add: function(o) {
+                this.items.push({
+                    element: o.element,
+                    triggerElement: (('triggerElement' in o && o.triggerElement) ? o.triggerElement : o.element),
+                    enter: ('enter' in o ? o.enter : null),
+                    leave: ('leave' in o ? o.leave : null),
+                    mode: ('mode' in o ? o.mode : 4),
+                    threshold: ('threshold' in o ? o.threshold : 0.25),
+                    offset: ('offset' in o ? o.offset : 0),
+                    initialState: ('initialState' in o ? o.initialState : null),
+                    state: false,
                 });
-                tempAudio.load();
-            });
-
-            // 绑定事件到mainAudio
-            mainAudio.addEventListener('timeupdate', updateTheProgressBar);
-            mainAudio.addEventListener('ended', handleSongEnded);
-
-            controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
-            controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
-
-            // 初始化主音频
-            mainAudio.src = songs[0].files.song;
-            mainAudio.load();
-
-            setTimeout(restorePlaybackState, 100);
-
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: songs[0].songName,
-                    artist: songs[0].artist,
-                    artwork: getArtwork(songs[0].files.cover)
-                });
-
-                navigator.mediaSession.setActionHandler('previoustrack', () => handleChangeMusic({ isPrev: true }));
-                navigator.mediaSession.setActionHandler('nexttrack', () => handleChangeMusic({ isPrev: false }));
-                navigator.mediaSession.setActionHandler('play', () => {
-                    if (mainAudio.paused) {
-                        mainAudio.play();
-                        broadcastGuarantor_elmnt.classList.add("click");
-                        songIsPlayed = true;
+            },
+            handler: function() {
+                var height,
+                    top,
+                    bottom,
+                    scrollPad;
+                if (client.os == 'ios') {
+                    height = document.documentElement.clientHeight;
+                    top = document.body.scrollTop + window.scrollY;
+                    bottom = top + height;
+                    scrollPad = 125;
+                } else {
+                    height = document.documentElement.clientHeight;
+                    top = document.documentElement.scrollTop;
+                    bottom = top + height;
+                    scrollPad = 0;
+                }
+                scrollEvents.items.forEach(function(item) {
+                    var elementTop,
+                        elementBottom,
+                        viewportTop,
+                        viewportBottom,
+                        bcr,
+                        pad,
+                        state,
+                        a,
+                        b;
+                    if (!item.enter && !item.leave)
+                        return true;
+                    if (!item.triggerElement)
+                        return true;
+                    if (item.triggerElement.offsetParent === null) {
+                        if (item.state == true && item.leave) {
+                            item.state = false;
+                            (item.leave).apply(item.element);
+                            if (!item.enter)
+                                item.leave = null;
+                        }
+                        return true;
                     }
-                });
-                navigator.mediaSession.setActionHandler('pause', () => {
-                    if (!mainAudio.paused) {
-                        mainAudio.pause();
-                        broadcastGuarantor_elmnt.classList.remove("click");
-                        songIsPlayed = false;
+                    bcr = item.triggerElement.getBoundingClientRect();
+                    elementTop = top + Math.floor(bcr.top);
+                    elementBottom = elementTop + bcr.height;
+                    if (item.initialState !== null) {
+                        state = item.initialState;
+                        item.initialState = null;
+                    } else {
+                        switch (item.mode) {
+                        case 1:
+                        default:
+                            state = (bottom > (elementTop - item.offset) && top < (elementBottom + item.offset));
+                            break;
+                        case 2:
+                            a = (top + (height * 0.5));
+                            state = (a > (elementTop - item.offset) && a < (elementBottom + item.offset));
+                            break;
+                        case 3:
+                            a = top + (height * (item.threshold));
+                            if (a - (height * 0.375) <= 0)
+                                a = 0;
+                            b = top + (height * (1 - item.threshold));
+                            if (b + (height * 0.375) >= document.body.scrollHeight - scrollPad)
+                                b = document.body.scrollHeight + scrollPad;
+                            state = (b > (elementTop - item.offset) && a < (elementBottom + item.offset));
+                            break;
+                        case 4:
+                            pad = height * item.threshold;
+                            viewportTop = (top + pad);
+                            viewportBottom = (bottom - pad);
+                            if (Math.floor(top) <= pad)
+                                viewportTop = top;
+                            if (Math.ceil(bottom) >= (document.body.scrollHeight - pad))
+                                viewportBottom = bottom;
+                            if ((viewportBottom - viewportTop) >= (elementBottom - elementTop)) {
+                                state = ((elementTop >= viewportTop && elementBottom <= viewportBottom) || (elementTop >= viewportTop && elementTop <= viewportBottom) || (elementBottom >= viewportTop && elementBottom <= viewportBottom));
+                            } else
+                                state = ((viewportTop >= elementTop && viewportBottom <= elementBottom) || (elementTop >= viewportTop && elementTop <= viewportBottom) || (elementBottom >= viewportTop && elementBottom <= viewportBottom));
+                            break;
+                        }
                     }
-                });
-                navigator.mediaSession.setActionHandler('seekto', (details) => {
-                    if (details.seekTime != null) {
-                        if (details.fastSeek && 'fastSeek' in mainAudio) {
-                            mainAudio.fastSeek(details.seekTime);
+                    if (state != item.state) {
+                        item.state = state;
+                        if (item.state) {
+                            if (item.enter) {
+                                (item.enter).apply(item.element);
+                                if (!item.leave)
+                                    item.enter = null;
+                            }
                         } else {
-                            mainAudio.currentTime = details.seekTime;
+                            if (item.leave) {
+                                (item.leave).apply(item.element);
+                                if (!item.enter)
+                                    item.leave = null;
+                            }
                         }
                     }
                 });
+            },
+            init: function() {
+                on('load', this.handler);
+                on('resize', this.handler);
+                on('scroll', this.handler);
+                (this.handler)();
             }
-
-            // 为音乐播放器滚动条添加显示/隐藏效果
-            const playlistScrollContainer = document.querySelector('.music-player__playlist');
-            let scrollTimeout2;
-            if (playlistScrollContainer) {
-                playlistScrollContainer.addEventListener('scroll', () => {
-                    playlistScrollContainer.classList.add('scrolling');
-                    clearTimeout(scrollTimeout2);
-                    scrollTimeout2 = setTimeout(() => {
-                        playlistScrollContainer.classList.remove('scrolling');
-                    }, 1500);
-                }, { passive: true });
-            }
-
-            function controlSubtitleAnimation(parent, child) {
-                if (child.classList.contains("animate")) return;
-                const element = child.firstChild;
-                if (child.clientWidth > parent.clientWidth) {
-                    child.appendChild(element.cloneNode(true));
-                    child.classList.add("animate");
+        };
+        scrollEvents.init();
+        var onvisible = {
+            effects: {
+                'blur-in': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'filter ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity) {
+                        this.style.opacity = 0;
+                        this.style.filter = 'blur(' + (0.25 * intensity) + 'rem)';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.filter = 'none';
+                    },
+                },
+                'zoom-in': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity, alt) {
+                        this.style.opacity = 0;
+                        this.style.transform = 'scale(' + (1 - ((alt ? 0.25 : 0.05) * intensity)) + ')';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.transform = 'none';
+                    },
+                },
+                'zoom-out': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity, alt) {
+                        this.style.opacity = 0;
+                        this.style.transform = 'scale(' + (1 + ((alt ? 0.25 : 0.05) * intensity)) + ')';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.transform = 'none';
+                    },
+                },
+                'slide-left': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function() {
+                        this.style.transform = 'translateX(100vw)';
+                    },
+                    play: function() {
+                        this.style.transform = 'none';
+                    },
+                },
+                'slide-right': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function() {
+                        this.style.transform = 'translateX(-100vw)';
+                    },
+                    play: function() {
+                        this.style.transform = 'none';
+                    },
+                },
+                'flip-forward': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity, alt) {
+                        this.style.opacity = 0;
+                        this.style.transformOrigin = '50% 50%';
+                        this.style.transform = 'perspective(1000px) rotateX(' + ((alt ? 45 : 15) * intensity) + 'deg)';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.transform = 'none';
+                    },
+                },
+                'flip-backward': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity, alt) {
+                        this.style.opacity = 0;
+                        this.style.transformOrigin = '50% 50%';
+                        this.style.transform = 'perspective(1000px) rotateX(' + ((alt ? -45 : -15) * intensity) + 'deg)';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.transform = 'none';
+                    },
+                },
+                'flip-left': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity, alt) {
+                        this.style.opacity = 0;
+                        this.style.transformOrigin = '50% 50%';
+                        this.style.transform = 'perspective(1000px) rotateY(' + ((alt ? 45 : 15) * intensity) + 'deg)';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.transform = 'none';
+                    },
+                },
+                'flip-right': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity, alt) {
+                        this.style.opacity = 0;
+                        this.style.transformOrigin = '50% 50%';
+                        this.style.transform = 'perspective(1000px) rotateY(' + ((alt ? -45 : -15) * intensity) + 'deg)';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.transform = 'none';
+                    },
+                },
+                'tilt-left': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity, alt) {
+                        this.style.opacity = 0;
+                        this.style.transform = 'rotate(' + ((alt ? 45 : 5) * intensity) + 'deg)';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.transform = 'none';
+                    },
+                },
+                'tilt-right': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity, alt) {
+                        this.style.opacity = 0;
+                        this.style.transform = 'rotate(' + ((alt ? -45 : -5) * intensity) + 'deg)';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.transform = 'none';
+                    },
+                },
+                'fade-right': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity) {
+                        this.style.opacity = 0;
+                        this.style.transform = 'translateX(' + (-1.5 * intensity) + 'rem)';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.transform = 'none';
+                    },
+                },
+                'fade-left': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity) {
+                        this.style.opacity = 0;
+                        this.style.transform = 'translateX(' + (1.5 * intensity) + 'rem)';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.transform = 'none';
+                    },
+                },
+                'fade-down': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity) {
+                        this.style.opacity = 0;
+                        this.style.transform = 'translateY(' + (-1.5 * intensity) + 'rem)';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.transform = 'none';
+                    },
+                },
+                'fade-up': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity) {
+                        this.style.opacity = 0;
+                        this.style.transform = 'translateY(' + (1.5 * intensity) + 'rem)';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                        this.style.transform = 'none';
+                    },
+                },
+                'fade-in': {
+                    type: 'transition',
+                    transition: function(speed, delay) {
+                        return 'opacity ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function() {
+                        this.style.opacity = 0;
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                    },
+                },
+                'fade-in-background': {
+                    type: 'manual',
+                    rewind: function() {
+                        this.style.removeProperty('--onvisible-delay');
+                        this.style.removeProperty('--onvisible-background-color');
+                    },
+                    play: function(speed, delay) {
+                        this.style.setProperty('--onvisible-speed', speed + 's');
+                        if (delay)
+                            this.style.setProperty('--onvisible-delay', delay + 's');
+                        this.style.setProperty('--onvisible-background-color', 'rgba(0,0,0,0.001)');
+                    },
+                },
+                'zoom-in-image': {
+                    type: 'transition',
+                    target: 'img',
+                    transition: function(speed, delay) {
+                        return 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function() {
+                        this.style.transform = 'scale(1)';
+                    },
+                    play: function(intensity) {
+                        this.style.transform = 'scale(' + (1 + (0.1 * intensity)) + ')';
+                    },
+                },
+                'zoom-out-image': {
+                    type: 'transition',
+                    target: 'img',
+                    transition: function(speed, delay) {
+                        return 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity) {
+                        this.style.transform = 'scale(' + (1 + (0.1 * intensity)) + ')';
+                    },
+                    play: function() {
+                        this.style.transform = 'none';
+                    },
+                },
+                'focus-image': {
+                    type: 'transition',
+                    target: 'img',
+                    transition: function(speed, delay) {
+                        return 'transform ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '') + ', ' + 'filter ' + speed + 's ease' + (delay ? ' ' + delay + 's' : '');
+                    },
+                    rewind: function(intensity) {
+                        this.style.transform = 'scale(' + (1 + (0.05 * intensity)) + ')';
+                        this.style.filter = 'blur(' + (0.25 * intensity) + 'rem)';
+                    },
+                    play: function(intensity) {
+                        this.style.transform = 'none';
+                        this.style.filter = 'none';
+                    },
+                },
+                'wipe-up': {
+                    type: 'animate',
+                    keyframes: function(intensity) {
+                        return [{
+                            maskSize: '100% 0%',
+                            maskImage: 'linear-gradient(90deg, black 100%, transparent 100%)',
+                        }, {
+                            maskSize: '110% 110%',
+                            maskImage: 'linear-gradient(90deg, black 100%, transparent 100%)',
+                        }, ];
+                    },
+                    options: function(speed) {
+                        return {
+                            duration: speed,
+                            iterations: 1,
+                            easing: 'ease',
+                        };
+                    },
+                    rewind: function() {
+                        this.style.opacity = 0;
+                        this.style.maskComposite = 'exclude';
+                        this.style.maskRepeat = 'no-repeat';
+                        this.style.maskPosition = '0% 100%';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                    },
+                },
+                'wipe-down': {
+                    type: 'animate',
+                    keyframes: function(intensity) {
+                        return [{
+                            maskSize: '100% 0%',
+                            maskImage: 'linear-gradient(90deg, black 100%, transparent 100%)',
+                        }, {
+                            maskSize: '110% 110%',
+                            maskImage: 'linear-gradient(90deg, black 100%, transparent 100%)',
+                        }, ];
+                    },
+                    options: function(speed) {
+                        return {
+                            duration: speed,
+                            iterations: 1,
+                            easing: 'ease',
+                        };
+                    },
+                    rewind: function() {
+                        this.style.opacity = 0;
+                        this.style.maskComposite = 'exclude';
+                        this.style.maskRepeat = 'no-repeat';
+                        this.style.maskPosition = '0% 0%';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                    },
+                },
+                'wipe-left': {
+                    type: 'animate',
+                    keyframes: function(intensity) {
+                        return [{
+                            maskSize: '0% 100%',
+                            maskImage: 'linear-gradient(90deg, black 100%, transparent 100%)',
+                        }, {
+                            maskSize: '110% 110%',
+                            maskImage: 'linear-gradient(90deg, black 100%, transparent 100%)',
+                        }, ];
+                    },
+                    options: function(speed) {
+                        return {
+                            duration: speed,
+                            iterations: 1,
+                            easing: 'ease',
+                        };
+                    },
+                    rewind: function() {
+                        this.style.opacity = 0;
+                        this.style.maskComposite = 'exclude';
+                        this.style.maskRepeat = 'no-repeat';
+                        this.style.maskPosition = '100% 0%';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                    },
+                },
+                'wipe-right': {
+                    type: 'animate',
+                    keyframes: function(intensity) {
+                        return [{
+                            maskSize: '0% 100%',
+                            maskImage: 'linear-gradient(90deg, black 100%, transparent 100%)',
+                        }, {
+                            maskSize: '110% 110%',
+                            maskImage: 'linear-gradient(90deg, black 100%, transparent 100%)',
+                        }, ];
+                    },
+                    options: function(speed) {
+                        return {
+                            duration: speed,
+                            iterations: 1,
+                            easing: 'ease',
+                        };
+                    },
+                    rewind: function() {
+                        this.style.opacity = 0;
+                        this.style.maskComposite = 'exclude';
+                        this.style.maskRepeat = 'no-repeat';
+                        this.style.maskPosition = '0% 0%';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                    },
+                },
+                'wipe-diagonal': {
+                    type: 'animate',
+                    keyframes: function(intensity) {
+                        return [{
+                            maskSize: '0% 0%',
+                            maskImage: 'linear-gradient(45deg, black 50%, transparent 50%)',
+                        }, {
+                            maskSize: '220% 220%',
+                            maskImage: 'linear-gradient(45deg, black 50%, transparent 50%)',
+                        }, ];
+                    },
+                    options: function(speed) {
+                        return {
+                            duration: speed,
+                            iterations: 1,
+                            easing: 'ease',
+                        };
+                    },
+                    rewind: function() {
+                        this.style.opacity = 0;
+                        this.style.maskComposite = 'exclude';
+                        this.style.maskRepeat = 'no-repeat';
+                        this.style.maskPosition = '0% 100%';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                    },
+                },
+                'wipe-reverse-diagonal': {
+                    type: 'animate',
+                    keyframes: function(intensity) {
+                        return [{
+                            maskSize: '0% 0%',
+                            maskImage: 'linear-gradient(135deg, transparent 50%, black 50%)',
+                        }, {
+                            maskSize: '220% 220%',
+                            maskImage: 'linear-gradient(135deg, transparent 50%, black 50%)',
+                        }, ];
+                    },
+                    options: function(speed) {
+                        return {
+                            duration: speed,
+                            iterations: 1,
+                            easing: 'ease',
+                        };
+                    },
+                    rewind: function() {
+                        this.style.opacity = 0;
+                        this.style.maskComposite = 'exclude';
+                        this.style.maskRepeat = 'no-repeat';
+                        this.style.maskPosition = '100% 100%';
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                    },
+                },
+                'pop-in': {
+                    type: 'animate',
+                    keyframes: function(intensity) {
+                        let diff = (intensity + 1) * 0.025;
+                        return [{
+                            opacity: 0,
+                            transform: 'scale(' + (1 - diff) + ')',
+                        }, {
+                            opacity: 1,
+                            transform: 'scale(' + (1 + diff) + ')',
+                        }, {
+                            opacity: 1,
+                            transform: 'scale(' + (1 - (diff * 0.25)) + ')',
+                            offset: 0.9,
+                        }, {
+                            opacity: 1,
+                            transform: 'scale(1)',
+                        }];
+                    },
+                    options: function(speed) {
+                        return {
+                            duration: speed,
+                            iterations: 1,
+                        };
+                    },
+                    rewind: function() {
+                        this.style.opacity = 0;
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                    },
+                },
+                'bounce-up': {
+                    type: 'animate',
+                    keyframes: function(intensity) {
+                        let diff = (intensity + 1) * 0.075;
+                        return [{
+                            opacity: 0,
+                            transform: 'translateY(' + diff + 'rem)',
+                        }, {
+                            opacity: 1,
+                            transform: 'translateY(' + (-1 * diff) + 'rem)',
+                        }, {
+                            opacity: 1,
+                            transform: 'translateY(' + (diff * 0.25) + 'rem)',
+                            offset: 0.9,
+                        }, {
+                            opacity: 1,
+                            transform: 'translateY(0)',
+                        }];
+                    },
+                    options: function(speed) {
+                        return {
+                            duration: speed,
+                            iterations: 1,
+                        };
+                    },
+                    rewind: function() {
+                        this.style.opacity = 0;
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                    },
+                },
+                'bounce-down': {
+                    type: 'animate',
+                    keyframes: function(intensity) {
+                        let diff = (intensity + 1) * 0.075;
+                        return [{
+                            opacity: 0,
+                            transform: 'translateY(' + (-1 * diff) + 'rem)',
+                        }, {
+                            opacity: 1,
+                            transform: 'translateY(' + diff + 'rem)',
+                        }, {
+                            opacity: 1,
+                            transform: 'translateY(' + (-1 * (diff * 0.25)) + 'rem)',
+                            offset: 0.9,
+                        }, {
+                            opacity: 1,
+                            transform: 'translateY(0)',
+                        }];
+                    },
+                    options: function(speed) {
+                        return {
+                            duration: speed,
+                            iterations: 1,
+                        };
+                    },
+                    rewind: function() {
+                        this.style.opacity = 0;
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                    },
+                },
+                'bounce-left': {
+                    type: 'animate',
+                    keyframes: function(intensity) {
+                        let diff = (intensity + 1) * 0.075;
+                        return [{
+                            opacity: 0,
+                            transform: 'translateX(' + diff + 'rem)',
+                        }, {
+                            opacity: 1,
+                            transform: 'translateX(' + (-1 * diff) + 'rem)',
+                        }, {
+                            opacity: 1,
+                            transform: 'translateX(' + (diff * 0.25) + 'rem)',
+                            offset: 0.9,
+                        }, {
+                            opacity: 1,
+                            transform: 'translateX(0)',
+                        }];
+                    },
+                    options: function(speed) {
+                        return {
+                            duration: speed,
+                            iterations: 1,
+                        };
+                    },
+                    rewind: function() {
+                        this.style.opacity = 0;
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                    },
+                },
+                'bounce-right': {
+                    type: 'animate',
+                    keyframes: function(intensity) {
+                        let diff = (intensity + 1) * 0.075;
+                        return [{
+                            opacity: 0,
+                            transform: 'translateX(' + (-1 * diff) + 'rem)',
+                        }, {
+                            opacity: 1,
+                            transform: 'translateX(' + diff + 'rem)',
+                        }, {
+                            opacity: 1,
+                            transform: 'translateX(' + (-1 * (diff * 0.25)) + 'rem)',
+                            offset: 0.9,
+                        }, {
+                            opacity: 1,
+                            transform: 'translateX(0)',
+                        }];
+                    },
+                    options: function(speed) {
+                        return {
+                            duration: speed,
+                            iterations: 1,
+                        };
+                    },
+                    rewind: function() {
+                        this.style.opacity = 0;
+                    },
+                    play: function() {
+                        this.style.opacity = 1;
+                    },
+                },
+            },
+            regex: new RegExp('([^\\s]+)', 'g'),
+            add: function(selector, settings) {
+                var _this = this,
+                    style = settings.style in this.effects ? settings.style : 'fade',
+                    speed = parseInt('speed' in settings ? settings.speed : 0),
+                    intensity = parseInt('intensity' in settings ? settings.intensity : 5),
+                    delay = parseInt('delay' in settings ? settings.delay : 0),
+                    replay = 'replay' in settings ? settings.replay : false,
+                    stagger = 'stagger' in settings ? (parseInt(settings.stagger) >= 0 ? parseInt(settings.stagger) : false) : false,
+                    staggerOrder = 'staggerOrder' in settings ? settings.staggerOrder : 'default',
+                    staggerSelector = 'staggerSelector' in settings ? settings.staggerSelector : null,
+                    threshold = parseInt('threshold' in settings ? settings.threshold : 3),
+                    state = 'state' in settings ? settings.state : null,
+                    effect = this.effects[style],
+                    enter,
+                    leave,
+                    scrollEventThreshold;
+                if (window.CARRD_DISABLE_ANIMATION === true) {
+                    if (style == 'fade-in-background')
+                        $$(selector).forEach(function(e) {
+                            e.style.setProperty('--onvisible-background-color', 'rgba(0,0,0,0.001)');
+                        });
+                    return;
                 }
-                setProperty(child.parentElement, "width", `${element.clientWidth}px`);
-            }
-            
-            function setProperty(target, prop, value = "") { 
-                target.style.setProperty(prop, value); 
-            }
-            
-            function updateInfo(target, value) {
-                while (target.firstChild) { target.removeChild(target.firstChild); }
-                const targetChild_elmnt = document.createElement("div");
-                targetChild_elmnt.appendChild(document.createTextNode(value));
-                target.appendChild(targetChild_elmnt);
-                target.classList.remove("animate");
-                controlSubtitleAnimation(musicPlayerInfo_elmnt, target);
-            }
-
-            function handleResize() {
-                const vH = window.innerHeight * 0.01;
-                setProperty(document.documentElement, "--vH", `${vH}px`);
-            }
-
-            handleResize();
-            window.addEventListener("resize", handleResize);
-            window.addEventListener("orientationchange", handleResize);
-            window.addEventListener("transitionstart", ({ target }) => {
-                if (target === sliderImgs_elmnt) {
-                    isLocked = true;
-                    setProperty(sliderImgs_elmnt, "will-change", "transform");
+                switch (threshold) {
+                case 1:
+                    scrollEventThreshold = 0;
+                    break;
+                case 2:
+                    scrollEventThreshold = 0.125;
+                    break;
+                default:
+                case 3:
+                    scrollEventThreshold = 0.25;
+                    break;
+                case 4:
+                    scrollEventThreshold = 0.375;
+                    break;
+                case 5:
+                    scrollEventThreshold = 0.475;
+                    break;
                 }
-            });
-            window.addEventListener("transitionend", ({ target, propertyName }) => {
-                if (target === sliderImgs_elmnt) {
-                    isLocked = false;
-                    setProperty(sliderImgs_elmnt, "will-change", "auto");
+                switch (effect.type) {
+                default:
+                case 'transition':
+                    intensity = ((intensity / 10) * 1.75) + 0.25;
+                    enter = function(children, staggerDelay=0) {
+                        var _this = this,
+                            transitionOrig;
+                        if (effect.target)
+                            _this = this.querySelector(effect.target);
+                        transitionOrig = _this.style.transition;
+                        _this.style.setProperty('backface-visibility', 'hidden');
+                        _this.style.transition = effect.transition.apply(_this, [speed / 1000, (delay + staggerDelay) / 1000]);
+                        effect.play.apply(_this, [intensity, !!children]);
+                        setTimeout(function() {
+                            _this.style.removeProperty('backface-visibility');
+                            _this.style.transition = transitionOrig;
+                        }, (speed + delay + staggerDelay) * 2);
+                    };
+                    leave = function(children) {
+                        var _this = this,
+                            transitionOrig;
+                        if (effect.target)
+                            _this = this.querySelector(effect.target);
+                        transitionOrig = _this.style.transition;
+                        _this.style.setProperty('backface-visibility', 'hidden');
+                        _this.style.transition = effect.transition.apply(_this, [speed / 1000]);
+                        effect.rewind.apply(_this, [intensity, !!children]);
+                        setTimeout(function() {
+                            _this.style.removeProperty('backface-visibility');
+                            _this.style.transition = transitionOrig;
+                        }, speed * 2);
+                    };
+                    break;
+                case 'animate':
+                    enter = function(children, staggerDelay=0) {
+                        var _this = this,
+                            transitionOrig;
+                        if (effect.target)
+                            _this = this.querySelector(effect.target);
+                        setTimeout(() => {
+                            effect.play.apply(_this, []);
+                            _this.animate(effect.keyframes.apply(_this, [intensity]), effect.options.apply(_this, [speed, delay]));
+                        }, delay + staggerDelay);
+                    };
+                    leave = function(children) {
+                        var _this = this,
+                            transitionOrig;
+                        if (effect.target)
+                            _this = this.querySelector(effect.target);
+                        let a = _this.animate(effect.keyframes.apply(_this, [intensity]), effect.options.apply(_this, [speed, delay]));
+                        a.reverse();
+                        a.addEventListener('finish', () => {
+                            effect.rewind.apply(_this, []);
+                        });
+                    };
+                    break;
+                case 'manual':
+                    enter = function(children, staggerDelay=0) {
+                        var _this = this,
+                            transitionOrig;
+                        if (effect.target)
+                            _this = this.querySelector(effect.target);
+                        effect.play.apply(_this, [speed / 1000, (delay + staggerDelay) / 1000, intensity]);
+                    };
+                    leave = function(children) {
+                        var _this = this,
+                            transitionOrig;
+                        if (effect.target)
+                            _this = this.querySelector(effect.target);
+                        effect.rewind.apply(_this, [intensity, !!children]);
+                    };
+                    break;
                 }
-                if (target.classList.contains("slider") && propertyName === "height") {
-                    controlSubtitleAnimation(musicPlayerInfo_elmnt, songName_elmnt);
-                    controlSubtitleAnimation(musicPlayerInfo_elmnt, singerName_elmnt);
+                $$(selector).forEach(function(e) {
+                    var children,
+                        targetElement,
+                        triggerElement;
+                    if (stagger !== false && staggerSelector == ':scope > *')
+                        _this.expandTextNodes(e);
+                    children = (stagger !== false && staggerSelector) ? e.querySelectorAll(staggerSelector) : null;
+                    if (effect.target)
+                        targetElement = e.querySelector(effect.target);
+                    else
+                        targetElement = e;
+                    if (children)
+                        children.forEach(function(targetElement) {
+                            effect.rewind.apply(targetElement, [intensity, true]);
+                        });
+                    else
+                        effect.rewind.apply(targetElement, [intensity]);
+                    triggerElement = e;
+                    if (e.parentNode) {
+                        if (e.parentNode.dataset.onvisibleTrigger)
+                            triggerElement = e.parentNode;
+                        else if (e.parentNode.parentNode) {
+                            if (e.parentNode.parentNode.dataset.onvisibleTrigger)
+                                triggerElement = e.parentNode.parentNode;
+                        }
+                    }
+                    scrollEvents.add({
+                        element: e,
+                        triggerElement: triggerElement,
+                        initialState: state,
+                        threshold: scrollEventThreshold,
+                        enter: children ? function() {
+                            var staggerDelay = 0,
+                                childHandler = function(e) {
+                                    enter.apply(e, [children, staggerDelay]);
+                                    staggerDelay += stagger;
+                                },
+                                a;
+                            if (staggerOrder == 'default') {
+                                children.forEach(childHandler);
+                            } else {
+                                a = Array.from(children);
+                                switch (staggerOrder) {
+                                case 'reverse':
+                                    a.reverse();
+                                    break;
+                                case 'random':
+                                    a.sort(function() {
+                                        return Math.random() - 0.5;
+                                    });
+                                    break;
+                                }
+                                a.forEach(childHandler);
+                            }
+                        } : enter,
+                        leave: (replay ? (children ? function() {
+                            children.forEach(function(e) {
+                                leave.apply(e, [children]);
+                            });
+                        } : leave) : null),
+                    });
+                });
+            },
+            expandTextNodes: function(e) {
+                var s,
+                    i,
+                    w,
+                    x;
+                for (i = 0; i < e.childNodes.length; i++) {
+                    x = e.childNodes[i];
+                    if (x.nodeType != Node.TEXT_NODE)
+                        continue;
+                    s = x.nodeValue;
+                    s = s.replace(this.regex, function(x, a) {
+                        return '<text-node>' + escapeHtml(a) + '</text-node>';
+                    });
+                    w = document.createElement('text-node');
+                    w.innerHTML = s;
+                    x.replaceWith(w);
+                    while (w.childNodes.length > 0) {
+                        w.parentNode.insertBefore(w.childNodes[0], w);
+                    }
+                    w.parentNode.removeChild(w);
                 }
-            });
-            window.addEventListener("pointerup", (e) => {
-                e.preventDefault();
-                if (progressBarIsUpdating) {
-                    selectedSong.muted = false;
-                    progressBarIsUpdating = false;
-                }
-            });
-            window.addEventListener("pointermove", (e) => {
-                if (progressBarIsUpdating) {
-                    e.preventDefault();
-                    handleScrub(e);
-                    selectedSong.muted = true;
-                }
-            });
-            window.addEventListener("touchend", (e) => {
-                if (progressBarIsUpdating) {
-                    selectedSong.muted = false;
-                    progressBarIsUpdating = false;
-                }
-            });
-            window.addEventListener("touchmove", (e) => {
-                if (progressBarIsUpdating) {
-                    e.preventDefault();
-                    handleScrub(e);
-                    selectedSong.muted = true;
-                }
-            });
-        }
-
-        const scrollContainer = document.querySelector('.link-scroll-container');
-        let scrollTimeout;
-        if (scrollContainer) {
-            scrollContainer.addEventListener('scroll', () => {
-                scrollContainer.classList.add('scrolling');
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    scrollContainer.classList.remove('scrolling');
-                }, 1500);
-            });
-        }
-      
-      
-      
-// 添加日间和夜间模式按钮的鼠标事件监听
-document.querySelectorAll('.theme-toggle').forEach(button => {
-    button.addEventListener('mouseenter', function() {
-        this.style.transform = 'scale(1.2)';
-    });
-    
-    button.addEventListener('mouseleave', function() {
-        this.style.transform = 'scale(1)';
-    });
-    
-    // 添加点击事件处理 - 1秒后自动恢复大小
-    button.addEventListener('click', function() {
-        setTimeout(() => {
-            this.style.transform = 'scale(1)';
-        }, 350);
-    });
-});
-      
-      
-      
-      
-// 添加日间和夜间模式按钮的鼠标事件监听
-document.querySelectorAll('.day-toggle').forEach(button => {
-    button.addEventListener('mouseenter', function() {
-        this.style.transform = 'scale(1.2)';
-    });
-    
-    button.addEventListener('mouseleave', function() {
-        this.style.transform = 'scale(1)';
-    });
-    
-    // 添加点击事件处理 - 1秒后自动恢复大小
-    button.addEventListener('click', function() {
-        setTimeout(() => {
-            this.style.transform = 'scale(1)';
-        }, 350);
-    });
-});
-
-      
-      
-      // oneko.js: https://github.com/adryd325/oneko.js
-
-(async function oneko() {
-  const nekoEl = document.createElement("div");
-  let nekoPosX = 32,
-    nekoPosY = 32,
-    mousePosX = 0,
-    mousePosY = 0,
-    frameCount = 0,
-    idleTime = 0,
-    idleAnimation = null,
-    idleAnimationFrame = 0,
-    forceSleep = false,
-    grabbing = false,
-    grabStop = true,
-    nudge = false,
-    kuroNeko = false,
-    variant = "classic";
-
-  function parseLocalStorage(key, fallback) {
-    try {
-      const value = JSON.parse(localStorage.getItem(`oneko:${key}`));
-      return typeof value === typeof fallback ? value : fallback;
-    } catch (e) {
-      console.error(e);
-      return fallback;
-    }
-  }
-
-  const nekoSpeed = 10,
-    variants = [
-      ["classic", "Classic"],
-      ["dog", "Dog"],
-      ["tora", "Tora"],
-      ["maia", "Maia (maia.crimew.gay)"],
-      ["vaporwave", "Vaporwave (nya.rest)"],
-    ],
-    spriteSets = {
-      idle: [[-3, -3]],
-      alert: [[-7, -3]],
-      scratchSelf: [
-        [-5, 0],
-        [-6, 0],
-        [-7, 0],
-      ],
-      scratchWallN: [
-        [0, 0],
-        [0, -1],
-      ],
-      scratchWallS: [
-        [-7, -1],
-        [-6, -2],
-      ],
-      scratchWallE: [
-        [-2, -2],
-        [-2, -3],
-      ],
-      scratchWallW: [
-        [-4, 0],
-        [-4, -1],
-      ],
-      tired: [[-3, -2]],
-      sleeping: [
-        [-2, 0],
-        [-2, -1],
-      ],
-      N: [
-        [-1, -2],
-        [-1, -3],
-      ],
-      NE: [
-        [0, -2],
-        [0, -3],
-      ],
-      E: [
-        [-3, 0],
-        [-3, -1],
-      ],
-      SE: [
-        [-5, -1],
-        [-5, -2],
-      ],
-      S: [
-        [-6, -3],
-        [-7, -2],
-      ],
-      SW: [
-        [-5, -3],
-        [-6, -1],
-      ],
-      W: [
-        [-4, -2],
-        [-4, -3],
-      ],
-      NW: [
-        [-1, 0],
-        [-1, -1],
-      ],
-    }, // Get keys with 2 or more sprites
-    keys = Object.keys(spriteSets).filter((key) => spriteSets[key].length > 1),
-    usedKeys = new Set();
-
-  function sleep() {
-    forceSleep = !forceSleep;
-    nudge = false;
-    localStorage.setItem("oneko:forceSleep", forceSleep);
-    if (!forceSleep) {
-      resetIdleAnimation();
-      return;
-    }
-
-    // If Full App Display is on, sleep on its progress bar instead
-    const fullAppDisplay = document.getElementById("fad-progress");
-    if (fullAppDisplay) {
-      mousePosX = fullAppDisplay.getBoundingClientRect().right - 16;
-      mousePosY = fullAppDisplay.getBoundingClientRect().top - 12;
-      return;
-    }
-
-    // Get the far right and top of the progress bar
-    const progressBar = document.querySelector(".main-nowPlayingBar-center .playback-progressbar");
-    const progressBarRight = progressBar.getBoundingClientRect().right;
-    const progressBarTop = progressBar.getBoundingClientRect().top;
-    const progressBarBottom = progressBar.getBoundingClientRect().bottom;
-
-    // Make the cat sleep on the progress bar
-    mousePosX = progressBarRight - 16;
-    mousePosY = progressBarTop - 8;
-
-    // Get the position of the remaining time
-    const remainingTime = document.querySelector(".main-playbackBarRemainingTime-container");
-    const remainingTimeLeft = remainingTime.getBoundingClientRect().left;
-    const remainingTimeBottom = remainingTime.getBoundingClientRect().bottom;
-    const remainingTimeTop = remainingTime.getBoundingClientRect().top;
-
-    // Get the position of elapsed time
-    const elapsedTime = document.querySelector(".playback-bar__progress-time-elapsed");
-    const elapsedTimeRight = elapsedTime.getBoundingClientRect().right;
-    const elapsedTimeLeft = elapsedTime.getBoundingClientRect().left;
-
-    // If the remaining time is on top right of the progress bar, make the cat sleep to the a little bit to the left of the remaining time
-    // Theme compatibility
-    if (remainingTimeLeft < progressBarRight && remainingTimeTop < progressBarBottom && progressBarTop - remainingTimeBottom < 32) {
-      mousePosX = remainingTimeLeft - 16;
-
-      // Comfy special case
-      if (Spicetify.Config.current_theme === "Comfy") {
-        mousePosY = progressBarTop - 14;
-      }
-
-      
-      
-      
-      // Move the cat to the left of elapsed time if it is too close to the remaining time (Nord theme)
-      if (remainingTimeLeft - elapsedTimeRight < 32) {
-        mousePosX = elapsedTimeLeft - 16;
-      }
-    }
-  }
-
-  function create() {
-    variant = parseLocalStorage("variant", "classic");
-    kuroNeko = parseLocalStorage("kuroneko", false);
-
-    if (!variants.some((v) => v[0] === variant)) {
-      variant = "classic";
-    }
-
-    nekoEl.id = "oneko";
-    nekoEl.style.width = "32px";
-    nekoEl.style.height = "32px";
-    nekoEl.style.position = "fixed";
-    // nekoEl.style.pointerEvents = "none";
-    nekoEl.style.backgroundImage = `url('https://raw.githubusercontent.com/kyrie25/spicetify-oneko/main/assets/oneko/oneko-${variant}.gif')`;
-    nekoEl.style.imageRendering = "pixelated";
-    nekoEl.style.left = `${nekoPosX - 16}px`;
-    nekoEl.style.top = `${nekoPosY - 16}px`;
-    nekoEl.style.filter = kuroNeko ? "invert(100%)" : "none";
-    // Render Oneko below Spicetify's Popup Modal
-    nekoEl.style.zIndex = "99";
-
-    document.body.appendChild(nekoEl);
-
-    window.addEventListener("mousemove", (e) => {
-      if (forceSleep) return;
-
-      mousePosX = e.clientX;
-      mousePosY = e.clientY;
-    });
-
-    window.addEventListener("resize", () => {
-      if (forceSleep) {
-        forceSleep = false;
-        sleep();
-      }
-    });
-
-    // Handle dragging of the cat
-    nekoEl.addEventListener("mousedown", (e) => {
-      if (e.button !== 0) return;
-      grabbing = true;
-      let startX = e.clientX;
-      let startY = e.clientY;
-      let startNekoX = nekoPosX;
-      let startNekoY = nekoPosY;
-      let grabInterval;
-
-      const mousemove = (e) => {
-        const deltaX = e.clientX - startX;
-        const deltaY = e.clientY - startY;
-        const absDeltaX = Math.abs(deltaX);
-        const absDeltaY = Math.abs(deltaY);
-
-        // Scratch in the opposite direction of the drag
-        if (absDeltaX > absDeltaY && absDeltaX > 10) {
-          setSprite(deltaX > 0 ? "scratchWallW" : "scratchWallE", frameCount);
-        } else if (absDeltaY > absDeltaX && absDeltaY > 10) {
-          setSprite(deltaY > 0 ? "scratchWallN" : "scratchWallS", frameCount);
-        }
-
-        if (grabStop || absDeltaX > 10 || absDeltaY > 10 || Math.sqrt(deltaX ** 2 + deltaY ** 2) > 10) {
-          grabStop = false;
-          clearTimeout(grabInterval);
-          grabInterval = setTimeout(() => {
-            grabStop = true;
-            nudge = false;
-            startX = e.clientX;
-            startY = e.clientY;
-            startNekoX = nekoPosX;
-            startNekoY = nekoPosY;
-          }, 150);
-        }
-
-        nekoPosX = startNekoX + e.clientX - startX;
-        nekoPosY = startNekoY + e.clientY - startY;
-        nekoEl.style.left = `${nekoPosX - 16}px`;
-        nekoEl.style.top = `${nekoPosY - 16}px`;
-      };
-
-      const mouseup = () => {
-        grabbing = false;
-        nudge = true;
-        resetIdleAnimation();
-        window.removeEventListener("mousemove", mousemove);
-        window.removeEventListener("mouseup", mouseup);
-      };
-
-      window.addEventListener("mousemove", mousemove);
-      window.addEventListener("mouseup", mouseup);
-    });
-
-    nekoEl.addEventListener("contextmenu", (e) => {
-      e.preventDefault();
-      kuroNeko = !kuroNeko;
-      localStorage.setItem("oneko:kuroneko", kuroNeko);
-      nekoEl.style.filter = kuroNeko ? "invert(100%)" : "none";
-    });
-
-    nekoEl.addEventListener("dblclick", sleep);
-
-    window.onekoInterval = setInterval(frame, 100);
-  }
-
-  function getSprite(name, frame) {
-    return spriteSets[name][frame % spriteSets[name].length];
-  }
-
-  function setSprite(name, frame) {
-    const sprite = getSprite(name, frame);
-    nekoEl.style.backgroundPosition = `${sprite[0] * 32}px ${sprite[1] * 32}px`;
-  }
-
-  function resetIdleAnimation() {
-    idleAnimation = null;
-    idleAnimationFrame = 0;
-  }
-
-  function idle() {
-    idleTime += 1;
-
-    // every ~ 20 seconds
-    if (idleTime > 10 && Math.floor(Math.random() * 200) == 0 && idleAnimation == null) {
-      let avalibleIdleAnimations = ["sleeping", "scratchSelf"];
-      if (nekoPosX < 32) {
-        avalibleIdleAnimations.push("scratchWallW");
-      }
-      if (nekoPosY < 32) {
-        avalibleIdleAnimations.push("scratchWallN");
-      }
-      if (nekoPosX > window.innerWidth - 32) {
-        avalibleIdleAnimations.push("scratchWallE");
-      }
-      if (nekoPosY > window.innerHeight - 32) {
-        avalibleIdleAnimations.push("scratchWallS");
-      }
-      idleAnimation = avalibleIdleAnimations[Math.floor(Math.random() * avalibleIdleAnimations.length)];
-    }
-
-    if (forceSleep) {
-      avalibleIdleAnimations = ["sleeping"];
-      idleAnimation = "sleeping";
-    }
-
-    switch (idleAnimation) {
-      case "sleeping":
-        if (idleAnimationFrame < 8 && nudge && forceSleep) {
-          setSprite("idle", 0);
-          break;
-        } else if (nudge) {
-          nudge = false;
-          resetIdleAnimation();
-        }
-        if (idleAnimationFrame < 8) {
-          setSprite("tired", 0);
-          break;
-        }
-        setSprite("sleeping", Math.floor(idleAnimationFrame / 4));
-        if (idleAnimationFrame > 192 && !forceSleep) {
-          resetIdleAnimation();
-        }
-        break;
-      case "scratchWallN":
-      case "scratchWallS":
-      case "scratchWallE":
-      case "scratchWallW":
-      case "scratchSelf":
-        setSprite(idleAnimation, idleAnimationFrame);
-        if (idleAnimationFrame > 9) {
-          resetIdleAnimation();
-        }
-        break;
-      default:
-        setSprite("idle", 0);
-        return;
-    }
-    idleAnimationFrame += 1;
-  }
-
-  function frame() {
-    frameCount += 1;
-
-    if (grabbing) {
-      grabStop && setSprite("alert", 0);
-      return;
-    }
-
-    const diffX = nekoPosX - mousePosX;
-    const diffY = nekoPosY - mousePosY;
-    const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
-
-    // Cat has to sleep on top of the progress bar
-    if (forceSleep && Math.abs(diffY) < nekoSpeed && Math.abs(diffX) < nekoSpeed) {
-      // Make the cat sleep exactly on the top of the progress bar
-      nekoPosX = mousePosX;
-      nekoPosY = mousePosY;
-      nekoEl.style.left = `${nekoPosX - 16}px`;
-      nekoEl.style.top = `${nekoPosY - 16}px`;
-
-      idle();
-      return;
-    }
-
-    if ((distance < nekoSpeed || distance < 48) && !forceSleep) {
-      idle();
-      return;
-    }
-
-    idleAnimation = null;
-    idleAnimationFrame = 0;
-
-    if (idleTime > 1) {
-      setSprite("alert", 0);
-      // count down after being alerted before moving
-      idleTime = Math.min(idleTime, 7);
-      idleTime -= 1;
-      return;
-    }
-
-    direction = diffY / distance > 0.5 ? "N" : "";
-    direction += diffY / distance < -0.5 ? "S" : "";
-    direction += diffX / distance > 0.5 ? "W" : "";
-    direction += diffX / distance < -0.5 ? "E" : "";
-    setSprite(direction, frameCount);
-
-    nekoPosX -= (diffX / distance) * nekoSpeed;
-    nekoPosY -= (diffY / distance) * nekoSpeed;
-
-    nekoPosX = Math.min(Math.max(16, nekoPosX), window.innerWidth - 16);
-    nekoPosY = Math.min(Math.max(16, nekoPosY), window.innerHeight - 16);
-
-    nekoEl.style.left = `${nekoPosX - 16}px`;
-    nekoEl.style.top = `${nekoPosY - 16}px`;
-  }
-
-  create();
-
-  function getRandomSprite() {
-    let unusedKeys = keys.filter((key) => !usedKeys.has(key));
-    if (unusedKeys.length === 0) {
-      usedKeys.clear();
-      unusedKeys = keys;
-    }
-    const index = Math.floor(Math.random() * unusedKeys.length);
-    const key = unusedKeys[index];
-    usedKeys.add(key);
-    return [getSprite(key, 0), getSprite(key, 1)];
-  }
-
-  function setVariant(arr) {
-    console.log(arr);
-
-    variant = arr[0];
-    localStorage.setItem("oneko:variant", `"${variant}"`);
-    nekoEl.style.backgroundImage = `url('https://maia.crimew.gay/img/maia_oneko.gif')`;
-  }
-
-  // Popup modal to choose variant
-  function pickerModal() {
-    const container = document.createElement("div");
-    container.className = "oneko-variant-container";
-
-    const style = document.createElement("style");
-    // Each variant is a 64x64 sprite
-    style.innerHTML = `
-      .oneko-variant-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-      }
-      .oneko-variant-button {
-        width: 64px;
-        height: 64px;
-        margin: 8px;
-        cursor: pointer;
-        background-size: 800%;
-        border-radius: 25%;
-        transition: background-color 0.2s ease-in-out;
-        background-position: var(--idle-x) var(--idle-y);
-        image-rendering: pixelated;
-      }
-      .oneko-variant-button:hover, .oneko-variant-button-selected {
-        background-color: var(--spice-main-elevated);
-      }
-      .oneko-variant-button:hover {
-        background-position: var(--active-x) var(--active-y);
-      }
-    `;
-    container.appendChild(style);
-
-    const [idle, active] = getRandomSprite();
-
-    function variantButton(variantEnum) {
-      const div = document.createElement("div");
-
-      div.className = "oneko-variant-button";
-      div.id = variantEnum[0];
-      div.style.backgroundImage = `url('https://raw.githubusercontent.com/kyrie25/spicetify-oneko/main/assets/oneko/oneko-${variantEnum[0]}.gif')`;
-      div.style.setProperty("--idle-x", `${idle[0] * 64}px`);
-      div.style.setProperty("--idle-y", `${idle[1] * 64}px`);
-      div.style.setProperty("--active-x", `${active[0] * 64}px`);
-      div.style.setProperty("--active-y", `${active[1] * 64}px`);
-
-      div.onclick = () => {
-        setVariant(variantEnum);
-        document.querySelector(".oneko-variant-button-selected")?.classList.remove("oneko-variant-button-selected");
-        div.classList.add("oneko-variant-button-selected");
-      };
-
-      if (variantEnum[0] === variant) {
-        div.classList.add("oneko-variant-button-selected");
-      }
-
-      Spicetify.Tippy(div, {
-        ...Spicetify.TippyProps,
-        content: variantEnum[1],
-      });
-
-      return div;
-    }
-
-    for (const variant of variants) {
-      container.appendChild(variantButton(variant));
-    }
-
-    return container;
-  }
-
-  (async () => {
-    while (!Spicetify.Mousetrap) {
-      await new Promise((r) => setTimeout(r, 100));
-    }
-    Spicetify.Mousetrap.bind("o n e k o", () => {
-      Spicetify.PopupModal.display({
-        title: "Choose your neko",
-        // Render the modal new every time it is opened
-        content: pickerModal(),
-      });
-    });
-  })();
-
-  if (parseLocalStorage("forceSleep", false)) {
-    while (!document.querySelector(".main-nowPlayingBar-center .playback-progressbar")) {
-      await new Promise((r) => setTimeout(r, 100));
-    }
-    sleep();
-  }
-})();
-      
-
-const avatarSound = new Audio("https://files.catbox.moe/6he0qc.wav");
-avatarSound.volume = 0.35;
-
-let slider = document.getElementById("iosSlider");
-let pressTimer = null;
-let isHolding = false;
-let startX = 0;
-
-slider.addEventListener("pointerdown", e => {
-    startX = e.clientX;
-
-    pressTimer = setTimeout(() => {
-        isHolding = true;
-        slider.classList.add("hold");
-    }, 180); // iPhone 长按触发时间
-});
-
-window.addEventListener("pointermove", e => {
-    if (!isHolding) return;
-
-    slider.classList.add("drag");
-
-    let moveX = e.clientX - startX;
-    slider.style.transform = `translateX(calc(-50% + ${moveX}px))`;
-
-    // 页面宽度的 30% 即会触发换页
-    if (moveX > 80) switchPageTo(currentPage + 1);
-    if (moveX < -80) switchPageTo(currentPage - 1);
-});
-
-window.addEventListener("pointerup", () => {
-    clearTimeout(pressTimer);
-
-    if (isHolding) {
-        isHolding = false;
-
-        slider.classList.remove("hold", "drag");
-        slider.style.transform = "translateX(-50%)";
-    }
-});
-      
-      
-      
+            },
+        };
+        onvisible.add('.container-component.instance-1', {
+            style: 'fade-up',
+            speed: 1000,
+            intensity: 6,
+            threshold: 3,
+            delay: 0,
+            replay: false
+        });
+        onvisible.add('.text-component.instance-2', {
+            style: 'fade-left',
+            speed: 1250,
+            intensity: 10,
+            threshold: 3,
+            delay: 0,
+            replay: false
+        });
+        onvisible.add('.icons-component.style-1', {
+            style: 'fade-right',
+            speed: 1250,
+            intensity: 2,
+            threshold: 3,
+            delay: 0,
+            stagger: 125,
+            staggerSelector: ':scope > li',
+            replay: false
+        });
+        ready.run();
+    })();
     </script>
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
-<script>
-    const wechatID = "lllIIllIIlIII"; 
-
-    var clipboard = new ClipboardJS('#wechatBtn', {
-        text: function() {
-            return wechatID;
-        }
-    });
-
-    clipboard.on('success', function(e) {
-        alert('👉微信号复制成功,即将前往微信！');
-        window.location.href = 'weixin://';
-    });
-
-    clipboard.on('error', function(e) {
-        alert('复制失败,请手动输入 ' + wechatID);
-        window.location.href = 'weixin://dl/scan';
-    });
-</script>
-
 </body>
 </html>
