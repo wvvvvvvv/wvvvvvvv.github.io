@@ -4,6 +4,32 @@
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
     <title>&#10024;进入猫次元🦋</title>
     <style id='page-skin-1' type='text/css'>
+        
+        .skip-navigation{
+        background-color:#fff;
+        box-sizing:border-box;
+        color:#000;
+        display:block;
+        height:0;
+        left:0;
+        line-height:50px;
+        overflow:hidden;
+        padding-top:0;
+        position:fixed;
+        text-align:center;
+        top:0;
+        -webkit-transition:box-shadow .3s,height .3s,padding-top .3s;
+        transition:box-shadow .3s,height .3s,padding-top .3s;
+        width:100%;
+        z-index:900
+        }
+        .skip-navigation:focus{
+        box-shadow:0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12),0 2px 4px -1px rgba(0,0,0,.2);
+        height:50px
+        }
+        #main{
+        outline:none
+        }
 
         .main-heading{
         clip:rect(1px,1px,1px,1px);
@@ -14,12 +40,15 @@
         position:absolute;
         width:1px
         }
+
         .svg-icon-24,.svg-icon-24-button{
         cursor:pointer;
         height:24px;
         min-width:24px;
         width:24px
         }
+
+      
         .centered-top-container.sticky{
         left:0;
         position:fixed;
@@ -36,6 +65,29 @@
         width:auto;
         z-index:8
         }
+
+        .centered-top-placeholder{
+        display:none
+        }
+        .collapsed-header .centered-top-placeholder{
+        display:block
+        }
+        .centered-top-container .Header .replaced h1,.centered-top-placeholder .Header .replaced h1{
+        display:none
+        }
+        .centered-top-container.sticky .Header .replaced h1{
+        display:block
+        }
+        .centered-top-container.sticky .Header .header-widget{
+        background:none
+        }
+        .centered-top-container.sticky .Header .header-image-wrapper{
+        display:none
+        }
+        .centered-top-container img,.centered-top-placeholder img{
+        max-width:100%
+        }      
+      
 
         /* 侧边栏样式 */
         .sidebar-container{
@@ -76,6 +128,8 @@
         transition-timing-function:cubic-bezier(.4,0,.6,1)
         }
         }
+
+  
         .post-wrapper .post-title,.post-wrapper .post-title a,.post-wrapper .post-title a:hover,.post-wrapper .post-title a:visited{
         color:#ffffff
         }
@@ -89,7 +143,15 @@
         a:hover{
         color:#f57c00
         }
-      
+        blockquote{
+        color:#ebebeb;
+        font:400 16px Ubuntu, sans-serif;
+        font-size:x-large;
+        font-style:italic;
+        font-weight:300;
+        text-align:center
+        }
+
         .centered{
         margin:0 auto;
         position:relative;
@@ -106,7 +168,8 @@
         content:"";
         display:table
         }   
-  
+      
+      
         @media (min-width:1460px) and (max-width:1742px){
         .centered{
         width:1316px
@@ -138,12 +201,18 @@
         }
         }
 
-
+      
+        .post-title{
+        margin:0
+        }
 
         .post-title,.post-title a{
         font:italic 900 30px Merriweather, Georgia, serif
         }
 
+      
+      
+      
         .centered-top-container.sticky,.sticky .centered-top{
         background-color:#000000
         }
@@ -161,7 +230,20 @@
         .centered-top .blog-name,.centered-top .hamburger-section,.centered-top{
         margin-left:16px
         }
-
+        .centered-top .return_link{
+        -webkit-box-flex:0;
+        -webkit-box-ordinal-group:1;
+        flex:0 0 auto;
+        height:24px;
+        order:0;
+        width:24px
+        }
+        .centered-top .blog-name{
+        -webkit-box-flex:1;
+        -webkit-box-ordinal-group:2;
+        flex:1 1 0;
+        order:1
+        }
 
       
       /* 汉堡菜单图标样式 */
@@ -336,19 +418,33 @@
       
       
       
+      
+      
+      
+      
+      
+      
+      
+      
+        .feed-view .post-wrapper .post-title a {
+        display: block;
+        margin: -296px -16px;
+        padding: 296px 16px;
+        position: relative;
+        z-index: 2;
+        text-overflow: ellipsis;
+        }
         .feed-view .post-wrapper .snippet-thumbnail,.feed-view .post-wrapper .snippet-thumbnail-container{
         height:184px;
         overflow-y:hidden
         }
-
-        .feed-view .post-wrapper .snippet-thumbnail {
+       .feed-view .post-wrapper .snippet-thumbnail {
         background-position: 50%;
         background-size: cover;
         display: block;
         width: 100%;
         height: 184px;
         }
-
 
         .feed-view .blog-posts{
         margin-right:-15px;
@@ -361,7 +457,7 @@
         -webkit-transition:box-shadow .3s cubic-bezier(.4,0,.2,1);
         transition:box-shadow .3s cubic-bezier(.4,0,.2,1);
         width:410px;
-        height: 280px
+        height: 270px
         }
         .feed-view .post-wrapper:hover{
         box-shadow:0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12),0 2px 4px -1px rgba(0,0,0,.2)
@@ -373,15 +469,17 @@
         }
         .feed-view .post-wrapper .post,.feed-view .post-wrapper .post .snippet-thumbnail{
         background-color:transparent;
-        padding: 0px 16px
+        padding:24px 16px
         }
 
+      
+      
       
       
         .feed-view .inline-ad,.feed-view .post-wrapper{
         margin-right:15px;
         margin-left:0;
-        margin-bottom:40px;
+        margin-bottom:50px;
         margin-top:0
         }
         .feed-view .post-wrapper.hero .post-title a{
@@ -492,11 +590,11 @@
         width:100%;
         z-index:6
         }
+          
 
         .feed-view .inline-ad,.feed-view .post-wrapper{
         margin:0 8px 16px
         }
-
 
 
 
