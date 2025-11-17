@@ -1341,35 +1341,44 @@ body:not(.light) .glowing-card {
             margin-right: 60px;
         }
 
-        .music-player {
-            --color-white: #fff;
-            --color-gray: #e5e7ea;
-            --color-blue: #78adfe;
-            --color-blue-dark: #5781bd;
-            --box-shadow: 0 2px 6px 1px #0000001f;
-            --color-text-1: var(--fg);
-            --color-text-2: #0000006b;
-            --cover-size: 4.2em;
-            --border-radius: 1.2em;
-            --music-player-height: calc(var(--page-height) - 0px);
-            --offset-cover: 1em;
-            width: 335px !important;
-            height: 445px !important;
-            user-select: none;
-            color: var(--color-text-1);
-            height: var(--music-player-height);
-            border-radius: var(--border-radius);
-            background-color: rgba(255, 255, 255, 0.15); /* 半透明 */
-
-    box-shadow: 0 4px 30px rgba(0,0,0,0.1);    /* 轻微阴影增强立体感 */
+.music-player {
+    --color-white: #fff;
+    --color-gray: #e5e7ea;
+    --color-blue: #78adfe;
+    --color-blue-dark: #5781bd;
+    --box-shadow: 0 2px 6px 1px #0000001f;
+    --color-text-1: var(--fg);
+    --color-text-2: #0000006b;
+    --cover-size: 4.2em;
+    --border-radius: 1.2em;
+    --music-player-height: calc(var(--page-height) - 0px);
+    --offset-cover: 1em;
+    width: 335px !important;
+    height: 445px !important;
+    user-select: none;
+    color: var(--color-text-1);
+    height: var(--music-player-height);
+    border-radius: var(--border-radius);
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+    box-sizing: border-box;
+    overflow: hidden !important; /* 确保播放器本身不滚动 */
 }
-            margin-top: 15px;
-            margin-right: auto;
-            margin-bottom: 0px;
-            margin-left: auto;
-            box-sizing: border-box;
-            overflow: hidden; /* 确保播放器内部滚动不影响外部 */
-        }
+
+/* 展开状态下完全禁止滚动 */
+.slider.resize {
+    overflow: hidden !important;
+    height: var(--music-player-height);
+}
+
+.slider.resize .music-player__playlist {
+    overflow-y: hidden !important;
+    height: calc(100% - 6.8em);
+}
         .light .music-player {
             --color-text-2: #0000006b;
             background-color: rgba(255, 255, 255, 0.15);
