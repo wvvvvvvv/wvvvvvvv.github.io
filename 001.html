@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -168,24 +169,32 @@
             box-sizing: border-box;
         }
 
-.profile-header {
-    padding: 0;
-    position: relative;
-    height: 270px; /* 固定高度 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden; /* 隐藏溢出部分 */
-}
+        .profile-header {
+            padding: 15px 2px 12px;
+            position: relative;
+        }
 
 .profile-pic {
-    width: 100px;
-    height: 100px; /* 比容器高，实现裁剪 */
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
     object-fit: cover;
-    object-position: center 20%; /* 调整显示区域 */
-    margin: 0;
-    filter: brightness(0.9);
-    transform: scale(2.2); /* 轻微放大 */
+    margin: 0 auto;
+    display: block;
+    filter: brightness(0.88);
+    object-position: center 10%; /* 垂直方向裁剪，减少上下透明部分 */
+    image-rendering: optimizeSpeed; /* 优化渲染性能 */
+    image-rendering: -moz-crisp-edges; /* Firefox */
+    image-rendering: -webkit-optimize-contrast; /* Safari */
+    image-rendering: optimize-contrast;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor; /* IE */
+    backface-visibility: hidden; /* 防止渲染闪烁 */
+    transform: translateZ(0); /* 硬件加速 */
+    will-change: transform; /* 性能优化 */
+    /* 如果需要更激进的裁剪 */
+margin-top: -45px; /* 向上移动 */
+margin-bottom: -45px; /* 减少底部空间 */
 }
 
         .link-section {
@@ -209,7 +218,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 0 27px 27.8px;
+            padding: 0 27px 26.2px;
             overflow: hidden;
         }
 
