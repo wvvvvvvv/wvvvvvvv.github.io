@@ -61,12 +61,12 @@
             --pads: 20px;
             --color-sens: calc(var(--glow-sens) + 20);
             position: relative;
-            width: 343px !important;
-            height: 508px !important;
-            min-width: 343px;
-            min-height: 508px;
-            max-width: 343px;
-            max-height: 508px;
+            width: 345px !important;
+            height: 510px !important;
+            min-width: 345px;
+            min-height: 510px;
+            max-width: 345px;
+            max-height: 510px;
             border-radius: 20px;
             isolation: isolate;
             transform: translate3d(0, 0, 0.01px);
@@ -75,18 +75,16 @@
             overflow: hidden;
             text-align: center;
             box-sizing: border-box;
-    border: 1px solid rgb(255 255 255 / 25%);
+            border: none;
             backdrop-filter:blur(5px);
         }
 
-/* 🌙 夜间模式（关闭发光） */
-body:not(.light) .glowing-card,
-body:not(.light) .spotify-card,
-body:not(.light) .link-card {
-    box-shadow: none !important;   /* 关键：关闭所有发光 */
+        body:not(.light) .glowing-card {
+            backdrop-filter: none;
+            background: rgba(255,255,255,0.15);
 
-              background: rgba(255,255,255,0.15);
-}
+            border: 1px solid rgb(255 255 255 / 25%);
+        }
 
         body:not(.light) .link-card {
             background: rgba(255,255,255,0.07);
@@ -98,12 +96,12 @@ body:not(.light) .link-card {
         }
 
         body:not(.light) .spotify-card {
-            background: rgba(255,255,255,0.07);
+            background: rgba(255,255,255,0.09);
 
         }
 
         body:not(.light) .music-player {
-            background: rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.15);
             box-shadow: none;
         }
 
@@ -171,25 +169,22 @@ body:not(.light) .link-card {
         }
 
         .profile-header {
-            padding: 14.74px 2px 8px;
+            padding: 15px 2px 10px;
             position: relative;
         }
 
 .profile-pic {
-    width: 200px;
+    width: 110px;
     height: 110px;
     object-fit: contain;
     margin: 0 auto;
     display: block;
     border-radius: 0;
-    /* 默认亮度正常 */
     filter: brightness(0.96);
-    background: transparent !important; /* 确保背景透明 */
-}
-
-/* 只在夜间模式下减暗 */
-body:not(.light) .profile-pic {
-    filter: brightness(0.88);
+    background: transparent !important;
+    /* 新增裁剪属性 */
+    transform: scale(2); /* 放大图片，裁剪边缘 */
+    object-position: center center;
 }
 
         .link-section {
@@ -213,7 +208,7 @@ body:not(.light) .profile-pic {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 0 25px 26.2px;
+            padding: 0 27px 28.6px;
             overflow: hidden;
         }
 
@@ -227,13 +222,13 @@ body:not(.light) .profile-pic {
             display: flex;
             align-items: center;
             justify-content: flex-start;              
-            width: 273px !important;
-            min-width: 273px;
-            max-width: 273px;
+            width: 275px !important;
+            min-width: 275px;
+            max-width: 275px;
             height: 35px;
             background: #fff1;
             padding: 8px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             border-radius: 15px;
             text-decoration: none;
             color: var(--fg);
@@ -245,7 +240,6 @@ body:not(.light) .profile-pic {
             cursor: pointer;
             user-select: none;
             transition: all 0.2s ease;
-            border: 1px solid rgb(255 255 255 / 25%);
         }
 
         .link-card:hover {
@@ -298,8 +292,8 @@ body:not(.light) .profile-pic {
         .spotify-card {
             display: flex;
             justify-content: space-between;
-            width: 249px !important;
-            min-width: 249px;
+            width: 251px !important;
+            min-width: 251px;
             max-width: 251px;
             height: 100px;
             align-items: center;
@@ -310,12 +304,11 @@ body:not(.light) .profile-pic {
             box-shadow: 0px 4px 3px #0001, 0 0 26px #fffa inset;
             cursor: pointer;
             position: relative;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             flex-wrap: nowrap;
             gap: 16px;
             user-select: none;
             transition: all 0.2s ease;
-            border: 1px solid rgb(255 255 255 / 25%);
         }
 
         .spotify-left {
@@ -443,14 +436,26 @@ body:not(.light) .profile-pic {
             cursor: pointer;
             transition: all 0.3s;
         }
+.bullet {
+    position: relative;
+}
 
+.bullet::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -20px;      /* ↑ 扩大触控区域 */
+    bottom: -20px;   /* ↓ 扩大触控区域 */
+    cursor: pointer;
+}
         .bullet.active {
             border-radius:10%;
             opacity: 1;
             background: #c299ff;
             box-shadow: 0px 0px 20px rgba(194, 153, 255, 0);
         }
-.crt::after {
+ body:not(.light) .crt::after {
   content: " ";
   display: block;
   position: fixed;
@@ -464,7 +469,7 @@ body:not(.light) .profile-pic {
   pointer-events: none;
 }
 
-.crt::before {
+body:not(.light) .crt::before {
   content: " ";
   display: block;
   position: fixed;
@@ -472,21 +477,12 @@ body:not(.light) .profile-pic {
   left: 0;
   bottom: 0;
   right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 100%), 
               linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
   z-index: 2;
   background-size: 100% 2px, 3px 100%;
   pointer-events: none;
-}
-
-.blackbox {
-  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 
-               0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 
-               0 0 70px #e60073;
-}
-      
-      
-      
+}     
         @font-face {
             font-family: "icomoon";
             src: url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.eot?u8ckod");
@@ -857,7 +853,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
             renderer.render(scene, camera);
         }
     </script>
-   <div class="crt">
+    <div class="crt">
     <div class="alist-widget-wrapper">
         <div class="glowing-card">
             <div class="inner">
@@ -893,11 +889,14 @@ renderer.setClearColor(0x000000, 0); // 保证透明
     <div style="height: 100%; display: flex; justify-content: center; align-items: center; color: var(--fg); font-style: italic;">
         <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/Neko.GIF" alt="GIF动图" style="max-width: 118%; max-height: 100%; border-radius: 18px; margin-top: -55px;">
     </div>
-</div>
+                        </div>
 
                         <div id="page2" class="page">
                             <div class="profile-header">
-<img src="https://media3.giphy.com/media/VqiQFe8O54bKQa5vG9/giphy.gif?cid=9b38fe91s7p6yrilpz1e0z4gh4ulkxrckpj4clqey9wlts5e&ep=v1_stickers_search&rid=giphy.gif&ct=s" alt="头像" class="profile-pic" onclick="new Audio('https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/Neko%3ACat.wav').play(); confetti({particleCount:150,spread:100});" />
+<img src="https://media4.giphy.com/media/AlH6Won01J8wtufqpb/giphy.gif?cid=9b38fe91460a7462f4c8fc34b0384f3c796565aa75887dd9&ep=v1_user_favorites&rid=giphy.gif&ct=s"
+     alt="头像"
+     class="profile-pic"
+     onclick="confetti({particleCount:150,spread:100}); avatarSound.play();" />
                             </div>
                             <div class="spotify-card" onclick="window.open('https://open.spotify.com/track/3UkRfA9F62DYYDzqOskoov?si=MXIJN0wrQx24IS-qmyCUjg', '_blank')">
                                 <div class="spotify-left">
@@ -1075,13 +1074,13 @@ renderer.setClearColor(0x000000, 0); // 保证透明
                 document.body.classList.add('light');
                 renderer.setClearColor(0x000000, 0);
                 document.body.style.background = '';
-                document.documentElement.style.setProperty('--fg', 'black');
+                document.documentElement.style.setProperty('--fg', 'block');
                 canvas.style.display = 'block';
             } else {
                 document.body.classList.remove('light');
                 renderer.setClearColor(0x000000, 0);
                 document.body.style.background = 'black';
-                document.documentElement.style.setProperty('--fg', '#c8c8c8');
+                document.documentElement.style.setProperty('--fg', '#f0f0f0');
                 canvas.style.display = 'block';
             }
             if (currentPage === 3) {
@@ -2245,8 +2244,10 @@ document.querySelectorAll('.day-toggle').forEach(button => {
   }
 })();
       
-      
-      
+
+const avatarSound = new Audio("https://files.catbox.moe/6he0qc.wav");
+avatarSound.volume = 0.35;
+
       
       
       
