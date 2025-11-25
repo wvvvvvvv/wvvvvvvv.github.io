@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -513,13 +515,31 @@ body:not(.light) .crt::before {
   flex-direction: column;
   justify-content: center;              /* 视需要调整 */
   align-items: center;
-  padding: 12px;                        /* 视需要调整内边距 */
+
 }
 
 /* 可选：强制每次滚动都停在一屏（Chrome 支持） */
 #page1 .subpage { scroll-snap-stop: always; }
       
-      
+/* ① 禁止 page1 和子页面产生水平滚动 */
+#page1,
+#page1 .page-vertical,
+#page1 .subpage {
+    overflow-x: hidden !important;
+}
+
+/* ② 防止 GIF 放大后把页面撑出（横向溢出隐藏）*/
+#page1 img {
+    display: block;
+    height: auto;
+    /* 保留你原有的 max-width:107%、150% */
+    /* 横向溢出的部分自动隐藏 */
+    max-height: 100%;
+}
+
+#page1 .subpage > div {
+    overflow: hidden; /* 关键：容器裁剪超出的 GIF */
+}
         @font-face {
             font-family: "icomoon";
             src: url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.eot?u8ckod");
@@ -929,7 +949,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
       <div style="height:100%; display:flex; justify-content:center; align-items:center; font-style:italic;">
         <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/Neko.GIF"
              alt="GIF动图"
-             style="max-width:107%; max-height:100%; border-radius:18px; margin-top:-83px;">
+             style="max-width:99%; max-height:100%; border-radius:18px; margin-top:-83px;">
       </div>
     </section>
 
@@ -938,8 +958,8 @@ renderer.setClearColor(0x000000, 0); // 保证透明
     <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
         
 
-        <img src="https://media.giphy.com/media/GQKbQ9veYgnfdwM6YP/giphy.gif?cid=ecf05e479a62c1e4ff975864aa3249e219105f4489f7f4a9&ep=v1_user_favorites&rid=giphy.gif&ct=s"
-             style="max-width: 100%; max-height: 100%; border-radius: 18px;">
+        <img src="https://media.giphy.com/media/1rdJ9fr772ZyzBSVxK/giphy.gif?cid=ecf05e4743fdadc6822048c77a7a5b7a382eefb7e471232e&ep=v1_user_favorites&rid=giphy.gif&ct=g"
+             style="max-width: 110%; max-height: 100%; border-radius: 18px;">
     </div>
 
 </section>
