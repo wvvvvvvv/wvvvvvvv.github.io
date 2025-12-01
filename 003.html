@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -171,22 +170,31 @@
         }
 
         .profile-header {
-            padding: 15px 2px 10px;
+            padding: 15px 2px 12px;
             position: relative;
         }
 
 .profile-pic {
-    width: 110px;
-    height: 110px;
-    object-fit: contain;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
     margin: 0 auto;
     display: block;
-    border-radius: 0;
     filter: brightness(0.88);
-    background: transparent !important;
-    /* 新增裁剪属性 */
-    transform: scale(2); /* 放大图片，裁剪边缘 */
-    object-position: center center;
+    object-position: center 10%; /* 垂直方向裁剪，减少上下透明部分 */
+    image-rendering: optimizeSpeed; /* 优化渲染性能 */
+    image-rendering: -moz-crisp-edges; /* Firefox */
+    image-rendering: -webkit-optimize-contrast; /* Safari */
+    image-rendering: optimize-contrast;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor; /* IE */
+    backface-visibility: hidden; /* 防止渲染闪烁 */
+    transform: translateZ(0); /* 硬件加速 */
+    will-change: transform; /* 性能优化 */
+    /* 如果需要更激进的裁剪 */
+margin-top: -45px; /* 向上移动 */
+margin-bottom: -45px; /* 减少底部空间 */
 }
 
         .link-section {
@@ -210,7 +218,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 0 27px 28.6px;
+            padding: 0 27px 26.2px;
             overflow: hidden;
         }
 
@@ -486,6 +494,7 @@ body:not(.light) .crt::before {
   pointer-events: none;
 }     
       
+      
       /* 垂直吸附（Scroll Snap） - 添加到现有 CSS */
 #page1 { /* 保留外层 .page 设置不变；我们在内部加一个滚动容器 */
   padding: 0;
@@ -539,7 +548,8 @@ body:not(.light) .crt::before {
 
 #page1 .subpage > div {
     overflow: hidden; /* 关键：容器裁剪超出的 GIF */
-}
+} 
+      
         @font-face {
             font-family: "icomoon";
             src: url("https://cdn.jsdelivr.net/gh/00000OO/music-player-widget@main/src/assets/icomoon/fonts/icomoon.eot?u8ckod");
@@ -949,7 +959,7 @@ renderer.setClearColor(0x000000, 0); // 保证透明
       <div style="height:100%; display:flex; justify-content:center; align-items:center; font-style:italic;">
         <img src="https://pub-2892a14f8bbf4cd488041657b793ac15.r2.dev/Neko.GIF"
              alt="GIF动图"
-             style="max-width:99.5%; max-height:100%; border-radius:18px; margin-top:-83px;">
+             style="max-width:99.5%; max-height:100%; border-radius:18px; margin-top:-86px;">
       </div>
     </section>
 
@@ -959,19 +969,18 @@ renderer.setClearColor(0x000000, 0); // 保证透明
         
 
         <img src="https://media.giphy.com/media/1rdJ9fr772ZyzBSVxK/giphy.gif?cid=ecf05e4743fdadc6822048c77a7a5b7a382eefb7e471232e&ep=v1_user_favorites&rid=giphy.gif&ct=g"
-             style="max-width: 105%; max-height: 100%; border-radius: 18px;">
+             style="max-width: 99.5%; max-height: 100%; border-radius: 15px;">
     </div>
 
 </section>
 
     <section class="subpage" id="page1-3">
-      <!-- 第 3 屏 -->
-      <div>第三屏内容示例</div>
+      <div>第3屏内容示例</div>
     </section>
 
+
     <section class="subpage" id="page1-4">
-      <!-- 第 4 屏 -->
-      <div>第四屏内容示例</div>
+      <div>第4屏内容示例</div>
     </section>
   </div>
 </div>
